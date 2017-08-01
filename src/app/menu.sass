@@ -40,10 +40,47 @@ html, body
 .content
   margin: 0 auto
   padding: 0 2em
-  max-width: 800px
+  max-width: 90vw
   margin-bottom: 50px
   line-height: 1.6em
   background: inherit
+
+  .row
+    display: flex
+    justify-content: space-around
+
+  .count
+    font-size: 2em
+    border-right: 2px solid darkgray
+
+  .tile
+    background: white
+    border-radius: 1%
+    margin: 0.2em 0
+    padding: .5em 1em .5em 1em
+    border: 1px solid lightgrey
+    .tile-head
+      display: flex
+      border-bottom: 2px solid lightgrey
+      .options
+        display: inline-flex
+        justify-content: space-around
+
+    .right
+      display: inline-block
+
+    .to-do
+      li
+        padding: .1em
+        width: inherit
+
+        div
+          padding: .5em
+          background-color: whitesmoke
+
+    ul
+      list-style-type: none
+      padding: 0
 
   .pure-g
     .pure-u-1-5

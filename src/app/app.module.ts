@@ -31,7 +31,7 @@ import { AppComponent } from "./app.component"
         </div>
         <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
           <span class="count_top"><i class="fa fa-tasks"></i> Reports todo</span>
-          <div class="count">3</div>
+          <div style="font-size: 2em;">3</div>
         </div>
       </div>
       <!-- /top tiles -->
@@ -49,121 +49,110 @@ import { AppComponent } from "./app.component"
         <!--</div>-->
 
       <!--</div>-->
-      <!--<br>-->
+      <br>
 
       <div class="row">
-        <div class="pure-u-1-3 col-sm-4 col-xs-12">
-          <div class="x_panel">
-            <div class="x_title">
-              <h2>To Do List <small>Sample tasks</small></h2>
-              <ul class="nav navbar-right panel_toolbox">
-                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                </li>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                  <ul class="dropdown-menu" role="menu">
-
-
-                  </ul>
-                </li>
-                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                </li>
-              </ul>
-              <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-
-              <div class="">
-                <ul class="to_do">
-                  <li>
-                    <p>
-                    </p><div class="icheckbox_flat-green checked" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> ATV 46 Checklist <p></p>
-                  </li>
-                  <li>
-                    <p>
-                    </p><div class="icheckbox_flat-green checked" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Engine 44 Checklist<p></p>
-                  </li>
-                  <li>
-                    <p>
-                    </p><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Engine 46 Checklist <p></p>
-                  </li>
-                  <li>
-                    <p>
-                    </p><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Engine 48 Checklist<p></p>
-                  </li>
-                  <li>
-                    <p>
-                    </p><div class="icheckbox_flat-green checked" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Rescue 44 Checklist <p></p>
-                  </li>
-                  <li>
-                    <p>
-                    </p><div class="icheckbox_flat-green checked" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Rescue 46 Checklist <p></p>
-                  </li>
-                  <li>
-                    <p>
-                    </p><div class="icheckbox_flat-green" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Ladder Checklist <p></p>
-                  </li>
-
-
+        <div class="pure-u-2-5 tile">
+          <div class="tile-head">
+            <h3 class="pure-u-4-5">To Do List</h3>
+            <ul class="pure-u-1-5 options">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                <ul class="dropdown-menu" role="menu">
                 </ul>
-              </div>
-            </div>
-          </div>            
-        </div>
-
-
-        <div class="pure-u-1-3 col-sm-4 col-xs-12">
-          <div class="x_panel tile fixed_height_320">
-            <div class="x_title">
-              <h2>Quick Settings</h2>
-              <ul class="nav navbar-right panel_toolbox">
-                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                </li>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">Settings 1</a>
-                    </li>
-                    <li><a href="#">Settings 2</a>
-                    </li>
-                  </ul>
-                </li>
-                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                </li>
-              </ul>
-              <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-              <div class="dashboard-widget-content">
-                <ul style="width=100px" class="quick-list">
-                  <li style="width=100px"><i class="fa fa-table"></i><a href="#">Reports</a>
-                  </li>
-
-                  <li><i class="fa fa-bar-chart"></i><a href="#">Statistics</a> </li>
-                  <li><i class="fa fa-wrench"></i><a href="#">Edit Equipment</a>
-                  </li>
-                  <li><i class="glyphicon glyphicon-list-alt"></i><a href="#">Edit Reports</a> </li>
-                  <li><i class="fa fa-user"></i><a href="#">Edit Users</a>
-                  </li>
-                  <li><i class="glyphicon glyphicon-off"></i><a href="#">Logout</a>
-                  </li>
-                </ul>
-
-
-              </div>
-            </div>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
           </div>
+          <ul class="to-do">
+            <li>
+              <div>
+                <label class="pure-checkbox">
+                  <input type="checkbox" checked>
+                  ATV 46 Checklist 
+                </label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label class="pure-checkbox">
+                  <input type="checkbox">
+                  Engine 44 Checklist
+                </label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label class="pure-checkbox">
+                  <input type="checkbox">
+                  Engine 46 Checklist 
+                </label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label class="pure-checkbox">
+                  <input type="checkbox">
+                  Engine 48 Checklist
+                </label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label class="pure-checkbox">
+                  <input type="checkbox">
+                  Rescue 44 Checklist 
+                </label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label class="pure-checkbox">
+                  <input type="checkbox">
+                  Rescue 46 Checklist 
+                </label>
+              </div>
+            </li>
+            <li>
+              <div>
+                <label class="pure-checkbox">
+                  <input type="checkbox">
+                  Ladder Checklist 
+                </label>
+              </div>
+            </li>
+          </ul>
         </div>
-
+        <div class="pure-u-2-5 tile">
+          <div class="tile-head">
+            <h3 class="pure-u-4-5">Settings</h3>
+            <ul class="pure-u-1-5 options">
+              <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                <ul class="dropdown-menu" role="menu">
+                </ul>
+              </li>
+              <li><a class="close-link"><i class="fa fa-close"></i></a>
+              </li>
+            </ul>
+          </div>
+          <ul class="quick-list">
+            <li><i class="pure-u-1-8 fa fa-table"></i><a href="#">Reports</a></li>
+            <li><i class="pure-u-1-8 fa fa-bar-chart"></i><a href="#">Statistics</a></li>
+            <li><i class="pure-u-1-8 fa fa-wrench"></i><a href="#">Edit Equipment</a></li>
+            <li><i class="pure-u-1-8 fa fa-list-alt"></i><a href="#">Edit Reports</a></li>
+            <li><i class="pure-u-1-8 fa fa-user"></i><a href="#">Edit Users</a></li>
+            <li><i class="pure-u-1-8 fa fa-power-off"></i><a href="#">Logout</a></li>
+          </ul>
+        </div>
       </div>
     </div>
-  `,
-  styles: [`
-    .tile_count
-      display: flex
-      justify-content: space-around
-  `],
-  encapsulation: ViewEncapsulation.None
+  `
 })
 export class Home { }
 
