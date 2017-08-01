@@ -35,10 +35,10 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
   </a>
 
   <div>
-    <div id="menu">
+    <div id="menu" class>
       <div class="pure-menu">
         <a class="pure-menu-heading" uiSref="home" style="text-transform: capitalize">
-          <i class="fa fa-fire"></i>&nbsp;Oviedo Fire
+          <i class="fa fa-fire-extinguisher"></i>&nbsp;Oviedo Fire
         </a>
 
         <ul class="pure-menu-list">
@@ -90,14 +90,14 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
               </a>
             </li>
             <li class="pure-menu-item" (click)="this.editList = !this.editList">
-              <a h class="pure-menu-link" [ngSwitch]="this.editList">
+              <a class="pure-menu-link" [ngSwitch]="this.editList">
                 <i class="fa fa-edit"></i>
                 <span>&nbsp;Edit</span>
                 <i class="fa fa-chevron-right" *ngSwitchDefault></i>
                 <i class="fa fa-chevron-down" *ngSwitchCase="true"></i>
               </a>
             </li>
-            <ul *ngIf="this.editList">
+            <ul *ngIf="this.editList" style="background: #6c0505">
               <li><a uiSref="eEquipment" class="pure-menu-link">Equipment</a></li>
               <li><a uiSref="eReport" class="pure-menu-link">Reports</a></li>
               <li><a uiSref="eTruck" class="pure-menu-link">Trucks</a></li>
