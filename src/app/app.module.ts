@@ -163,25 +163,53 @@ export class Home { }
     </div>
 
     <div class="content">
-      report stuff
     </div>
   `
 })
 export class Report { }
 
+@Component({
+  template: `
+    <div class="header">
+      <h1>Statistic</h1>
+    </div>
+
+    <div class="content">
+
+    </div>
+  `
+})
+export class Statistic { }
+
+@Component({
+  template: `
+    <div class="header">
+      <h1>Extra</h1>
+    </div>
+
+    <div class="content">
+      
+    </div>
+  `
+})
+export class Extra { }
+
 /** States */
 
-let aboutState = { name: 'report', url: '/reports',  component: Report };
+let states = [
+    { name: 'home',      url: '',            component: Home      }
+  , { name: 'report',    url: '/reports',    component: Report    }
+  , { name: 'statistic', url: '/statistics', component: Statistic }
+  , { name: 'extra',     url: '/extras',     component: Extra     }
+];
+
+let declarations = [AppComponent].concat(states.map(function (state) { return state.component; }));
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    Home,
-    Report
-  ],
+  declarations: declarations,
   imports: [
     BrowserModule,
-    UIRouterModule.forRoot({ states: [ { name: 'home', url: '',  component: Home }, aboutState ], useHash: true })
+    UIRouterModule.forRoot({ states: states, useHash: true })
   ],
   providers: [],
   bootstrap: [AppComponent]
