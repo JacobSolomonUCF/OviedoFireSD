@@ -142,12 +142,12 @@ import { AppComponent } from "./app.component"
             </ul>
           </div>
           <ul class="quick-list">
-            <li><i class="pure-u-1-8 fa fa-table"></i><a href="#">Reports</a></li>
-            <li><i class="pure-u-1-8 fa fa-bar-chart"></i><a href="#">Statistics</a></li>
-            <li><i class="pure-u-1-8 fa fa-wrench"></i><a href="#">Edit Equipment</a></li>
-            <li><i class="pure-u-1-8 fa fa-list-alt"></i><a href="#">Edit Reports</a></li>
-            <li><i class="pure-u-1-8 fa fa-user"></i><a href="#">Edit Users</a></li>
-            <li><i class="pure-u-1-8 fa fa-power-off"></i><a href="#">Logout</a></li>
+            <li><i class="pure-u-1-8 fa fa-table"></i><a uiSref="report">Reports</a></li>
+            <li><i class="pure-u-1-8 fa fa-bar-chart"></i><a uiSref="statistic">Statistics</a></li>
+            <li><i class="pure-u-1-8 fa fa-wrench"></i><a uiSref="eEquipment">Edit Equipment</a></li>
+            <li><i class="pure-u-1-8 fa fa-list-alt"></i><a uiSref="eReport">Edit Reports</a></li>
+            <li><i class="pure-u-1-8 fa fa-user"></i><a uiSref="eUser">Edit Users</a></li>
+            <li><i class="pure-u-1-8 fa fa-power-off"></i><a uiSref="eLogout">Logout</a></li>
           </ul>
         </div>
       </div>

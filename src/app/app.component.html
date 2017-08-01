@@ -45,7 +45,7 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
           <li class="pure-menu-item"><br/></li>
           <li class="pure-menu-item"><br/></li>
           <li class="pure-menu-item"><span style="padding: 1em; color: #9a9810">Welcome,</span></li>
-          <li class="pure-menu-item"><span style="padding: 1em; color: white">Nichlaus Dorey</span></li>
+          <li class="pure-menu-item"><span style="padding: 1em; color: white">Nichlaus Dorey</span><!--span>{{user.name}}</span--></li>
           <li class="pure-menu-item"><br/></li>
 
           <!--a class="nav-button"
@@ -83,30 +83,31 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
               </a>
             </li>
             <li class="pure-menu-item">
-              <a href="/modules/Statistics.html" class="pure-menu-link">
+              <a uiSref="statistic" class="pure-menu-link">
                 <i class="fa fa-bar-chart"></i>
                 <span>&nbsp;Statistics</span>
                 <i class="fa fa-chevron-right"></i>
               </a>
             </li>
-            <li class="pure-menu-item">
-              <a href="#" class="pure-menu-link">
+            <li class="pure-menu-item" (click)="this.editList = !this.editList">
+              <a h class="pure-menu-link" [ngSwitch]="this.editList">
                 <i class="fa fa-edit"></i>
                 <span>&nbsp;Edit</span>
-                <i class="fa fa-chevron-down"></i>
+                <i class="fa fa-chevron-right" *ngSwitchDefault></i>
+                <i class="fa fa-chevron-down" *ngSwitchCase="true"></i>
               </a>
             </li>
-            <ul>
-              <li><a href="/modules/editEquipment/editEquipment.html" class="pure-menu-link">Equipment</a></li>
-              <li><a href="/modules/editReports/editReports.html" class="pure-menu-link">Reports</a></li>
-              <li><a href="/modules/editTrucks/editTrucks.html" class="pure-menu-link">Trucks</a></li>
-              <li><a href="/modules/editUsers/editUsers.html" class="pure-menu-link">Users</a></li>
+            <ul *ngIf="this.editList">
+              <li><a uiSref="eEquipment" class="pure-menu-link">Equipment</a></li>
+              <li><a uiSref="eReport" class="pure-menu-link">Reports</a></li>
+              <li><a uiSref="eTruck" class="pure-menu-link">Trucks</a></li>
+              <li><a uiSref="eUser" class="pure-menu-link">Users</a></li>
             </ul>
           </div>
-          <li class="pure-menu-item"><a href="/modules/extras/extras.html" class="pure-menu-link"><i
+          <li class="pure-menu-item"><a uiSref="extra" class="pure-menu-link"><i
             class="fa fa-cogs"></i><span>&nbsp;Extras</span><i
             class="fa fa-chevron-right"></i></a></li>
-          <li class="pure-menu-item"><a href="/modules/login/login.html" class="pure-menu-link"><i
+          <li class="pure-menu-item"><a uiSref="logout" class="pure-menu-link"><i
             class="fa fa-power-off"></i><span>&nbsp;Logout</span><i class="fa fa-chevron-right"></i></a></li>
         </ul>
       </div>
