@@ -203,10 +203,8 @@ let states = [
   , { name: 'extra',     url: '/extras',     component: Extra     }
 ];
 
-export function getComponents(state) { return state.component; }
-
 @NgModule({
-  declarations: [AppComponent].concat(getComponents(states)),
+  declarations: [ AppComponent, Home, Report, Statistic, Extra ],
   imports: [
     BrowserModule,
     UIRouterModule.forRoot({ states: states, useHash: true })
