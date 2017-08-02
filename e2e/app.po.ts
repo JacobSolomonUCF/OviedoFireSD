@@ -1,6 +1,6 @@
 import { browser, by, element } from 'protractor';
 
-export class Untitled3Page {
+export class OviedoFirePage {
   navigateTo() {
     return browser.get('/');
   }

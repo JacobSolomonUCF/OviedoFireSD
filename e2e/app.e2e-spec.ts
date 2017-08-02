@@ -1,10 +1,10 @@
-import { Untitled3Page } from './app.po';
+import { OviedoFirePage } from './app.po';
 
-describe('untitled3 App', () => {
-  let page: Untitled3Page;
+describe('OvideoFire App', () => {
+  let page: OviedoFirePage;
 
   beforeEach(() => {
-    page = new Untitled3Page();
+    page = new OviedoFirePage();
   });
 
   it('should display welcome message', () => {

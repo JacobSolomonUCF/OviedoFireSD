@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {Component, NgModule, ViewEncapsulation} from '@angular/core';
+import {Component, NgModule} from '@angular/core';
 
 import {UIRouterModule} from "@uirouter/angular";
 import { AppComponent } from "./app.component"
@@ -153,6 +153,7 @@ import { AppComponent } from "./app.component"
       </div>
     </div>
   `
+  //, styleUrls: ['./menu.sass']
 })
 export class Home { }
 
