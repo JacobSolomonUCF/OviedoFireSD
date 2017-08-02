@@ -203,10 +203,10 @@ let states = [
   , { name: 'extra',     url: '/extras',     component: Extra     }
 ];
 
-let declarations = [AppComponent].concat(states.map(function (state) { return state.component; }));
+export function getComponents(state) { return state.component; }
 
 @NgModule({
-  declarations: declarations,
+  declarations: [AppComponent].concat(getComponents(states)),
   imports: [
     BrowserModule,
     UIRouterModule.forRoot({ states: states, useHash: true })
