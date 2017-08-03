@@ -7,6 +7,7 @@ import { AppComponent } from "./app.component"
 
 @Component({
   template: `
+  <div>
     <div class="header">
       <h1>Home</h1>
     </div>
@@ -152,10 +153,18 @@ import { AppComponent } from "./app.component"
         </div>
       </div>
     </div>
-  `
-  //, styleUrls: ['./menu.sass']
+  
+  </div>`
+  , styleUrls: ['./menu.sass']
 })
 export class Home { }
+
+@Component({
+  selector: `item-table`,
+  template: `<div class="table"> Table: <br/><table><thead><th>test</th><th>&nbsp;&nbsp;&nbsp;test 2</th></thead><tr><td>a</td><td>&nbsp;&nbsp;&nbsp;a2</td></tr></table></div>`
+  , styleUrls: ['./menu.sass']
+})
+export class Table {}
 
 @Component({
   template: `
@@ -164,8 +173,10 @@ export class Home { }
     </div>
 
     <div class="content">
+      <item-table></item-table>
     </div>
   `
+  , styleUrls: ['./menu.sass']
 })
 export class Report { }
 
@@ -179,6 +190,7 @@ export class Report { }
 
     </div>
   `
+  , styleUrls: ['./menu.sass']
 })
 export class Statistic { }
 
@@ -192,6 +204,7 @@ export class Statistic { }
       
     </div>
   `
+  , styleUrls: ['./menu.sass']
 })
 export class Extra { }
 
@@ -202,10 +215,11 @@ let states = [
   , { name: 'report',    url: '/reports',    component: Report    }
   , { name: 'statistic', url: '/statistics', component: Statistic }
   , { name: 'extra',     url: '/extras',     component: Extra     }
+  , { name: 'table',     url: '',            component: Table     }
 ];
 
 @NgModule({
-  declarations: [ AppComponent, Home, Report, Statistic, Extra ],
+  declarations: [ AppComponent, Home, Report, Statistic, Extra, Table ],
   imports: [
     BrowserModule,
     UIRouterModule.forRoot({ states: states, useHash: true })
