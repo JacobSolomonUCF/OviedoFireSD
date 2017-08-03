@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {Component, NgModule} from '@angular/core';
+import {Component, Input, NgModule} from '@angular/core';
 
 import {UIRouterModule} from "@uirouter/angular";
 import { AppComponent } from "./app.component"
@@ -161,10 +161,25 @@ export class Home { }
 
 @Component({
   selector: `item-table`,
-  template: `<div class="table"> Table: <br/><table><thead><th>test</th><th>&nbsp;&nbsp;&nbsp;test 2</th></thead><tr><td>a</td><td>&nbsp;&nbsp;&nbsp;a2</td></tr></table></div>`
+  template: `
+    <div class="table"> Table: <br/>
+      <table>
+        <thead>
+          <th *ngFor="let head of heading">{{head}}</th>
+        </thead>
+        <tr>
+          <td>a</td>
+          <td>&nbsp;&nbsp;&nbsp;a2</td>
+        </tr>
+      </table>
+    </div>`
   , styleUrls: ['./menu.sass']
 })
-export class Table {}
+export class Table {
+
+  @Input() heading: string[];
+
+}
 
 @Component({
   template: `
@@ -173,12 +188,26 @@ export class Table {}
     </div>
 
     <div class="content">
-      <item-table></item-table>
+      <item-table [heading]="['col 1','col 2']"></item-table>
     </div>
   `
   , styleUrls: ['./menu.sass']
 })
 export class Report { }
+
+@Component({
+  template: `
+    <div class="header">
+      <h1>Edit Reports</h1>
+    </div>
+
+    <div class="content">
+      <item-table [heading]="['Name','Schedule','Status','ID']"></item-table>
+    </div>
+  `
+  , styleUrls: ['./menu.sass']
+})
+export class EditReport { }
 
 @Component({
   template: `
@@ -211,15 +240,16 @@ export class Extra { }
 /** States */
 
 let states = [
-    { name: 'home',      url: '',            component: Home      }
-  , { name: 'report',    url: '/reports',    component: Report    }
-  , { name: 'statistic', url: '/statistics', component: Statistic }
-  , { name: 'extra',     url: '/extras',     component: Extra     }
-  , { name: 'table',     url: '',            component: Table     }
+    { name: 'home',      url: '',              component: Home      }
+  , { name: 'report',    url: '/reports',      component: Report    }
+  , { name: 'eReport',   url: '/edit/reports', component: EditReport}
+  , { name: 'statistic', url: '/statistics',   component: Statistic }
+  , { name: 'extra',     url: '/extras',       component: Extra     }
+  , { name: 'table',     url: '',              component: Table     }
 ];
 
 @NgModule({
-  declarations: [ AppComponent, Home, Report, Statistic, Extra, Table ],
+  declarations: [ AppComponent, Home, Report, EditReport, Statistic, Extra, Table ],
   imports: [
     BrowserModule,
     UIRouterModule.forRoot({ states: states, useHash: true })
