@@ -178,7 +178,8 @@ export class Home { }
         <tbody>
         <tr *ngFor="let row of rows">
           <td *ngFor="let head of heading">
-            {{row[head]}}
+            <button *ngIf="head ==='ID' && this.editing">Save</button>
+            <span *ngIf="!(head === 'ID' && this.editing)">{{row[head]}}</span>
           </td>
         </tr>
         </tbody>
@@ -190,6 +191,7 @@ export class Table {
 
   @Input() heading: string[];
   @Input() rows: any[];
+  editing: boolean = false;
 }
 
 @Component({
