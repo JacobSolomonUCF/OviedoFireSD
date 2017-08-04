@@ -176,299 +176,10 @@ export class Home { }
         </th>
         </thead>
         <tbody>
-        <tr>
-          <td>ATV 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10012</td>
-        </tr>
-        <tr>
-          <td>Engine 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10013</td>
-        </tr>
-        <tr>
-          <td>Engine 46 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10014</td>
-        </tr>
-        <tr>
-          <td>Engine 48 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10015</td>
-        </tr>
-        <tr>
-          <td>Rescue 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10016</td>
-        </tr>
-        <tr>
-          <td>Rescue 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10017</td>
-        </tr>
-        <tr>
-          <td>Ladder Checklist</td>
-          <td>Weekly</td>
-          <td>Not Completed</td>
-          <td>10018</td>
-        </tr>
-        <tr>
-          <td>ATV 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10012</td>
-        </tr>
-        <tr>
-          <td>Engine 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10013</td>
-        </tr>
-        <tr>
-          <td>Engine 46 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10014</td>
-        </tr>
-        <tr>
-          <td>Engine 48 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10015</td>
-        </tr>
-        <tr>
-          <td>Rescue 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10016</td>
-        </tr>
-        <tr>
-          <td>Rescue 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10017</td>
-        </tr>
-        <tr>
-          <td>Ladder Checklist</td>
-          <td>Weekly</td>
-          <td>Not Completed</td>
-          <td>10018</td>
-        </tr>
-        <tr>
-          <td>ATV 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10012</td>
-        </tr>
-        <tr>
-          <td>Engine 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10013</td>
-        </tr>
-        <tr>
-          <td>Engine 46 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10014</td>
-        </tr>
-        <tr>
-          <td>Engine 48 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10015</td>
-        </tr>
-        <tr>
-          <td>Rescue 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10016</td>
-        </tr>
-        <tr>
-          <td>Rescue 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10017</td>
-        </tr>
-        <tr>
-          <td>Ladder Checklist</td>
-          <td>Weekly</td>
-          <td>Not Completed</td>
-          <td>10018</td>
-        </tr>
-        <tr>
-          <td>ATV 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10012</td>
-        </tr>
-        <tr>
-          <td>Engine 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10013</td>
-        </tr>
-        <tr>
-          <td>Engine 46 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10014</td>
-        </tr>
-        <tr>
-          <td>Engine 48 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10015</td>
-        </tr>
-        <tr>
-          <td>Rescue 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10016</td>
-        </tr>
-        <tr>
-          <td>Rescue 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10017</td>
-        </tr>
-        <tr>
-          <td>Ladder Checklist</td>
-          <td>Weekly</td>
-          <td>Not Completed</td>
-          <td>10018</td>
-        </tr>
-        <tr>
-          <td>ATV 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10012</td>
-        </tr>
-        <tr>
-          <td>Engine 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10013</td>
-        </tr>
-        <tr>
-          <td>Engine 46 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10014</td>
-        </tr>
-        <tr>
-          <td>Engine 48 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10015</td>
-        </tr>
-        <tr>
-          <td>Rescue 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10016</td>
-        </tr>
-        <tr>
-          <td>Rescue 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10017</td>
-        </tr>
-        <tr>
-          <td>Ladder Checklist</td>
-          <td>Weekly</td>
-          <td>Not Completed</td>
-          <td>10018</td>
-        </tr>
-        <tr>
-          <td>ATV 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10012</td>
-        </tr>
-        <tr>
-          <td>Engine 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10013</td>
-        </tr>
-        <tr>
-          <td>Engine 46 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10014</td>
-        </tr>
-        <tr>
-          <td>Engine 48 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10015</td>
-        </tr>
-        <tr>
-          <td>Rescue 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10016</td>
-        </tr>
-        <tr>
-          <td>Rescue 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10017</td>
-        </tr>
-        <tr>
-          <td>Ladder Checklist</td>
-          <td>Weekly</td>
-          <td>Not Completed</td>
-          <td>10018</td>
-        </tr>
-        <tr>
-          <td>ATV 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10012</td>
-        </tr>
-        <tr>
-          <td>Engine 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10013</td>
-        </tr>
-        <tr>
-          <td>Engine 46 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10014</td>
-        </tr>
-        <tr>
-          <td>Engine 48 Checklist</td>
-          <td>Daily</td>
-          <td>Not Completed</td>
-          <td>10015</td>
-        </tr>
-        <tr>
-          <td>Rescue 44 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10016</td>
-        </tr>
-        <tr>
-          <td>Rescue 46 Checklist</td>
-          <td>Daily</td>
-          <td>Complete</td>
-          <td>10017</td>
-        </tr>
-        <tr>
-          <td>Ladder Checklist</td>
-          <td>Weekly</td>
-          <td>Not Completed</td>
-          <td>10018</td>
+        <tr *ngFor="let row of rows">
+          <td *ngFor="let head of heading">
+            {{row[head]}}
+          </td>
         </tr>
         </tbody>
       </table>
@@ -478,7 +189,7 @@ export class Home { }
 export class Table {
 
   @Input() heading: string[];
-
+  @Input() rows: any[];
 }
 
 @Component({
@@ -488,12 +199,18 @@ export class Table {
     </div>
 
     <div class="content">
-      <item-table [heading]="['col 1','col 2']"></item-table>
+      <item-table [heading]="['col1','col2']" [rows]="reports"></item-table>
     </div>
   `
   , styleUrls: ['./menu.sass']
 })
-export class Report { }
+export class Report {
+  reports: any[] = [
+    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
+    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
+    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'}
+  ];
+}
 
 @Component({
   template: `
@@ -502,12 +219,18 @@ export class Report { }
     </div>
 
     <div class="content">
-      <item-table [heading]="['Name','Schedule','Status','ID']"></item-table>
+      <item-table [heading]="['Name','Schedule','Status','ID']" [rows]="reports"></item-table>
     </div>
   `
   , styleUrls: ['./menu.sass']
 })
-export class EditReport { }
+export class EditReport {
+  reports: any[] = [
+    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
+    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
+    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'}
+  ];
+}
 
 @Component({
   template: `
