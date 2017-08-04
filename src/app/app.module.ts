@@ -176,48 +176,300 @@ export class Home { }
         </th>
         </thead>
         <tbody>
-          <tr>
-            <td>ATV 46 Checklist</td>
-            <td>Daily</td>
-            <td>Complete</td>
-            <td>10012</td>
-          </tr>
-          <tr>
-            <td>Engine 44 Checklist</td>
-            <td>Daily</td>
-            <td>Complete</td>
-            <td>10013</td>
-          </tr>
-          <tr>
-            <td>Engine 46 Checklist</td>
-            <td>Daily</td>
-            <td>Not Completed</td>
-            <td>10014</td>
-          </tr>
-          <tr>
-            <td>Engine 48 Checklist</td>
-            <td>Daily</td>
-            <td>Not Completed</td>
-            <td>10015</td>
-          </tr>
-          <tr>
-            <td>Rescue 44 Checklist</td>
-            <td>Daily</td>
-            <td>Complete</td>
-            <td>10016</td>
-          </tr>
-          <tr>
-            <td>Rescue 46 Checklist</td>
-            <td>Daily</td>
-            <td>Complete</td>
-            <td>10017</td>
-          </tr>
-          <tr>
-            <td>Ladder Checklist</td>
-            <td>Weekly</td>
-            <td>Not Completed</td>
-            <td>10018</td>
-          </tr>
+        <tr>
+          <td>ATV 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10012</td>
+        </tr>
+        <tr>
+          <td>Engine 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10013</td>
+        </tr>
+        <tr>
+          <td>Engine 46 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10014</td>
+        </tr>
+        <tr>
+          <td>Engine 48 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10015</td>
+        </tr>
+        <tr>
+          <td>Rescue 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10016</td>
+        </tr>
+        <tr>
+          <td>Rescue 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10017</td>
+        </tr>
+        <tr>
+          <td>Ladder Checklist</td>
+          <td>Weekly</td>
+          <td>Not Completed</td>
+          <td>10018</td>
+        </tr>
+        <tr>
+          <td>ATV 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10012</td>
+        </tr>
+        <tr>
+          <td>Engine 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10013</td>
+        </tr>
+        <tr>
+          <td>Engine 46 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10014</td>
+        </tr>
+        <tr>
+          <td>Engine 48 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10015</td>
+        </tr>
+        <tr>
+          <td>Rescue 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10016</td>
+        </tr>
+        <tr>
+          <td>Rescue 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10017</td>
+        </tr>
+        <tr>
+          <td>Ladder Checklist</td>
+          <td>Weekly</td>
+          <td>Not Completed</td>
+          <td>10018</td>
+        </tr>
+        <tr>
+          <td>ATV 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10012</td>
+        </tr>
+        <tr>
+          <td>Engine 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10013</td>
+        </tr>
+        <tr>
+          <td>Engine 46 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10014</td>
+        </tr>
+        <tr>
+          <td>Engine 48 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10015</td>
+        </tr>
+        <tr>
+          <td>Rescue 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10016</td>
+        </tr>
+        <tr>
+          <td>Rescue 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10017</td>
+        </tr>
+        <tr>
+          <td>Ladder Checklist</td>
+          <td>Weekly</td>
+          <td>Not Completed</td>
+          <td>10018</td>
+        </tr>
+        <tr>
+          <td>ATV 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10012</td>
+        </tr>
+        <tr>
+          <td>Engine 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10013</td>
+        </tr>
+        <tr>
+          <td>Engine 46 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10014</td>
+        </tr>
+        <tr>
+          <td>Engine 48 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10015</td>
+        </tr>
+        <tr>
+          <td>Rescue 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10016</td>
+        </tr>
+        <tr>
+          <td>Rescue 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10017</td>
+        </tr>
+        <tr>
+          <td>Ladder Checklist</td>
+          <td>Weekly</td>
+          <td>Not Completed</td>
+          <td>10018</td>
+        </tr>
+        <tr>
+          <td>ATV 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10012</td>
+        </tr>
+        <tr>
+          <td>Engine 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10013</td>
+        </tr>
+        <tr>
+          <td>Engine 46 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10014</td>
+        </tr>
+        <tr>
+          <td>Engine 48 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10015</td>
+        </tr>
+        <tr>
+          <td>Rescue 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10016</td>
+        </tr>
+        <tr>
+          <td>Rescue 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10017</td>
+        </tr>
+        <tr>
+          <td>Ladder Checklist</td>
+          <td>Weekly</td>
+          <td>Not Completed</td>
+          <td>10018</td>
+        </tr>
+        <tr>
+          <td>ATV 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10012</td>
+        </tr>
+        <tr>
+          <td>Engine 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10013</td>
+        </tr>
+        <tr>
+          <td>Engine 46 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10014</td>
+        </tr>
+        <tr>
+          <td>Engine 48 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10015</td>
+        </tr>
+        <tr>
+          <td>Rescue 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10016</td>
+        </tr>
+        <tr>
+          <td>Rescue 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10017</td>
+        </tr>
+        <tr>
+          <td>Ladder Checklist</td>
+          <td>Weekly</td>
+          <td>Not Completed</td>
+          <td>10018</td>
+        </tr>
+        <tr>
+          <td>ATV 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10012</td>
+        </tr>
+        <tr>
+          <td>Engine 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10013</td>
+        </tr>
+        <tr>
+          <td>Engine 46 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10014</td>
+        </tr>
+        <tr>
+          <td>Engine 48 Checklist</td>
+          <td>Daily</td>
+          <td>Not Completed</td>
+          <td>10015</td>
+        </tr>
+        <tr>
+          <td>Rescue 44 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10016</td>
+        </tr>
+        <tr>
+          <td>Rescue 46 Checklist</td>
+          <td>Daily</td>
+          <td>Complete</td>
+          <td>10017</td>
+        </tr>
+        <tr>
+          <td>Ladder Checklist</td>
+          <td>Weekly</td>
+          <td>Not Completed</td>
+          <td>10018</td>
+        </tr>
         </tbody>
       </table>
     </div>`
