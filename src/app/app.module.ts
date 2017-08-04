@@ -199,12 +199,13 @@ export class Table {
     </div>
 
     <div class="content">
-      <item-table [heading]="['col1','col2']" [rows]="reports"></item-table>
+      <item-table [heading]="heading" [rows]="reports"></item-table>
     </div>
   `
   , styleUrls: ['./menu.sass']
 })
 export class Report {
+  heading: any[] = ['Name','Schedule','Status','ID'];
   reports: any[] = [
     {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
     {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
@@ -219,12 +220,13 @@ export class Report {
     </div>
 
     <div class="content">
-      <item-table [heading]="['Name','Schedule','Status','ID']" [rows]="reports"></item-table>
+      <item-table [heading]="heading" [rows]="reports"></item-table>
     </div>
   `
   , styleUrls: ['./menu.sass']
 })
 export class EditReport {
+  heading: any[] = ['Name','Schedule','Status','ID'];
   reports: any[] = [
     {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
     {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
