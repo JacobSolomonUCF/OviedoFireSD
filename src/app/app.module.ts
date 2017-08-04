@@ -1,10 +1,12 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {Component, Input, NgModule} from '@angular/core';
+import {Component, NgModule} from '@angular/core';
 
 import {UIRouterModule} from "@uirouter/angular";
 import {AppComponent} from "./app.component"
 
 import {EditUser} from "./edit/editUser"
+
+import {Table} from "./table"
 
 
 @Component({
@@ -162,39 +164,6 @@ import {EditUser} from "./edit/editUser"
   , styleUrls: ['./menu.sass']
 })
 export class Home { }
-
-@Component({
-  selector: `item-table`,
-  template: `
-    <div class="table">
-      <table>
-        <thead>
-        <th *ngFor="let head of heading">
-          <div>
-            {{head}}
-            <button class="fa fa-chevron-up"></button>
-            <button class="fa fa-chevron-down"></button>
-         </div>
-        </th>
-        </thead>
-        <tbody>
-        <tr *ngFor="let row of rows">
-          <td *ngFor="let head of heading">
-            <button *ngIf="head ==='ID' && this.editing">Save</button>
-            <span *ngIf="!(head === 'ID' && this.editing)">{{row[head]}}</span>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>`
-  , styleUrls: ['./table.sass']
-})
-export class Table {
-
-  @Input() heading: string[];
-  @Input() rows: any[];
-  editing: boolean = false;
-}
 
 @Component({
   template: `
