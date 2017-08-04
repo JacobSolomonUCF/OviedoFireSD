@@ -4,6 +4,8 @@ import {Component, Input, NgModule} from '@angular/core';
 import {UIRouterModule} from "@uirouter/angular";
 import {AppComponent} from "./app.component"
 
+import {EditUser} from "./edit/editUser"
+
 
 @Component({
   template: `
@@ -285,10 +287,11 @@ let states = [
   , { name: 'statistic', url: '/statistics',   component: Statistic }
   , { name: 'extra',     url: '/extras',       component: Extra     }
   , { name: 'table',     url: '',              component: Table     }
+  , { name: 'eUser',     url: '/edit/users',   component: EditUser  }
 ];
 
 @NgModule({
-  declarations: [ AppComponent, Home, Report, EditReport, Statistic, Extra, Table ],
+  declarations: [ AppComponent, Home, Report, EditReport, Statistic, Extra, Table, EditUser ],
   imports: [
     BrowserModule,
     UIRouterModule.forRoot({ states: states, useHash: true })
