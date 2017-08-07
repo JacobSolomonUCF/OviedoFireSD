@@ -6,6 +6,8 @@ import {AppComponent} from "./app.component";
 import {UIRouterModule} from "@uirouter/angular";
 
 import {Table} from "./table";
+import {Modal} from "./modal/modal";
+
 import {EditUser} from "./edit/editUser";
 import {EditReport} from "./edit/editReport";
 
@@ -229,7 +231,7 @@ let states = [
 ];
 
 @NgModule({
-  declarations: [ AppComponent, Home, Report, EditReport, Statistic, Extra, Table, EditUser ],
+  declarations: [ AppComponent, Home, Report, EditReport, Statistic, Extra, Table, EditUser, Modal ],
   imports: [
     BrowserModule,
     UIRouterModule.forRoot({ states: states, useHash: true })
