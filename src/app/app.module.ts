@@ -1,12 +1,14 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {Component, NgModule} from '@angular/core';
 
+import {AppComponent} from "./app.component";
+
 import {UIRouterModule} from "@uirouter/angular";
-import {AppComponent} from "./app.component"
 
-import {EditUser} from "./edit/editUser"
+import {Table} from "./table";
+import {EditUser} from "./edit/editUser";
+import {EditReport} from "./edit/editReport";
 
-import {Table} from "./table"
 
 
 @Component({
@@ -180,39 +182,6 @@ export class Home { }
 export class Report {
   heading: any[] = ['Name','Schedule','Status','ID'];
   reports: any[] = [
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
-    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
-    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'}
-  ];
-}
-
-@Component({
-  template: `
-    <div class="header">
-      <h1>Edit Reports</h1>
-    </div>
-
-    <div class="content">
-      <item-table [heading]="heading" [rows]="reports"></item-table>
-    </div>
-  `
-  , styleUrls: ['./menu.sass']
-})
-export class EditReport {
-  heading: any[] = ['Name','Schedule','Status','ID'];
-  reports: any[] = [
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
-    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
-    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'},
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
-    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
-    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'},
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
-    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
-    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'},
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
-    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
-    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'},
     {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
     {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
     {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'}
