@@ -1,5 +1,9 @@
 import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 import {Component, NgModule} from '@angular/core';
+
+
 
 import {AppComponent} from "./app.component";
 
@@ -10,12 +14,16 @@ import {Modal} from "./modal/modal";
 
 import {EditUser} from "./edit/editUser";
 import {EditReport} from "./edit/editReport";
+import {DialogOverviewExample, DialogOverviewExampleDialog} from "./TestModal";
+import {MdDialogModule} from "@angular/material";
 
 
 
 @Component({
   template: `
     <div>
+      <dialog-overview-example>Loading Material Docs example...</dialog-overview-example>
+
       <div class="header">
         <h1>Home</h1>
       </div>
@@ -231,12 +239,15 @@ let states = [
 ];
 
 @NgModule({
-  declarations: [ AppComponent, Home, Report, EditReport, Statistic, Extra, Table, EditUser, Modal ],
+  declarations: [ AppComponent, Home, Report, EditReport, Statistic, Extra, Table, EditUser, Modal, DialogOverviewExampleDialog, DialogOverviewExample ],
   imports: [
     BrowserModule,
-    UIRouterModule.forRoot({ states: states, useHash: true })
+    BrowserAnimationsModule,
+    UIRouterModule.forRoot({ states: states, useHash: true }),
+    MdDialogModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DialogOverviewExampleDialog]
 })
 export class AppModule { }
