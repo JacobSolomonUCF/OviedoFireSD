@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Injectable} from '@angular/core';
 import {MdDialog} from '@angular/material';
 
 
@@ -17,6 +17,16 @@ export class DialogOverviewExample {
 
 @Component({
   selector: 'dialog-overview-example-dialog',
-  template: '<div class="modal-backdrop"></div><div class="modal"><div class="modal-header">Test</div><p>Hi</p></div>',
+  template: `
+    <div class="modal-backdrop"></div>
+    <div class="modal">
+      <div class="modal-header">Test</div>
+      <div class="modal-body">Hi</div>
+      <div class="modal-footer">
+        <div>
+          <button class="cancel">Cancel</button>
+        </div>
+      </div>
+    </div>`,
 })
 export class DialogOverviewExampleDialog {}
