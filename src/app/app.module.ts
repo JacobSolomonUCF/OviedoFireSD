@@ -14,7 +14,6 @@ import {Modal} from "./modal/modal";
 
 import {EditUser} from "./edit/editUser";
 import {EditReport} from "./edit/editReport";
-import {DialogOverviewExample, DialogOverviewExampleDialog} from "./TestModal";
 import {MdDialogModule} from "@angular/material";
 
 
@@ -22,7 +21,7 @@ import {MdDialogModule} from "@angular/material";
 @Component({
   template: `
     <div>
-      <dialog-overview-example>Loading Material Docs example...</dialog-overview-example>
+      <!--<modal>Loading Material Docs example...</modal>-->
 
       <div class="header">
         <h1>Home</h1>
@@ -239,7 +238,7 @@ let states = [
 ];
 
 @NgModule({
-  declarations: [ AppComponent, Home, Report, EditReport, Statistic, Extra, Table, EditUser, Modal, DialogOverviewExampleDialog, DialogOverviewExample ],
+  declarations: [ AppComponent, Home, Report, EditReport, Statistic, Extra, Table, EditUser, Modal ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -248,6 +247,6 @@ let states = [
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DialogOverviewExampleDialog]
+  entryComponents: [Modal]
 })
 export class AppModule { }

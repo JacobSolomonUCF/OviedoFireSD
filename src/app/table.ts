@@ -1,4 +1,6 @@
 import {Component, Input} from "@angular/core"
+import {MdDialog} from "@angular/material";
+import {Modal} from "./modal/modal";
 
 @Component({
   selector: `item-table`,
@@ -15,7 +17,7 @@ import {Component, Input} from "@angular/core"
         </th>
         </thead>
         <tbody>
-        <tr *ngFor="let row of rows">
+        <tr *ngFor="let row of rows" (click)="openDialog()">
           <td *ngFor="let head of heading">
             <button *ngIf="head ==='ID' && this.editing">Save</button>
             <span *ngIf="!(head === 'ID' && this.editing)">{{row[head]}}</span>
@@ -30,4 +32,10 @@ export class Table {
   @Input() heading: string[];
   @Input() rows: any[];
   editing: boolean = false;
+
+  constructor(public dialog: MdDialog) {}
+
+  openDialog() {
+    this.dialog.open(Modal);
+  }
 }

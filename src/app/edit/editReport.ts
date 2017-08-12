@@ -2,7 +2,7 @@ import {Component} from "@angular/core";
 
 @Component({
   template: `
-    <modal *ngIf="activeModal"></modal>
+    <!--<modal *ngIf="activeModal"></modal>-->
     <div class="header">
       <h1>Edit Reports</h1>
     </div>
