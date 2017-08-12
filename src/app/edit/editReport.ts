@@ -2,12 +2,10 @@ import {Component} from "@angular/core";
 
 @Component({
   template: `
-    <!--<modal *ngIf="activeModal"></modal>-->
     <div class="header">
       <h1>Edit Reports</h1>
     </div>
     <div class="content">
-      <!--button (click)="activeModal = !activeModal">Toggle modal.</button-->
       <item-table [heading]="heading" [rows]="reports"></item-table>
     </div>
   `

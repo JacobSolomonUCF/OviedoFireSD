@@ -17,7 +17,7 @@ import {Modal} from "./modal/modal";
         </th>
         </thead>
         <tbody>
-        <tr *ngFor="let row of rows" (click)="openDialog()">
+        <tr *ngFor="let row of rows" (click)="openDialog(row)">
           <td *ngFor="let head of heading">
             <button *ngIf="head ==='ID' && this.editing">Save</button>
             <span *ngIf="!(head === 'ID' && this.editing)">{{row[head]}}</span>
@@ -32,10 +32,18 @@ export class Table {
   @Input() heading: string[];
   @Input() rows: any[];
   editing: boolean = false;
+  temp: any[];
 
   constructor(public dialog: MdDialog) {}
 
-  openDialog() {
-    this.dialog.open(Modal);
+  openDialog(row) {
+    this.temp = row;
+    const dialog = this.dialog.open(Modal, {
+      data: {properties: this.heading, body: this.temp, footer: ''}
+    });
+    dialog.afterClosed().subscribe(
+      resultPromise => { console.log(resultPromise); },
+      () => { console.log('rejected'); }
+    );
   }
 }

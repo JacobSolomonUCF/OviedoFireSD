@@ -3,7 +3,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {Component, NgModule} from '@angular/core';
 
-
+import { NgModel, FormsModule } from '@angular/forms';
 
 import {AppComponent} from "./app.component";
 
@@ -243,7 +243,8 @@ let states = [
     BrowserModule,
     BrowserAnimationsModule,
     UIRouterModule.forRoot({ states: states, useHash: true }),
-    MdDialogModule
+    MdDialogModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
