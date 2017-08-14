@@ -1,28 +1,22 @@
-import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {BrowserModule}           from '@angular/platform-browser';
+import {Component, NgModule}     from '@angular/core';
+import {MdDialogModule}          from '@angular/material';
+import {FormsModule}             from '@angular/forms';
 
-import {Component, NgModule} from '@angular/core';
+import {UIRouterModule} from '@uirouter/angular';
+import {AppComponent}   from './app.component';
 
-import { NgModel, FormsModule } from '@angular/forms';
-
-import {AppComponent} from "./app.component";
-
-import {UIRouterModule} from "@uirouter/angular";
-
-import {Table} from "./table";
-import {Modal} from "./modal/modal";
-
-import {EditUser} from "./edit/editUser";
-import {EditReport} from "./edit/editReport";
-import {MdDialogModule} from "@angular/material";
-
-
+import {Table}         from './table';
+import {Modal}         from './modal/modal';
+import {EditUser}      from './edit/editUser';
+import {EditReport}    from './edit/editReport';
+import {EditTruck}     from './edit/editTruck';
+import {EditEquipment} from './edit/editEquipment';
 
 @Component({
   template: `
     <div>
-      <!--<modal>Loading Material Docs example...</modal>-->
-
       <div class="header">
         <h1>Home</h1>
       </div>
@@ -170,7 +164,6 @@ import {MdDialogModule} from "@angular/material";
           </div>
         </div>
       </div>
-
     </div>`
   , styleUrls: ['./menu.sass']
 })
@@ -228,17 +221,19 @@ export class Extra { }
 /** States */
 
 let states = [
-    { name: 'home',      url: '',              component: Home      }
-  , { name: 'report',    url: '/reports',      component: Report    }
-  , { name: 'eReport',   url: '/edit/reports', component: EditReport}
-  , { name: 'statistic', url: '/statistics',   component: Statistic }
-  , { name: 'extra',     url: '/extras',       component: Extra     }
-  , { name: 'table',     url: '',              component: Table     }
-  , { name: 'eUser',     url: '/edit/users',   component: EditUser  }
+    { name: 'home',       url: '',                component: Home         }
+  , { name: 'report',     url: '/reports',        component: Report       }
+  , { name: 'eEquipment', url: '/edit/equipment', component: EditEquipment}
+  , { name: 'eReport',    url: '/edit/report',    component: EditReport   }
+  , { name: 'eTruck',     url: '/edit/truck',     component: EditTruck    }
+  , { name: 'eUser',      url: '/edit/users',     component: EditUser     }
+  , { name: 'statistic',  url: '/statistics',     component: Statistic    }
+  , { name: 'extra',      url: '/extras',         component: Extra        }
+  , { name: 'table',      url: '',                component: Table        }
 ];
 
 @NgModule({
-  declarations: [ AppComponent, Home, Report, EditReport, Statistic, Extra, Table, EditUser, Modal ],
+  declarations: [ AppComponent, Home, Report, EditEquipment, EditReport, EditTruck, EditUser, Statistic, Extra, Table, Modal ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

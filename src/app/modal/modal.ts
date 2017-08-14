@@ -13,7 +13,6 @@ import {MD_DIALOG_DATA} from "@angular/material";
       <div class="modal-body" *ngFor="let property of data.properties">
         <label *ngIf="property!=='ID'">{{property}}</label><br/>
         <input *ngIf="property!=='ID'" [value]="data.body[property]" />
-        {{data.body[property]}}
       </div>
       <div class="modal-footer">
         <div>
