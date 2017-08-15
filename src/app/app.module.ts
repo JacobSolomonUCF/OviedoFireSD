@@ -176,7 +176,7 @@ export class Home { }
     </div>
 
     <div class="content">
-      <item-table [heading]="heading" [rows]="reports"></item-table>
+      <item-table [heading]="heading" [rows]="reports" [tableType]="'view'"></item-table>
     </div>
   `
   , styleUrls: ['./menu.sass']
@@ -184,7 +184,7 @@ export class Home { }
 export class Report {
   heading: any[] = ['Name','Schedule','Status','ID'];
   reports: any[] = [
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
+    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012', data: ['a','b','c','d','e','f']},
     {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
     {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'}
   ];

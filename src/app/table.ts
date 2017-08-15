@@ -31,6 +31,7 @@ import {Modal} from "./modal/modal";
 export class Table {
   @Input() heading: string[];
   @Input() rows: any[];
+  @Input() tableType: any;
   editing: boolean = false;
   temp: any[];
 
@@ -39,7 +40,7 @@ export class Table {
   openDialog(row) {
     this.temp = row;
     const dialog = this.dialog.open(Modal, {
-      data: {properties: this.heading, body: this.temp, footer: ''}
+      data: {properties: this.heading, body: this.temp, footer: '', edit: this.tableType}
     });
     dialog.afterClosed().subscribe(
       resultPromise => { console.log(resultPromise); },

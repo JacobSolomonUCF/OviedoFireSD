@@ -6,7 +6,7 @@ import {Component} from "@angular/core";
       <h1>Edit Reports</h1>
     </div>
     <div class="content">
-      <item-table [heading]="heading" [rows]="reports"></item-table>
+      <item-table [heading]="heading" [rows]="reports" [tableType]="'edit'"></item-table>
     </div>
   `
   , styleUrls: ['../menu.sass']

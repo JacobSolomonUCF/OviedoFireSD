@@ -7,7 +7,7 @@ import {Component} from "@angular/core"
       <h1>Edit Users</h1>
     </div>
     <div class="content">
-      <item-table [heading]="heading" [rows]="users"></item-table>
+      <item-table [heading]="heading" [rows]="users" [tableType]="'edit'"></item-table>
     </div>
   `
 })

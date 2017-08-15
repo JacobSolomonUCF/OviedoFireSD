@@ -5,18 +5,43 @@ import {MD_DIALOG_DATA} from "@angular/material";
   selector: 'modal',
   template: `
     <div class="modal-backdrop"></div>
-    <div class="modal">
+    <div class="modal" [ngSwitch]="data.edit">
       <div class="modal-header">
-        {{data.body[data.properties[0]]}}
+        <div style="text-align: center">{{data.body[data.properties[0]]}}</div>
         <button md-dialog-close class="close"><i class="fa fa-times"></i></button>
       </div>
-      <div class="modal-body" *ngFor="let property of data.properties">
-        <label *ngIf="property!=='ID'">{{property}}</label><br/>
-        <input *ngIf="property!=='ID'" [value]="data.body[property]" />
+      <div class="modal-body">
+        <ng-template [ngSwitchCase]="'edit'">
+          <div *ngFor="let property of data.properties">
+            <label *ngIf="property!=='ID'">{{property}}</label><br/>
+            <input *ngIf="property!=='ID'" [value]="data.body[property]" style="margin-bottom: 2em"/>
+          </div>
+        </ng-template>
+        <ng-template [ngSwitchCase]="'view'">
+          <table>
+            <thead>
+            <th>test</th>
+            <th>test</th>
+            <th>test</th>
+            <th>test</th>
+            <th>test</th>
+            <th>test</th>
+            </thead>
+            <tr>
+              <td *ngFor="let x of data.body.data">
+                {{x}}
+              </td>
+            </tr>
+          </table>
+        </ng-template>
+        <ng-template ngSwitchDefault>
+          Unknown modal type.
+        </ng-template>
       </div>
       <div class="modal-footer">
         <div>
-          <button class="accept">Accept</button>
+          <button class="accept" *ngSwitchCase="'view'">Download</button>
+          <button class="accept" *ngSwitchCase="'edit'">Accept</button>
           <button class="cancel" md-dialog-close>Cancel</button>
         </div>
       </div>
