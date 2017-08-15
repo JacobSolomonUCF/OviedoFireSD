@@ -5,24 +5,23 @@ import {Modal} from "./modal/modal";
 @Component({
   selector: `item-table`,
   template: `
-    <div class="table">
+    <div class="table {{tableType}}-table">
       <table>
         <thead>
-        <th *ngFor="let head of heading">
-          <div>
-            {{head}}
-            <button class="fa fa-chevron-up"></button>
-            <button class="fa fa-chevron-down"></button>
-         </div>
-        </th>
+          <th *ngFor="let head of heading">
+            <div>
+              {{head}}
+              <button class="fa fa-chevron-up" *ngIf="tableType!='modal'"></button>
+              <button class="fa fa-chevron-down" *ngIf="tableType!='modal'"></button>
+           </div>
+          </th>
         </thead>
         <tbody>
-        <tr *ngFor="let row of rows" (click)="openDialog(row)">
-          <td *ngFor="let head of heading">
-            <button *ngIf="head ==='ID' && this.editing">Save</button>
-            <span *ngIf="!(head === 'ID' && this.editing)">{{row[head]}}</span>
-          </td>
-        </tr>
+          <tr *ngFor="let row of rows; let i = index" (click)="openDialog(row)">
+            <td *ngFor="let head of heading">
+              <span *ngIf="!(i!=0 && rows[i-1][heading[0]] == row[head] && heading[0] == head)">{{row[head]}}</span>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>`
@@ -38,6 +37,7 @@ export class Table {
   constructor(public dialog: MdDialog) {}
 
   openDialog(row) {
+    if (this.tableType == 'modal') return;
     this.temp = row;
     const dialog = this.dialog.open(Modal, {
       data: {properties: this.heading, body: this.temp, footer: '', edit: this.tableType}

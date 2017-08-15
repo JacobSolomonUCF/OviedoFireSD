@@ -1,8 +1,10 @@
+
 .table
-  width: calc(100% - 30px - 1em)
+  // width: calc(100% - 30px - 1em)
   background: white
   padding: 1em .5em
-  height: calc(85vh - 150px)
+  // height: calc(85vh - 150px)
+  height: calc(100vh - 250px)
   overflow-y: auto
   overflow-x: hidden
   border: 1px solid lightgray
@@ -11,17 +13,21 @@
     text-align: left
     th
       border-bottom: 3px solid lightgray
-      div
-        display: inline-flex
-        button
-          background: none
-          border: none
+    div
+      display: inline-flex
+    button
+      background: none
+      border: none
     tr
       border-bottom: 1px solid lightgray
-      td
-        padding: .5em
+    td
+      padding: .5em
 
     tr:nth-child(even)
       background-color: #f2f2f2
     tr:last-child
       border-bottom: none
+
+.modal-table
+  height: calc(80vh - 8em)
+

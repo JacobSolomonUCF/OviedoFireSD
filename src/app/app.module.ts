@@ -184,7 +184,26 @@ export class Home { }
 export class Report {
   heading: any[] = ['Name','Schedule','Status','ID'];
   reports: any[] = [
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012', data: ['a','b','c','d','e','f']},
+    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012',
+      data: {
+        heading: ['Compartment','Item','Sun','Mon','Tues','Wed','Thur','Fri','Sat'],
+        rows: [
+          {Compartment: "Driver #2",    Item: "Map",    Sun: "Okay",    Mon: 'Repair', Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'}
+        ]
+      }
+    },
     {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
     {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'}
   ];

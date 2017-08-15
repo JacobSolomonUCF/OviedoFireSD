@@ -18,21 +18,7 @@ import {MD_DIALOG_DATA} from "@angular/material";
           </div>
         </ng-template>
         <ng-template [ngSwitchCase]="'view'">
-          <table>
-            <thead>
-            <th>test</th>
-            <th>test</th>
-            <th>test</th>
-            <th>test</th>
-            <th>test</th>
-            <th>test</th>
-            </thead>
-            <tr>
-              <td *ngFor="let x of data.body.data">
-                {{x}}
-              </td>
-            </tr>
-          </table>
+          <item-table [heading]="data.body.data.heading" [rows]="data.body.data.rows" [tableType]="'modal'"></item-table>
         </ng-template>
         <ng-template ngSwitchDefault>
           Unknown modal type.
