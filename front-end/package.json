@@ -26,6 +26,8 @@
     "@angular/platform-server": "^4.0.2",
     "@angular/router": "^4.0.2",
     "@uirouter/angular": "^1.0.0-beta.4",
+    "chart.js": "^2.6.0",
+    "ng2-charts": "^1.6.0",
     "typescript": "^2.2.2",
     "zone.js": "^0.8.5"
   },
