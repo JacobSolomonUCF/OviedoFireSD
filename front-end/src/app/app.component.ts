@@ -6,4 +6,6 @@ import {Component, ViewEncapsulation} from '@angular/core';
   styleUrls: ['./menu.sass'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent { }
+export class AppComponent {
+	editList;
+}

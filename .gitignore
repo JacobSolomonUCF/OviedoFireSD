@@ -6,8 +6,9 @@
 
 ## front-end/
 
-# dependencies
-front-end/node_modules
-
 # e2e
 front-end/e2e/
+
+## all/
+node_modules
+*.log
