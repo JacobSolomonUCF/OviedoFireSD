@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {WebService} from "../services/webService";
+import {WebService} from "../../services/webService";
 
 @Component({
   template: `
@@ -10,7 +10,7 @@ import {WebService} from "../services/webService";
       <item-table [heading]="heading" [rows]="reports" [tableType]="'edit'"></item-table>
     </div>
   `
-  , styleUrls: ['../menu.sass']
+  , styleUrls: ['../../menu.sass']
 })
 export class EditReport {
   heading: any[] = ['name','frequency','status','ID'];

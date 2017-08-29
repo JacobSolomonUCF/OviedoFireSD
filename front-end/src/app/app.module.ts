@@ -1,13 +1,13 @@
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule}           from '@angular/platform-browser';
-import {Component, NgModule} from '@angular/core';
+import {NgModule}                from '@angular/core';
 import {MdDialogModule}          from '@angular/material';
 import {FormsModule}             from '@angular/forms';
 
 // login functionality
-import {AngularFireModule} from 'angularfire2';
+import {AngularFireModule}         from 'angularfire2';
+import {AngularFireAuthModule}     from 'angularfire2/auth'
 import {AngularFireDatabaseModule} from 'angularfire2/database'
-import {AngularFireAuthModule} from 'angularfire2/auth'
 
 // http request
 import {HttpClientModule} from "@angular/common/http";
@@ -21,10 +21,14 @@ import {Table}         from './table';
 import {Modal}         from './modal/modal';
 
 // pages
-import {EditUser}      from './edit/editUser';
-import {EditReport}    from './edit/editReport';
-import {EditTruck}     from './edit/editTruck';
-import {EditEquipment} from './edit/editEquipment';
+import {Home}          from "./pages/home";
+import {Report}        from "./pages/report";
+import {Statistic}     from "./pages/statistic";
+import {EditUser}      from './pages/edit/editUser';
+import {EditReport}    from './pages/edit/editReport';
+import {EditTruck}     from './pages/edit/editTruck';
+import {EditEquipment} from './pages/edit/editEquipment';
+import {Extra}         from "./pages/extra";
 
 // charts
 import {ChartsModule} from "ng2-charts/ng2-charts";
@@ -39,248 +43,6 @@ export const firebaseConfig = {
   storageBucket: "oviedofiresd-55a71.appspot.com",
   messagingSenderId: "514772607400"
 };
-
-@Component({
-  template: `
-    <div>
-      <div class="header">
-        <h1>Home</h1>
-      </div>
-
-      <div class="content">
-        <!-- top tiles -->
-        <div class="row tile_count">
-          <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
-            <div class="count">{{totalUsers}}</div>
-
-          </div>
-          <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-wrench"></i> Equipment </span>
-            <div class="count">{{equipment}}</div>
-
-          </div>
-          <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="glyphicon glyphicon-list-alt"></i> Total Reports</span>
-            <div class="count green">{{totalReports}}</div>
-
-          </div>
-          <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-tasks"></i> Reports todo</span>
-            <div style="font-size: 2em;">{{reportsToDo}}</div>
-          </div>
-        </div>
-        <br>
-
-        <div class="row">
-          <div class="pure-u-2-5 tile">
-            <div class="tile-head">
-              <h3 class="pure-u-4-5">To Do List</h3>
-              <ul class="pure-u-1-5 options" hidden>
-                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                </li>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
-                    class="fa fa-wrench"></i></a>
-                  <ul class="dropdown-menu" role="menu">
-                  </ul>
-                </li>
-                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                </li>
-              </ul>
-            </div>
-            <ul class="to-do">
-              <li *ngFor="let todo of toDoList; let i = index">
-                <div>
-                  <label class="pure-checkbox" ngSwitch="todo.complete">
-                    <input type="checkbox" *ngSwitchCase="true" checked/>
-                    <input type="checkbox" *ngSwitchDefault />
-                    {{todo.title}}
-                  </label>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="pure-u-2-5 tile">
-            <div class="tile-head">
-              <h3 class="pure-u-4-5">Settings</h3>
-              <ul class="pure-u-1-5 options" hidden>
-                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
-                    class="fa fa-wrench"></i></a>
-                  <ul class="dropdown-menu" role="menu">
-                  </ul>
-                </li>
-                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                </li>
-              </ul>
-            </div>
-            <ul class="quick-list">
-              <li><i class="pure-u-1-8 fa fa-table"></i><a uiSref="report">Reports</a></li>
-              <li><i class="pure-u-1-8 fa fa-bar-chart"></i><a uiSref="statistic">Statistics</a></li>
-              <li><i class="pure-u-1-8 fa fa-wrench"></i><a uiSref="eEquipment">Edit Equipment</a></li>
-              <li><i class="pure-u-1-8 fa fa-list-alt"></i><a uiSref="eReport">Edit Reports</a></li>
-              <li><i class="pure-u-1-8 fa fa-user"></i><a uiSref="eUser">Edit Users</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>`
-  , styleUrls: ['./menu.sass']
-})
-export class Home {
-  loading: boolean;
-  toDoList: any[];
-  equipment: number;
-  totalUsers: number;
-  reportsToDo: number;
-  totalReports: number;
-  constructor(public webService: WebService) {
-    let self = this;
-    self.loading = true;
-    webService.getHome()
-      .subscribe(function (resp) {
-        self.toDoList = resp['toDoList'];
-        self.equipment = resp['equipment'];
-        self.totalUsers = resp['totalUsers'];
-        self.reportsToDo = resp['reportsToDo'];
-        self.totalReports = resp['totalReports'];
-        console.log(resp);
-        self.loading = false;
-      });
-  }
-
-  foo() {
-    this.webService.getHome();
-  }
-}
-
-@Component({
-  template: `
-    <div class="header">
-      <h1>Report</h1>
-    </div>
-
-    <div class="content">
-      <item-table [heading]="heading" [rows]="reports" [tableType]="'view'"></item-table>
-    </div>
-  `
-  , styleUrls: ['./menu.sass']
-})
-export class Report {
-  heading: any[] = ['Name','Schedule','Status','ID'];
-  reports: any[] = [
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012',
-      data: {
-        heading: ['Compartment','Item','Sun','Mon','Tues','Wed','Thur','Fri','Sat'],
-        rows: [
-          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #2",    Item: "Map",    Sun: "Okay",    Mon: 'Repair', Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'}
-        ]
-      }
-    },
-    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014',
-      data: {
-        heading: ['Compartment','Item','Sun','Mon','Tues','Wed','Thur','Fri','Sat'],
-        rows: [
-          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #2",    Item: "Map",    Sun: "Okay",    Mon: 'Repair', Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'},
-          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'}
-        ]
-      }
-    },
-    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015',
-      data: {
-        heading: ['Compartment','Item','Status'],
-        rows: [
-          {Compartment: "Driver #1",    Item: "Horn",   Status: 'Okay'  },
-          {Compartment: "Driver #1",    Item: "Lights", Status: '    '  },
-          {Compartment: "Driver #1",    Item: "Bells",  Status: 'Okay'  },
-          {Compartment: "Driver #1",    Item: "Horn",   Status: '    '  },
-          {Compartment: "Driver #1",    Item: "Lights", Status: 'Okay'  },
-          {Compartment: "Driver #1",    Item: "Bells",  Status: 'Broken'},
-          {Compartment: "Driver #1",    Item: "Horn",   Status: '    '  },
-          {Compartment: "Driver #1",    Item: "Lights", Status: 'Okay'  },
-          {Compartment: "Driver #1",    Item: "Bells",  Status: 'Okay'  },
-          {Compartment: "Driver #2",    Item: "Map",    Status: 'Okay'  },
-          {Compartment: "Driver #2",    Item: "Radios", Status: ''      },
-          {Compartment: "Driver #2",    Item: "Radios", Status: 'Okay'  },
-          {Compartment: "Driver #2",    Item: "Radios", Status: 'Okay'  }
-        ]
-      }
-    }
-  ];
-}
-
-@Component({
-  template: `
-    <div class="header">
-      <h1>Statistic</h1>
-    </div>
-
-    <div class="content">
-      <canvas baseChart
-              [datasets]="barChartData"
-              [labels]="barChartLabels"
-              [options]="barChartOptions"
-              [legend]="barChartLegend"
-              [chartType]="barChartType"></canvas>
-    </div>
-  `
-  , styleUrls: ['./menu.sass']
-})
-export class Statistic {
-
-  public barChartOptions:any = {
-    scaleShowVerticalLines: false,
-    responsive: true
-  };
-  public barChartLabels:string[] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public barChartType:string = 'bar';
-  public barChartLegend:boolean = true;
-
-  public barChartData:any[] = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Broken'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Needs Repair'},
-    {data: [8,  18, 20, 29, 23, 47, 44], label: 'Missing'}
-  ];
-}
-
-@Component({
-  template: `
-    <div class="header">
-      <h1>Extra</h1>
-    </div>
-
-    <div class="content">
-
-    </div>
-  `
-  , styleUrls: ['./menu.sass']
-})
-export class Extra { }
 
 /** States */
 

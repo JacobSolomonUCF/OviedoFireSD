@@ -9,7 +9,7 @@ import {Component} from "@angular/core";
       <item-table [heading]="heading" [rows]="reports" [tableType]="'edit'"></item-table>
     </div>
   `
-  , styleUrls: ['../menu.sass']
+  , styleUrls: ['../../menu.sass']
 })
 export class EditEquipment {
   activeModal: boolean = false;
