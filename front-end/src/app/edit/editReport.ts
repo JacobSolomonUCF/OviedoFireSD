@@ -1,4 +1,5 @@
 import {Component} from "@angular/core";
+import {WebService} from "../services/webService";
 
 @Component({
   template: `
@@ -12,23 +13,22 @@ import {Component} from "@angular/core";
   , styleUrls: ['../menu.sass']
 })
 export class EditReport {
-  activeModal: boolean = false;
-  heading: any[] = ['Name','Schedule','Status','ID'];
-  reports: any[] = [
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
-    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
-    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'},
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
-    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
-    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'},
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
-    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
-    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'},
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
-    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
-    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'},
-    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012'},
-    {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014'},
-    {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015'}
-  ];
+  heading: any[] = ['name','schedule','status','ID'];
+  reports: any[];
+
+  constructor(public webService: WebService) {
+    let self = this;
+    webService.get('/reports')
+      .subscribe(resp => {
+        self.reports = resp['reportsList'].map(function (x) {
+          switch(x.schedule.length) {
+            case 7:  x['schedule'] = 'Daily';  break;
+            case 1:  x['schedule'] = 'Weekly'; break;
+            case 0:  x['schedule'] = 'Error';  break;
+            default: x['schedule'] = 'Custom'; break;
+          }
+          return x;
+        })
+      });
+  }
 }
