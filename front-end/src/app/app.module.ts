@@ -1,24 +1,34 @@
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule}           from '@angular/platform-browser';
-import {Component, NgModule}     from '@angular/core';
+import {Component, NgModule} from '@angular/core';
 import {MdDialogModule}          from '@angular/material';
 import {FormsModule}             from '@angular/forms';
 
+// login functionality
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabaseModule} from 'angularfire2/database'
 import {AngularFireAuthModule} from 'angularfire2/auth'
 
+// http request
+import {HttpClientModule} from "@angular/common/http";
+
+// page switching
 import {UIRouterModule} from '@uirouter/angular';
 import {AppComponent}   from './app.component';
 
+// custom directives
 import {Table}         from './table';
 import {Modal}         from './modal/modal';
+
+// pages
 import {EditUser}      from './edit/editUser';
 import {EditReport}    from './edit/editReport';
 import {EditTruck}     from './edit/editTruck';
 import {EditEquipment} from './edit/editEquipment';
 
-import { ChartsModule } from "ng2-charts/ng2-charts";
+// charts
+import {ChartsModule} from "ng2-charts/ng2-charts";
+import {WebService} from "./services/webService";
 
 // Initialize Firebase
 export const firebaseConfig = {
@@ -42,39 +52,24 @@ export const firebaseConfig = {
         <div class="row tile_count">
           <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
-            <div class="count">7</div>
+            <div class="count">{{totalUsers}}</div>
 
           </div>
           <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-wrench"></i> Equipment </span>
-            <div class="count">123</div>
+            <div class="count">{{equipment}}</div>
 
           </div>
           <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="glyphicon glyphicon-list-alt"></i> Total Reports</span>
-            <div class="count green">7</div>
+            <div class="count green">{{totalReports}}</div>
 
           </div>
           <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-tasks"></i> Reports todo</span>
-            <div style="font-size: 2em;">3</div>
+            <div style="font-size: 2em;">{{reportsToDo}}</div>
           </div>
         </div>
-        <!-- /top tiles -->
-
-        <!--<div class="row">-->
-        <!--<div class="col-md-12 col-sm-12 col-xs-12">-->
-        <!--<div class="dashboard_graph">-->
-        <!--<div class="row x_title">-->
-        <!--<div class="col-md-6">-->
-        <!--<h3> Home </h3>-->
-        <!--</div>-->
-
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <!--</div>-->
         <br>
 
         <div class="row">
@@ -182,7 +177,30 @@ export const firebaseConfig = {
     </div>`
   , styleUrls: ['./menu.sass']
 })
-export class Home { }
+export class Home {
+  totalUsers: number;
+  equipment: number;
+  totalReports: number;
+  reportsToDo: number;
+  loading: boolean;
+  constructor(public webService: WebService) {
+    let self = this;
+    self.loading = true;
+    webService.getHome()
+      .subscribe(function (resp) {
+        self.totalUsers = resp['totalUsers'];
+        self.equipment = resp['equipment'];
+        self.totalReports = resp['totalReports'];
+        self.reportsToDo = resp['reportsToDo'];
+        console.log(resp);
+        self.loading = false;
+      });
+  }
+
+  foo() {
+    this.webService.getHome();
+  }
+}
 
 @Component({
   template: `
@@ -335,10 +353,10 @@ let states = [
     ChartsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
-
+    AngularFireAuthModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [WebService],
   bootstrap: [AppComponent],
   entryComponents: [Modal]
 })
