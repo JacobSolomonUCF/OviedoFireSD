@@ -1,141 +1,4 @@
 
-/*!
- * Bootstrap v2.3.2
- *
- * Copyright 2012 Twitter, Inc
- * Licensed under the Apache License v2.0
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Designed and built with all the love in the world @twitter by @mdo and @fat.
- */
-
-.modal-backdrop
-  position: fixed
-  top: 0
-  right: 0
-  left: 0
-  height: 100vh
-  width: 100vw
-  background: rgba(37, 34, 34, 0.48)
-  z-index: 1000
-
-  .fade
-    opacity: 0
-
-  .in
-    opacity: 0.8
-    filter: alpha(opacity=80)
-
-
-.modal
-  position: fixed
-  top: 0
-  margin: 10vh 10vw
-  width: 80vw
-  height: calc(100vh - 20vh)
-  /* margin-left: -280px */
-  z-index: 1001
-  background-color: #ffffff
-  border: 1px solid #999
-  -webkit-border-radius: 6px
-  outline: none
-  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3)
-  -webkit-background-clip: padding-box
-
-
-  .fade
-    top: -25%
-    -webkit-transition: opacity 0.3s linear, top 0.3s ease-out
-
-    .in
-      top: 10%
-
-
-.modal-header
-  padding: 9px 15px
-  border-bottom: 1px solid #eee
-  border-radius: 0 3px 0 0
-  background: lightgray
-
-  .close
-    position: absolute
-    right: .35em
-    border: 0
-    background: transparent
-    top: .35em
-
-  h3
-    margin: 0
-    line-height: 30px
-
-
-.modal-body
-  position: relative
-  // overflow-y: auto // not needed?
-
-
-.modal-form
-  margin-bottom: 0
-
-
-.modal-footer
-  position: absolute
-  height: 3em
-  width: 80vw
-  bottom: 0
-  margin-bottom: 0
-  text-align: right
-  background-color: #f5f5f5
-  border-top: 1px solid #ddd
-  border-radius: 0 0 6px 6px
-  *zoom: 1
-  -webkit-box-shadow: inset 0 1px 0 #ffffff
-  div
-    margin-top: .3em
-    margin-right: .3em
-    .accept
-      background: #337ab7
-      color: white
-      border-radius: 3px
-    .cancel
-      border: none
-      background: transparent
-
-
-.modal-footer:before,
-.modal-footer:after
-  display: table
-  line-height: 0
-  content: ""
-
-
-.modal-footer:after
-  clear: both
-
-
-.modal-footer .btn + .btn
-  margin-bottom: 0
-  margin-left: 5px
-
-.modal-footer .btn-group .btn + .btn
-  margin-left: -1px
-
-.modal-footer .btn-block + .btn-block
-  margin-left: 0
-
-.hide
-  display: none
-
-.show
-  display: block
-
-.fade
-  opacity: 0
-  -webkit-transition: opacity 0.15s linear
-
-.fade.in
-  opacity: 1
-
 html, body
   height: 100%
   color: #777
@@ -151,6 +14,16 @@ html, body
 
 /*
  *Add transition to containers so they can push in and out.
+
+ul
+  &.quick-list
+    li
+      i
+        vertical-align: baseline
+      a
+        font-weight: bold
+        color: unset
+        text-decoration: none
 
 #layout, #menu, .menu-link
   -webkit-transition: all 0.2s ease-out
@@ -210,6 +83,8 @@ html, body
       display: inline-block
 
     .to-do
+      max-height: 250px
+      overflow-y: scroll
       li
         padding: .1em
         width: inherit

@@ -76,7 +76,7 @@ export const firebaseConfig = {
           <div class="pure-u-2-5 tile">
             <div class="tile-head">
               <h3 class="pure-u-4-5">To Do List</h3>
-              <ul class="pure-u-1-5 options">
+              <ul class="pure-u-1-5 options" hidden>
                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                 </li>
                 <li class="dropdown">
@@ -90,59 +90,12 @@ export const firebaseConfig = {
               </ul>
             </div>
             <ul class="to-do">
-              <li>
+              <li *ngFor="let todo of toDoList; let i = index">
                 <div>
-                  <label class="pure-checkbox">
-                    <input type="checkbox" checked>
-                    ATV 46 Checklist
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div>
-                  <label class="pure-checkbox">
-                    <input type="checkbox">
-                    Engine 44 Checklist
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div>
-                  <label class="pure-checkbox">
-                    <input type="checkbox">
-                    Engine 46 Checklist
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div>
-                  <label class="pure-checkbox">
-                    <input type="checkbox">
-                    Engine 48 Checklist
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div>
-                  <label class="pure-checkbox">
-                    <input type="checkbox">
-                    Rescue 44 Checklist
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div>
-                  <label class="pure-checkbox">
-                    <input type="checkbox">
-                    Rescue 46 Checklist
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div>
-                  <label class="pure-checkbox">
-                    <input type="checkbox">
-                    Ladder Checklist
+                  <label class="pure-checkbox" ngSwitch="todo.complete">
+                    <input type="checkbox" *ngSwitchCase="true" checked/>
+                    <input type="checkbox" *ngSwitchDefault />
+                    {{todo.title}}
                   </label>
                 </div>
               </li>
@@ -151,9 +104,8 @@ export const firebaseConfig = {
           <div class="pure-u-2-5 tile">
             <div class="tile-head">
               <h3 class="pure-u-4-5">Settings</h3>
-              <ul class="pure-u-1-5 options">
-                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                </li>
+              <ul class="pure-u-1-5 options" hidden>
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
                     class="fa fa-wrench"></i></a>
@@ -179,6 +131,7 @@ export const firebaseConfig = {
 })
 export class Home {
   loading: boolean;
+  toDoList: any[];
   equipment: number;
   totalUsers: number;
   reportsToDo: number;
@@ -188,10 +141,11 @@ export class Home {
     self.loading = true;
     webService.getHome()
       .subscribe(function (resp) {
-        self.totalUsers = resp['totalUsers'];
+        self.toDoList = resp['toDoList'];
         self.equipment = resp['equipment'];
-        self.totalReports = resp['totalReports'];
+        self.totalUsers = resp['totalUsers'];
         self.reportsToDo = resp['reportsToDo'];
+        self.totalReports = resp['totalReports'];
         console.log(resp);
         self.loading = false;
       });
