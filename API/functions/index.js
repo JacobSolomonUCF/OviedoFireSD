@@ -17,27 +17,44 @@ function getAuth(uid, callback) {
 	});
 }
 
-function getDay() {
+function getTime() {
+    var weekday = new Array(7);
+    weekday[0] = "sunday";
+    weekday[1] = "monday";
+    weekday[2] = "tuesday";
+    weekday[3] = "wednesday";
+    weekday[4] = "thursday";
+    weekday[5] = "friday";
+    weekday[6] = "saturday";
+
 	var offset = -5.0;
 	var serverDate = new Date();
 	var utc = serverDate.getTime() + (serverDate.getTimezoneOffset() * 60000);
 	var easternDate = new Date(utc + (3600000*offset));
+    var yearMonth = easternDate.getFullYear().toString() + pad(easternDate.getMonth() + 1).toString();
+    var today = easternDate.getDay();
 
-	var weekday = new Array(7);
-	weekday[0] = "sunday";
-	weekday[1] = "monday";
-	weekday[2] = "tuesday";
-	weekday[3] = "wednesday";
-	weekday[4] = "thursday";
-	weekday[5] = "friday";
-	weekday[6] = "saturday";
+    var datestamp = easternDate.getFullYear().toString() + pad(easternDate.getMonth() + 1).toString() + pad(easternDate.getDate()).toString();
+    var weekstamps = [];
 
-	var today = {
-		"weekday": weekday[easternDate.getDay()],
-		"datestamp": pad(easternDate.getMonth() + 1).toString() + pad(easternDate.getDate()).toString() + easternDate.getFullYear().toString()
+    easternDate.setDate(easternDate.getDate() - weekday.indexOf(weekday[today]));
+    var sunday = easternDate.getFullYear().toString() + pad(easternDate.getMonth() + 1).toString() + pad(easternDate.getDate()).toString();
+    weekstamps.push(sunday);
+
+    for(var i = 0; i < 6; i++) {
+        easternDate.setDate(easternDate.getDate() + 1);
+        var day = easternDate.getFullYear().toString() + pad(easternDate.getMonth() + 1).toString() + pad(easternDate.getDate()).toString();
+        weekstamps.push(day);
+    }
+
+	var time = {
+        "yearMonth": yearMonth,
+		"weekday": weekday[today],
+        "datestamp": datestamp,
+		"weekstamps": weekstamps
 	}
 
-	return today;
+	return time;
 }
 
 function pad(n) {
@@ -194,50 +211,70 @@ exports.home = functions.https.onRequest((req, res) => {
 				if(auth != 401) {
 					if(auth == 0) {
 						admin.database().ref('/').once('value', function(snap) {
+                            // initialize data variables
 							var root = snap.val();
 							var intervals = root.forms.intervals;
 							var results = root.forms.results;
 							var templates = root.forms.templates;
-							var forms = Object.keys(templates);
-							var today = getDay();
+                            var inventory = root.inventory;
+                            var users = root.users
+							var forms = Object.keys(intervals);
+							var time = getTime();
 
+                            // initialize return variables
 							var totalUsers = Object.keys(root.users).length;
 							var equipment = 0;
 							var totalReports = 0;
 							var reportsToDo = 0;
 							var toDoList = [];
 
-							var numTrucks = Object.keys(root.inventory).length;
+                            // recursively count equipment in inventory
+							var numTrucks = Object.keys(inventory).length;
 							for(var i = 0; i < numTrucks; i++) {
-								var truck = Object.keys(root.inventory)[i];
-								var numCompartments = Object.keys(root.inventory[truck]).length;
+								var truck = Object.keys(inventory)[i];
+								var numCompartments = Object.keys(inventory[truck]).length;
 								for(var j = 0; j < numCompartments; j++) {
-										var compartment = Object.keys(root.inventory[truck])[j];
-										var numEquipment = Object.keys(root.inventory[truck][compartment]).length;
+										var compartment = Object.keys(inventory[truck])[j];
+										var numEquipment = Object.keys(inventory[truck][compartment]).length;
 										equipment += numEquipment;
 								}
 							}
 
+                            // run through available forms and add to counters and todo list
 							var complete;
 							for(var i = 0; i < forms.length; i++) {
-								if(intervals[forms[i]].days[today.weekday]) {
+								if(intervals[forms[i]].days[time.weekday]) {
+                                    // add report to count for the day
 									totalReports++;
 
-									if(Object.keys(results[forms[i]]).includes(today.datestamp)) {
-										complete = true;
-									} else {
-										reportsToDo++;
-										complete = false;
-									}
+                                    // check to see if the report has been completed
+                                    if(results && results[forms[i]]) {
+    									if(Object.keys(results[forms[i]]).includes(time.datestamp)) {
+    										complete = true;
+    									} else {
+    										complete = false;
+    									}
+                                    } else {
+                                        complete = false;
+                                    }
 
+                                    // add report to todo count for the day
+                                    if(!complete) {
+                                        reportsToDo++;
+                                    }
+
+                                    // create item for todo list
 									var toDoItem = {
 										"title": templates[forms[i]].title,
 										"complete": complete
 									};
+
+                                    // add item to todo list
 									toDoList.push(toDoItem);
 								}
 							}
 
+                            // create JSON response object
 							var home = {
 								"totalUsers": totalUsers,
 								"equipment": equipment,
@@ -245,6 +282,8 @@ exports.home = functions.https.onRequest((req, res) => {
 								"reportsToDo": reportsToDo,
 								"toDoList": toDoList
 							};
+
+                            // send response
 							res.status(200).send(home);
 						});
 					} else {
@@ -263,77 +302,80 @@ exports.home = functions.https.onRequest((req, res) => {
 });
 
 exports.reports = functions.https.onRequest((req, res) => {
-	if(req.method == "GET") {
-		if(req.query.uid) {
-			getAuth(req.query.uid, function(auth) {
-				if(auth != 401) {
-					if(auth == 0) {
-						admin.database().ref('/').once('value', function(snap) {
-							var root = snap.val();
-							var intervals = root.forms.intervals;
-							var results = root.forms.results;
-							var templates = root.forms.templates;
-							var forms = Object.keys(templates);
-							var today = getDay();
+    if(req.method == "GET") {
+        if(req.query.uid) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0) {
+                        admin.database().ref('/').once('value', function(snap) {
+                            // initialize data variables
+                            var root = snap.val();
+                            var intervals = root.forms.intervals;
+                            var results = root.forms.results;
+                            var templates = root.forms.templates;
+                            var inventory = root.inventory;
+                            var users = root.users
+                            var forms = Object.keys(intervals);
+                            var time = getTime();
 
-							var name;
-							var schedule = [];
-							var status;
-							var id;
+                            // initialize return variables
+                            var reportsList = [];
+                            var name;
+                            var schedule;
+                            var status;
+                            var id;
 
-							var reportsList = [];
-							for(var i = 0; i < forms.length; i++) {
-								schedule = [];
-								name = templates[forms[i]].title;
-								for(var j = 0; j < Object.keys(intervals[forms[i]].days).length; j++) {
-									if(intervals[forms[i]].days[Object.keys(intervals[forms[i]].days)[j]]) {
-										schedule.push(Object.keys(intervals[forms[i]].days)[j]);
-									}
-								}
+                            // run through all forms in the database
+                            for(var i = 0; i < forms.length; i++) {
+                                // set name of the report
+                                name = templates[forms[i]].title;
 
-								var sorter = {
-									"sunday": 0,
-									"monday": 1,
-									"tuesday": 2,
-									"wednesday": 3,
-									"thursday": 4,
-									"friday": 5,
-									"saturday": 6
-								}
+                                // set schedule of the report
+                                schedule = intervals[forms[i]].frequency;
 
-								schedule.sort(function sortByDay(day1, day2) {
-									return sorter[day1] > sorter[day2];
-								});
+                                // check to see if the form has been completed
+                                status = "Incomplete";
+                                if(results && results[forms[i]]) {
+                                    var timestamps = Object.keys(results[forms[i]]);
+                                    if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
+                                        status = "Complete";
+                                    } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                        status = "Complete";
+                                    } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                        status = "Complete";
+                                    }
+                                }
 
-								if(Object.keys(results[forms[i]]).includes(today.datestamp)) {
-									status = "Complete";
-								} else {
-									reportsToDo++;
-									status = "Not Complete";
-								}
-								id = forms[i];
-								var report = {
-									"name": name,
-									"schedule": schedule,
-									"status": status,
-									"id": id
-								};
-								reportsList.push(report);
-							}
-							var reports = {reportsList};
-							res.status(200).send(reports);
-						});
-					} else {
-						res.status(403).send("The request violates the user's permission level");
-					}
-				} else {
-					res.status(401).send('The user is not authorized for access');
-				}
-			});
-		} else {
-			res.status(400).send("Missing 'uid' parameter");
-		}
-	} else {
-		res.sendStatus(404);
-	}
+                                // set id of the report
+                                id = forms[i];
+
+                                // create JSON object for the array
+                                var report = {
+                                    "name": name,
+                                    "schedule": schedule,
+                                    "status": status,
+                                    "id": id
+                                };
+                                reportsList.push(report);
+                            }
+
+                            // create JSON response object
+                            var reports = {reportsList};
+
+                            // send response
+                            res.status(200).send(reports);
+                        });
+                    } else {
+                        res.status(403).send("The request violates the user's permission level");
+                    }
+                } else {
+                    res.status(401).send('The user is not authorized for access');
+                }
+            });
+        } else {
+            res.status(400).send("Missing 'uid' parameter");
+        }
+    } else {
+        res.sendStatus(404);
+    }
 });
