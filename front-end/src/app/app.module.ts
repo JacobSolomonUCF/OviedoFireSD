@@ -4,6 +4,10 @@ import {Component, NgModule}     from '@angular/core';
 import {MdDialogModule}          from '@angular/material';
 import {FormsModule}             from '@angular/forms';
 
+import {AngularFireModule} from 'angularfire2';
+import {AngularFireDatabaseModule} from 'angularfire2/database'
+import {AngularFireAuthModule} from 'angularfire2/auth'
+
 import {UIRouterModule} from '@uirouter/angular';
 import {AppComponent}   from './app.component';
 
@@ -15,6 +19,16 @@ import {EditTruck}     from './edit/editTruck';
 import {EditEquipment} from './edit/editEquipment';
 
 import { ChartsModule } from "ng2-charts/ng2-charts";
+
+// Initialize Firebase
+export const firebaseConfig = {
+  apiKey: "AIzaSyDiF2EZj3ljA0Jrwafuq67de4ptk1r_usE",
+  authDomain: "oviedofiresd-55a71.firebaseapp.com",
+  databaseURL: "https://oviedofiresd-55a71.firebaseio.com",
+  //projectId: "oviedofiresd-55a71",
+  storageBucket: "oviedofiresd-55a71.appspot.com",
+  messagingSenderId: "514772607400"
+};
 
 @Component({
   template: `
@@ -161,7 +175,6 @@ import { ChartsModule } from "ng2-charts/ng2-charts";
               <li><i class="pure-u-1-8 fa fa-wrench"></i><a uiSref="eEquipment">Edit Equipment</a></li>
               <li><i class="pure-u-1-8 fa fa-list-alt"></i><a uiSref="eReport">Edit Reports</a></li>
               <li><i class="pure-u-1-8 fa fa-user"></i><a uiSref="eUser">Edit Users</a></li>
-              <li><i class="pure-u-1-8 fa fa-power-off"></i><a uiSref="eLogout">Logout</a></li>
             </ul>
           </div>
         </div>
@@ -319,7 +332,11 @@ let states = [
     UIRouterModule.forRoot({ states: states, useHash: true }),
     MdDialogModule,
     FormsModule,
-    ChartsModule
+    ChartsModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
+
   ],
   providers: [],
   bootstrap: [AppComponent],
