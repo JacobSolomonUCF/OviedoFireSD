@@ -178,11 +178,11 @@ export const firebaseConfig = {
   , styleUrls: ['./menu.sass']
 })
 export class Home {
-  totalUsers: number;
-  equipment: number;
-  totalReports: number;
-  reportsToDo: number;
   loading: boolean;
+  equipment: number;
+  totalUsers: number;
+  reportsToDo: number;
+  totalReports: number;
   constructor(public webService: WebService) {
     let self = this;
     self.loading = true;

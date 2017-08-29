@@ -7,7 +7,7 @@ import {Modal} from "./modal/modal";
   template: `
     <div class="table {{tableType}}-table">
       <table>
-        <thead>
+        <thead style="text-transform: capitalize">
           <th *ngFor="let head of heading">
             <div>
               {{head}}
