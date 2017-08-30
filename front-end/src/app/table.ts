@@ -31,7 +31,6 @@ export class Table {
   @Input() heading: string[];
   @Input() rows: any[];
   @Input() tableType: any;
-  editing: boolean = false;
   temp: any[];
 
   constructor(public dialog: MdDialog) {}

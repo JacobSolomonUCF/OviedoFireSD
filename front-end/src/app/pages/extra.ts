@@ -1,4 +1,5 @@
 import {Component} from "@angular/core";
+import {WebService} from "../services/webService";
 
 @Component({
   template: `
@@ -12,4 +13,7 @@ import {Component} from "@angular/core";
   `
   , styleUrls: ['../menu.sass']
 })
-export class Extra { }
+export class Extra {
+  constructor(webService: WebService) {
+    webService.setState('extras');
+  }}

@@ -1,4 +1,5 @@
 import {Component} from "@angular/core";
+import {WebService} from "../../services/webService";
 
 @Component({
   template: `
@@ -31,4 +32,8 @@ export class EditEquipment {
     {Name: "SCBA Masks",   Truck: "Engine 44", Compartment: "Officer Side #2", Condition: 'Needs Repair', ID: '10014'},
     {Name: "Water Gear",   Truck: "Rescue 44", Compartment: "Driver #2",       Condition: 'Okay',         ID: '10015'}
   ];
+
+  constructor(webService: WebService) {
+    webService.setState('eEquipment');
+  }
 }
