@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		165023A71F56130300FF3DD4 /* Deep Space.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 165023A61F56130300FF3DD4 /* Deep Space.jpg */; };
+		1654E39E1F563484002C43C6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1654E39D1F563484002C43C6 /* HomeViewController.swift */; };
 		16A90AE71F560C7C00F50919 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AE61F560C7C00F50919 /* AppDelegate.swift */; };
 		16A90AE91F560C7C00F50919 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AE81F560C7C00F50919 /* ViewController.swift */; };
 		16A90AEC1F560C7C00F50919 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A90AEA1F560C7C00F50919 /* Main.storyboard */; };
@@ -15,6 +16,8 @@
 		16A90AF11F560C7C00F50919 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A90AEF1F560C7C00F50919 /* LaunchScreen.storyboard */; };
 		16A90AFC1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AFB1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift */; };
 		16A90B071F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */; };
+		16B859851F5640FE005E38E2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B859841F5640FE005E38E2 /* LoginViewController.swift */; };
+		16C238A91F570E570036B615 /* offTruckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C238A71F570E570036B615 /* offTruckViewController.swift */; };
 		16CF46911F560CB70063834B /* 50 Shades of Grey.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16CF468C1F560CB70063834B /* 50 Shades of Grey.jpg */; };
 		16CF46921F560CB70063834B /* Hydrogen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16CF468D1F560CB70063834B /* Hydrogen.jpg */; };
 		16CF46931F560CB70063834B /* Learning and Leading.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16CF468E1F560CB70063834B /* Learning and Leading.jpg */; };
@@ -41,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		165023A61F56130300FF3DD4 /* Deep Space.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Deep Space.jpg"; sourceTree = "<group>"; };
+		1654E39D1F563484002C43C6 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		16A90AE31F560C7C00F50919 /* Oviedo Fire iOS Application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Oviedo Fire iOS Application.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16A90AE61F560C7C00F50919 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		16A90AE81F560C7C00F50919 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,6 +58,8 @@
 		16A90B021F560C7C00F50919 /* Oviedo Fire iOS ApplicationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Oviedo Fire iOS ApplicationUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oviedo_Fire_iOS_ApplicationUITests.swift; sourceTree = "<group>"; };
 		16A90B081F560C7C00F50919 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16B859841F5640FE005E38E2 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		16C238A71F570E570036B615 /* offTruckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = offTruckViewController.swift; sourceTree = "<group>"; };
 		16CF468C1F560CB70063834B /* 50 Shades of Grey.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "50 Shades of Grey.jpg"; sourceTree = "<group>"; };
 		16CF468D1F560CB70063834B /* Hydrogen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Hydrogen.jpg; sourceTree = "<group>"; };
 		16CF468E1F560CB70063834B /* Learning and Leading.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Learning and Leading.jpg"; sourceTree = "<group>"; };
@@ -113,6 +119,9 @@
 				16A90AE61F560C7C00F50919 /* AppDelegate.swift */,
 				16A90AE81F560C7C00F50919 /* ViewController.swift */,
 				16A90AEA1F560C7C00F50919 /* Main.storyboard */,
+				16C238A71F570E570036B615 /* offTruckViewController.swift */,
+				16B859841F5640FE005E38E2 /* LoginViewController.swift */,
+				1654E39D1F563484002C43C6 /* HomeViewController.swift */,
 				16A90AED1F560C7C00F50919 /* Assets.xcassets */,
 				16A90AEF1F560C7C00F50919 /* LaunchScreen.storyboard */,
 				16A90AF21F560C7C00F50919 /* Info.plist */,
@@ -294,8 +303,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16B859851F5640FE005E38E2 /* LoginViewController.swift in Sources */,
 				16A90AE91F560C7C00F50919 /* ViewController.swift in Sources */,
 				16A90AE71F560C7C00F50919 /* AppDelegate.swift in Sources */,
+				16C238A91F570E570036B615 /* offTruckViewController.swift in Sources */,
+				1654E39E1F563484002C43C6 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
