@@ -17,7 +17,7 @@ import {Modal} from "./modal/modal";
           </th>
         </thead>
         <tbody>
-          <tr *ngFor="let row of rows; let i = index" (click)="openDialog(row)">
+          <tr *ngFor="let row of rows; let i = index" (click)="openDialog(row)" class="{{tableType}}-table-row">
             <td *ngFor="let head of heading">
               <span *ngIf="!(i!=0 && rows[i-1][heading[0]] == row[head] && heading[0] == head)">{{row[head]}}</span>
             </td>

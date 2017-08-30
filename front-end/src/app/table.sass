@@ -18,7 +18,11 @@
     button
       background: none
       border: none
+
+    .modal-table-row
+      cursor: default
     tr
+      cursor: pointer
       border-bottom: 1px solid lightgray
     td
       padding: .5em 0
@@ -27,6 +31,9 @@
       background-color: #f2f2f2
     tr:last-child
       border-bottom: none
+
+    tr:hover
+      background-color: darken(#f2f2f2, 10%)
 
 .modal-table
   height: calc(80vh - 8em)

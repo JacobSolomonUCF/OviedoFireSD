@@ -3,7 +3,7 @@ import {Component} from "@angular/core";
 @Component({
   template: `
     <div class="header">
-      <h1>Statistic</h1>
+      <h1>Statistics</h1>
     </div>
 
     <div class="content">
