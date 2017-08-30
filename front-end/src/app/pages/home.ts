@@ -101,6 +101,7 @@ export class Home {
   constructor(public webService: WebService) {
     let self = this;
     self.loading = true;
+    webService.setState('home');
     webService.getHome()
       .subscribe(function (resp) {
         self.toDoList = resp['toDoList'];

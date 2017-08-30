@@ -18,6 +18,10 @@ export class AppComponent {
     this.user = this.afAuth.authState;
   }
 
+  checkState() {
+    return this.webService.checkState();
+  }
+
   login(email, password) {
     this.webService.login(email, password);
   }

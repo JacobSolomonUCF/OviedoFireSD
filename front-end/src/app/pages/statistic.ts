@@ -1,9 +1,10 @@
 import {Component} from "@angular/core";
+import {WebService} from "../services/webService";
 
 @Component({
   template: `
     <div class="header">
-      <h1>Statistic</h1>
+      <h1>Statistics</h1>
     </div>
 
     <div class="content">
@@ -32,4 +33,8 @@ export class Statistic {
     {data: [28, 48, 40, 19, 86, 27, 90], label: 'Needs Repair'},
     {data: [8,  18, 20, 29, 23, 47, 44], label: 'Missing'}
   ];
+
+  constructor(webService: WebService) {
+    webService.setState('statistics');
+  }
 }
