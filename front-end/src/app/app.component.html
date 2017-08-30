@@ -27,7 +27,32 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<div id="layout">
+
+  <div id="login" *ngIf="(user | async)?.uid == undefined">
+  <div style="background-color: #6c0505; color: white; text-align: center; font-size: 3em; padding-top: 5vh; padding-bottom: 5vh">
+    <i class="fa fa-fire-extinguisher" style="border: 2px solid #EAEAEA;padding: 7px 8px;border-radius: 50%"></i><span>&nbsp;Oviedo Fire</span>
+  </div>
+  <!--<div class="pure-u-1" style="height: 20vh; text-align: center; background-color: #6c0505; color: white"><h1><i class="fa fa-fire-extinguisher"></i>Oviedo Fire</h1></div>-->
+  <form class="pure-form pure-form-aligned" style="text-align: center; padding-top: 5vh">
+    <fieldset>
+      <div class="pure-control-group">
+        <label for="email">Email Address</label>
+        <input #email id="email" type="email" placeholder="Email Address">
+      </div>
+      <div class="pure-control-group">
+        <label for="password">Password</label>
+        <input #password id="password" type="password" placeholder="Password">
+      </div>
+
+      <div class="pure-controls">
+        <button type="submit" class="pure-button pure-button-primary"
+                (click)="login(email.value, password.value)">Login</button>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div id="layout" *ngIf="(user | async)?.uid">
   <!-- Menu toggle -->
   <a href="#menu" id="menuLink" class="menu-link">
     <!-- Hamburger icon -->
@@ -37,37 +62,20 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
   <div>
     <div id="menu" class>
       <div class="pure-menu">
-        <a class="pure-menu-heading" uiSref="home" style="text-transform: capitalize">
+        <a class="pure-menu-heading" uiSref="home">
           <i class="fa fa-fire-extinguisher"></i>&nbsp;Oviedo Fire
         </a>
 
         <ul class="pure-menu-list">
-          <li class="pure-menu-item"><br/></li>
-          <li class="pure-menu-item"><br/></li>
-          <li class="pure-menu-item"><span style="padding: 1em; color: #9a9810">Welcome,</span></li>
-          <li class="pure-menu-item"><span style="padding: 1em; color: white">Nichlaus Dorey</span><!--span>{{user.name}}</span--></li>
-          <li class="pure-menu-item"><br/></li>
-
-          <!--a class="nav-button"
-             ng-repeat="link in portal.navigation"
-             eco-security
-             data-eco-security-show="link.show"
-             data-eco-security-disable="link.enable"
-             data-eco-security-authorities="portal.permissions"
-             ui-sref="portal.{{link.prefix}}{{link.short}}"
-             ng-class="{'active': activeTab === '{{link.short}}'}"
-             ng-click="portal.menuOpen = false; portal.optionsOpen = false;">
-            <div class="nav-icon-wrapper" id="{{link.short}}">
-              <i class="fa {{link.icon}}" aria-hidden="true"></i>
-            </div>
-            <div class="nav-name">{{link.title}}</div>
-            <div class="nav-arrow">
-              <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
-            </div>
-          </a-->
+          <!--<li class="pure-menu-item"><br/></li>-->
+          <!--<li class="pure-menu-item"><br/></li>-->
+          <!--<li class="pure-menu-item"><span style="padding: 1em; color: #9a9810">Welcome,</span></li>-->
+          <!--<li class="pure-menu-item"><span style="padding: 1em; color: white">Nichlaus Dorey</span>&lt;!&ndash;span>{{user.name}}</span&ndash;&gt;</li>-->
+          <!--<li class="pure-menu-item"><br/></li>-->
 
           <div class="pure-menu-scrollable" style="overflow: hidden">
-            <li class="pure-menu-item">
+            <li></li>
+            <li class="pure-menu-item {{(this.checkState() === 'home') ? 'active' : ''}}">
               <a class="pure-menu-link"
                  uiSref="home">
                 <i class="fa fa-home"></i>
@@ -75,14 +83,14 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
                 <i class="fa fa-chevron-right"></i>
               </a>
             </li>
-            <li class="pure-menu-item">
+            <li class="pure-menu-item {{(this.checkState() === 'reports') ? 'active' : ''}}">
               <a uiSref="report" class="pure-menu-link">
                 <i class="fa fa-table"></i>
                 <span>&nbsp;Reports</span>
                 <i class="fa fa-chevron-right"></i>
               </a>
             </li>
-            <li class="pure-menu-item">
+            <li class="pure-menu-item {{(this.checkState() === 'statistics') ? 'active' : ''}}">
               <a uiSref="statistic" class="pure-menu-link">
                 <i class="fa fa-bar-chart"></i>
                 <span>&nbsp;Statistics</span>
@@ -98,162 +106,32 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
               </a>
             </li>
             <ul *ngIf="this.editList" style="background: #6c0505">
-              <li><a uiSref="eEquipment" class="pure-menu-link">Equipment</a></li>
-              <li><a uiSref="eReport" class="pure-menu-link">Reports</a></li>
-              <li><a uiSref="eTruck" class="pure-menu-link">Trucks</a></li>
-              <li><a uiSref="eUser" class="pure-menu-link">Users</a></li>
+              <li class="pure-menu-item {{(this.checkState() === 'eEquipment') ? 'active' : ''}}">
+                <a uiSref="eEquipment" class="pure-menu-link">Equipment</a>
+              </li>
+              <li class="pure-menu-item {{(this.checkState() === 'eReport') ? 'active' : ''}}">
+                <a uiSref="eReport" class="pure-menu-link">Reports</a>
+              </li>
+              <li class="pure-menu-item {{(this.checkState() === 'eTruck') ? 'active' : ''}}">
+                <a uiSref="eTruck" class="pure-menu-link">Trucks</a>
+              </li>
+              <li class="pure-menu-item {{(this.checkState() === 'eUser') ? 'active' : ''}}">
+                <a uiSref="eUser" class="pure-menu-link">Users</a>
+              </li>
             </ul>
           </div>
-          <li class="pure-menu-item"><a uiSref="extra" class="pure-menu-link"><i
+          <li class="pure-menu-item {{(this.checkState() === 'extras') ? 'active' : ''}}"><a uiSref="extra" class="pure-menu-link"><i
             class="fa fa-cogs"></i><span>&nbsp;Extras</span><i
             class="fa fa-chevron-right"></i></a></li>
-          <li class="pure-menu-item"><a uiSref="logout" class="pure-menu-link"><i
+          <li class="pure-menu-item" (click)="logout()"><a uiSref="logout" class="pure-menu-link"><i
             class="fa fa-power-off"></i><span>&nbsp;Logout</span><i class="fa fa-chevron-right"></i></a></li>
         </ul>
       </div>
     </div>
 
     <div id="main">
+
       <ui-view></ui-view>
-      <!--div class="pure-g" style="padding-bottom: 2em">
-        <div class="pure-u-1-5">
-          <i class="fa fa-user"></i>
-          Users
-          <div>7</div>
-        </div>
-        <div class="pure-u-1-5">
-          <i class="fa fa-wrench"></i>
-          Equipment
-          <div style="color: #1ABB9C">123</div>
-        </div>
-        <div class="pure-u-1-5">
-          <i class="fa fa-table"></i>
-          Reports
-          <div>7</div>
-        </div>
-        <div class="pure-u-1-5">
-          <i class="fa fa-tasks"></i>
-          Reports Todo
-          <div>3</div>
-        </div>
-        <div class="pure-u-1-5">
-          <i class="fa fa-ambulance"></i>
-          Trucks
-          <div>3</div>
-        </div>
-      </div>
-
-      <div class="pure-g">
-        <div class="pure-u-1-2" style="background: white; padding: 1em"> <div style="border-bottom: 1px solid #7d0909">Alerts</div>
-          <ul style="list-style: none; color: darkred">
-            <li>
-              <i class="fa fa-times" style="padding-right: 1em"></i>
-              GPS missing - Engine 46
-            </li>
-            <li>
-              <i class="fa fa-times" style="padding-right: 1em"></i>
-              Note: "Cab door not locking" - Engine 46
-            </li>
-            <li>
-              <i class="fa fa-times" style="padding-right: 1em"></i>
-              4/19: Engine 46 Checklist was not completed.
-            </li>
-          </ul>
-
-        </div>
-        <div class="pure-u-1-24"></div>
-        <div class="pure-u-7-24" style="background: white; padding: 1em"> <div style="border-bottom: 1px solid #7d0909">Todo</div>
-          <div class="x_content">
-            <div class="">
-              <ul class="to_do">
-                <li>
-                  <div class="" > Engine 46 Checklist </div>
-                </li>
-                <li>
-                  <div class="" > Engine 48 Checklis </div>
-                </li>
-                <li>
-                  <div class="" > Ladder Checklist </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-      </div-->
-
     </div>
   </div>
 </div>
-
-<!--div class="hero">
-<div class="columns" style="height: 100vh">
-  <aside class="menu column is-hidden-mobile is-2 box has-text-white" style="border-right: 1em gray; height: 100vh; background-color: #1FC8C4" >
-    <ul class="menu-list" style="height: 100vh">
-      <li style="display: inline-flex; padding: 1rem">
-        <div style="border: 1px solid #EAEAEA; padding: 5px 6px; border-radius: 50%">
-          <i class="fa fa-fire"></i>
-        </div>
-        <span style="line-height: 2rem"> &nbsp;Oviedo Fire</span>
-      </li>
-      <li><a>Home</a></li>
-      <li><a>Reports</a></li>
-      <li><a>Statistics</a></li>
-      <li>
-        <a>Edit</a>
-        <ul>
-          <li><a>Equipment</a></li>
-          <li><a>Reports</a></li>
-          <li><a>Trucks</a></li>
-          <li><a>Users</a></li>
-        </ul>
-      </li>
-      <li><a>Extras</a></li>
-      <li><a>Logout</a></li>
-    </ul>
-  </aside>
-  <div class="column auto" style="color: red">
-
-    <div style="text-align:center">
-      <h1>
-        Testing
-      </h1>
-    </div>
-    <div class="columns">
-      <div class="column">1</div>
-      <div class="column">2</div>
-      <div class="column">3</div>
-      <div class="column">4</div>
-      <div class="column">5</div>
-    </div>
-    <a class="button is-primary">
-      Button
-    </a>
-    <a class="button is-info">
-      Button
-    </a>
-    <a class="button is-success">
-      Button
-    </a>
-    <a class="button is-warning">
-      Button
-    </a>
-    <a class="button is-danger">
-      Button
-    </a>
-    <h2>Here are some links to help you start: </h2>
-    <ul>
-      <li>
-        <h2><a target="_blank" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" href="http://angularjs.blogspot.com/">Angular blog</a></h2>
-      </li>
-    </ul>
-  </div>
-
-</div>
-</div-->

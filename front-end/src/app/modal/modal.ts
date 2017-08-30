@@ -10,7 +10,7 @@ import {MD_DIALOG_DATA} from "@angular/material";
         <div style="text-align: center">{{data.body[data.properties[0]]}}</div>
         <button md-dialog-close class="close"><i class="fa fa-times"></i></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body {{data.edit}}">
         <ng-template [ngSwitchCase]="'edit'">
           <div *ngFor="let property of data.properties">
             <label *ngIf="property!=='ID'">{{property}}</label><br/>
@@ -33,6 +33,7 @@ import {MD_DIALOG_DATA} from "@angular/material";
       </div>
     </div>
   `,
+  styleUrls: ['modal.sass']
 })
 export class Modal {
   constructor(@Inject(MD_DIALOG_DATA) public data: any) {}

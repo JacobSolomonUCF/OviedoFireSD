@@ -5,6 +5,9 @@
 .editorconfig
 
 ## front-end/
+.firebaserc
+dist/
+firebase.json
 
 # e2e
 front-end/e2e/

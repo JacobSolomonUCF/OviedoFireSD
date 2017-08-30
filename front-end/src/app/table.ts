@@ -7,7 +7,7 @@ import {Modal} from "./modal/modal";
   template: `
     <div class="table {{tableType}}-table">
       <table>
-        <thead>
+        <thead style="text-transform: capitalize">
           <th *ngFor="let head of heading">
             <div>
               {{head}}
@@ -17,9 +17,9 @@ import {Modal} from "./modal/modal";
           </th>
         </thead>
         <tbody>
-          <tr *ngFor="let row of rows; let i = index" (click)="openDialog(row)">
+          <tr *ngFor="let row of rows; let i = index" (click)="openDialog(row)" class="{{tableType}}-table-row">
             <td *ngFor="let head of heading">
-              <span *ngIf="!(i!=0 && rows[i-1][heading[0]] == row[head] && heading[0] == head)">{{row[head]}}</span>
+              <span *ngIf="!(i!=0 && rows[i-1][heading[0]] == row[head] && heading[0] == head)" class="{{row[head]}}">{{row[head]}}</span>
             </td>
           </tr>
         </tbody>
@@ -31,7 +31,6 @@ export class Table {
   @Input() heading: string[];
   @Input() rows: any[];
   @Input() tableType: any;
-  editing: boolean = false;
   temp: any[];
 
   constructor(public dialog: MdDialog) {}
