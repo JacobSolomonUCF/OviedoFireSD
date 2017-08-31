@@ -10,9 +10,9 @@ import {WebService} from "../services/webService";
 
       <div class="content">
         <!-- top tiles -->
-        <div class="row tile_count">
+        <div class="row tile_count" style="text-align: center">
           <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Total Users</span>
+            <span class="count_top"><i class="fa fa-user"></i> Users</span>
             <div class="count">{{totalUsers}}</div>
 
           </div>
@@ -22,7 +22,7 @@ import {WebService} from "../services/webService";
 
           </div>
           <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="glyphicon glyphicon-list-alt"></i> Total Reports</span>
+            <span class="count_top"><i class="fa fa-table"></i> Reports</span>
             <div class="count green">{{totalReports}}</div>
 
           </div>
