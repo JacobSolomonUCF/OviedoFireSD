@@ -78,20 +78,20 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
             <li class="pure-menu-item {{(this.checkState() === 'home') ? 'active' : ''}}">
               <a class="pure-menu-link"
                  uiSref="home">
-                <i class="fa fa-home"></i>
-                <span>&nbsp;Home</span>
+                <i class="pure-u-1-8 fa fa-home"></i>
+                <span class="pure-u-7-8">&nbsp;Home</span>
               </a>
             </li>
             <li class="pure-menu-item {{(this.checkState() === 'reports') ? 'active' : ''}}">
               <a uiSref="report" class="pure-menu-link">
-                <i class="fa fa-table"></i>
-                <span>&nbsp;Reports</span>
+                <i class="pure-u-1-8 fa fa-table"></i>
+                <span class="pure-u-7-8">&nbsp;Reports</span>
               </a>
             </li>
             <li class="pure-menu-item {{(this.checkState() === 'statistics') ? 'active' : ''}}">
               <a uiSref="statistic" class="pure-menu-link">
-                <i class="fa fa-bar-chart"></i>
-                <span>&nbsp;Statistics</span>
+                <i class="pure-u-1-8 fa fa-bar-chart"></i>
+                <span class="pure-u-7-8">&nbsp;Statistics</span>
               </a>
             </li>
             <li class="pure-menu-item" (click)="this.editList = !this.editList">
@@ -116,19 +116,19 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
                 <a uiSref="eUser" class="pure-menu-link">Users</a>
               </li>
             </ul>
+            <li class="pure-menu-item {{(this.checkState() === 'extras') ? 'active' : ''}}">
+              <a uiSref="extra" class="pure-menu-link">
+                <i class="pure-u-1-8 fa fa-cogs"></i>
+                <span class="pure-u-7-8">&nbsp;Extras</span>
+              </a>
+            </li>
+            <li class="pure-menu-item" (click)="logout()">
+              <a uiSref="logout" class="pure-menu-link">
+                <i class="pure-u-1-8 fa fa-power-off"></i>
+                <span class="pure-u-7-8">&nbsp;Logout</span>
+              </a>
+            </li>
           </div>
-          <li class="pure-menu-item {{(this.checkState() === 'extras') ? 'active' : ''}}">
-            <a uiSref="extra" class="pure-menu-link">
-              <i class="fa fa-cogs"></i>
-              <span>&nbsp;Extras</span>
-            </a>
-          </li>
-          <li class="pure-menu-item" (click)="logout()">
-            <a uiSref="logout" class="pure-menu-link">
-              <i class="fa fa-power-off"></i>
-              <span>&nbsp;Logout</span>
-            </a>
-          </li>
         </ul>
       </div>
     </div>
