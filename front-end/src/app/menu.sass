@@ -139,7 +139,7 @@ ul
   bottom: 0
   z-index: 1000
   /* so the menu or its navicon stays above all content
-  background: $primary-red
+  background: $background
   overflow-y: auto
   -webkit-overflow-scrolling: auto
   a
@@ -151,7 +151,7 @@ ul
 
     .pure-menu-item
       &.active
-        background: $accent-red
+        background: $hover
 
     .pure-menu-sublist
       height: 20px
@@ -165,9 +165,17 @@ ul
     li a
       padding: 1em
       &:hover, &:focus
-        background: $accent-red
-  .pure-menu-selected, .pure-menu-heading
-    background: $accent-red
+        background: $hover
+  .pure-menu-selected
+    background: $hover
+    height: 30px
+    i
+      border: 1px solid #EAEAEA
+      padding: 5px 6px
+      border-radius: 50%
+
+  .pure-menu-heading
+    background: $header
     height: 30px
     i
       border: 1px solid #EAEAEA
@@ -221,15 +229,12 @@ ul
   top: 0
   left: 0
   /* "#menu width"
-  background: $accent-red
   font-size: 10px
   /* change this value to increase/decrease button size
   z-index: 10
   width: 2em
   height: auto
   padding: 2.1em 1.6em
-  &:hover, &:focus
-    background: #000
   span
     position: relative
     display: block
