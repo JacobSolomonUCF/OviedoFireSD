@@ -5,6 +5,9 @@
 .editorconfig
 
 ## front-end/
+.firebaserc
+dist/
+firebase.json
 
 # dependencies
 front-end/node_modules
