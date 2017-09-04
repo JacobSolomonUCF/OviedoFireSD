@@ -22,10 +22,10 @@ class LoginViewController: UIViewController {
         login.layer.cornerRadius = 20
         login.clipsToBounds = true
         
-        email.layer.cornerRadius = 15
+        email.layer.cornerRadius = 20
         email.clipsToBounds = true
         
-        password.layer.cornerRadius = 15
+        password.layer.cornerRadius = 20
         password.clipsToBounds = true
     }
 
