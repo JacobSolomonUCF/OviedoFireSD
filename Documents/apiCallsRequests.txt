@@ -1,0 +1,37 @@
+-API call for Ladder forms
+--should return array of Strings of the name of each Ladder form
+---which have attached int(or String?) of that section's formID
+---and attached String of who completed the form (or if it isn't done, "nobody")
+
+-API call for SCBA forms
+--should return array of Strings of the name of each SCBA form
+---which have attached int(or String?) of that section's formID
+---and attached String of who completed the form (or if it isn't done, "nobody")
+
+-API call for Stretcher forms
+--should return array of Strings of the name of each Stretcher form
+---which have attached int(or String?) of that section's formID
+---and attached String of who completed the form (or if it isn't done, "nobody")
+
+-API call for returning Misc. Forms
+--should return array of Strings of the name of each Misc. form
+---which have attached int(or String?) of that section's formID
+---and attached String of who completed the form (or if it isn't done, "nobody")
+
+-API call for returning To-Do List
+--should return array of Strings of the name of each vehicle section form or off-truck form that hasn't been completed yet (like "Engine42 Driver's Side Front Compartment")
+---which have attached int(or String?) of that formID
+---and attached String of when the form has to be done by?
+
+-API call for sending formID and returning form
+--form should be returned as json containing:
+---String for form name (example: "Engine42 Driver's Side Front Compartment")
+---array of Strings for form item names (example: "Axe")
+----which have attached String for type of item (example: "pmr" or "0to100slider"
+
+-API call for returning finished form in json as follows:
+--String for username of completer
+--String for date/time sent
+--array of Strings for form item names
+---which have attached String for type of item
+---and attached String/Integer for result (depending on type of item)

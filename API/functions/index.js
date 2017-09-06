@@ -480,3 +480,138 @@ exports.reports = functions.https.onRequest((req, res) => {
 		});
     }
 });
+
+exports.activeVehicles = functions.https.onRequest((req, res) => {
+    if(req.method == "GET") {
+        if(req.query.uid) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0 || auth == 1) {
+                        admin.database().ref('/').once('value', function(snap) {
+                            var root = snap.val();
+                            var inventory = root.inventory;
+
+                            var activeVehicles = {
+                                "list": []
+                            };
+
+                            for(var i = 0; i < Object.keys(inventory).length; i++) {
+                                activeVehicles.list.push({
+                                    "name": inventory[Object.keys(inventory)[i]].name,
+                                    "id": Object.keys(inventory)[i]
+                                });
+                            }
+
+                            // send response
+                            cors(req, res, () => {
+                                res.status(200).send(activeVehicles);
+                            });
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' parameter");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
+
+exports.vehicleCompartments = functions.https.onRequest((req, res) => {
+    if(req.method == "GET") {
+        if(req.query.vehicleId && req.query.uid) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0 || auth == 1) {
+                        admin.database().ref('/').once('value', function(snap) {
+                            var root = snap.val();
+                            var inventory = root.inventory;
+                            var results = root.forms.results;
+                            var intervals = root.forms.intervals;
+                            var compartments = inventory[req.query.vehicleId].compartments;
+                            var time = getTime();
+
+                            if(compartments) {
+                                var vehicleCompartments = {
+                                    "list": []
+                                };
+
+                                for(var i = 0; i < Object.keys(compartments).length; i++) {
+                                    var interval = intervals[compartments[Object.keys(compartments)[i]].formId];
+                                    var completedBy = "nobody";
+
+                                    if(interval) {
+                                        var schedule = interval.frequency;
+
+                                        if(results && results[compartments[Object.keys(compartments)[i]].formId]) {
+                                            var timestamps = Object.keys(results[compartments[Object.keys(compartments)[i]].formId]);
+                                            if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
+                                                completedBy = results[compartments[Object.keys(compartments)[i]].formId][time.datestamp].completedBy;
+                                            } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                                completedBy = results[compartments[Object.keys(compartments)[i]].formId][timestamps[timestamps.length - 1]].completedBy;
+                                            } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                                completedBy = results[compartments[Object.keys(compartments)[i]].formId][timestamps[timestamps.length - 1]].completedBy;
+                                            }
+                                        }
+                                    }
+
+                                    vehicleCompartments.list.push({
+                                        "name": compartments[Object.keys(compartments)[i]].name,
+                                        "formId": compartments[Object.keys(compartments)[i]].formId,
+                                        "completedBy": completedBy
+                                    });
+                                }
+
+                                // send response
+                                cors(req, res, () => {
+                                    res.status(200).send(vehicleCompartments);
+                                });
+                            } else {
+                                cors(req, res, () => {
+                                    res.status(400).send('Compartments for ' + req.query.vehicleId + ' do not exist');
+                                });
+                            }
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else if(!req.query.vehicleId && req.query.uid) {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'vehicleId' parameter");
+            });
+        } else if(req.query.vehicleId && !req.query.uid) {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' parameter");
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'vehicleId' and 'uid' parameters");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
