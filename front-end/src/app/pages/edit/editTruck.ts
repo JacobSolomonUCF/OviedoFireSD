@@ -15,10 +15,10 @@ import {WebService} from "../../services/webService";
 export class EditTruck {
   activeModal: boolean = false;
   heading: any[] = [
-    {prop: 'Truck', flexGrow: 1, resizeable: false},
-    {prop: 'Compartments', flexGrow: 1, resizeable: false},
-    {prop: 'Equipment Count', flexGrow: 1, resizeable: false},
-    // {prop: 'ID', flexGrow: 1, resizeable: false}
+    {prop: 'Truck', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Compartments', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Equipment Count', flexGrow: 1, dragable: false, resizeable: false},
+    // {prop: 'ID', flexGrow: 1, dragable: false, resizeable: false}
   ];
   reports: any[] = [
     {Truck: "Engine 44", Compartments: 20, 'Equipment Count': 43, ID: '10012'},

@@ -15,11 +15,11 @@ import {WebService} from "../../services/webService";
 export class EditEquipment {
   activeModal: boolean = false;
   heading: any[] = [
-    {prop:'Name', flexGrow: 1, resizeable: true},
-    {prop:'Truck', flexGrow: 1, resizeable: true},
-    {prop:'Compartment', flexGrow: 1, resizeable: true},
-    {prop:'Condition', flexGrow: 1, resizeable: true},
-    // {prop:'ID', flexGrow: 1, resizeable: true}
+    {prop:'Name', flexGrow: 1, dragable: false, resizeable: true},
+    {prop:'Truck', flexGrow: 1, dragable: false, resizeable: true},
+    {prop:'Compartment', flexGrow: 1, dragable: false, resizeable: true},
+    {prop:'Condition', flexGrow: 1, dragable: false, resizeable: true},
+    // {prop:'ID', flexGrow: 1, dragable: false, resizeable: true}
   ];
   reports: any[] = [
     {Name: "Bolt Cutters", Truck: "Engine 44", Compartment: "Officer Side #2", Condition: 'Okay',         ID: '10012'},

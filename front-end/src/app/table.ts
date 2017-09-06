@@ -4,17 +4,14 @@ import {Modal} from "./modal/modal";
 
 @Component({
   selector: `item-table`,
-  template: `
-      <ngx-datatable
+  template: `<ngx-datatable
         class="table"
         [rows]="rows"
         [rowHeight]="36"
         [columns]="heading"
         [columnMode]="'flex'"
         (select)="openDialog($event)"
-        [selectionType]="'single'"
-      >
-      </ngx-datatable>`
+        [selectionType]="'single'"></ngx-datatable>`
   , styleUrls: ['./table.sass']
 })
 export class Table {

@@ -14,10 +14,10 @@ import {WebService} from "../../services/webService";
 })
 export class EditUser {
   heading: any[] = [
-    {prop: 'First Name', flexGrow: 1, resizeable: false},
-    {prop: 'Last Name', flexGrow: 1, resizeable: false},
-    {prop: 'Shift', flexGrow: 1, resizeable: false},
-    // {prop: 'ID', flexGrow: 1, resizeable: false}
+    {prop: 'First Name', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Last Name', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Shift', flexGrow: 1, dragable: false, resizeable: false},
+    // {prop: 'ID', flexGrow: 1, dragable: false, resizeable: false}
   ];
   users: any[] = [
     {'First Name': "John",   'Last Name': "Doe",    'Shift': 'A', 'ID': 832},
