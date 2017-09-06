@@ -16,26 +16,26 @@ import {WebService} from "../services/webService";
 })
 export class Report {
   headingDaily = [
-    {prop: 'Compartment', flexGrow: 1, resizeable: false},
-    {prop: 'Item', flexGrow: 1, resizeable: false},
-    {prop: 'Sun', flexGrow: 1, resizeable: false},
-    {prop: 'Mon', flexGrow: 1, resizeable: false},
-    {prop: 'Tues', flexGrow: 1, resizeable: false},
-    {prop: 'Wed', flexGrow: 1, resizeable: false},
-    {prop: 'Thur', flexGrow: 1, resizeable: false},
-    {prop: 'Fri', flexGrow: 1, resizeable: false},
-    {prop: 'Sat', flexGrow: 1, resizeable: false}
+    {prop: 'Compartment', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Item', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Sun', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Mon', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Tues', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Wed', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Thur', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Fri', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Sat', flexGrow: 1, dragable: false, resizeable: false}
   ];
   headingWeekly = [
-    {prop: 'Compartment', flexGrow: 1, resizeable: false},
-    {prop: 'Item', flexGrow: 1, resizeable: false},
-    {prop: 'Status', flexGrow: 1, resizeable: false}
+    {prop: 'Compartment', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Item', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Status', flexGrow: 1, dragable: false, resizeable: false}
   ];
   heading: any[] = [
-    {prop: 'Name', flexGrow: 1, resizeable: false},
-    {prop: 'Schedule', flexGrow: 1, resizeable: false},
-    {prop: 'Status', flexGrow: 1, resizeable: false},
-    {prop: 'ID', flexGrow: 1, resizeable: false}];
+    {prop: 'Name', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Schedule', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Status', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'ID', flexGrow: 1, dragable: false, resizeable: false}];
   //['Name','Schedule','Status','ID'];
   reports: any[] = [
     {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012',

@@ -14,10 +14,10 @@ import {WebService} from "../../services/webService";
 })
 export class EditReport {
   heading: any[] = [
-    {prop:'name', flexGrow: 1, resizeable: true},
-    {prop:'schedule', flexGrow: 1, resizeable: true},
-    {prop:'status', flexGrow: 1, resizeable: true},
-    // {prop:'ID', flexGrow: 1, resizeable: true}
+    {prop:'name', flexGrow: 1, dragable: false, resizeable: true},
+    {prop:'schedule', flexGrow: 1, dragable: false, resizeable: true},
+    {prop:'status', flexGrow: 1, dragable: false, resizeable: true},
+    // {prop:'ID', flexGrow: 1, dragable: false, resizeable: true}
   ];
   reports: any[];
 
