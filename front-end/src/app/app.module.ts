@@ -19,6 +19,7 @@ import {AppComponent}   from './app.component';
 // custom directives
 import {Table}         from './table';
 import {Modal}         from './modal/modal';
+import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 
 // pages
 import {Home}          from "./pages/home";
@@ -70,7 +71,8 @@ let states = [
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxDatatableModule
   ],
   providers: [WebService],
   bootstrap: [AppComponent],

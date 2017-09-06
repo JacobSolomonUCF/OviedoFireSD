@@ -13,7 +13,12 @@ import {WebService} from "../../services/webService";
   , styleUrls: ['../../menu.sass']
 })
 export class EditReport {
-  heading: any[] = ['name','frequency','status','ID'];
+  heading: any[] = [
+    {prop:'name', flexGrow: 1, resizeable: true},
+    {prop:'schedule', flexGrow: 1, resizeable: true},
+    {prop:'status', flexGrow: 1, resizeable: true},
+    // {prop:'ID', flexGrow: 1, resizeable: true}
+  ];
   reports: any[];
 
   constructor(public webService: WebService) {
@@ -23,15 +28,7 @@ export class EditReport {
 
     webService.get('/reports')
       .subscribe(resp => {
-        self.reports = resp['reportsList'].map(function (x) {
-          switch(x.schedule.length) {
-            case 7:  x['frequency'] = 'Daily';  break;
-            case 1:  x['frequency'] = 'Weekly'; break;
-            case 0:  x['frequency'] = 'Error';  break;
-            default: x['frequency'] = 'Custom'; break;
-          }
-          return x;
-        })
+        self.reports = resp['reportsList'];
       });
   }
 }

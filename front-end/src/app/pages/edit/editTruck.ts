@@ -14,7 +14,12 @@ import {WebService} from "../../services/webService";
 })
 export class EditTruck {
   activeModal: boolean = false;
-  heading: any[] = ['Truck','Compartments','Equipment Count','ID'];
+  heading: any[] = [
+    {prop: 'Truck', flexGrow: 1, resizeable: false},
+    {prop: 'Compartments', flexGrow: 1, resizeable: false},
+    {prop: 'Equipment Count', flexGrow: 1, resizeable: false},
+    // {prop: 'ID', flexGrow: 1, resizeable: false}
+  ];
   reports: any[] = [
     {Truck: "Engine 44", Compartments: 20, 'Equipment Count': 43, ID: '10012'},
     {Truck: "ATV 44",    Compartments: 2,  'Equipment Count': 6,  ID: '10015'},

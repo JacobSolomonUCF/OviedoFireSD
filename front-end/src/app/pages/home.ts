@@ -109,7 +109,6 @@ export class Home {
         self.totalUsers = resp['totalUsers'];
         self.reportsToDo = resp['reportsToDo'];
         self.totalReports = resp['totalReports'];
-        console.log(resp);
         self.loading = false;
       });
   }

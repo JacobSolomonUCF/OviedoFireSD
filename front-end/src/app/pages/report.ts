@@ -9,16 +9,38 @@ import {WebService} from "../services/webService";
 
     <div class="content">
       <item-table [heading]="heading" [rows]="reports" [tableType]="'view'"></item-table>
+      <!--<item-table [heading]="heading" [rows]="reports" [tableType]="'view'"></item-table>-->
     </div>
   `
-  , styleUrls: ['../menu.sass']
+  , styleUrls: ['../menu.sass', '../table.sass']
 })
 export class Report {
-  heading: any[] = ['Name','Schedule','Status','ID'];
+  headingDaily = [
+    {prop: 'Compartment', flexGrow: 1, resizeable: false},
+    {prop: 'Item', flexGrow: 1, resizeable: false},
+    {prop: 'Sun', flexGrow: 1, resizeable: false},
+    {prop: 'Mon', flexGrow: 1, resizeable: false},
+    {prop: 'Tues', flexGrow: 1, resizeable: false},
+    {prop: 'Wed', flexGrow: 1, resizeable: false},
+    {prop: 'Thur', flexGrow: 1, resizeable: false},
+    {prop: 'Fri', flexGrow: 1, resizeable: false},
+    {prop: 'Sat', flexGrow: 1, resizeable: false}
+  ];
+  headingWeekly = [
+    {prop: 'Compartment', flexGrow: 1, resizeable: false},
+    {prop: 'Item', flexGrow: 1, resizeable: false},
+    {prop: 'Status', flexGrow: 1, resizeable: false}
+  ];
+  heading: any[] = [
+    {prop: 'Name', flexGrow: 1, resizeable: false},
+    {prop: 'Schedule', flexGrow: 1, resizeable: false},
+    {prop: 'Status', flexGrow: 1, resizeable: false},
+    {prop: 'ID', flexGrow: 1, resizeable: false}];
+  //['Name','Schedule','Status','ID'];
   reports: any[] = [
     {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012',
       data: {
-        heading: ['Compartment','Item','Sun','Mon','Tues','Wed','Thur','Fri','Sat'],
+        heading: this.headingDaily,
         rows: [
           {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
           {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
@@ -38,7 +60,7 @@ export class Report {
     },
     {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014',
       data: {
-        heading: ['Compartment','Item','Sun','Mon','Tues','Wed','Thur','Fri','Sat'],
+        heading: this.headingDaily,
         rows: [
           {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
           {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
@@ -58,7 +80,7 @@ export class Report {
     },
     {Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015',
       data: {
-        heading: ['Compartment','Item','Status'],
+        heading: this.headingWeekly,
         rows: [
           {Compartment: "Driver #1",    Item: "Horn",   Status: 'Okay'  },
           {Compartment: "Driver #1",    Item: "Lights", Status: '    '  },

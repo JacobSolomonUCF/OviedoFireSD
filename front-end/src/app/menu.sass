@@ -191,37 +191,6 @@ ul
     color: #fff
     margin: 0
 
-/*
- *All anchors inside the menu should be styled like this.
-
-/*
- *Remove all background/borders, since we are applying them to #menu.
-
-/*
- *Add that light border to separate items into groups.
-
-/*
- *Change color of the anchor links on hover/focus.
-
-/*
- *This styles the selected menu item `<li>`.
-
-/*
- *This styles a link within a selected menu item `<li>`.
-
-/*
- *This styles the menu heading.
-
-/* -- Dynamic Button For Responsive Menu -------------------------------------
-
-/*
- *The button to open/close the Menu is custom-made and not part of Pure. Here's
- *how it works:
-
-/*
- *`.menu-link` represents the responsive menu toggle that shows/hides on
- *small screens.
-
 .menu-link
   position: fixed
   display: block
@@ -287,3 +256,30 @@ ul
   #layout.active
     position: relative
     left: 150px
+
+/* -- Table --------------------------------------------------------------------
+
+ngx-datatable
+  // width: calc(100% - 30px - 1em)
+  background: white
+  padding: 1em .5em
+  // height: calc(85vh - 150px)
+  height: calc(100vh - 250px)
+  overflow-y: auto
+  overflow-x: hidden
+  border: 1px solid lightgray
+  div
+    width: 100%
+    text-align: left
+    .Broken
+      background-color: $primary-red
+      padding: .5em
+      color: white
+    datatable-header
+      font-weight: bold
+      border-bottom: 3px solid lightgray
+    datatable-body-row
+      cursor: pointer
+
+    datatable-body-row:hover
+      background-color: darken(#f2f2f2, 10%)

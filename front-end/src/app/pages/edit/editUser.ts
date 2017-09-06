@@ -13,7 +13,12 @@ import {WebService} from "../../services/webService";
   `
 })
 export class EditUser {
-  heading: any[] = ['First Name', 'Last Name', 'Shift', 'ID'];
+  heading: any[] = [
+    {prop: 'First Name', flexGrow: 1, resizeable: false},
+    {prop: 'Last Name', flexGrow: 1, resizeable: false},
+    {prop: 'Shift', flexGrow: 1, resizeable: false},
+    // {prop: 'ID', flexGrow: 1, resizeable: false}
+  ];
   users: any[] = [
     {'First Name': "John",   'Last Name': "Doe",    'Shift': 'A', 'ID': 832},
     {'First Name': "Mary",   'Last Name': "Moe",    'Shift': 'A', 'ID': 829},

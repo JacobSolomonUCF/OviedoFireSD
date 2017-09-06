@@ -7,7 +7,7 @@ import {MD_DIALOG_DATA} from "@angular/material";
     <div class="modal-backdrop"></div>
     <div class="modal" [ngSwitch]="data.edit">
       <div class="modal-header">
-        <div style="text-align: center">{{data.body[data.properties[0]]}}</div>
+        <div style="text-align: center">{{data.body[data.properties[0].prop]}}</div>
         <button md-dialog-close class="close"><i class="fa fa-times"></i></button>
       </div>
       <div class="modal-body {{data.edit}}">

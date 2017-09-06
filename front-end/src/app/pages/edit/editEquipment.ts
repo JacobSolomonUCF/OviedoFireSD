@@ -14,7 +14,13 @@ import {WebService} from "../../services/webService";
 })
 export class EditEquipment {
   activeModal: boolean = false;
-  heading: any[] = ['Name','Truck','Compartment','Condition','ID'];
+  heading: any[] = [
+    {prop:'Name', flexGrow: 1, resizeable: true},
+    {prop:'Truck', flexGrow: 1, resizeable: true},
+    {prop:'Compartment', flexGrow: 1, resizeable: true},
+    {prop:'Condition', flexGrow: 1, resizeable: true},
+    // {prop:'ID', flexGrow: 1, resizeable: true}
+  ];
   reports: any[] = [
     {Name: "Bolt Cutters", Truck: "Engine 44", Compartment: "Officer Side #2", Condition: 'Okay',         ID: '10012'},
     {Name: "SCBA Masks",   Truck: "Engine 44", Compartment: "Officer Side #2", Condition: 'Okay',         ID: '10014'},
