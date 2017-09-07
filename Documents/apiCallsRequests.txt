@@ -29,6 +29,16 @@
 ---array of Strings for form item names (example: "Axe")
 ----which have attached String for type of item (example: "pmr" or "0to100slider"
 
+{
+    "title": "Engine42 Driver's Side Front Compartment",
+    "inputElements": [
+        {
+            "caption": "Axe",
+            "type": "pmr"
+        }
+    ]
+}
+
 -API call for returning finished form in json as follows:
 --String for username of completer
 --String for date/time sent

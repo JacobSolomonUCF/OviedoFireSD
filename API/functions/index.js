@@ -102,69 +102,6 @@ exports.info = functions.https.onRequest((req, res) => {
 	}
 });
 
-exports.form = functions.https.onRequest((req, res) => {
-	if(req.method == "GET") {
-		if(req.query.form && req.query.uid) {
-			getAuth(req.query.uid, function(auth) {
-				if(auth != 401) {
-					if(auth == 0 || auth == 1) {
-						admin.database().ref('/forms/templates/' + req.query.form).once('value', function(snap) {
-							if(snap.val()) {
-								var form = {
-									"form": snap.val()
-								};
-								cors(req, res, () => {
-									res.status(200).send(form);
-								});
-							} else {
-								cors(req, res, () => {
-									res.status(400).send('Form template for ' + req.query.form + ' does not exist');
-								});
-							}
-						});
-					} else {
-						cors(req, res, () => {
-							res.status(403).send("The request violates the user's permission level");
-						});
-					}
-				} else {
-					cors(req, res, () => {
-						res.status(401).send('The user is not authorized for access');
-					});
-				}
-			});
-		} else if(!req.query.form && req.query.uid) {
-			cors(req, res, () => {
-				res.status(400).send("Missing 'form' parameter");
-			});
-		} else if(req.query.form && !req.query.uid) {
-			cors(req, res, () => {
-				res.status(400).send("Missing 'uid' parameter");
-			});
-		} else {
-			cors(req, res, () => {
-				res.status(400).send("Missing 'form' and 'uid' parameters");
-			});
-		}
-	} else if(req.method == "POST") {
-		cors(req, res, () => {
-			res.sendStatus(200);
-		});
-	} else if(req.method == "PATCH") {
-		cors(req, res, () => {
-			res.sendStatus(200);
-		});
-	} else if(req.method == "DELETE") {
-		cors(req, res, () => {
-			res.sendStatus(200);
-		});
-	} else {
-		cors(req, res, () => {
-			res.sendStatus(404);
-		});
-	}
-});
-
 exports.permissions = functions.https.onRequest((req, res) => {
 	if(req.method == "GET") {
 		if(req.query.user && req.query.uid) {
@@ -607,6 +544,61 @@ exports.vehicleCompartments = functions.https.onRequest((req, res) => {
         } else {
             cors(req, res, () => {
                 res.status(400).send("Missing 'vehicleId' and 'uid' parameters");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
+
+exports.form = functions.https.onRequest((req, res) => {
+    if(req.method == "GET") {
+        if(req.query.formId && req.query.uid) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0 || auth == 1) {
+                        admin.database().ref('/').once('value', function(snap) {
+                            var root = snap.val();
+
+                            var form = {
+                                "title": "Engine42 Driver's Side Front Compartment",
+                                "inputElements": [
+                                    {
+                                        "caption": "Axe",
+                                        "type": "pmr"
+                                    }
+                                ]
+                            }
+
+                            // send response
+                            cors(req, res, () => {
+                                res.status(200).send(form);
+                            });
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else if(!req.query.formId && req.query.uid) {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'formId' parameter");
+            });
+        } else if(req.query.formId && !req.query.uid) {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' parameter");
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'formId' and 'uid' parameters");
             });
         }
     } else {
