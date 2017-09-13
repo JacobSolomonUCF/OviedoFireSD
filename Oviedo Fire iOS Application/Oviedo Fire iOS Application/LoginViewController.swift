@@ -7,18 +7,30 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginViewController: UIViewController {
-    
+
     @IBOutlet weak var login: UIButton!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var email: UITextField!
+    @IBOutlet weak var signUp: UIButton!
+
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        screenFormat()
+        
+        
+        
+        
+
+    }
+    
+    func screenFormat(){
         login.layer.cornerRadius = 20
         login.clipsToBounds = true
         
@@ -44,5 +56,7 @@ class LoginViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
+
 
 }

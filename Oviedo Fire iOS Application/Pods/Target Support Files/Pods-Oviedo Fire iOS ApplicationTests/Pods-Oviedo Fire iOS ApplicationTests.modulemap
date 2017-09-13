@@ -1,0 +1,6 @@
+framework module Pods_Oviedo_Fire_iOS_ApplicationTests {
+  umbrella header "Pods-Oviedo Fire iOS ApplicationTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
