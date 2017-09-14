@@ -8,6 +8,7 @@ target 'Oviedo Fire iOS Application' do
   # Pods for Oviedo Fire iOS Application
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'Alamofire'
 
   target 'Oviedo Fire iOS ApplicationTests' do
     inherit! :search_paths

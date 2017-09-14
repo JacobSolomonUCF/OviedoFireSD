@@ -9,12 +9,13 @@
 import UIKit
 import Firebase
 
-class LoginViewController: UIViewController {
 
-    @IBOutlet weak var login: UIButton!
-    @IBOutlet weak var password: UITextField!
-    @IBOutlet weak var email: UITextField!
-    @IBOutlet weak var signUp: UIButton!
+class LoginViewController: UIViewController,UITextFieldDelegate  {
+
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var signUpButton: UIButton!
 
     
 
@@ -23,22 +24,24 @@ class LoginViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         screenFormat()
-        
-        
-        
+
         
 
     }
     
     func screenFormat(){
-        login.layer.cornerRadius = 20
-        login.clipsToBounds = true
+        loginButton.layer.cornerRadius = 20
+        loginButton.clipsToBounds = true
         
-        email.layer.cornerRadius = 20
-        email.clipsToBounds = true
+        emailField.layer.cornerRadius = 20
+        emailField.clipsToBounds = true
+        emailField.delegate = self
+        emailField.tag = 0
         
-        password.layer.cornerRadius = 20
-        password.clipsToBounds = true
+        passwordField.layer.cornerRadius = 20
+        passwordField.clipsToBounds = true
+        passwordField.delegate = self
+        passwordField.tag = 1
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,16 +49,55 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
+        // Try to find next responder
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
+        } else {
+            // Not found, so remove keyboard.
+            textField.resignFirstResponder()
+            Login(self)
+            
+        }
+        // Do not add a line break
+        return false
     }
-    */
+    
+
+    // MARK ACTIONS
+    @IBAction func Login(_ sender: Any) {
+        
+        if emailField.text != "" && passwordField.text != ""{
+            
+            Auth.auth().signIn(withEmail: emailField.text!, password: passwordField.text!) { (user, error) in
+                if user != nil{
+                   
+                    self.emailField.text = nil
+                    self.passwordField.text = nil
+                    self.emailField.resignFirstResponder()
+                    self.passwordField.resignFirstResponder()
+                    
+                    
+                    self.performSegue(withIdentifier: "toHome", sender: nil)
+
+                    }else{
+                    if let myError = error?.localizedDescription{
+                        print(myError)
+                    }
+                }
+                
+                
+                
+            }
+        
+        }else{
+            
+        }
+        
+
+    }
+    
 
 
 

@@ -42,16 +42,28 @@ class SignUpViewController: UIViewController {
     */
 
     @IBAction func loginAction(_ sender: Any) {
+
+        if email.text != "" && password.text != "" && repeatPassword.text != ""{
+            if password.text == repeatPassword.text{
+                Auth.auth().createUser(withEmail: email.text!, password: password.text!) { (user, error) in
+                    if user != nil{
+                        print("SIGN IN GOOD")
+                        self.performSegue(withIdentifier: "toHome", sender: nil)
+                    }else{
+                        if let myError = error?.localizedDescription{
+                            print(myError)
+                        }
+                    }
+                }
+            }else{
+                //Prompt passwords do not match
+            }
         
-        let email = self.email.text
-        let password = self.password.text
-        let repeatPassword = self.repeatPassword.text
-        
-        if (password != repeatPassword){
-            
         }else{
-    
+            //Prompt please make sure all fields are filled
         }
+    
+        
     }
     
     
