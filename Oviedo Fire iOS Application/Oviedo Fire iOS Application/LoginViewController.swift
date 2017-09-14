@@ -63,6 +63,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
         // Do not add a line break
         return false
     }
+
     
 
     // MARK ACTIONS
@@ -84,6 +85,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
                     }else{
                     if let myError = error?.localizedDescription{
                         print(myError)
+                    self.alert(message: "Username/Password invalid")
                     }
                 }
                 
@@ -92,7 +94,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
             }
         
         }else{
-            
+            alert(message: "Please enter username/password")
         }
         
 

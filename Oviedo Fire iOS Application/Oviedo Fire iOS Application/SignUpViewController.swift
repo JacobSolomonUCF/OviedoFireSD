@@ -56,11 +56,11 @@ class SignUpViewController: UIViewController {
                     }
                 }
             }else{
-                //Prompt passwords do not match
+                alert(message: "Passwords do not match")
             }
         
         }else{
-            //Prompt please make sure all fields are filled
+            alert(message: "Please make sure all fields are entered")
         }
     
         

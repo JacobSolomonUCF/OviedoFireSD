@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		160652481F5E1F780058B083 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160652471F5E1F780058B083 /* QRScannerViewController.swift */; };
+		160E934C1F6A1F3D00E04901 /* alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160E934B1F6A1F3D00E04901 /* alert.swift */; };
 		161EE5151F68A83900FFEC0B /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 161EE5141F68A83900FFEC0B /* Podfile */; };
 		165023A71F56130300FF3DD4 /* Deep Space.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 165023A61F56130300FF3DD4 /* Deep Space.jpg */; };
 		1654E39E1F563484002C43C6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1654E39D1F563484002C43C6 /* HomeViewController.swift */; };
@@ -26,6 +26,7 @@
 		16B4FA3C1F68A496000929F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16B4FA3A1F68A496000929F9 /* GoogleService-Info.plist */; };
 		16B4FA3D1F68A496000929F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16B4FA3A1F68A496000929F9 /* GoogleService-Info.plist */; };
 		16B4FA411F68A547000929F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16B4FA401F68A547000929F9 /* GoogleService-Info.plist */; };
+		16B7D9251F6A1D5600DC64FB /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B7D9241F6A1D5600DC64FB /* QRScannerViewController.swift */; };
 		16B859851F5640FE005E38E2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B859841F5640FE005E38E2 /* LoginViewController.swift */; };
 		16C238A91F570E570036B615 /* offTruckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C238A71F570E570036B615 /* offTruckViewController.swift */; };
 		16CF46911F560CB70063834B /* 50 Shades of Grey.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16CF468C1F560CB70063834B /* 50 Shades of Grey.jpg */; };
@@ -71,7 +72,7 @@
 /* Begin PBXFileReference section */
 		04126A9BD7AE62BE969848A8 /* Pods_Oviedo_Fire_iOS_ApplicationTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Oviedo_Fire_iOS_ApplicationTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FF0788381DD34BAD829472F /* Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationUITests/Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		160652471F5E1F780058B083 /* QRScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QRScannerViewController.swift; path = ../QRScannerViewController.swift; sourceTree = "<group>"; };
+		160E934B1F6A1F3D00E04901 /* alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = alert.swift; sourceTree = "<group>"; };
 		161EE5141F68A83900FFEC0B /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		165023A61F56130300FF3DD4 /* Deep Space.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Deep Space.jpg"; sourceTree = "<group>"; };
 		1654E39D1F563484002C43C6 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -94,6 +95,7 @@
 		16A90B081F560C7C00F50919 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16B4FA3A1F68A496000929F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16B4FA401F68A547000929F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		16B7D9241F6A1D5600DC64FB /* QRScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
 		16B859841F5640FE005E38E2 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		16C238A71F570E570036B615 /* offTruckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = offTruckViewController.swift; sourceTree = "<group>"; };
 		16CF468C1F560CB70063834B /* 50 Shades of Grey.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "50 Shades of Grey.jpg"; sourceTree = "<group>"; };
@@ -167,13 +169,14 @@
 			children = (
 				16CF468B1F560CB70063834B /* BG */,
 				16A90AE61F560C7C00F50919 /* AppDelegate.swift */,
-				160652471F5E1F780058B083 /* QRScannerViewController.swift */,
 				16A90AE81F560C7C00F50919 /* ViewController.swift */,
 				16A90AEA1F560C7C00F50919 /* Main.storyboard */,
+				16B7D9241F6A1D5600DC64FB /* QRScannerViewController.swift */,
 				166C5B941F6A13710015FAF6 /* ActiveViewController.swift */,
 				1654E9D21F68B77D00393980 /* SignUpViewController.swift */,
 				16C238A71F570E570036B615 /* offTruckViewController.swift */,
 				16B859841F5640FE005E38E2 /* LoginViewController.swift */,
+				160E934B1F6A1F3D00E04901 /* alert.swift */,
 				1654E39D1F563484002C43C6 /* HomeViewController.swift */,
 				16A90AED1F560C7C00F50919 /* Assets.xcassets */,
 				16A90AEF1F560C7C00F50919 /* LaunchScreen.storyboard */,
@@ -558,9 +561,10 @@
 				16B859851F5640FE005E38E2 /* LoginViewController.swift in Sources */,
 				1654E9D31F68B77D00393980 /* SignUpViewController.swift in Sources */,
 				16A90AE91F560C7C00F50919 /* ViewController.swift in Sources */,
-				160652481F5E1F780058B083 /* QRScannerViewController.swift in Sources */,
+				16B7D9251F6A1D5600DC64FB /* QRScannerViewController.swift in Sources */,
 				16A90AE71F560C7C00F50919 /* AppDelegate.swift in Sources */,
 				16C238A91F570E570036B615 /* offTruckViewController.swift in Sources */,
+				160E934C1F6A1F3D00E04901 /* alert.swift in Sources */,
 				1654E39E1F563484002C43C6 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
