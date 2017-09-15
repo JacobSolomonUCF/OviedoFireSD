@@ -22,9 +22,6 @@
 		16A90AF11F560C7C00F50919 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A90AEF1F560C7C00F50919 /* LaunchScreen.storyboard */; };
 		16A90AFC1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AFB1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift */; };
 		16A90B071F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */; };
-		16B4FA3B1F68A496000929F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16B4FA3A1F68A496000929F9 /* GoogleService-Info.plist */; };
-		16B4FA3C1F68A496000929F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16B4FA3A1F68A496000929F9 /* GoogleService-Info.plist */; };
-		16B4FA3D1F68A496000929F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16B4FA3A1F68A496000929F9 /* GoogleService-Info.plist */; };
 		16B4FA411F68A547000929F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16B4FA401F68A547000929F9 /* GoogleService-Info.plist */; };
 		16B7D9251F6A1D5600DC64FB /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B7D9241F6A1D5600DC64FB /* QRScannerViewController.swift */; };
 		16B859851F5640FE005E38E2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B859841F5640FE005E38E2 /* LoginViewController.swift */; };
@@ -93,7 +90,6 @@
 		16A90B021F560C7C00F50919 /* Oviedo Fire iOS ApplicationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Oviedo Fire iOS ApplicationUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oviedo_Fire_iOS_ApplicationUITests.swift; sourceTree = "<group>"; };
 		16A90B081F560C7C00F50919 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		16B4FA3A1F68A496000929F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16B4FA401F68A547000929F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16B7D9241F6A1D5600DC64FB /* QRScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
 		16B859841F5640FE005E38E2 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -208,7 +204,6 @@
 		16CF468B1F560CB70063834B /* BG */ = {
 			isa = PBXGroup;
 			children = (
-				16B4FA3A1F68A496000929F9 /* GoogleService-Info.plist */,
 				165023A61F56130300FF3DD4 /* Deep Space.jpg */,
 				16CF468C1F560CB70063834B /* 50 Shades of Grey.jpg */,
 				16CF468D1F560CB70063834B /* Hydrogen.jpg */,
@@ -372,7 +367,6 @@
 				161EE5151F68A83900FFEC0B /* Podfile in Resources */,
 				16CF46911F560CB70063834B /* 50 Shades of Grey.jpg in Resources */,
 				16A90AEE1F560C7C00F50919 /* Assets.xcassets in Resources */,
-				16B4FA3B1F68A496000929F9 /* GoogleService-Info.plist in Resources */,
 				16A90AEC1F560C7C00F50919 /* Main.storyboard in Resources */,
 				16CF46951F560CB70063834B /* YouTube.jpg in Resources */,
 			);
@@ -382,7 +376,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16B4FA3C1F68A496000929F9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,7 +383,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16B4FA3D1F68A496000929F9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,15 +8,17 @@
 
 import UIKit
 import Alamofire
+import Firebase
 
 class ActiveViewController: UIViewController, UITableViewDelegate {
 
-    @IBOutlet weak var table: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/activeVehicles?uid=Q5SBBvpqxNR1kRwZywcnNJddfXr1") .responseJSON { response in
+        let userID = Auth.auth().currentUser!.uid
+        
+        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/activeVehicles?uid=\(userID)") .responseJSON { response in
             if let result = response.result.value as? [String:Any],
                 let main = result["list"] as? [[String:String]]{
                 // main[0]["name"] or use main.first?["name"] for first index or loop through array
@@ -28,7 +30,7 @@ class ActiveViewController: UIViewController, UITableViewDelegate {
                 print(main[0]["name"]!)
             }
             
-            
+        
         }
     }
 
@@ -37,15 +39,5 @@ class ActiveViewController: UIViewController, UITableViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

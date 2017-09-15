@@ -21,13 +21,18 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationController?.isNavigationBarHidden = true
         // Do any additional setup after loading the view.
+        checkForUser()
+    
         screenFormat()
+        
+        
 
         
 
     }
+
     
     func screenFormat(){
         loginButton.layer.cornerRadius = 20
@@ -42,6 +47,17 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
         passwordField.clipsToBounds = true
         passwordField.delegate = self
         passwordField.tag = 1
+    }
+    
+    func checkForUser(){
+        Auth.auth().addStateDidChangeListener { auth, user in
+            if user != nil{
+                print("IT WORKS")
+                self.performSegue(withIdentifier: "toHome", sender: nil)
+            }else{
+                
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
