@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class HomeViewController: UIViewController {
 
@@ -19,17 +20,8 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        active.layer.cornerRadius = 40
-        active.clipsToBounds = true
-        offTruck.layer.cornerRadius = 40
-        offTruck.clipsToBounds = true
-        todoList.layer.cornerRadius = 40
-        todoList.clipsToBounds = true
-        qrCode.layer.cornerRadius = 40
-        qrCode.clipsToBounds = true
+        screenFormat()
 
-        
-        
         
     }
 
@@ -39,16 +31,32 @@ class HomeViewController: UIViewController {
     }
 
 
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func screenFormat(){
+        active.layer.cornerRadius = 40
+        active.clipsToBounds = true
+        offTruck.layer.cornerRadius = 40
+        offTruck.clipsToBounds = true
+        todoList.layer.cornerRadius = 40
+        todoList.clipsToBounds = true
+        qrCode.layer.cornerRadius = 40
+        qrCode.clipsToBounds = true
+        
     }
-    */
+    
+    //Actions
+    @IBAction func Logout(_ sender: Any) {
+        
+        do {
+            try Auth.auth().signOut()
+            self.performSegue(withIdentifier: "toLogin", sender: nil)
+        }catch let error as NSError{
+            print("Error signing out: \(error)")
+        }
+        
+
+        
+    }
+    
+    
 
 }
