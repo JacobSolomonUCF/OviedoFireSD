@@ -17,7 +17,7 @@ import {WebService} from "../services/webService";
 export class Report {
   headingDaily = [
     {prop: 'Compartment', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Item', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'Item', flexGrow: 3, dragable: false, resizeable: false},
     {prop: 'Sun', flexGrow: 1, dragable: false, resizeable: false},
     {prop: 'Mon', flexGrow: 1, dragable: false, resizeable: false},
     {prop: 'Tues', flexGrow: 1, dragable: false, resizeable: false},
@@ -38,6 +38,26 @@ export class Report {
     {prop: 'ID', flexGrow: 1, dragable: false, resizeable: false}];
   //['Name','Schedule','Status','ID'];
   reports: any[] = [
+    {Name: "ATV 46 Checklist test",    Schedule: "Daily",  Status: "Complete",     ID: '10012',
+      data: {
+        heading: this.headingDaily,
+        rows: [
+          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #2",    Item: "Map",    Sun: "Okay",    Mon: 'Repair', Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'}
+        ]
+      }
+    },
     {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012',
       data: {
         heading: this.headingDaily,
@@ -58,6 +78,27 @@ export class Report {
         ]
       }
     },
+    {Name: "ATV 46 Checklist",    Schedule: "Daily",  Status: "Complete",     ID: '10012',
+      data: {
+        heading: this.headingDaily,
+        rows: [
+          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Horn",   Sun: "Okay",    Mon: 'Okay',   Tues: 'Okay',   Wed: 'Broken', Thur: 'Okay',   Fri: 'Broken', Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Lights", Sun: "Repair",  Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Repair', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #1",    Item: "Bells",  Sun: "Missing", Mon: 'Okay',   Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #2",    Item: "Map",    Sun: "Okay",    Mon: 'Repair', Tues: 'Okay',   Wed: 'Repair', Thur: 'Okay',   Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'},
+          {Compartment: "Driver #2",    Item: "Radios", Sun: "Okay",    Mon: 'Okay',   Tues: 'Repair', Wed: 'Repair', Thur: 'Broken', Fri: 'Okay',   Sat: 'Okay'}
+        ]
+      }
+    },
+
     {Name: "Engine 44 Checklist", Schedule: "Daily",  Status: "Complete",     ID: '10014',
       data: {
         heading: this.headingDaily,

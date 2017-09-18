@@ -254,16 +254,42 @@ ul
     position: relative
     left: 150px
 
+/* -- Buttons ------------------------------------------------------------------
+button
+  &.close
+    right: .35em
+    border: 0
+    background: transparent
+    top: .35em
+
+  &.accept
+    background-color: #337ab7
+    border: none
+    color: white
+    padding: .5em
+    text-align: center
+    text-decoration: none
+    display: inline-block
+    font-size: 1em
+    border-radius: 3px
+
 /* -- Table --------------------------------------------------------------------
+
+div.table-options
+  display: flex
+  justify-content: space-between
+  div.right
+    input.filter
+      padding: .25em
 
 ngx-datatable
   // width: calc(100% - 30px - 1em)
-  background: white
+  background-color: white
   padding: 1em .5em
   // height: calc(85vh - 150px)
   height: calc(100vh - 250px)
   overflow-y: auto
-  overflow-x: hidden
+  overflow: scroll !important
   border: 1px solid lightgray
   div
     width: 100%
