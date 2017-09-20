@@ -561,21 +561,18 @@ exports.form = functions.https.onRequest((req, res) => {
                     if(auth == 0 || auth == 1) {
                         admin.database().ref('/').once('value', function(snap) {
                             var root = snap.val();
+                            var templates = root.forms.templates;
 
-                            var form = {
-                                "title": "Engine42 Driver's Side Front Compartment",
-                                "inputElements": [
-                                    {
-                                        "caption": "Axe",
-                                        "type": "pmr"
-                                    }
-                                ]
+                            if(templates[req.query.formId]) {
+                                // send response
+                                cors(req, res, () => {
+                                    res.status(200).send(templates[req.query.formId]);
+                                });
+                            } else {
+                                cors(req, res, () => {
+                                    res.status(400).send("Template for " + req.query.formId + " does not exist");
+                                });
                             }
-
-                            // send response
-                            cors(req, res, () => {
-                                res.status(200).send(form);
-                            });
                         });
                     } else {
                         cors(req, res, () => {
