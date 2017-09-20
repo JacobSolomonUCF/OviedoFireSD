@@ -15,6 +15,14 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     var captureSession:AVCaptureSession?
     var videoPreviewLayer:AVCaptureVideoPreviewLayer?
     var qrCodeFrameView:UIView?
+    var message:String = ""
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let nextController = segue.destination as! EqFormViewController
+        
+        nextController.string = message
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +70,8 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                 view.bringSubview(toFront: qrCodeFrameView)
             }
             
+
+            
             
         } catch {
             // If any error occurs, simply print it out and don't continue any more.
@@ -69,6 +79,8 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             return
         }
         
+        
+        print(messageLabel)
     }
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
@@ -90,9 +102,16 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             
             if metadataObj.stringValue != nil {
                 messageLabel.text = metadataObj.stringValue
+                print(messageLabel.text!)
+                message = messageLabel.text!
+                self.performSegue(withIdentifier: "toForm", sender: nil)
+                captureSession?.stopRunning()
             }
         }
     }
+    
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

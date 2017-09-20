@@ -10,34 +10,39 @@ import UIKit
 import Alamofire
 import Firebase
 
-class ActiveViewController: UIViewController, UITableViewDelegate {
 
+
+class ActiveViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+   
+    @IBOutlet weak var table: UITableView!
+    
+
+    var list: [active] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        let userID = Auth.auth().currentUser!.uid
+        // Do any additional setup after loading the view, typically from a nib.
         
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/activeVehicles?uid=\(userID)") .responseJSON { response in
-            if let result = response.result.value as? [String:Any],
-                let main = result["list"] as? [[String:String]]{
-                // main[0]["name"] or use main.first?["name"] for first index or loop through array
-                for obj in main{
-                    print(obj["name"]!)
-                    print(obj["id"]!)
-                }
-                
-                print(main[0]["name"]!)
-            }
-            
-        
-        }
+    
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
+    {
+        return list.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+        cell.textLabel?.text = list[indexPath.row].name
+        cell.detailTextLabel?.text =  list[indexPath.row].number
+        
+        
+        return cell
+    }
 }
