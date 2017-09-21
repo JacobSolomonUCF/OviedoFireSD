@@ -32,9 +32,12 @@ class HomeViewController: UIViewController {
     var activeTrucks: [active] = []
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let nextController = segue.destination as! ActiveViewController
-        nextController.list = activeTrucks
+        
+        if segue.identifier == "toActive"{
+            let nextController = segue.destination as! ActiveViewController
+            nextController.list = activeTrucks
 
+        }
     }
     
     override func viewDidLoad() {
