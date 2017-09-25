@@ -94,12 +94,12 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
                 <span class="pure-u-7-8">&nbsp;Statistics</span>
               </a>
             </li>
-            <li class="pure-menu-item" (click)="this.editList = !this.editList">
+            <li class="pure-menu-item edit-tab" (click)="this.editList = !this.editList" style="">
               <a class="pure-menu-link" [ngSwitch]="this.editList">
                 <i class="pure-u-1-8 fa fa-edit"></i>
                 <span class="pure-u-3-4">&nbsp;Edit</span>
-                <i class="pure-u-1-8 fa fa-chevron-right" *ngSwitchDefault></i>
                 <i class="pure-u-1-8 fa fa-chevron-down" *ngSwitchCase="true"></i>
+                <i class="pure-u-1-8 fa fa-chevron-right" *ngSwitchDefault></i>
               </a>
             </li>
             <ul *ngIf="this.editList" class="pure-menu-sub-list">
@@ -122,7 +122,7 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
                 <span class="pure-u-7-8">&nbsp;Extras</span>
               </a>
             </li>
-            <li class="pure-menu-item" (click)="logout()">
+            <li class="pure-menu-item edit-tab" (click)="logout()">
               <a uiSref="logout" class="pure-menu-link">
                 <i class="pure-u-1-8 fa fa-power-off"></i>
                 <span class="pure-u-7-8">&nbsp;Logout</span>

@@ -20,10 +20,10 @@ export class EditUser {
     // {prop: 'ID', flexGrow: 1, dragable: false, resizeable: false}
   ];
   users: any[] = [
-    {'First Name': "John",   'Last Name': "Doe",    'Shift': 'A', 'ID': 832},
-    {'First Name': "Mary",   'Last Name': "Moe",    'Shift': 'A', 'ID': 829},
-    {'First Name': "Joe",    'Last Name': "Dooley", 'Shift': 'B', 'ID': 928},
-    {'First Name': "Johnny", 'Last Name': "Dooley", 'Shift': 'C', 'ID': 223}
+    {'First Name': "John",   'Last Name': "Doe",    Shift: 'A', ID: 832},
+    {'First Name': "Mary",   'Last Name': "Moe",    Shift: 'A', ID: 829},
+    {'First Name': "Joe",    'Last Name': "Dooley", Shift: 'B', ID: 928},
+    {'First Name': "Johnny", 'Last Name': "Dooley", Shift: 'C', ID: 223}
   ];
 
   constructor(webService: WebService) {

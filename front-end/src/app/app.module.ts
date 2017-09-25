@@ -50,10 +50,10 @@ export const firebaseConfig = {
 let states = [
     { name: 'home',       url: '',                component: Home         }
   , { name: 'report',     url: '/reports',        component: Report       }
-  , { name: 'eEquipment', url: '/edit/equipment', component: EditEquipment}
-  , { name: 'eReport',    url: '/edit/report',    component: EditReport   }
-  , { name: 'eTruck',     url: '/edit/truck',     component: EditTruck    }
-  , { name: 'eUser',      url: '/edit/users',     component: EditUser     }
+  , { name: 'eEquipment', url: '/equipment',      component: EditEquipment}
+  , { name: 'eReport',    url: '/report',         component: EditReport   }
+  , { name: 'eTruck',     url: '/truck',          component: EditTruck    }
+  , { name: 'eUser',      url: '/users',          component: EditUser     }
   , { name: 'statistic',  url: '/statistics',     component: Statistic    }
   , { name: 'extra',      url: '/extras',         component: Extra        }
   , { name: 'table',      url: '',                component: Table        }

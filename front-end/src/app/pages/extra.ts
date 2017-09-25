@@ -60,7 +60,8 @@ import {WebService} from "../services/webService";
         </ngx-datatable>
       </ng-template>-->
       <!--<ng-template class="report-week-view">-->
-        <ngx-datatable
+        
+      <ngx-datatable
           #myTable
           class='material expandable'
           [rows]="rows"

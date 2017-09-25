@@ -1,6 +1,8 @@
 import {Component, Inject} from '@angular/core';
 import {MD_DIALOG_DATA} from "@angular/material";
 
+
+// TODO: destroy/replace
 @Component({
   selector: 'modal',
   template: `
@@ -13,8 +15,13 @@ import {MD_DIALOG_DATA} from "@angular/material";
       <div class="modal-body {{data.edit}}">
         <ng-template [ngSwitchCase]="'edit'">
           <div *ngFor="let property of data.properties">
-            <label *ngIf="property!=='ID'">{{property}}</label><br/>
-            <input *ngIf="property!=='ID'" [value]="data.body[property]" style="margin-bottom: 2em"/>
+            <label *ngIf="property!=='ID'" style="text-transform: capitalize">{{property}}</label><br/>
+            <input #i *ngIf="property!=='ID' && property!=='frequency'" [value]="data.body[property]" style="margin-bottom: 2em" (blur)="temp[property] = i.value"/>
+            <select *ngIf="property==='frequency'" style="margin-bottom: 1em">
+              <option>Weekly</option>
+              <option>Daily</option>
+              <option>Custom</option>
+            </select>
           </div>
         </ng-template>
         <ng-template [ngSwitchCase]="'view'">
@@ -27,7 +34,7 @@ import {MD_DIALOG_DATA} from "@angular/material";
       <div class="modal-footer">
         <div>
           <button class="accept" *ngSwitchCase="'view'">Download</button>
-          <button class="accept" *ngSwitchCase="'edit'">Accept</button>
+          <button class="accept" *ngSwitchCase="'edit'" [md-dialog-close]="data.body">Accept</button>
           <button class="cancel" md-dialog-close>Cancel</button>
         </div>
       </div>
@@ -36,5 +43,26 @@ import {MD_DIALOG_DATA} from "@angular/material";
   styleUrls: ['modal.sass']
 })
 export class Modal {
-  constructor(@Inject(MD_DIALOG_DATA) public data: any) {}
+
+  temp: any;
+  constructor(@Inject(MD_DIALOG_DATA) public data: any) {
+    this.temp = { ...data.body};
+    //this.temp = data.body;
+    // let reports = {
+    //   name: 'string',
+    //   frequency: [
+    //     'actual frequency type',
+    //     'other frequency',
+    //     'other frequency'
+    //   ],
+    //   status: [
+    //     'actual status',
+    //     'status'
+    //   ],
+    //   schedule: [
+    //     'mon','tue','wed','thur','fri','sat','sun'
+    //   ],
+    //   id: 'number'
+    // };
+  }
 }

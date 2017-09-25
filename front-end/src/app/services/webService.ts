@@ -45,6 +45,7 @@ export class WebService {
     return this.http.get(this.baseUrl + '/home' + this.token());
   }
 
+  // TODO: remove this from webservices because it really isnt a web service
   setState(state: string) {
     this.state = state;
   }

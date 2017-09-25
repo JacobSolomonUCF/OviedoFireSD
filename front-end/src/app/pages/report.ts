@@ -9,7 +9,6 @@ import {WebService} from "../services/webService";
 
     <div class="content">
       <item-table [heading]="heading" [rows]="reports" [tableType]="'view'"></item-table>
-      <!--<item-table [heading]="heading" [rows]="reports" [tableType]="'view'"></item-table>-->
     </div>
   `
   , styleUrls: ['../menu.sass', '../table.sass']
