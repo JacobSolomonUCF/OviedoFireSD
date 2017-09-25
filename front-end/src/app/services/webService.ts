@@ -48,6 +48,7 @@ export class WebService {
   // TODO: remove this from webservices because it really isnt a web service
   setState(state: string) {
     this.state = state;
+    return this;
   }
 
   checkState() {

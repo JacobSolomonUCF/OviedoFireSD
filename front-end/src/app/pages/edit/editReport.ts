@@ -24,10 +24,9 @@ export class EditReport {
   constructor(public webService: WebService) {
     let self = this;
 
-    webService.setState('eReport');
-
-    webService.get('/reports')
-      .subscribe(resp => {
+    webService.setState('eReport')
+      .get('/reports')
+        .subscribe(resp => {
         self.reports = resp['reportsList'];
       });
   }

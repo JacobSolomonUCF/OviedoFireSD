@@ -116,9 +116,7 @@ import {MdDialog} from "@angular/material";
         </ngx-datatable>
       </div>
     </div>
-
   `
-  , styleUrls: ['./table.sass']
 })
 export class Table {
   @ViewChild('myTable') table: any;
@@ -172,22 +170,6 @@ export class Table {
     this.original = this.rows;
   }
 
-
-  getCheckBox(status) {
-    switch (status) {
-      case 'Okay':
-        return 'fa-check-square box-okay';
-      case 'Repair':
-        return 'fa-check-square box-repair';
-      case 'Missing':
-        return 'fa-check-square box-missing';
-      case 'Broken':
-        return 'fa-check-square box-broken';
-      default:
-        return 'fa-square-o'
-    }
-  }
-
   toggle() {
     this.table.rows = this.rows;
     this.style = (this.previousStyle) ? this.previousStyle : this.style;
@@ -215,4 +197,20 @@ export class Table {
   toggleExpandGroup(group) {
     this.table.groupHeader.toggleExpandGroup(group);
   }
+
+  getCheckBox(status) {
+    switch (status) {
+      case 'Okay':
+        return 'fa-check-square box-okay';
+      case 'Repair':
+        return 'fa-check-square box-repair';
+      case 'Missing':
+        return 'fa-check-square box-missing';
+      case 'Broken':
+        return 'fa-check-square box-broken';
+      default:
+        return 'fa-square-o'
+    }
+  }
+
 }

@@ -11,7 +11,7 @@ import {WebService} from "../services/webService";
       <item-table [heading]="heading" [rows]="reports" [tableType]="'view'"></item-table>
     </div>
   `
-  , styleUrls: ['../menu.sass', '../table.sass']
+  , styleUrls: ['../menu.sass']
 })
 export class Report {
   headingDaily = [
