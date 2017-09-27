@@ -32,8 +32,6 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     var list: [active] = []
     var truckCompartments: [compartments] = []
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -58,13 +56,8 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(list[indexPath.row])
         getCompartments(singleSelection: list[indexPath.row].number, completion:{
-            print("YESSS")
             self.performSegue(withIdentifier: "toCompartments", sender: (Any).self)
         })
-        //singleSelection.name = list[indexPath.row].name
-        //singleSelection.id = list[indexPath.row].number
-        
-        //list[indexPath.row].name
     }
     
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
@@ -86,6 +79,10 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     func getCompartments(singleSelection:String,completion : @escaping ()->()){
         
         let userID:String = (Auth.auth().currentUser?.uid)!
+        
+        if(self.truckCompartments.count != 0){
+            self.truckCompartments.removeAll()
+        }
         
         Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/vehicleCompartments?uid=\(userID)&vehicleId=\(singleSelection)") .responseJSON { response in
             if let result = response.result.value as? [String:Any],
