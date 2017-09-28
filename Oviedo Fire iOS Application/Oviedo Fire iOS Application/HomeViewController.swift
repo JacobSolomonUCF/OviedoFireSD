@@ -30,14 +30,17 @@ class HomeViewController: UIViewController {
     
     let ID = Auth.auth().currentUser!.uid
     var activeTrucks: [active] = []
+    let activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "toActive"{
             let nextController = segue.destination as! ActiveViewController
             nextController.list = activeTrucks
-
+            self.enableButtons()
         }
+        
     }
     
     override func viewDidLoad() {
@@ -45,7 +48,6 @@ class HomeViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         screenFormat()
-
         
     }
 
@@ -65,6 +67,23 @@ class HomeViewController: UIViewController {
         qrCode.layer.cornerRadius = 40
         qrCode.clipsToBounds = true
         
+        activityView.center = self.view.center
+        
+    }
+    
+    func disableButtons(){
+        activeButton.isEnabled = false
+        offTruck.isEnabled = false
+        todoList.isEnabled = false
+        qrCode.isEnabled = false
+        
+    }
+    func enableButtons(){
+        activeButton.isEnabled = true
+        offTruck.isEnabled = true
+        todoList.isEnabled = true
+        qrCode.isEnabled = true
+        
     }
     
     //Actions
@@ -78,9 +97,17 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func activeClicked(_ sender: Any) {
+        //Disable other buttons
+        disableButtons()
+        
+        //Start the activity view
+        activityView.startAnimating()
+        self.view.addSubview(activityView)
         
         getActive(userID: ID, completion: {
-           self.performSegue(withIdentifier: "toActive", sender: nil)
+            self.activityView.stopAnimating()
+            self.view.willRemoveSubview(self.activityView)
+            self.performSegue(withIdentifier: "toActive", sender: nil)
         })
     }
     

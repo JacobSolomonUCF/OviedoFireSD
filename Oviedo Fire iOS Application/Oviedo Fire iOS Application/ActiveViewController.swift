@@ -31,11 +31,12 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
 
     var list: [active] = []
     var truckCompartments: [compartments] = []
+    let activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
+        activityView.center = self.view.center
     
     }
     
@@ -55,7 +56,12 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(list[indexPath.row])
+        activityView.startAnimating()
+        view.addSubview(activityView)
+        
         getCompartments(singleSelection: list[indexPath.row].number, completion:{
+            self.activityView.stopAnimating()
+            self.view.willRemoveSubview(self.activityView)
             self.performSegue(withIdentifier: "toCompartments", sender: (Any).self)
         })
     }
@@ -79,6 +85,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     func getCompartments(singleSelection:String,completion : @escaping ()->()){
         
         let userID:String = (Auth.auth().currentUser?.uid)!
+
         
         if(self.truckCompartments.count != 0){
             self.truckCompartments.removeAll()
