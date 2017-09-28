@@ -440,7 +440,7 @@ exports.form = functions.https.onRequest((req, res) => {
         }
     } else if(req.method == "POST") {
 		if(req.body) {
-			var body = JSON.parse(req.body);
+			var body = req.body;
 			if(body.uid && body.formId && body.results) {
 	            getAuth(body.uid, function(auth) {
 	                if(auth != 401) {
