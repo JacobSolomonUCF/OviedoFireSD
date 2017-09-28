@@ -438,7 +438,72 @@ exports.form = functions.https.onRequest((req, res) => {
                 res.status(400).send("Missing 'formId' and 'uid' parameters");
             });
         }
-    } else {
+    } else if(req.method == "POST") {
+		if(req.body) {
+			var body = JSON.parse(req.body);
+			if(body.uid && body.formId && body.results) {
+	            getAuth(body.uid, function(auth) {
+	                if(auth != 401) {
+	                    if(auth == 0 || auth == 1) {
+							admin.database().ref('/users/' + body.uid).once('value', function(snap) {
+								var user = snap.val();
+								var time = getTime();
+
+								admin.database().ref('/forms/results/' + body.formId + '/' + time.datestamp).set({
+									"completedBy": user.firstName + ' ' + user.lastName,
+									"results": body.results
+								});
+
+								cors(req, res, () => {
+		                            res.status(200).send('OK');
+		                        });
+							});
+						} else {
+	                        cors(req, res, () => {
+	                            res.status(403).send("The request violates the user's permission level");
+	                        });
+	                    }
+					} else {
+	                    cors(req, res, () => {
+	                        res.status(401).send('The user is not authorized for access');
+	                    });
+	                }
+				});
+			} else if(body.uid && body.formId && !body.results) {
+				cors(req, res, () => {
+	                res.status(400).send("Missing 'results' parameter");
+	            });
+			} else if(body.uid && !body.formId && body.results) {
+				cors(req, res, () => {
+	                res.status(400).send("Missing 'formId' parameter");
+	            });
+			} else if(body.uid && !body.formId && !body.results) {
+				cors(req, res, () => {
+	                res.status(400).send("Missing 'formId' and 'results' parameter");
+	            });
+			} else if(!body.uid && body.formId && body.results) {
+				cors(req, res, () => {
+	                res.status(400).send("Missing 'uid' parameter");
+	            });
+			} else if(!body.uid && body.formId && !body.results) {
+				cors(req, res, () => {
+	                res.status(400).send("Missing 'uid' and 'results' parameter");
+	            });
+			} else if(!body.uid && !body.formId && body.results) {
+				cors(req, res, () => {
+	                res.status(400).send("Missing 'uid' and 'formId' parameter");
+	            });
+			} else {
+				cors(req, res, () => {
+	                res.status(400).send("Missing 'uid', 'formId' and 'results' parameter");
+	            });
+			}
+		} else {
+			cors(req, res, () => {
+                res.status(400).send("Missing request body");
+            });
+		}
+	} else {
         cors(req, res, () => {
             res.sendStatus(404);
         });
@@ -762,6 +827,7 @@ exports.toDoList = functions.https.onRequest((req, res) => {
                             var list = [];
                             var name;
                             var schedule;
+							var timestamps;
                             var completeBy;
                             var formId;
 
@@ -773,27 +839,41 @@ exports.toDoList = functions.https.onRequest((req, res) => {
                                 // set schedule of the report
                                 schedule = intervals[forms[i]].frequency;
 
-                                // check to see if the form has been completed
-                                if(!results || !results[forms[i]]) {
-                                    if(schedule == "Daily") {
-                                        completeBy = "End of Day";
-                                    } else if(schedule == "Weekly") {
-                                        completeBy = "End of Week";
-                                    } else if(schedule == "Monthly") {
-                                        completeBy = "End of Month";
-                                    }
-                                }
+								// set results
+								if(results && results[forms[i]]) {
+									timestamps = results[forms[i]];
 
-                                // set id of the report
-                                formId = forms[i];
+									if(schedule == "Daily" && !timestamps[time.datestamp]) {
+										completeBy = "End of Day";
+									} else if(schedule == "Weekly" && !time.weekstamps.includes(timestamps[timestamps.length-1])) {
+										completeBy = "End of Week";
+									} else if(schedule == "Monthly" && !timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+										completeBy = "End of Month";
+									} else {
+										completeBy = "completed";
+									}
+								} else {
+									if(schedule == "Daily") {
+										completeBy = "End of Day";
+									} else if(schedule == "Weekly") {
+										completeBy = "End of Week";
+									} else if(schedule == "Monthly") {
+										completeBy = "End of Month";
+									}
+								}
 
-                                // create JSON object for the array
-                                var report = {
-                                    "name": name,
-                                    "formId": formId,
-                                    "completeBy": completeBy
-                                };
-                                list.push(report);
+								if(completeBy != "completed") {
+									// set id of the report
+	                                formId = forms[i];
+
+	                                // create JSON object for the array
+	                                var report = {
+	                                    "name": name,
+	                                    "formId": formId,
+	                                    "completeBy": completeBy
+	                                };
+	                                list.push(report);
+								}
                             }
 
                             // create JSON response object
