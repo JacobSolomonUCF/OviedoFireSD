@@ -969,3 +969,65 @@ exports.results = functions.https.onRequest((req, res) => {
         });
     }
 });
+
+exports.checkCompletion = functions.https.onRequest((req, res) => {
+    if(req.method == "GET") {
+        if(req.query.formId && req.query.uid) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0 || auth == 1) {
+                        admin.database().ref('/').once('value', function(snap) {
+                            var root = snap.val();
+                            var results = root.forms.results;
+                            var intervals = root.forms.intervals;
+                            var time = getTime();
+
+                            var completed = false;
+
+                            if(results && results[req.query.formId]) {
+                                var schedule = intervals[req.query.formId].frequency;
+                                var timestamps = Object.keys(results[req.query.formId]);
+
+                                if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
+                                    completed = true;
+                                } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                    completed = true;
+                                } else if(schedule == "Monthy" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                    completed = true;
+                                }
+                            }
+
+                            cors(req, res, () => {
+                                res.status(200).send(completed);
+                            });
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else if(!req.query.formId && req.query.uid) {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'formId' parameter");
+            });
+        } else if(req.query.formId && !req.query.uid) {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' parameter");
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'formId' and 'uid' parameters");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
