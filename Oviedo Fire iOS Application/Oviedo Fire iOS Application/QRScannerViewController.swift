@@ -12,121 +12,131 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     
     @IBOutlet var messageLabel:UILabel!
     @IBOutlet var topbar: UIView!
-    var captureSession:AVCaptureSession?
+
+    var message:String = "Default"
+    var captureDevice:AVCaptureDevice?
     var videoPreviewLayer:AVCaptureVideoPreviewLayer?
-    var qrCodeFrameView:UIView?
-    var message:String = ""
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let nextController = segue.destination as! EqFormViewController
-        
-        nextController.string = message
-    }
-    
+    var captureSession:AVCaptureSession?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        // Do any additional setup after loading the view, typically from a nib.
+        navigationItem.title = "Scanner"
+        view.backgroundColor = .white
         
-        // Get an instance of the AVCaptureDevice class to initialize a device object and provide the video as the media type parameter.
-        let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
-        
-        do {
-            // Get an instance of the AVCaptureDeviceInput class using the previous device object.
-            let input = try AVCaptureDeviceInput(device: captureDevice)
+        captureDevice = AVCaptureDevice.default(for: .video)
+        // Check if captureDevice returns a value and unwrap it
+        if let captureDevice = captureDevice {
             
-            // Initialize the captureSession object.
-            captureSession = AVCaptureSession()
-            
-            // Set the input device on the capture session.
-            captureSession?.addInput(input)
-            
-            // Initialize a AVCaptureMetadataOutput object and set it as the output device to the capture session.
-            let captureMetadataOutput = AVCaptureMetadataOutput()
-            captureSession?.addOutput(captureMetadataOutput)
-            
-            captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
-            
-            // Initialize the video preview layer and add it as a sublayer to the viewPreview view's layer.
-            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-            videoPreviewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
-            videoPreviewLayer?.frame = view.layer.bounds
-            view.layer.addSublayer(videoPreviewLayer!)
-            
-            // Start video capture.
-            captureSession?.startRunning()
-            
-            // Move the message label and top bar to the front
-            view.bringSubview(toFront: messageLabel)
-            view.bringSubview(toFront: topbar)
-            
-            qrCodeFrameView = UIView()
-            
-            if let qrCodeFrameView = qrCodeFrameView {
-                qrCodeFrameView.layer.borderColor = UIColor.green.cgColor
-                qrCodeFrameView.layer.borderWidth = 4
-                view.addSubview(qrCodeFrameView)
-                view.bringSubview(toFront: qrCodeFrameView)
+            do {
+                let input = try AVCaptureDeviceInput(device: captureDevice)
+                
+                captureSession = AVCaptureSession()
+                guard let captureSession = captureSession else { return }
+                captureSession.addInput(input)
+                
+                let captureMetadataOutput = AVCaptureMetadataOutput()
+                captureSession.addOutput(captureMetadataOutput)
+                
+                captureMetadataOutput.setMetadataObjectsDelegate(self, queue: .main)
+                captureMetadataOutput.metadataObjectTypes = [.code128, .qr, .ean13,  .ean8, .code39] //AVMetadataObject.ObjectType
+                
+                captureSession.startRunning()
+                
+                videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+                videoPreviewLayer?.videoGravity = .resizeAspectFill
+                videoPreviewLayer?.frame = view.layer.bounds
+                view.layer.addSublayer(videoPreviewLayer!)
+                
+            } catch {
+                print("Error Device Input")
             }
             
-
-            
-            
-        } catch {
-            // If any error occurs, simply print it out and don't continue any more.
-            print(error)
-            return
         }
         
+        view.addSubview(codeLabel)
+        codeLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        codeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        codeLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        codeLabel.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         
-        print(messageLabel)
     }
-    
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
-        
-        // Check if the metadataObjects array is not nil and it contains at least one object.
-        if metadataObjects == nil || metadataObjects.count == 0 {
-            qrCodeFrameView?.frame = CGRect.zero
-            messageLabel.text = "No QR code is detected"
-            return
-        }
-        
-        // Get the metadata object.
-        let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
-        
-        if metadataObj.type == AVMetadataObjectTypeQRCode {
-            // If the found metadata is equal to the QR code metadata then update the status label's text and set the bounds
-            let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
-            qrCodeFrameView?.frame = barCodeObject!.bounds
-            
-            if metadataObj.stringValue != nil {
-                messageLabel.text = metadataObj.stringValue
-                print(messageLabel.text!)
-                message = messageLabel.text!
-                self.performSegue(withIdentifier: "toForm", sender: nil)
-                captureSession?.stopRunning()
-            }
-        }
-    }
-    
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    let codeLabel:UILabel = {
+        let codeLabel = UILabel()
+        codeLabel.backgroundColor = .white
+        codeLabel.translatesAutoresizingMaskIntoConstraints = false
+        return codeLabel
+    }()
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    let codeFrame:UIView = {
+        let codeFrame = UIView()
+        codeFrame.layer.borderColor = UIColor.green.cgColor
+        codeFrame.layer.borderWidth = 2
+        codeFrame.frame = CGRect.zero
+        codeFrame.translatesAutoresizingMaskIntoConstraints = false
+        return codeFrame
+    }()
+    
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        if metadataObjects.count == 0 {
+            //print("No Input Detected")
+            codeFrame.frame = CGRect.zero
+            codeLabel.text = "No Data"
+            return
+        }
+        
+        let metadataObject = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
+        
+        guard let stringCodeValue = metadataObject.stringValue else { return }
+        
+        view.addSubview(codeFrame)
+        
+        guard let barcodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObject) else { return }
+        codeFrame.frame = barcodeObject.bounds
+        codeLabel.text = stringCodeValue
+        
+        // Play system sound with custom mp3 file
+        if let customSoundUrl = Bundle.main.url(forResource: "beep-07", withExtension: "mp3") {
+            var customSoundId: SystemSoundID = 0
+            AudioServicesCreateSystemSoundID(customSoundUrl as CFURL, &customSoundId)
+            //let systemSoundId: SystemSoundID = 1016  // to play apple's built in sound, no need for upper 3 lines
+            
+            AudioServicesAddSystemSoundCompletion(customSoundId, nil, nil, { (customSoundId, _) -> Void in
+                AudioServicesDisposeSystemSoundID(customSoundId)
+            }, nil)
+            
+            AudioServicesPlaySystemSound(customSoundId)
+        }
+        
+        // Stop capturing and hence stop executing metadataOutput function over and over again
+        message = stringCodeValue
+        captureSession?.stopRunning()
+        
+        // Call the function which performs navigation and pass the code string value we just detected
+        performSegue(withIdentifier: "toForm", sender: (Any).self)
+        //displayDetailsViewController(scannedCode: stringCodeValue)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toForm"{
+            let nextController = segue.destination as! EqFormViewController
+            nextController.string = message
+            
+        }
+    }
+    
+    func displayDetailsViewController(scannedCode: String) {
+        //let detailsViewController = EqFormViewController()
+        //detailsViewController.string = scannedCode.te
+        //navigationController?.pushViewController(detailsViewController, animated: true)
+        //present(detailsViewController, animated: true, completion: nil)
+    }
     
 }

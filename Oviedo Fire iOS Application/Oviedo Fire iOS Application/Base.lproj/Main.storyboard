@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="4hx-VL-0Te">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="4hx-VL-0Te">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,7 +15,7 @@
             <objects>
                 <navigationController id="3SJ-mM-X7t" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="WQy-ta-325">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -42,14 +42,14 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome! Please Log In:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2m8-TI-frt">
-                                <rect key="frame" x="110.33333333333331" y="168" width="194.33333333333337" height="21.666666666666657"/>
+                                <rect key="frame" x="120.66666666666666" y="168" width="194.33333333333334" height="21.666666666666657"/>
                                 <color key="tintColor" red="0.9959825873" green="0.99621325729999999" blue="0.99187678099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oviedo Fire Inventory Management" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cds-2v-caA">
-                                <rect key="frame" x="35" y="84" width="344" height="84"/>
+                                <rect key="frame" x="54.666666666666657" y="84" width="324.33333333333337" height="84"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="84" id="Ftc-O0-wWQ"/>
                                 </constraints>
@@ -103,7 +103,7 @@
                         <constraints>
                             <constraint firstItem="Ecw-Wp-EPT" firstAttribute="top" secondItem="3sg-ur-OpD" secondAttribute="bottom" constant="8.0000000000000568" id="0g7-fQ-ZmZ"/>
                             <constraint firstItem="2m8-TI-frt" firstAttribute="top" secondItem="Cds-2v-caA" secondAttribute="bottom" id="IBp-YE-TcQ"/>
-                            <constraint firstItem="Cds-2v-caA" firstAttribute="leading" secondItem="Ydo-Mt-9BR" secondAttribute="leadingMargin" constant="15" id="L82-J7-z5y"/>
+                            <constraint firstItem="Cds-2v-caA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ydo-Mt-9BR" secondAttribute="leadingMargin" constant="10" id="L82-J7-z5y"/>
                             <constraint firstItem="Fxb-2g-AlP" firstAttribute="leading" secondItem="Ydo-Mt-9BR" secondAttribute="leadingMargin" constant="60" id="Qa0-u5-gQY"/>
                             <constraint firstItem="AQ9-Ad-3DE" firstAttribute="height" secondItem="Ydo-Mt-9BR" secondAttribute="height" id="VBw-U4-DW3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Fxb-2g-AlP" secondAttribute="trailing" constant="60" id="Xb0-0n-8VI"/>
@@ -148,35 +148,35 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please enter an email and password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w73-oi-2uz">
-                                <rect key="frame" x="64.333333333333343" y="65" width="285.66666666666663" height="21.666666666666671"/>
+                                <rect key="frame" x="64.333333333333343" y="109" width="285.66666666666663" height="21.666666666666657"/>
                                 <color key="tintColor" red="0.9959825873" green="0.99621325729999999" blue="0.99187678099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="TEh-0t-dDQ">
-                                <rect key="frame" x="80" y="209.66666666666663" width="254" height="317.66666666666674"/>
+                                <rect key="frame" x="80" y="253.66666666666669" width="254" height="229.66666666666669"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ebw-mW-BVK">
-                                        <rect key="frame" x="0.0" y="0.0" width="254" height="64.333333333333343"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="254" height="42.333333333333343"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="continue"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="089-Qz-vhI">
-                                        <rect key="frame" x="0.0" y="84.333333333333343" width="254" height="64.666666666666686"/>
+                                        <rect key="frame" x="0.0" y="62.333333333333343" width="254" height="42.666666666666686"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Repeat Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="B56-Y3-FWK">
-                                        <rect key="frame" x="0.0" y="169.00000000000003" width="254" height="64.333333333333314"/>
+                                        <rect key="frame" x="0.0" y="125.00000000000003" width="254" height="42.333333333333314"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N0O-DW-CEA">
-                                        <rect key="frame" x="0.0" y="253.33333333333331" width="254" height="64.333333333333371"/>
+                                        <rect key="frame" x="0.0" y="187.33333333333334" width="254" height="42.333333333333314"/>
                                         <color key="backgroundColor" red="1" green="0.8525047898" blue="0.27265673880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                         <state key="normal" title="Login">
@@ -230,7 +230,7 @@
         <!--Home-->
         <scene sceneID="qdy-f4-Hn9">
             <objects>
-                <viewController title="Home" id="PNN-47-jNF" customClass="HomeViewController" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Home" id="PNN-47-jNF" customClass="HomeViewController" customModule="Oviedo_Fire_iOS_Application" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BTb-xf-JsS"/>
                         <viewControllerLayoutGuide type="bottom" id="hhu-Od-whm"/>
@@ -243,7 +243,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome User" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rnK-aT-zSw">
-                                <rect key="frame" x="126" y="69" width="162" height="30"/>
+                                <rect key="frame" x="128.33333333333331" y="69" width="157.33333333333331" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="O6p-HP-S80"/>
                                 </constraints>
@@ -327,18 +327,6 @@
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="fZY-IH-mT6">
                         <barButtonItem key="backBarButtonItem" title="Back" id="hK1-ce-vvX"/>
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="fNw-Qg-rFk">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SQ2-48-HvG">
-                                <rect key="frame" x="20" y="-3" width="107" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Logout">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="Logout:" destination="PNN-47-jNF" eventType="touchUpInside" id="WRv-9r-0bs"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="activeButton" destination="nfB-Qj-hDE" id="VjE-p3-WTK"/>
@@ -440,7 +428,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hKe-41-9cD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1086" y="-390"/>
+            <point key="canvasLocation" x="1086" y="-542"/>
         </scene>
         <!--To Do-->
         <scene sceneID="ybJ-Ak-I2W">
@@ -494,7 +482,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NDW-HT-Dwd" id="6PR-lv-7nH">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -529,7 +517,7 @@
         <!--Scanner Controller-->
         <scene sceneID="nre-dQ-bik">
             <objects>
-                <viewController id="nm9-M1-cUr" customClass="QRScannerController" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="nm9-M1-cUr" customClass="QRScannerController" customModule="Oviedo_Fire_iOS_Application" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="oet-4S-2kS"/>
                         <viewControllerLayoutGuide type="bottom" id="cuK-Is-ZNo"/>
@@ -629,7 +617,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jMf-rR-LSd" id="huH-oq-Nho">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>

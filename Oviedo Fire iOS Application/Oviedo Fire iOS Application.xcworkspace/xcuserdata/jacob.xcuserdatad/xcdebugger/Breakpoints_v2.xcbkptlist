@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Oviedo Fire iOS Application/CompartmentsViewController.swift"
-            timestampString = "527650032.243708"
+            timestampString = "528315808.678285"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "17"
@@ -25,13 +25,13 @@
                   symbolName = "Oviedo_Fire_iOS_Application.CompartmentsViewController.list.getter : Swift.Array&lt;Oviedo_Fire_iOS_Application.compartments&gt;"
                   moduleName = "Oviedo Fire iOS Application"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jacob/Desktop/School/SD/Oviedo%20Fire%20iOS%20Application/Oviedo%20Fire%20iOS%20Application/CompartmentsViewController.swift"
-                  timestampString = "527650032.248736"
+                  urlString = "file:///Users/Jacob/Desktop/School/Fall17/SD/Oviedo%20Fire%20iOS%20Application/Oviedo%20Fire%20iOS%20Application/CompartmentsViewController.swift"
+                  timestampString = "528315778.938061"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
                   endingLineNumber = "17"
-                  offsetFromSymbolStart = "35">
+                  offsetFromSymbolStart = "104">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -40,45 +40,61 @@
                   symbolName = "Oviedo_Fire_iOS_Application.CompartmentsViewController.list.setter : Swift.Array&lt;Oviedo_Fire_iOS_Application.compartments&gt;"
                   moduleName = "Oviedo Fire iOS Application"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jacob/Desktop/School/SD/Oviedo%20Fire%20iOS%20Application/Oviedo%20Fire%20iOS%20Application/CompartmentsViewController.swift"
-                  timestampString = "527650032.251397"
+                  urlString = "file:///Users/Jacob/Desktop/School/Fall17/SD/Oviedo%20Fire%20iOS%20Application/Oviedo%20Fire%20iOS%20Application/CompartmentsViewController.swift"
+                  timestampString = "528315778.941509"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
                   endingLineNumber = "17"
-                  offsetFromSymbolStart = "65">
+                  offsetFromSymbolStart = "120">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Oviedo_Fire_iOS_Application.CompartmentsViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; Oviedo_Fire_iOS_Application.CompartmentsViewController"
+                  symbolName = "Oviedo_Fire_iOS_Application.CompartmentsViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; Oviedo_Fire_iOS_Application.CompartmentsViewController"
                   moduleName = "Oviedo Fire iOS Application"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jacob/Desktop/School/SD/Oviedo%20Fire%20iOS%20Application/Oviedo%20Fire%20iOS%20Application/CompartmentsViewController.swift"
-                  timestampString = "527650032.253427"
+                  urlString = "file:///Users/Jacob/Desktop/School/Fall17/SD/Oviedo%20Fire%20iOS%20Application/Oviedo%20Fire%20iOS%20Application/CompartmentsViewController.swift"
+                  timestampString = "528315778.944788"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
                   endingLineNumber = "17"
-                  offsetFromSymbolStart = "156">
+                  offsetFromSymbolStart = "168">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Oviedo_Fire_iOS_Application.CompartmentsViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;Oviedo_Fire_iOS_Application.CompartmentsViewController&gt;"
+                  symbolName = "Oviedo_Fire_iOS_Application.CompartmentsViewController.init(coder: __ObjC.NSCoder) -&gt; Swift.Optional&lt;Oviedo_Fire_iOS_Application.CompartmentsViewController&gt;"
                   moduleName = "Oviedo Fire iOS Application"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jacob/Desktop/School/SD/Oviedo%20Fire%20iOS%20Application/Oviedo%20Fire%20iOS%20Application/CompartmentsViewController.swift"
-                  timestampString = "527650032.255302"
+                  urlString = "file:///Users/Jacob/Desktop/School/Fall17/SD/Oviedo%20Fire%20iOS%20Application/Oviedo%20Fire%20iOS%20Application/CompartmentsViewController.swift"
+                  timestampString = "528315778.947291"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
                   endingLineNumber = "17"
-                  offsetFromSymbolStart = "86">
+                  offsetFromSymbolStart = "120">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Oviedo Fire iOS Application/ActiveViewController.swift"
+            timestampString = "528315970.67028"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "tableView(_:didSelectRowAt:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
