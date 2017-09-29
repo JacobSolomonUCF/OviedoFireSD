@@ -10,56 +10,13 @@ import {MdDialog} from "@angular/material";
       </div>
       <div class="right">
         <input
+          #tableFilter
           class='filter'
           type='text'
           placeholder='Type to filter...'
           (keyup)='updateFilter($event)'/>
       </div>
     </div>
-    <!--<ngx-datatable>
-      class="table expandable"
-      [rows]="rows"
-      [rowHeight]="600"
-      [groupRowsBy]="'Compartment'"
-      [groupExpansionDefault]="true"
-      [columnMode]="'force'"
-      (select)="openDialog($event)"
-      [selectionType]="'single'"
-      *ngIf="tableType == 'modal'"
-    &gt;
-      <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader>
-        <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
-          <div style="padding-left:5px">
-            <a
-              href="#"
-              title="Expand/Collapse Group">
-              <b>Compartment: {{group.value[0].Compartment}}</b>
-            </a>
-          </div>
-        </ng-template>
-      </ngx-datatable-group-header>
-      
-      <ng-template ngFor="let h of heading" ngIf="h != 'Compartment'">
-
-        <ngx-datatable-column prop="{{h}}">
-          <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="rows"
-                       let-group="group">
-            {{rowIndex}}
-          </ng-template>
-        </ngx-datatable-column>
-      </ng-template>
-    </ngx-datatable>-->
-
-    <!--<ngx-datatable-->
-    <!--class="table"-->
-    <!--[rows]="rows"-->
-    <!--[rowHeight]="36"-->
-    <!--[columns]="heading"-->
-    <!--[columnMode]="'flex'"-->
-    <!--(select)="openDialog($event)"-->
-    <!--[selectionType]="'single'"></ngx-datatable>-->
-    <!---->
-    <!--{{style | json}}-->
 
     <div [ngSwitch]="style">
       <div *ngSwitchCase="styles.edit">
@@ -119,12 +76,13 @@ import {MdDialog} from "@angular/material";
   `
 })
 export class Table {
+  @ViewChild('tableFilter') tableFilter: any;
   @ViewChild('myTable') table: any;
+  @Input() tableType: any;
   @Input() heading: any[];
   @Input() rows: any[];
-  @Input() tableType: any;
   original: any;
-  temp: any[];
+  temp: any;
   row: any;
 
   styles = {
@@ -171,26 +129,40 @@ export class Table {
   }
 
   toggle() {
-    this.table.rows = this.rows;
     this.style = (this.previousStyle) ? this.previousStyle : this.style;
+    this.table.rows = this.rows;
     delete this.previousStyle;
+    delete this.temp;
+    this.updateFilter(undefined);
   }
 
   updateFilter(event) {
-    const val = event.target.value.toLowerCase();
+    let val = "";
     const self = this;
+    const source = self.temp ? self.temp :
+      { rows: self.original, heading: self.heading };
 
-    self.rows = self.original.filter(row => {
-      for (let i = 0, len = (!val ? 1 : self.heading.length); i < len; i++)
-        if (row[self.heading[i].prop].toLowerCase().indexOf(val) !== -1 || val == '')
+    console.log(self.temp);
+    if (!event)
+      this.tableFilter.nativeElement.value = "";
+    else
+      val = event.target.value.toLowerCase();
+
+    self.rows = source.rows.filter(row => {
+      for (let i = 0, len = (!val ? 1 : source.heading.length); i < len; i++)
+        if (row[source.heading[i].prop].toLowerCase().indexOf(val) !== -1 || val == '')
           return true;
       return false;
     });
   }
 
   openDialog(row, m) {
+    this.tableFilter.nativeElement.value = "";
     this.previousStyle = this.style;
-    m.rows = row.selected[0].data.rows;
+    m.rows = (this.temp = {
+      rows: row.selected[0].data.rows,
+      heading: row.selected[0].data.heading
+    }).rows;
     this.style = this.styles.modal;
   }
 
