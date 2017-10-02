@@ -127,7 +127,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toForm"{
             let nextController = segue.destination as! EqFormViewController
-            nextController.string = message
+            nextController.formId = message
             
         }
     }

@@ -123,7 +123,6 @@ class HomeViewController: UIViewController {
         //Start the activity view
         activityView.isHidden = false
         activityView.startAnimating()
-        self.view.addSubview(activityView)
         
         getActive(userID: ID, completion: {
             self.activityView.stopAnimating()
@@ -139,7 +138,6 @@ class HomeViewController: UIViewController {
         
         activityView.isHidden = false
         activityView.startAnimating()
-        self.view.addSubview(activityView)
         
         getTODO(userID: ID, completion: {
             self.activityView.stopAnimating()

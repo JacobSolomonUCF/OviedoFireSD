@@ -10,14 +10,14 @@ import UIKit
 
 class EqFormViewController: UIViewController {
     
-    var string:String = "TEST"
+    var formId:String = "TEST"
     
     @IBOutlet weak var label: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        label.text = string
+        label.text = formId
         // Do any additional setup after loading the view.
         
     
@@ -32,6 +32,8 @@ class EqFormViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
     
 
     /*

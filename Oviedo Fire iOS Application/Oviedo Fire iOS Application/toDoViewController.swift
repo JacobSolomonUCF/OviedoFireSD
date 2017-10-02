@@ -9,11 +9,17 @@
 import UIKit
 
 class toDoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+   
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     
     var list: [toDo] = []
+    var singleFormId:String = ""
     
     override func viewDidLoad() {
+        activityView.isHidden = true
+        
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
@@ -24,10 +30,25 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toForm"{
+            let nextController = segue.destination as! EqFormViewController
+            nextController.formId = singleFormId
+            
+        }
+    }
+    
     
     //List item is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(list[indexPath.row])
+        activityView.isHidden = false
+        activityView.startAnimating()
+        singleFormId = list[indexPath.row].formId
+        
+        performSegue(withIdentifier: "toForm", sender: nil)
+        
+
     }
     
     //Number of cells

@@ -16,6 +16,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     @IBOutlet weak var tableView: UITableView!
     
     var list: [compartments] = []
+    var singleFormId:String = ""
     
     
     override func viewWillDisappear(_ animated : Bool) {
@@ -41,6 +42,21 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
         // Dispose of any resources that can be recreated.
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(list[indexPath.row])
+        activityView.isHidden = false
+        activityView.startAnimating()
+        tableView.allowsSelection = false
+        
+        singleFormId = list[indexPath.row].formId
+        
+        performSegue(withIdentifier: "toForm", sender: nil)
+        activityView.stopAnimating()
+        activityView.isHidden = true
+        tableView.allowsSelection = true
+        
+    }
+    
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
         return list.count
@@ -54,6 +70,15 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
         
         
         return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "toForm"{
+            let nextController = segue.destination as! EqFormViewController
+            nextController.formId = singleFormId
+            
+        }
     }
 
     

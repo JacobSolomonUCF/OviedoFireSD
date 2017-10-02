@@ -102,6 +102,7 @@ class offTruckViewController: UIViewController {
     
     
     @IBAction func stretchersClicked(_ sender: Any) {
+        disableButtons()
         activityView.isHidden = false
         activityView.startAnimating()
         getOffTruck(userID: ID, type: "stretchers", completion: {
@@ -113,6 +114,7 @@ class offTruckViewController: UIViewController {
         
     }
     @IBAction func laddersClicked(_ sender: Any) {
+        disableButtons()
         activityView.isHidden = false
         activityView.startAnimating()
         getOffTruck(userID: ID, type: "ladders", completion: {
@@ -122,6 +124,7 @@ class offTruckViewController: UIViewController {
         })
     }
     @IBAction func scbaClicked(_ sender: Any) {
+        disableButtons()
         activityView.isHidden = false
         activityView.startAnimating()
         getOffTruck(userID: ID, type: "scbas", completion: {
@@ -131,6 +134,7 @@ class offTruckViewController: UIViewController {
         })
     }
     @IBAction func miscClicked(_ sender: Any) {
+        disableButtons()
         activityView.isHidden = false
         activityView.startAnimating()
         getOffTruck(userID: ID, type: "misc", completion: {

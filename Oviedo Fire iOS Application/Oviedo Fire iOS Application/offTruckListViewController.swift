@@ -10,9 +10,14 @@ import UIKit
 
 class offTruckListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
+    
     var list:[offTruck] = []
+    var singleFormId:String = ""
 
     override func viewDidLoad() {
+        activityView.isHidden = true
         super.viewDidLoad()
 
         print(list)
@@ -24,9 +29,27 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "toForm"{
+            let nextController = segue.destination as! EqFormViewController
+            nextController.formId = singleFormId
+            
+        }
+    }
+    
     //List item is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         print(list[indexPath.row])
+        activityView.isHidden = false
+        activityView.startAnimating()
+        singleFormId = list[indexPath.row].formId
+        
+        performSegue(withIdentifier: "toForm", sender: nil)
+        
+        activityView.isHidden = true
+        activityView.stopAnimating()
     }
     
     //Number of cells
