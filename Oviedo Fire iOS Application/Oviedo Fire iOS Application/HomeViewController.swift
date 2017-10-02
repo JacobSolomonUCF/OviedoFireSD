@@ -33,7 +33,7 @@ struct toDo{
 
 class HomeViewController: UIViewController {
     
-
+    //Buttons
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     @IBOutlet weak var activeButton: UIButton!
     @IBOutlet weak var offTruck: UIButton!
@@ -44,9 +44,8 @@ class HomeViewController: UIViewController {
     var activeTrucks: [active] = []
     var TODOList: [toDo] = []
     
-    
+    //Prepare for segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "toActive"{
             let nextController = segue.destination as! ActiveViewController
             nextController.list = activeTrucks
@@ -60,7 +59,6 @@ class HomeViewController: UIViewController {
         if segue.identifier == "toOffTruck"{
             self.enableButtons()
         }
-        
     }
     
     override func viewDidLoad() {
@@ -87,8 +85,6 @@ class HomeViewController: UIViewController {
         todoList.clipsToBounds = true
         qrCode.layer.cornerRadius = 40
         qrCode.clipsToBounds = true
-        
-        
     }
     
     func disableButtons(){
@@ -96,14 +92,12 @@ class HomeViewController: UIViewController {
         offTruck.isEnabled = false
         todoList.isEnabled = false
         qrCode.isEnabled = false
-        
     }
     func enableButtons(){
         activeButton.isEnabled = true
         offTruck.isEnabled = true
         todoList.isEnabled = true
         qrCode.isEnabled = true
-        
     }
     
     //Actions
@@ -181,6 +175,4 @@ class HomeViewController: UIViewController {
             completion()
         }
     }
-    
-    
 }

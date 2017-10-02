@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		160EA06E1F82DA2E00AF46DC /* pmrFormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160EA06D1F82DA2E00AF46DC /* pmrFormTableViewCell.swift */; };
 		161EE5151F68A83900FFEC0B /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 161EE5141F68A83900FFEC0B /* Podfile */; };
 		1627857E1F6C8071007D3E64 /* EqFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1627857D1F6C8071007D3E64 /* EqFormViewController.swift */; };
 		164CB79D1F733A0C0054F8B3 /* CompartmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164CB79C1F733A0C0054F8B3 /* CompartmentsViewController.swift */; };
@@ -73,6 +74,7 @@
 /* Begin PBXFileReference section */
 		04126A9BD7AE62BE969848A8 /* Pods_Oviedo_Fire_iOS_ApplicationTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Oviedo_Fire_iOS_ApplicationTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0FF0788381DD34BAD829472F /* Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationUITests/Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		160EA06D1F82DA2E00AF46DC /* pmrFormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pmrFormTableViewCell.swift; sourceTree = "<group>"; };
 		161EE5141F68A83900FFEC0B /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		1627857D1F6C8071007D3E64 /* EqFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EqFormViewController.swift; sourceTree = "<group>"; };
 		164CB79C1F733A0C0054F8B3 /* CompartmentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompartmentsViewController.swift; sourceTree = "<group>"; };
@@ -173,19 +175,20 @@
 			children = (
 				16CF468B1F560CB70063834B /* BG */,
 				16A90AE61F560C7C00F50919 /* AppDelegate.swift */,
-				16A90AEA1F560C7C00F50919 /* Main.storyboard */,
-				16B200831F81C0C5006BABAE /* offTruckListViewController.swift */,
-				16B2007F1F81B96E006BABAE /* toDoViewController.swift */,
 				16A90AE81F560C7C00F50919 /* ViewController.swift */,
-				164CB79C1F733A0C0054F8B3 /* CompartmentsViewController.swift */,
-				1627857D1F6C8071007D3E64 /* EqFormViewController.swift */,
-				16B7D9241F6A1D5600DC64FB /* QRScannerViewController.swift */,
-				166C5B941F6A13710015FAF6 /* ActiveViewController.swift */,
-				1654E9D21F68B77D00393980 /* SignUpViewController.swift */,
-				16C238A71F570E570036B615 /* offTruckViewController.swift */,
-				16B859841F5640FE005E38E2 /* LoginViewController.swift */,
+				16A90AEA1F560C7C00F50919 /* Main.storyboard */,
 				16B947581F72D96A0037FC39 /* Network.swift */,
+				16B859841F5640FE005E38E2 /* LoginViewController.swift */,
+				1654E9D21F68B77D00393980 /* SignUpViewController.swift */,
 				1654E39D1F563484002C43C6 /* HomeViewController.swift */,
+				166C5B941F6A13710015FAF6 /* ActiveViewController.swift */,
+				164CB79C1F733A0C0054F8B3 /* CompartmentsViewController.swift */,
+				16B2007F1F81B96E006BABAE /* toDoViewController.swift */,
+				16C238A71F570E570036B615 /* offTruckViewController.swift */,
+				16B200831F81C0C5006BABAE /* offTruckListViewController.swift */,
+				16B7D9241F6A1D5600DC64FB /* QRScannerViewController.swift */,
+				1627857D1F6C8071007D3E64 /* EqFormViewController.swift */,
+				160EA06D1F82DA2E00AF46DC /* pmrFormTableViewCell.swift */,
 				16A90AED1F560C7C00F50919 /* Assets.xcassets */,
 				16A90AEF1F560C7C00F50919 /* LaunchScreen.storyboard */,
 				16B4FA401F68A547000929F9 /* GoogleService-Info.plist */,
@@ -430,6 +433,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Oviedo Fire iOS Application/Pods-Oviedo Fire iOS Application-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/DLRadioButton/DLRadioButton.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -437,6 +441,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DLRadioButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -595,6 +600,7 @@
 				16A90AE71F560C7C00F50919 /* AppDelegate.swift in Sources */,
 				16C238A91F570E570036B615 /* offTruckViewController.swift in Sources */,
 				1654E39E1F563484002C43C6 /* HomeViewController.swift in Sources */,
+				160EA06E1F82DA2E00AF46DC /* pmrFormTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

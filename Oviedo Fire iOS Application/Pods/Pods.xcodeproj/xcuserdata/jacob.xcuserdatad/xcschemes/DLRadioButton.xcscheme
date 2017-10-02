@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "416A75698A13B34C3B1C332C7AE09AEC"
-               BuildableName = "Pods_Oviedo_Fire_iOS_Application.framework"
-               BlueprintName = "Pods-Oviedo Fire iOS Application"
+               BlueprintIdentifier = "F6A77E2753C279F67F70C5C21D6FAE15"
+               BuildableName = "DLRadioButton.framework"
+               BlueprintName = "DLRadioButton"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,9 +47,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "416A75698A13B34C3B1C332C7AE09AEC"
-            BuildableName = "Pods_Oviedo_Fire_iOS_Application.framework"
-            BlueprintName = "Pods-Oviedo Fire iOS Application"
+            BlueprintIdentifier = "F6A77E2753C279F67F70C5C21D6FAE15"
+            BuildableName = "DLRadioButton.framework"
+            BlueprintName = "DLRadioButton"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

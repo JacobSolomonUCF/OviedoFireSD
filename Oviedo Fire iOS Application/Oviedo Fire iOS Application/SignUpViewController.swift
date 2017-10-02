@@ -11,21 +11,16 @@ import Firebase
 
 class SignUpViewController: UIViewController {
 
+    //Buttons and text fields
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var repeatPassword: UITextField!
     
-    
     override func viewDidLoad() {
         activityView.isHidden = true
         super.viewDidLoad()
-        //Hide keyboard when tapped
-        
         // Do any additional setup after loading the view.
-        
-        
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,25 +29,16 @@ class SignUpViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
+    // MARK: Actions
 
     @IBAction func loginAction(_ sender: Any) {
-
         if email.text != "" && password.text != "" && repeatPassword.text != ""{
             if password.text == repeatPassword.text{
                activityView.isHidden = false
                 activityView.startAnimating()
                 Auth.auth().createUser(withEmail: email.text!, password: password.text!) { (user, error) in
                     if user != nil{
-                        
                         self.performSegue(withIdentifier: "toHome", sender: nil)
                     }else{
                         if let myError = error?.localizedDescription{
@@ -69,9 +55,5 @@ class SignUpViewController: UIViewController {
         }else{
             alert(message: "Please make sure all fields are entered")
         }
-    
-        
     }
-    
-    
 }

@@ -10,6 +10,7 @@ target 'Oviedo Fire iOS Application' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
   pod 'Alamofire'
+  pod 'DLRadioButton', '~> 1.4'
 
   target 'Oviedo Fire iOS ApplicationTests' do
     inherit! :search_paths

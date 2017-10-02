@@ -34,6 +34,7 @@ class offTruckViewController: UIViewController {
     var offTruckItem: [offTruck] = []
     let ID = Auth.auth().currentUser!.uid
     
+    //Prepare for Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
         if segue.identifier == "toOffTruckList"{
@@ -79,7 +80,7 @@ class offTruckViewController: UIViewController {
         misc.isEnabled = true
     }
     
-    
+    //Get off truck JSON
     func getOffTruck(userID:String,type:String,completion : @escaping ()->()){
         
         if(self.offTruckItem.count != 0){
@@ -97,10 +98,8 @@ class offTruckViewController: UIViewController {
             completion()
         }
     }
-
+    
     // MARK: - ACTIONS
-    
-    
     @IBAction func stretchersClicked(_ sender: Any) {
         disableButtons()
         activityView.isHidden = false

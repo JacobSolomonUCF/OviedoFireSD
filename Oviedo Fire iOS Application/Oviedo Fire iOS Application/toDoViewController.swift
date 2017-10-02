@@ -30,6 +30,7 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Dispose of any resources that can be recreated.
     }
     
+    //Prepare for Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toForm"{
             let nextController = segue.destination as! EqFormViewController
@@ -38,7 +39,7 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    
+    /////Table Functions
     //List item is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(list[indexPath.row])
@@ -68,16 +69,6 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         return cell
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    /////END Table Function
 
 }

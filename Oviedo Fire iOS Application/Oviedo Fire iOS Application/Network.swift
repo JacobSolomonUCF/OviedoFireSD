@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 import Alamofire
 
-
 extension UIViewController{
 
     func alert(message: String, title: String = "") {
@@ -19,6 +18,7 @@ extension UIViewController{
         alertController.addAction(OKAction)
         self.present(alertController, animated: true, completion: nil)
     }
+    
     
 
 }

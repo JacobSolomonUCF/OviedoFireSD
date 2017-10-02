@@ -7,13 +7,28 @@
 //
 
 import UIKit
+import Alamofire
+import Firebase
+
+struct formItem {
+    var caption: String
+    var type: String
+    
+    init(caption:String,type:String) {
+        self.caption = caption
+        self.type = type
+    }
+    
+}
 
 class offTruckListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
+    let userID = Auth.auth().currentUser!.uid
     var list:[offTruck] = []
+    var form:[formItem] = []
     var singleFormId:String = ""
 
     override func viewDidLoad() {
@@ -45,11 +60,14 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
         activityView.isHidden = false
         activityView.startAnimating()
         singleFormId = list[indexPath.row].formId
-        
-        performSegue(withIdentifier: "toForm", sender: nil)
+
         
         activityView.isHidden = true
         activityView.stopAnimating()
+        performSegue(withIdentifier: "toForm", sender: nil)
+            
+        
+
     }
     
     //Number of cells
