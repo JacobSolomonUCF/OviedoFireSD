@@ -1,61 +1,52 @@
 //
-//  CompartmentsViewController.swift
+//  toDoViewController.swift
 //  Oviedo Fire iOS Application
 //
-//  Created by Jacob Solomon on 9/20/17.
+//  Created by Jacob Solomon on 10/1/17.
 //  Copyright © 2017 Jacob Solomon. All rights reserved.
 //
 
 import UIKit
-import Alamofire
-import Firebase
 
-class CompartmentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    @IBOutlet weak var activityView: UIActivityIndicatorView!
-    @IBOutlet weak var tableView: UITableView!
-    
-    var list: [compartments] = []
+class toDoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
-    override func viewWillDisappear(_ animated : Bool) {
-        super.viewWillDisappear(animated)
-        
-        if self.isMovingFromParentViewController {
-            list.removeAll()
-            print(list.count)
-            tableView.reloadData()
-
-        }
-    }
+    var list: [toDo] = []
     
     override func viewDidLoad() {
-        activityView.isHidden = true
         super.viewDidLoad()
+
         // Do any additional setup after loading the view.
     }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
+    
+    //List item is tapped
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(list[indexPath.row])
+    }
+    
+    //Number of cells
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
         return list.count
     }
     
+    
+    //Cell formatting
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "compartmentsCell")
-        cell.textLabel?.text = list[indexPath.row].truckname
-        cell.detailTextLabel?.text =  list[indexPath.row].completeBy
+        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+        cell.textLabel?.text = list[indexPath.row].name
+        cell.detailTextLabel?.text = "Complete By: " + list[indexPath.row].completeBy
         
         
         return cell
     }
-
     
 
     /*

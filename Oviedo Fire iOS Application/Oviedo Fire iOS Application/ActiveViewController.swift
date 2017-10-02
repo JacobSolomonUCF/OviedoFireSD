@@ -27,15 +27,22 @@ struct compartments {
 class ActiveViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
    
     @IBOutlet weak var table: UITableView!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     
-
     var list: [active] = []
     var truckCompartments: [compartments] = []
-    let activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let selectionIndexPath = self.table.indexPathForSelectedRow {
+            self.table.deselectRow(at: selectionIndexPath, animated: animated)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        activityView.isHidden = true
         activityView.center = self.view.center
     
     }
@@ -56,12 +63,15 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(list[indexPath.row])
+        activityView.isHidden = false
         activityView.startAnimating()
-        view.addSubview(activityView)
+        table.allowsSelection = false
+        
         
         getCompartments(singleSelection: list[indexPath.row].number, completion:{
             self.activityView.stopAnimating()
-            self.view.willRemoveSubview(self.activityView)
+            self.activityView.isHidden = true
+            self.table.allowsSelection = true
             self.performSegue(withIdentifier: "toCompartments", sender: (Any).self)
         })
     }

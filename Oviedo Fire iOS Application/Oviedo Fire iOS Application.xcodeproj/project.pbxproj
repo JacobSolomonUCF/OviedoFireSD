@@ -23,6 +23,8 @@
 		16A90AF11F560C7C00F50919 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A90AEF1F560C7C00F50919 /* LaunchScreen.storyboard */; };
 		16A90AFC1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AFB1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift */; };
 		16A90B071F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */; };
+		16B200801F81B96E006BABAE /* toDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2007F1F81B96E006BABAE /* toDoViewController.swift */; };
+		16B200841F81C0C5006BABAE /* offTruckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B200831F81C0C5006BABAE /* offTruckListViewController.swift */; };
 		16B4FA411F68A547000929F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16B4FA401F68A547000929F9 /* GoogleService-Info.plist */; };
 		16B7D9251F6A1D5600DC64FB /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B7D9241F6A1D5600DC64FB /* QRScannerViewController.swift */; };
 		16B859851F5640FE005E38E2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B859841F5640FE005E38E2 /* LoginViewController.swift */; };
@@ -93,6 +95,8 @@
 		16A90B021F560C7C00F50919 /* Oviedo Fire iOS ApplicationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Oviedo Fire iOS ApplicationUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oviedo_Fire_iOS_ApplicationUITests.swift; sourceTree = "<group>"; };
 		16A90B081F560C7C00F50919 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16B2007F1F81B96E006BABAE /* toDoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = toDoViewController.swift; sourceTree = "<group>"; };
+		16B200831F81C0C5006BABAE /* offTruckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = offTruckListViewController.swift; sourceTree = "<group>"; };
 		16B4FA401F68A547000929F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16B7D9241F6A1D5600DC64FB /* QRScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
 		16B859841F5640FE005E38E2 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -170,6 +174,8 @@
 				16CF468B1F560CB70063834B /* BG */,
 				16A90AE61F560C7C00F50919 /* AppDelegate.swift */,
 				16A90AEA1F560C7C00F50919 /* Main.storyboard */,
+				16B200831F81C0C5006BABAE /* offTruckListViewController.swift */,
+				16B2007F1F81B96E006BABAE /* toDoViewController.swift */,
 				16A90AE81F560C7C00F50919 /* ViewController.swift */,
 				164CB79C1F733A0C0054F8B3 /* CompartmentsViewController.swift */,
 				1627857D1F6C8071007D3E64 /* EqFormViewController.swift */,
@@ -576,9 +582,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16B200801F81B96E006BABAE /* toDoViewController.swift in Sources */,
 				164CB79D1F733A0C0054F8B3 /* CompartmentsViewController.swift in Sources */,
 				1627857E1F6C8071007D3E64 /* EqFormViewController.swift in Sources */,
 				166C5B951F6A13710015FAF6 /* ActiveViewController.swift in Sources */,
+				16B200841F81C0C5006BABAE /* offTruckListViewController.swift in Sources */,
 				16B859851F5640FE005E38E2 /* LoginViewController.swift in Sources */,
 				1654E9D31F68B77D00393980 /* SignUpViewController.swift in Sources */,
 				16A90AE91F560C7C00F50919 /* ViewController.swift in Sources */,

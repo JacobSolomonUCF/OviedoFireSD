@@ -12,6 +12,7 @@ import Firebase
 
 class LoginViewController: UIViewController,UITextFieldDelegate  {
 
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var emailField: UITextField!
@@ -20,8 +21,12 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     
 
     override func viewDidLoad() {
+        activityView.isHidden = true
         super.viewDidLoad()
+        //Hides the navigation bar
         self.navigationController?.isNavigationBarHidden = true
+        //Dismiss keyboard when tap screen
+        
         // Do any additional setup after loading the view.
         checkForUser()
     
@@ -64,21 +69,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool
-    {
-        // Try to find next responder
-        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
-            nextField.becomeFirstResponder()
-        } else {
-            // Not found, so remove keyboard.
-            textField.resignFirstResponder()
-            Login(self)
-            
-        }
-        // Do not add a line break
-        return false
-    }
+
 
     
 
@@ -86,7 +77,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     @IBAction func Login(_ sender: Any) {
         
         if emailField.text != "" && passwordField.text != ""{
-            
+            activityView.isHidden = false
+            activityView.startAnimating()
             Auth.auth().signIn(withEmail: emailField.text!, password: passwordField.text!) { (user, error) in
                 if user != nil{
                    
@@ -96,6 +88,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
                     self.passwordField.resignFirstResponder()
                     
                     
+                    self.activityView.isHidden = true
+                    self.activityView.stopAnimating()
                     self.performSegue(withIdentifier: "toHome", sender: nil)
 
                     }else{
