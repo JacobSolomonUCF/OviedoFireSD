@@ -1031,3 +1031,106 @@ exports.checkCompletion = functions.https.onRequest((req, res) => {
         });
     }
 });
+
+exports.homeTest = functions.https.onRequest((req, res) => {
+    if(req.method == "GET") {
+        if(req.query.uid) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0) {
+                        admin.database().ref('/').once('value', function(snap) {
+                            // initialize data variables
+                            var root = snap.val();
+                            var intervals = root.forms.intervals;
+                            var results = root.forms.results;
+                            var templates = root.forms.templates;
+                            var inventory = root.inventory;
+                            var users = root.users;
+                            var forms = Object.keys(intervals);
+                            var time = getTime();
+
+                            // initialize return variables
+                            var totalUsers = Object.keys(root.users).length;
+                            var equipment = 0;
+                            var totalReports = 0;
+                            var reportsToDo = 0;
+                            var toDoList = [];
+
+                            // recursively count equipment in inventory
+                            var numTrucks = Object.keys(inventory).length;
+                            for(var i = 0; i < numTrucks; i++) {
+                                var truck = Object.keys(inventory)[i];
+                                var numCompartments = Object.keys(inventory[truck]).length;
+                                for(var j = 0; j < numCompartments; j++) {
+                                        var compartment = Object.keys(inventory[truck])[j];
+                                        var numEquipment = Object.keys(inventory[truck][compartment]).length;
+                                        equipment += numEquipment;
+                                }
+                            }
+
+                            // run through available forms and add to counters and todo list
+                            for(var i = 0; i < Object.keys(inventory).length; i++) {
+                                var itemType = Object.keys(inventory)[i];
+                                for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
+                                    var formId = Object.keys(inventory[itemType])[j];
+                                    if(inventory[itemType][formId].compartments) {
+                                        toDoList.push({
+                                            "title": inventory[itemType][formId].name
+                                        });
+                                    } else {
+                                        if(itemType == "scbas") {
+                                            for(var k = 0; k < inventory[itemType][formId].formId.length; k++) {
+                                                var scbaFormId = inventory[itemType][formId].formId[k]
+                                                if(intervals[scbaFormId].days[time.weekday]) {
+                                                    toDoList.push({
+                                                        "title": templates[scbaFormId].title
+                                                    });
+                                                }
+                                            }
+                                        } else {
+                                            if(intervals[formId].days[time.weekday]) {
+                                                toDoList.push({
+                                                    "title": templates[formId].title
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // create JSON response object
+                            var home = {
+                                "totalUsers": totalUsers,
+                                "equipment": equipment,
+                                "totalReports": totalReports,
+                                "reportsToDo": reportsToDo,
+                                "toDoList": toDoList
+                            };
+
+                            // send response
+                            cors(req, res, () => {
+                                res.status(200).send(home);
+                            });
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' parameter");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
