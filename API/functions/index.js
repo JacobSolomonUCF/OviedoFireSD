@@ -2,6 +2,16 @@ const functions = require('firebase-functions');
 var cors = require('cors')({origin: true});
 var admin = require('firebase-admin');
 var serviceAccount = require("./admin/oviedofiresd-55a71-firebase-adminsdk-ol8a1-20a377ac5e.json");
+var firebase = require('firebase');
+
+firebase.initializeApp({
+    apiKey: "AIzaSyDiF2EZj3ljA0Jrwafuq67de4ptk1r_usE",
+    authDomain: "oviedofiresd-55a71.firebaseapp.com",
+    databaseURL: "https://oviedofiresd-55a71.firebaseio.com",
+    projectId: "oviedofiresd-55a71",
+    storageBucket: "oviedofiresd-55a71.appspot.com",
+    messagingSenderId: "514772607400"
+});
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
@@ -261,7 +271,7 @@ exports.form = functions.https.onRequest((req, res) => {
 								});
 
 								cors(req, res, () => {
-		                            res.status(200).send('OK');
+		                            res.sendStatus(200);
 		                        });
 							});
 						} else {
@@ -1128,6 +1138,96 @@ exports.users = functions.https.onRequest((req, res) => {
         } else {
             cors(req, res, () => {
                 res.status(400).send("Missing 'uid' parameter");
+            });
+        }
+    } else if(req.method == "POST") {
+        if(req.body) {
+            var body = req.body;
+            if(body.uid && body.user) {
+                getAuth(body.uid, function(auth) {
+                    if(auth != 401) {
+                        if(auth == 0) {
+                            admin.auth().getUserByEmail(body.user.email).then(function(user) {
+                                var authentication;
+                                if(body.user.type == "user") {
+                                    authentication = 1;
+                                } else if(body.user.type == "administrator") {
+                                    authentication = 0;
+                                }
+
+                                admin.database().ref('/users/' + user.uid).set({
+                                    "email": user.email,
+                                    "firstName": body.user.firstName,
+                                    "lastName": body.user.lastName,
+                                    "authentication": authentication
+                                });
+
+                                cors(req, res, () => {
+                                    res.sendStatus(200);
+                                });
+                            }).catch(function(error) {
+                                admin.auth().createUser({
+                                    email: body.user.email,
+                                    emailVerified: true,
+                                    password: "testPassw0rd",
+                                    disabled: false
+                                }).then(function(user) {
+                                    var authentication;
+                                    if(body.user.type == "user") {
+                                        authentication = 1;
+                                    } else if(body.user.type == "administrator") {
+                                        authentication = 0;
+                                    }
+
+                                    admin.database().ref('/users/' + user.uid).set({
+                                        "email": user.email,
+                                        "firstName": body.user.firstName,
+                                        "lastName": body.user.lastName,
+                                        "authentication": authentication
+                                    });
+
+                                    firebase.auth().sendPasswordResetEmail(user.email).then(function() {
+                                        cors(req, res, () => {
+                                            res.sendStatus(200);
+                                        });
+                                    }).catch(function(error) {
+                                        cors(req, res, () => {
+                                            res.status(400).send(error);
+                                        });
+                                    });
+                                }).catch(function(error) {
+                                    cors(req, res, () => {
+                                        res.status(400).send(error);
+                                    });
+                                });
+                            });
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send('The user is not authorized for access');
+                        });
+                    }
+                });
+            } else if(body.uid && !body.user) {
+                cors(req, res, () => {
+                    res.status(400).send("Missing 'user' parameter");
+                });
+            } else if(!body.uid && body.user) {
+                cors(req, res, () => {
+                    res.status(400).send("Missing 'uid' parameter");
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing 'uid' and 'user' parameter");
+                });
+            }
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing request body");
             });
         }
     } else {
