@@ -62,202 +62,6 @@ function pad(n) {
 	return (n < 10) ? ("0" + n) : n;
 }
 
-exports.home = functions.https.onRequest((req, res) => {
-	if(req.method == "GET") {
-		if(req.query.uid) {
-			getAuth(req.query.uid, function(auth) {
-				if(auth != 401) {
-					if(auth == 0) {
-						admin.database().ref('/').once('value', function(snap) {
-                            // initialize data variables
-							var root = snap.val();
-							var intervals = root.forms.intervals;
-							var results = root.forms.results;
-							var templates = root.forms.templates;
-                            var inventory = root.inventory;
-                            var users = root.users;
-							var forms = Object.keys(intervals);
-							var time = getTime();
-
-                            // initialize return variables
-							var totalUsers = Object.keys(root.users).length;
-							var equipment = 0;
-							var totalReports = 0;
-							var reportsToDo = 0;
-							var toDoList = [];
-
-                            // recursively count equipment in inventory
-							var numTrucks = Object.keys(inventory).length;
-							for(var i = 0; i < numTrucks; i++) {
-								var truck = Object.keys(inventory)[i];
-								var numCompartments = Object.keys(inventory[truck]).length;
-								for(var j = 0; j < numCompartments; j++) {
-										var compartment = Object.keys(inventory[truck])[j];
-										var numEquipment = Object.keys(inventory[truck][compartment]).length;
-										equipment += numEquipment;
-								}
-							}
-
-                            // run through available forms and add to counters and todo list
-							var complete;
-							for(var i = 0; i < forms.length; i++) {
-								if(intervals[forms[i]].days[time.weekday]) {
-                                    // add report to count for the day
-									totalReports++;
-
-                                    // check to see if the report has been completed
-                                    if(results && results[forms[i]]) {
-    									if(Object.keys(results[forms[i]]).includes(time.datestamp)) {
-    										complete = true;
-    									} else {
-    										complete = false;
-    									}
-                                    } else {
-                                        complete = false;
-                                    }
-
-                                    // add report to todo count for the day
-                                    if(!complete) {
-                                        reportsToDo++;
-                                    }
-
-                                    // create item for todo list
-									var toDoItem = {
-										"title": templates[forms[i]].title,
-										"complete": complete
-									};
-
-                                    // add item to todo list
-									toDoList.push(toDoItem);
-								}
-							}
-
-                            // create JSON response object
-							var home = {
-								"totalUsers": totalUsers,
-								"equipment": equipment,
-								"totalReports": totalReports,
-								"reportsToDo": reportsToDo,
-								"toDoList": toDoList
-							};
-
-                            // send response
-							cors(req, res, () => {
-								res.status(200).send(home);
-							});
-						});
-					} else {
-						cors(req, res, () => {
-							res.status(403).send("The request violates the user's permission level");
-						});
-					}
-				} else {
-					cors(req, res, () => {
-						res.status(401).send('The user is not authorized for access');
-					});
-				}
-			});
-		} else {
-			cors(req, res, () => {
-				res.status(400).send("Missing 'uid' parameter");
-			});
-		}
-	} else {
-		cors(req, res, () => {
-			res.sendStatus(404);
-		});
-	}
-});
-
-exports.reports = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        if(req.query.uid) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0) {
-                        admin.database().ref('/').once('value', function(snap) {
-                            // initialize data variables
-                            var root = snap.val();
-                            var intervals = root.forms.intervals;
-                            var results = root.forms.results;
-                            var templates = root.forms.templates;
-                            var inventory = root.inventory;
-                            var users = root.users
-                            var forms = Object.keys(intervals);
-                            var time = getTime();
-
-                            // initialize return variables
-                            var reportsList = [];
-                            var name;
-                            var schedule;
-                            var status;
-                            var id;
-
-                            // run through all forms in the database
-                            for(var i = 0; i < forms.length; i++) {
-                                // set name of the report
-                                name = templates[forms[i]].title;
-
-                                // set schedule of the report
-                                schedule = intervals[forms[i]].frequency;
-
-                                // check to see if the form has been completed
-                                status = "Incomplete";
-                                if(results && results[forms[i]]) {
-                                    var timestamps = Object.keys(results[forms[i]]);
-                                    if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
-                                        status = "Complete";
-                                    } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                        status = "Complete";
-                                    } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                        status = "Complete";
-                                    }
-                                }
-
-                                // set id of the report
-                                id = forms[i];
-
-                                // create JSON object for the array
-                                var report = {
-                                    "name": name,
-                                    "schedule": schedule,
-                                    "status": status,
-                                    "id": id
-                                };
-                                reportsList.push(report);
-                            }
-
-                            // create JSON response object
-                            var reports = {reportsList};
-
-                            // send response
-                            cors(req, res, () => {
-								res.status(200).send(reports);
-							});
-                        });
-                    } else {
-                        cors(req, res, () => {
-							res.status(403).send("The request violates the user's permission level");
-						});
-                    }
-                } else {
-                    cors(req, res, () => {
-						res.status(401).send('The user is not authorized for access');
-					});
-                }
-            });
-        } else {
-            cors(req, res, () => {
-				res.status(400).send("Missing 'uid' parameter");
-			});
-        }
-    } else {
-        cors(req, res, () => {
-			res.sendStatus(404);
-		});
-    }
-});
-
 exports.activeVehicles = functions.https.onRequest((req, res) => {
     if(req.method == "GET") {
         if(req.query.uid) {
@@ -327,29 +131,31 @@ exports.vehicleCompartments = functions.https.onRequest((req, res) => {
                                 };
 
                                 for(var i = 0; i < Object.keys(compartments).length; i++) {
-                                    var interval = intervals[compartments[Object.keys(compartments)[i]].formId];
-                                    var completedBy = "nobody";
+                                    for(var j = 0; j < compartments[Object.keys(compartments)[i]].formId.length; j++) {
+                                        var interval = intervals[compartments[Object.keys(compartments)[i]].formId[j]];
+                                        var completedBy = "nobody";
 
-                                    if(interval) {
-                                        var schedule = interval.frequency;
+                                        if(interval) {
+                                            var schedule = interval.frequency;
 
-                                        if(results && results[compartments[Object.keys(compartments)[i]].formId]) {
-                                            var timestamps = Object.keys(results[compartments[Object.keys(compartments)[i]].formId]);
-                                            if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
-                                                completedBy = results[compartments[Object.keys(compartments)[i]].formId][time.datestamp].completedBy;
-                                            } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                                completedBy = results[compartments[Object.keys(compartments)[i]].formId][timestamps[timestamps.length - 1]].completedBy;
-                                            } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                                completedBy = results[compartments[Object.keys(compartments)[i]].formId][timestamps[timestamps.length - 1]].completedBy;
+                                            if(results && results[compartments[Object.keys(compartments)[i]].formId[j]]) {
+                                                var timestamps = Object.keys(results[compartments[Object.keys(compartments)[i]].formId[j]]);
+                                                if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
+                                                    completedBy = results[compartments[Object.keys(compartments)[i]].formId[j]][time.datestamp].completedBy;
+                                                } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                                    completedBy = results[compartments[Object.keys(compartments)[i]].formId[j]][timestamps[timestamps.length - 1]].completedBy;
+                                                } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                                    completedBy = results[compartments[Object.keys(compartments)[i]].formId[j]][timestamps[timestamps.length - 1]].completedBy;
+                                                }
                                             }
                                         }
-                                    }
 
-                                    vehicleCompartments.list.push({
-                                        "name": compartments[Object.keys(compartments)[i]].name,
-                                        "formId": compartments[Object.keys(compartments)[i]].formId,
-                                        "completedBy": completedBy
-                                    });
+                                        vehicleCompartments.list.push({
+                                            "name": compartments[Object.keys(compartments)[i]].name,
+                                            "formId": compartments[Object.keys(compartments)[i]].formId[j],
+                                            "completedBy": completedBy
+                                        });
+                                    }
                                 }
 
                                 // send response
@@ -528,29 +334,31 @@ exports.ladders = functions.https.onRequest((req, res) => {
                             };
 
                             for(var i = 0; i < Object.keys(ladders).length; i++) {
-                                var interval = intervals[ladders[Object.keys(ladders)[i]].formId];
-                                var completedBy = "nobody";
+                                for(var j = 0; j < ladders[Object.keys(ladders)[i]].formId.length; j++) {
+                                    var interval = intervals[ladders[Object.keys(ladders)[i]].formId[j]];
+                                    var completedBy = "nobody";
 
-                                if(interval) {
-                                    var schedule = interval.frequency;
+                                    if(interval) {
+                                        var schedule = interval.frequency;
 
-                                    if(results && results[ladders[Object.keys(ladders)[i]].formId]) {
-                                        var timestamps = Object.keys(results[ladders[Object.keys(ladders)[i]].formId]);
-                                        if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
-                                            completedBy = results[ladders[Object.keys(ladders)[i]].formId][time.datestamp].completedBy;
-                                        } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                            completedBy = results[ladders[Object.keys(ladders)[i]].formId][timestamps[timestamps.length - 1]].completedBy;
-                                        } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                            completedBy = results[ladders[Object.keys(ladders)[i]].formId][timestamps[timestamps.length - 1]].completedBy;
+                                        if(results && results[ladders[Object.keys(ladders)[i]].formId[j]]) {
+                                            var timestamps = Object.keys(results[ladders[Object.keys(ladders)[i]].formId[j]]);
+                                            if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
+                                                completedBy = results[ladders[Object.keys(ladders)[i]].formId[j]][time.datestamp].completedBy;
+                                            } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                                completedBy = results[ladders[Object.keys(ladders)[i]].formId[j]][timestamps[timestamps.length - 1]].completedBy;
+                                            } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                                completedBy = results[ladders[Object.keys(ladders)[i]].formId[j]][timestamps[timestamps.length - 1]].completedBy;
+                                            }
                                         }
                                     }
-                                }
 
-                                ladderList.list.push({
-                                    "name": ladders[Object.keys(ladders)[i]].name,
-                                    "formId": ladders[Object.keys(ladders)[i]].formId,
-                                    "completedBy": completedBy
-                                });
+                                    ladderList.list.push({
+                                        "name": ladders[Object.keys(ladders)[i]].name,
+                                        "formId": ladders[Object.keys(ladders)[i]].formId[j],
+                                        "completedBy": completedBy
+                                    });
+                                }
                             }
 
                             // send response
@@ -682,29 +490,31 @@ exports.stretchers = functions.https.onRequest((req, res) => {
                             };
 
                             for(var i = 0; i < Object.keys(stretchers).length; i++) {
-                                var interval = intervals[stretchers[Object.keys(stretchers)[i]].formId];
-                                var completedBy = "nobody";
+                                for(var j = 0; j < stretchers[Object.keys(stretchers)[i]].formId.length; j++) {
+                                    var interval = intervals[stretchers[Object.keys(stretchers)[i]].formId[j]];
+                                    var completedBy = "nobody";
 
-                                if(interval) {
-                                    var schedule = interval.frequency;
+                                    if(interval) {
+                                        var schedule = interval.frequency;
 
-                                    if(results && results[stretchers[Object.keys(stretchers)[i]].formId]) {
-                                        var timestamps = Object.keys(results[stretchers[Object.keys(stretchers)[i]].formId]);
-                                        if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
-                                            completedBy = results[stretchers[Object.keys(stretchers)[i]].formId][time.datestamp].completedBy;
-                                        } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                            completedBy = results[stretchers[Object.keys(stretchers)[i]].formId][timestamps[timestamps.length - 1]].completedBy;
-                                        } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                            completedBy = results[stretchers[Object.keys(stretchers)[i]].formId][timestamps[timestamps.length - 1]].completedBy;
+                                        if(results && results[stretchers[Object.keys(stretchers)[i]].formId[j]]) {
+                                            var timestamps = Object.keys(results[stretchers[Object.keys(stretchers)[i]].formId[j]]);
+                                            if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
+                                                completedBy = results[stretchers[Object.keys(stretchers)[i]].formId[j]][time.datestamp].completedBy;
+                                            } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                                completedBy = results[stretchers[Object.keys(stretchers)[i]].formId[j]][timestamps[timestamps.length - 1]].completedBy;
+                                            } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                                completedBy = results[stretchers[Object.keys(stretchers)[i]].formId[j]][timestamps[timestamps.length - 1]].completedBy;
+                                            }
                                         }
                                     }
-                                }
 
-                                stretcherList.list.push({
-                                    "name": stretchers[Object.keys(stretchers)[i]].name,
-                                    "formId": stretchers[Object.keys(stretchers)[i]].formId,
-                                    "completedBy": completedBy
-                                });
+                                    stretcherList.list.push({
+                                        "name": stretchers[Object.keys(stretchers)[i]].name,
+                                        "formId": stretchers[Object.keys(stretchers)[i]].formId[j],
+                                        "completedBy": completedBy
+                                    });
+                                }
                             }
 
                             // send response
@@ -753,29 +563,31 @@ exports.misc = functions.https.onRequest((req, res) => {
                             };
 
                             for(var i = 0; i < Object.keys(misc).length; i++) {
-                                var interval = intervals[misc[Object.keys(misc)[i]].formId];
-                                var completedBy = "nobody";
+                                for(var j = 0; j < misc[Object.keys(misc)[i]].formId.length; j++) {
+                                    var interval = intervals[misc[Object.keys(misc)[i]].formId[j]];
+                                    var completedBy = "nobody";
 
-                                if(interval) {
-                                    var schedule = interval.frequency;
+                                    if(interval) {
+                                        var schedule = interval.frequency;
 
-                                    if(results && results[misc[Object.keys(misc)[i]].formId]) {
-                                        var timestamps = Object.keys(results[misc[Object.keys(misc)[i]].formId]);
-                                        if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
-                                            completedBy = results[misc[Object.keys(misc)[i]].formId][time.datestamp].completedBy;
-                                        } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                            completedBy = results[misc[Object.keys(misc)[i]].formId][timestamps[timestamps.length - 1]].completedBy;
-                                        } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                            completedBy = results[misc[Object.keys(misc)[i]].formId][timestamps[timestamps.length - 1]].completedBy;
+                                        if(results && results[misc[Object.keys(misc)[i]].formId[j]]) {
+                                            var timestamps = Object.keys(results[misc[Object.keys(misc)[i]].formId[j]]);
+                                            if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
+                                                completedBy = results[misc[Object.keys(misc)[i]].formId[j]][time.datestamp].completedBy;
+                                            } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                                completedBy = results[misc[Object.keys(misc)[i]].formId[j]][timestamps[timestamps.length - 1]].completedBy;
+                                            } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                                completedBy = results[misc[Object.keys(misc)[i]].formId[j]][timestamps[timestamps.length - 1]].completedBy;
+                                            }
                                         }
                                     }
-                                }
 
-                                miscList.list.push({
-                                    "name": misc[Object.keys(misc)[i]].name,
-                                    "formId": misc[Object.keys(misc)[i]].formId,
-                                    "completedBy": completedBy
-                                });
+                                    miscList.list.push({
+                                        "name": misc[Object.keys(misc)[i]].name,
+                                        "formId": misc[Object.keys(misc)[i]].formId[j],
+                                        "completedBy": completedBy
+                                    });
+                                }
                             }
 
                             // send response
@@ -1032,7 +844,7 @@ exports.checkCompletion = functions.https.onRequest((req, res) => {
     }
 });
 
-exports.homeTest = functions.https.onRequest((req, res) => {
+exports.home = functions.https.onRequest((req, res) => {
     if(req.method == "GET") {
         if(req.query.uid) {
             getAuth(req.query.uid, function(auth) {
@@ -1050,47 +862,91 @@ exports.homeTest = functions.https.onRequest((req, res) => {
                             var time = getTime();
 
                             // initialize return variables
-                            var totalUsers = Object.keys(root.users).length;
+                            var totalUsers = Object.keys(users).length;
                             var equipment = 0;
                             var totalReports = 0;
                             var reportsToDo = 0;
                             var toDoList = [];
 
                             // recursively count equipment in inventory
-                            var numTrucks = Object.keys(inventory).length;
-                            for(var i = 0; i < numTrucks; i++) {
-                                var truck = Object.keys(inventory)[i];
-                                var numCompartments = Object.keys(inventory[truck]).length;
-                                for(var j = 0; j < numCompartments; j++) {
-                                        var compartment = Object.keys(inventory[truck])[j];
-                                        var numEquipment = Object.keys(inventory[truck][compartment]).length;
-                                        equipment += numEquipment;
-                                }
-                            }
 
                             // run through available forms and add to counters and todo list
                             for(var i = 0; i < Object.keys(inventory).length; i++) {
                                 var itemType = Object.keys(inventory)[i];
                                 for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
-                                    var formId = Object.keys(inventory[itemType])[j];
-                                    if(inventory[itemType][formId].compartments) {
-                                        toDoList.push({
-                                            "title": inventory[itemType][formId].name
-                                        });
-                                    } else {
-                                        if(itemType == "scbas") {
-                                            for(var k = 0; k < inventory[itemType][formId].formId.length; k++) {
-                                                var scbaFormId = inventory[itemType][formId].formId[k]
-                                                if(intervals[scbaFormId].days[time.weekday]) {
-                                                    toDoList.push({
-                                                        "title": templates[scbaFormId].title
-                                                    });
+                                    var itemKey = Object.keys(inventory[itemType])[j];
+                                    if(inventory[itemType][itemKey].compartments) {
+                                        var compartments = inventory[itemType][itemKey].compartments;
+                                        var push = false;
+                                        var complete = true;
+
+                                        for(var k = 0; k < Object.keys(compartments).length; k++) {
+                                            var formId = compartments[Object.keys(compartments)[k]].formId;
+                                            for(var l = 0; l < formId.length; l++) {
+                                                if(intervals[formId[l]].days[time.weekday]) {
+                                                    push = true;
+
+                                                    if(results && results[formId[l]]) {
+                                                        var frequency = intervals[formId[l]].frequency;
+                                                        var timestamps = Object.keys(results[formId[l]]);
+
+                                                        if(frequency == "Daily" && !timestamps.includes(time.datestamp)) {
+                                                            complete = false;
+                                                            break;
+                                                        } else if(frequency == "Weekly" && !time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                                            complete = false;
+                                                            break;
+                                                        } else if(frequency == "Monthly" && !timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                                            complete = false;
+                                                            break;
+                                                        }
+                                                    } else {
+                                                        complete = false;
+                                                        break;
+                                                    }
                                                 }
                                             }
-                                        } else {
-                                            if(intervals[formId].days[time.weekday]) {
+
+                                            if(!complete) {
+                                                reportsToDo++;
+                                                break;
+                                            }
+                                        }
+
+                                        if(push) {
+                                            totalReports++;
+                                            toDoList.push({
+                                                "title": inventory[itemType][itemKey].name,
+                                                "complete": complete
+                                            });
+                                        }
+                                    } else {
+                                        var formId = inventory[itemType][itemKey].formId;
+                                        for(var l = 0; l < formId.length; l++) {
+                                            if(intervals[formId[l]].days[time.weekday]) {
+                                                var complete = false;
+
+                                                if(results && results[formId[l]]) {
+                                                    var frequency = intervals[formId[l]].frequency;
+                                                    var timestamps = Object.keys(results[formId[l]]);
+
+                                                    if(frequency == "Daily" && timestamps.includes(time.datestamp)) {
+                                                        complete = true;
+                                                    } else if(frequency == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                                        complete = true;
+                                                    } else if(frequency == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                                        complete = true;
+                                                    }
+                                                }
+
+                                                if(!complete) {
+                                                    reportsToDo++;
+                                                }
+
+                                                totalReports++;
                                                 toDoList.push({
-                                                    "title": templates[formId].title
+                                                    "title": templates[formId].title,
+                                                    "complete": complete
                                                 });
                                             }
                                         }
@@ -1110,6 +966,95 @@ exports.homeTest = functions.https.onRequest((req, res) => {
                             // send response
                             cors(req, res, () => {
                                 res.status(200).send(home);
+                            });
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' parameter");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
+
+exports.reports = functions.https.onRequest((req, res) => {
+    if(req.method == "GET") {
+        if(req.query.uid) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0) {
+                        admin.database().ref('/').once('value', function(snap) {
+                            // initialize data variables
+                            var root = snap.val();
+                            var intervals = root.forms.intervals;
+                            var results = root.forms.results;
+                            var templates = root.forms.templates;
+                            var inventory = root.inventory;
+                            var users = root.users
+                            var forms = Object.keys(intervals);
+                            var time = getTime();
+
+                            // initialize return variables
+                            var reportsList = [];
+                            var name;
+                            var schedule;
+                            var status;
+                            var id;
+
+                            // run through all forms in the database
+                            for(var i = 0; i < forms.length; i++) {
+                                // set name of the report
+                                name = templates[forms[i]].title;
+
+                                // set schedule of the report
+                                schedule = intervals[forms[i]].frequency;
+
+                                // check to see if the form has been completed
+                                status = "Incomplete";
+                                if(results && results[forms[i]]) {
+                                    var timestamps = Object.keys(results[forms[i]]);
+                                    if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
+                                        status = "Complete";
+                                    } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                        status = "Complete";
+                                    } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                        status = "Complete";
+                                    }
+                                }
+
+                                // set id of the report
+                                id = forms[i];
+
+                                // create JSON object for the array
+                                var report = {
+                                    "name": name,
+                                    "schedule": schedule,
+                                    "status": status,
+                                    "id": id
+                                };
+                                reportsList.push(report);
+                            }
+
+                            // create JSON response object
+                            var reports = {reportsList};
+
+                            // send response
+                            cors(req, res, () => {
+                                res.status(200).send(reports);
                             });
                         });
                     } else {
