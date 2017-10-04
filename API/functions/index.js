@@ -1079,3 +1079,60 @@ exports.reports = functions.https.onRequest((req, res) => {
         });
     }
 });
+
+exports.users = functions.https.onRequest((req, res) => {
+    if(req.method == "GET") {
+        if(req.query.uid) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0) {
+                        admin.database().ref('/users/').once('value', function(snap) {
+                            // initialize data variables
+                            var users = snap.val();
+
+                            var userList = { "list": [] };
+
+                            for(var i = 0; i < Object.keys(users).length; i++) {
+                                    var type;
+
+                                if(users[Object.keys(users)[i]].authentication == 0) {
+                                    type = "administrator";
+                                } else if(users[Object.keys(users)[i]].authentication == 1) {
+                                    type = "user";
+                                }
+
+                                userList.list.push({
+                                    "firstName": users[Object.keys(users)[i]].firstName,
+                                    "lastName": users[Object.keys(users)[i]].lastName,
+                                    "email": users[Object.keys(users)[i]].email,
+                                    "type": type
+                                });
+                            }
+
+                            // send response
+                            cors(req, res, () => {
+                                res.status(200).send(userList);
+                            });
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' parameter");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
