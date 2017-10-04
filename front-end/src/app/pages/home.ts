@@ -53,7 +53,7 @@ import {WebService} from "../services/webService";
             <ul class="to-do">
               <li *ngFor="let todo of toDoList; let i = index">
                 <div>
-                  <label class="pure-checkbox" ngSwitch="todo.complete">
+                  <label class="pure-checkbox" [ngSwitch]="todo.complete">
                     <input type="checkbox" *ngSwitchCase="true" checked/>
                     <input type="checkbox" *ngSwitchDefault />
                     {{todo.title}}
