@@ -6,12 +6,19 @@ import {WebService} from "../../services/webService";
     <div class="header">
       <h1>Edit Users</h1>
     </div>
-    <div class="content">
-      <item-table [heading]="heading" [rows]="users" [tableType]="'edit'"></item-table>
+    <div class="content" [ngSwitch]="loading">
+      <div *ngSwitchCase="true" class="centered">
+        <i class="fa fa-5x fa-spinner fa-pulse"></i>
+      </div>
+      <div *ngSwitchCase="false" [ngSwitch]="users">
+        <div *ngSwitchCase="undefined">Nothing here</div>
+        <item-table [heading]="heading" [rows]="users" [tableType]="'edit'" *ngSwitchDefault></item-table>
+      </div>
     </div>
   `
 })
 export class EditUser {
+  loading: any = true;
   heading: any[] = [
     {prop: 'firstName', flexGrow: 1, dragable: false, resizeable: false},
     {prop: 'lastName', flexGrow: 1, dragable: false, resizeable: false},
@@ -26,6 +33,10 @@ export class EditUser {
       .get('/users')
       .subscribe(resp => {
         this.users = resp['list'];
+      }, error => {
+        this.users = undefined;
+      }, () => {
+        this.loading = false;
       });
   }
 }

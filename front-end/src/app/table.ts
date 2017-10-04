@@ -142,7 +142,6 @@ export class Table {
     const source = self.temp ? self.temp :
       {rows: self.original, heading: self.heading};
 
-    console.log(self.temp);
     if (!event)
       this.tableFilter.nativeElement.value = "";
     else

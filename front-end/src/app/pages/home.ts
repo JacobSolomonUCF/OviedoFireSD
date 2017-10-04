@@ -50,6 +50,10 @@ import {WebService} from "../services/webService";
                 </li>
               </ul>
             </div>
+            <div class="centered" *ngIf="loading">
+              <br/>
+              <i class="fa fa-5x fa-spinner fa-pulse"></i>
+            </div>
             <ul class="to-do">
               <li *ngFor="let todo of toDoList; let i = index">
                 <div>
@@ -91,7 +95,7 @@ import {WebService} from "../services/webService";
   , styleUrls: ['../menu.sass']
 })
 export class Home {
-  loading: boolean;
+  loading: boolean = true;
   toDoList: any[];
   equipment: number;
   totalUsers: number;
@@ -100,16 +104,18 @@ export class Home {
 
   constructor(public webService: WebService) {
     let self = this;
-    self.loading = true;
     webService.setState('home')
       .getHome()
       .subscribe(resp => {
-        self.toDoList = resp['toDoList'];
-        self.equipment = resp['equipment'];
-        self.totalUsers = resp['totalUsers'];
-        self.reportsToDo = resp['reportsToDo'];
-        self.totalReports = resp['totalReports'];
-        self.loading = false;
-      });
+          self.toDoList = resp['toDoList'];
+          self.equipment = resp['equipment'];
+          self.totalUsers = resp['totalUsers'];
+          self.reportsToDo = resp['reportsToDo'];
+          self.totalReports = resp['totalReports'];
+        }, error => {
+        },
+        () => {
+          this.loading = false;
+        });
   }
 }

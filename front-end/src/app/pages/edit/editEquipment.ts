@@ -6,14 +6,20 @@ import {WebService} from "../../services/webService";
     <div class="header">
       <h1>Edit Equipment</h1>
     </div>
-    <div class="content">
-      <item-table [heading]="heading" [rows]="reports" [tableType]="'edit'"></item-table>
+    <div class="content" [ngSwitch]="loading">
+      <div *ngSwitchCase="true" class="centered">
+        <i class="fa fa-5x fa-spinner fa-pulse"></i>
+      </div>
+      <div *ngSwitchCase="false" [ngSwitch]="reports">
+        <div *ngSwitchCase="undefined">Nothing here</div>
+        <item-table [heading]="heading" [rows]="reports" [tableType]="'edit'"></item-table>
+      </div>
     </div>
   `
   , styleUrls: ['../../menu.sass']
 })
 export class EditEquipment {
-  activeModal: boolean = false;
+  loading: boolean = true;
   heading: any[] = [
     {prop: 'Name', flexGrow: 1, dragable: false, resizeable: true},
     {prop: 'Truck', flexGrow: 1, dragable: false, resizeable: true},
@@ -41,5 +47,6 @@ export class EditEquipment {
 
   constructor(webService: WebService) {
     webService.setState('eEquipment');
+    this.loading = false;
   }
 }
