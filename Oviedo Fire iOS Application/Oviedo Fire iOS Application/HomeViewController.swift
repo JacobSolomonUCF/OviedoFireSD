@@ -19,10 +19,22 @@ struct active{
         self.number = truckNumber
     }
 }
+struct toDo{
+    var name: String
+    var formId: String
+    var completeBy: String
+    
+    init(truckName:String,formId:String, completeBy:String) {
+        self.name = truckName
+        self.formId = formId
+        self.completeBy = completeBy
+    }
+}
 
 class HomeViewController: UIViewController {
     
-
+    //Buttons
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     @IBOutlet weak var activeButton: UIButton!
     @IBOutlet weak var offTruck: UIButton!
     @IBOutlet weak var todoList: UIButton!
@@ -30,20 +42,27 @@ class HomeViewController: UIViewController {
     
     let ID = Auth.auth().currentUser!.uid
     var activeTrucks: [active] = []
-    let activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+    var TODOList: [toDo] = []
     
-    
+    //Prepare for segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "toActive"{
             let nextController = segue.destination as! ActiveViewController
             nextController.list = activeTrucks
             self.enableButtons()
         }
-        
+        if segue.identifier == "toTODO"{
+            let nextController = segue.destination as! toDoViewController
+            nextController.list = TODOList
+            self.enableButtons()
+        }
+        if segue.identifier == "toOffTruck"{
+            self.enableButtons()
+        }
     }
     
     override func viewDidLoad() {
+        activityView.isHidden = true
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
@@ -66,9 +85,6 @@ class HomeViewController: UIViewController {
         todoList.clipsToBounds = true
         qrCode.layer.cornerRadius = 40
         qrCode.clipsToBounds = true
-        
-        activityView.center = self.view.center
-        
     }
     
     func disableButtons(){
@@ -76,14 +92,12 @@ class HomeViewController: UIViewController {
         offTruck.isEnabled = false
         todoList.isEnabled = false
         qrCode.isEnabled = false
-        
     }
     func enableButtons(){
         activeButton.isEnabled = true
         offTruck.isEnabled = true
         todoList.isEnabled = true
         qrCode.isEnabled = true
-        
     }
     
     //Actions
@@ -101,13 +115,28 @@ class HomeViewController: UIViewController {
         disableButtons()
         
         //Start the activity view
+        activityView.isHidden = false
         activityView.startAnimating()
-        self.view.addSubview(activityView)
         
         getActive(userID: ID, completion: {
             self.activityView.stopAnimating()
-            self.view.willRemoveSubview(self.activityView)
+            self.activityView.isHidden = true
             self.performSegue(withIdentifier: "toActive", sender: nil)
+        })
+    }
+    @IBAction func offtruckClicked(_ sender: Any) {
+        performSegue(withIdentifier: "toOffTruck", sender: nil)
+    }
+    @IBAction func todoClicked(_ sender: Any) {
+        disableButtons()
+        
+        activityView.isHidden = false
+        activityView.startAnimating()
+        
+        getTODO(userID: ID, completion: {
+            self.activityView.stopAnimating()
+            self.activityView.isHidden = true
+            self.performSegue(withIdentifier: "toTODO", sender: nil)
         })
     }
     
@@ -126,6 +155,24 @@ class HomeViewController: UIViewController {
                 }
             }
         completion()
+        }
+    }
+    
+    func getTODO(userID:String,completion : @escaping ()->()){
+        
+        if(self.TODOList.count != 0){
+            self.TODOList.removeAll()
+        }
+        
+        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/toDoList?uid=\(userID)") .responseJSON { response in
+            if let result = response.result.value as? [String:Any],
+                let main = result["list"] as? [[String:String]]{
+                // main[0]["name"] or use main.first?["name"] for first index or loop through array
+                for obj in main{
+                    self.TODOList.append(toDo(truckName: obj["name"]!, formId: obj["formId"]!,completeBy: obj["completeBy"]!))
+                }
+            }
+            completion()
         }
     }
 }

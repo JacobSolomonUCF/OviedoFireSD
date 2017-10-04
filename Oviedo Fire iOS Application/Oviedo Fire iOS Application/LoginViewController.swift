@@ -12,27 +12,28 @@ import Firebase
 
 class LoginViewController: UIViewController,UITextFieldDelegate  {
 
+    //Buttons
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
-
     
-
     override func viewDidLoad() {
+        activityView.isHidden = true
         super.viewDidLoad()
+        
+        //Hides the navigation bar
         self.navigationController?.isNavigationBarHidden = true
+        
         // Do any additional setup after loading the view.
         checkForUser()
-    
         screenFormat()
-        
-        
-
-        
-
     }
-
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
     func screenFormat(){
         loginButton.layer.cornerRadius = 20
@@ -52,41 +53,18 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     func checkForUser(){
         Auth.auth().addStateDidChangeListener { auth, user in
             if user != nil{
-                print("IT WORKS")
                 self.performSegue(withIdentifier: "toHome", sender: nil)
             }else{
-                
+    
             }
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool
-    {
-        // Try to find next responder
-        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
-            nextField.becomeFirstResponder()
-        } else {
-            // Not found, so remove keyboard.
-            textField.resignFirstResponder()
-            Login(self)
-            
-        }
-        // Do not add a line break
-        return false
-    }
-
-    
-
     // MARK ACTIONS
     @IBAction func Login(_ sender: Any) {
-        
         if emailField.text != "" && passwordField.text != ""{
-            
+            activityView.isHidden = false
+            activityView.startAnimating()
             Auth.auth().signIn(withEmail: emailField.text!, password: passwordField.text!) { (user, error) in
                 if user != nil{
                    
@@ -95,28 +73,19 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
                     self.emailField.resignFirstResponder()
                     self.passwordField.resignFirstResponder()
                     
-                    
+                    self.activityView.isHidden = true
+                    self.activityView.stopAnimating()
                     self.performSegue(withIdentifier: "toHome", sender: nil)
-
                     }else{
                     if let myError = error?.localizedDescription{
                         print(myError)
                     self.alert(message: "Username/Password invalid")
                     }
                 }
-                
-                
-                
             }
         
         }else{
             alert(message: "Please enter username/password")
         }
-        
-
     }
-    
-
-
-
 }

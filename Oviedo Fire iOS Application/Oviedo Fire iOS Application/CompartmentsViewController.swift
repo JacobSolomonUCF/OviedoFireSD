@@ -7,14 +7,17 @@
 //
 
 import UIKit
-import Alamofire
 import Firebase
+import Alamofire
 
 class CompartmentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     
+    var form: [formItem] = []
     var list: [compartments] = []
+    let userID = Auth.auth().currentUser!.uid
     
     
     override func viewWillDisappear(_ animated : Bool) {
@@ -29,6 +32,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     override func viewDidLoad() {
+        activityView.isHidden = true
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
@@ -37,6 +41,39 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    //Prepare for segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "toForm"{
+            let nextController = segue.destination as! EqFormViewController
+            nextController.form = form
+            
+        }
+    }
+    
+    
+    
+    //Table Functions
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //print(list[indexPath.row])
+        activityView.isHidden = false
+        activityView.startAnimating()
+        tableView.allowsSelection = false
+        
+        getForm(userID: userID, formId: list[indexPath.row].formId, completion: {
+            print(self.form)
+            self.performSegue(withIdentifier: "toForm", sender: nil)
+            self.activityView.stopAnimating()
+            self.activityView.isHidden = true
+            tableView.allowsSelection = true
+            })
+    
+        
+
+        
     }
     
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
@@ -53,17 +90,21 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
         
         return cell
     }
+    //End Table Functions
 
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func getForm(userID:String,formId:String,completion : @escaping ()->()){
+        
+        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/form?uid=\(userID)&formId=\(formId)") .responseJSON { response in
+            if let result = response.result.value as? [String:Any],
+                let main = result["inputElements"] as? [[String:String]]{
+                // main[0]["name"] or use main.first?["name"] for first index or loop through array
+                for obj in main{
+                    self.form.append(formItem(caption: obj["caption"]!, type: obj["type"]!))
+                }
+            }
+            completion()
+        }
     }
-    */
+    
 
 }

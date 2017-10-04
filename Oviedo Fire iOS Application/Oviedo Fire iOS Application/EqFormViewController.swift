@@ -8,16 +8,20 @@
 
 import UIKit
 
-class EqFormViewController: UIViewController {
+class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     
-    var string:String = "TEST"
+    @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet weak var label: UILabel!
+    
+    var formId:String = ""
+    var form:[formItem] = []
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        label.text = string
+        
+        tableView.estimatedRowHeight = 100.00
+        tableView.rowHeight = UITableViewAutomaticDimension
         // Do any additional setup after loading the view.
         
     
@@ -33,6 +37,19 @@ class EqFormViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
+    {
+        return form.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
+        cell.label.text = form[indexPath.row].caption
+
+        return cell
+    }
 
     /*
     // MARK: - Navigation
