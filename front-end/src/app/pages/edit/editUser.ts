@@ -1,4 +1,3 @@
-
 import {Component} from "@angular/core"
 import {WebService} from "../../services/webService";
 
@@ -14,19 +13,19 @@ import {WebService} from "../../services/webService";
 })
 export class EditUser {
   heading: any[] = [
-    {prop: 'First Name', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Last Name', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Shift', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'firstName', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'lastName', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'email', flexGrow: 1, dragable: false, resizeable: false},
+    {prop: 'type', flexGrow: 1, dragable: false, resizable: false}
     // {prop: 'ID', flexGrow: 1, dragable: false, resizeable: false}
   ];
-  users: any[] = [
-    {'First Name': "John",   'Last Name': "Doe",    Shift: 'A', ID: 832},
-    {'First Name': "Mary",   'Last Name': "Moe",    Shift: 'A', ID: 829},
-    {'First Name': "Joe",    'Last Name': "Dooley", Shift: 'B', ID: 928},
-    {'First Name': "Johnny", 'Last Name': "Dooley", Shift: 'C', ID: 223}
-  ];
+  users: any[];
 
   constructor(webService: WebService) {
-    webService.setState('eUser');
+    webService.setState('eUser')
+      .get('/users')
+      .subscribe(resp => {
+        this.users = resp['list'];
+      });
   }
 }

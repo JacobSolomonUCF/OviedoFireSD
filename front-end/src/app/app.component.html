@@ -28,8 +28,9 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
 </head>
 
 
-  <div id="login" *ngIf="(user | async)?.uid == undefined">
-  <div style="background-color: #6c0505; color: white; text-align: center; font-size: 3em; padding-top: 5vh; padding-bottom: 5vh">
+<div id="login" *ngIf="(user | async)?.uid == undefined">
+  <div
+    style="background-color: #6c0505; color: white; text-align: center; font-size: 3em; padding-top: 5vh; padding-bottom: 5vh">
     <i class="fa fa-fire-extinguisher" style="border: 2px solid #EAEAEA;padding: 7px 8px;border-radius: 50%"></i><span>&nbsp;Oviedo Fire</span>
   </div>
   <!--<div class="pure-u-1" style="height: 20vh; text-align: center; background-color: #6c0505; color: white"><h1><i class="fa fa-fire-extinguisher"></i>Oviedo Fire</h1></div>-->
@@ -46,7 +47,8 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
 
       <div class="pure-controls">
         <button type="submit" class="pure-button pure-button-primary"
-                (click)="login(email.value, password.value)">Login</button>
+                (click)="login(email.value, password.value)">Login
+        </button>
       </div>
     </fieldset>
   </form>
@@ -104,7 +106,7 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
             </li>
             <ul *ngIf="this.editList" class="pure-menu-sub-list">
               <!--<li class="pure-menu-item {{(this.checkState() === 'eEquipment') ? 'active' : ''}}">-->
-                <!--<a uiSref="eEquipment" class="pure-menu-link">Equipment</a>-->
+              <!--<a uiSref="eEquipment" class="pure-menu-link">Equipment</a>-->
               <!--</li>-->
               <li class="pure-menu-item {{(this.checkState() === 'eReport') ? 'active' : ''}}">
                 <a uiSref="eReport" class="pure-menu-link">Reports</a>

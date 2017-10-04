@@ -55,7 +55,7 @@ import {WebService} from "../services/webService";
                 <div>
                   <label class="pure-checkbox" [ngSwitch]="todo.complete">
                     <input type="checkbox" *ngSwitchCase="true" checked/>
-                    <input type="checkbox" *ngSwitchDefault />
+                    <input type="checkbox" *ngSwitchDefault/>
                     {{todo.title}}
                   </label>
                 </div>
@@ -101,9 +101,9 @@ export class Home {
   constructor(public webService: WebService) {
     let self = this;
     self.loading = true;
-    webService.setState('home');
-    webService.getHome()
-      .subscribe(function (resp) {
+    webService.setState('home')
+      .getHome()
+      .subscribe(resp => {
         self.toDoList = resp['toDoList'];
         self.equipment = resp['equipment'];
         self.totalUsers = resp['totalUsers'];

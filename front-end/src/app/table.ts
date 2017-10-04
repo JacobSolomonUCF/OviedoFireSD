@@ -140,7 +140,7 @@ export class Table {
     let val = "";
     const self = this;
     const source = self.temp ? self.temp :
-      { rows: self.original, heading: self.heading };
+      {rows: self.original, heading: self.heading};
 
     console.log(self.temp);
     if (!event)

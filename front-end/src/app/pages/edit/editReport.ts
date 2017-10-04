@@ -14,9 +14,9 @@ import {WebService} from "../../services/webService";
 })
 export class EditReport {
   heading: any[] = [
-    {prop:'name', flexGrow: 3, dragable: false, resizeable: true},
-    {prop:'schedule', flexGrow: 1, dragable: false, resizeable: true},
-    {prop:'status', flexGrow: 1, dragable: false, resizeable: true},
+    {prop: 'name', flexGrow: 3, dragable: false, resizeable: true},
+    {prop: 'schedule', flexGrow: 1, dragable: false, resizeable: true},
+    {prop: 'status', flexGrow: 1, dragable: false, resizeable: true},
     // {prop:'ID', flexGrow: 1, dragable: false, resizeable: true}
   ];
   reports: any[];
@@ -26,7 +26,7 @@ export class EditReport {
 
     webService.setState('eReport')
       .get('/reports')
-        .subscribe(resp => {
+      .subscribe(resp => {
         self.reports = resp['reportsList'];
       });
   }
