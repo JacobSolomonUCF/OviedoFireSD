@@ -94,6 +94,11 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
 
     func getForm(userID:String,formId:String,completion : @escaping ()->()){
         
+        if(form.count != 0){
+            form.removeAll()
+        }
+        
+        
         Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/form?uid=\(userID)&formId=\(formId)") .responseJSON { response in
             if let result = response.result.value as? [String:Any],
                 let main = result["inputElements"] as? [[String:String]]{

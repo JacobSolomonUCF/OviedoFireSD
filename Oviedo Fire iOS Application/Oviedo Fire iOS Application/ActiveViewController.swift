@@ -45,6 +45,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         activityView.isHidden = true
         activityView.center = self.view.center
+        print((Auth.auth().currentUser?.uid)!)
     
     }
     
@@ -58,6 +59,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
         
         if segue.identifier == "toCompartments"{
             let nextController = segue.destination as! CompartmentsViewController
+            print(truckCompartments)
             nextController.list = truckCompartments
             
         }
@@ -84,9 +86,23 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
-        cell.textLabel?.text = list[indexPath.row].name
-        cell.detailTextLabel?.text =  list[indexPath.row].number
+        let name = list[indexPath.row].name
+        let number = list[indexPath.row].number
+        var split = name.components(separatedBy: "/")
+        
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActiveTableViewCell
+        
+        if(name.contains("/")){
+            cell.vehicleName.text = split[0]
+            cell.vehicleName2.text = split[1]
+        }else{
+            cell.vehicleName.text = split[0]
+            cell.vehicleName2.text = ""
+        }
+
+        
+        cell.vehicleNumber.text = "Vehicle #: "     +  number
         return cell
     }
     //End Table Functions
@@ -96,7 +112,6 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
         
         let userID:String = (Auth.auth().currentUser?.uid)!
 
-        
         if(self.truckCompartments.count != 0){
             self.truckCompartments.removeAll()
         }
@@ -107,6 +122,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
                 // main[0]["name"] or use main.first?["name"] for first index or loop through array
                 for obj in main{
                     self.truckCompartments.append(compartments(truckname: obj["name"]!, formId: obj["formId"]!, completedBy: obj["completedBy"]!))
+                    
                 }
             }
             completion()

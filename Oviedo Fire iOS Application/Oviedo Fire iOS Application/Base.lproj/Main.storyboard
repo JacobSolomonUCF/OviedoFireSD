@@ -549,17 +549,56 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="YouTube.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="TBA-mU-bhj">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zYw-3v-0XF">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="69" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zYw-3v-0XF">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="NDW-HT-Dwd">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="60" id="NDW-HT-Dwd" customClass="ActiveTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NDW-HT-Dwd" id="6PR-lv-7nH">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="59.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vehicle Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6cP-G4-wAH">
+                                                    <rect key="frame" x="15" y="8" width="148" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vehicle Name2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v02-3M-H1U">
+                                                    <rect key="frame" x="15" y="32" width="148" height="24"/>
+                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vehicle #:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4bA-EX-JLu">
+                                                    <rect key="frame" x="350.33333333333326" y="42" width="55.666666666666686" height="14"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="4bA-EX-JLu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6PR-lv-7nH" secondAttribute="leading" constant="20" symbolic="YES" id="aeH-lo-9yE"/>
+                                                <constraint firstItem="v02-3M-H1U" firstAttribute="width" secondItem="6cP-G4-wAH" secondAttribute="width" id="xJ1-EV-De4"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="v02-3M-H1U" secondAttribute="trailing" constant="251" id="DVl-0q-eFq"/>
+                                            <constraint firstAttribute="bottom" secondItem="4bA-EX-JLu" secondAttribute="bottom" constant="4" id="Hs9-gX-EjA"/>
+                                            <constraint firstItem="6cP-G4-wAH" firstAttribute="leading" secondItem="NDW-HT-Dwd" secondAttribute="leading" constant="15" id="Nat-NP-cYA"/>
+                                            <constraint firstAttribute="trailing" secondItem="4bA-EX-JLu" secondAttribute="trailing" constant="8" id="U6b-qc-Ny4"/>
+                                            <constraint firstItem="6cP-G4-wAH" firstAttribute="top" secondItem="NDW-HT-Dwd" secondAttribute="top" constant="8" id="WAD-ia-Tdr"/>
+                                            <constraint firstItem="v02-3M-H1U" firstAttribute="leading" secondItem="NDW-HT-Dwd" secondAttribute="leading" constant="15" id="hnM-Jr-4Js"/>
+                                            <constraint firstAttribute="bottom" secondItem="v02-3M-H1U" secondAttribute="bottom" constant="4" id="rne-1R-CPe"/>
+                                            <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="6cP-G4-wAH" secondAttribute="trailing" constant="251" id="t3c-Kb-cKh"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="vehicleName" destination="6cP-G4-wAH" id="yxY-Pq-0bs"/>
+                                            <outlet property="vehicleName2" destination="v02-3M-H1U" id="0M2-26-JGQ"/>
+                                            <outlet property="vehicleNumber" destination="4bA-EX-JLu" id="ryG-0x-z8l"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
@@ -594,7 +633,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X2i-54-Ubm" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="993" y="1001"/>
+            <point key="canvasLocation" x="992.75362318840587" y="1000.2717391304349"/>
         </scene>
         <!--Scanner Controller-->
         <scene sceneID="nre-dQ-bik">
@@ -676,6 +715,27 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Za-4f-oef" customClass="DLRadioButton">
+                                                    <rect key="frame" x="22" y="63" width="110" height="34"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="110" id="31p-xE-oAU"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Present">
+                                                        <color key="titleColor" red="0.027597062289714813" green="0.023808613419532776" blue="0.0071489778347313404" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="indicatorColor">
+                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <outletCollection property="otherButtons" destination="SEp-Wv-VDo" id="fqD-T2-7Nk"/>
+                                                        <outletCollection property="otherButtons" destination="TGw-7f-X4N" id="XBa-pi-vmX"/>
+                                                    </connections>
+                                                </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SEp-Wv-VDo" customClass="DLRadioButton">
                                                     <rect key="frame" x="132" y="63" width="110" height="34"/>
                                                     <constraints>
@@ -713,27 +773,6 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Za-4f-oef" customClass="DLRadioButton">
-                                                    <rect key="frame" x="22" y="63" width="110" height="34"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="110" id="31p-xE-oAU"/>
-                                                    </constraints>
-                                                    <state key="normal" title="Present">
-                                                        <color key="titleColor" red="0.027597062289714813" green="0.023808613419532776" blue="0.0071489778347313404" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    </state>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
-                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="indicatorColor">
-                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                    <connections>
-                                                        <outletCollection property="otherButtons" destination="SEp-Wv-VDo" id="fqD-T2-7Nk"/>
-                                                        <outletCollection property="otherButtons" destination="TGw-7f-X4N" id="XBa-pi-vmX"/>
-                                                    </connections>
-                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="DPN-Ti-ePL" firstAttribute="leading" secondItem="oxr-3B-soR" secondAttribute="leadingMargin" constant="14" id="1J3-be-IUe"/>
@@ -759,7 +798,11 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="commentsTextField" destination="WaQ-tM-gio" id="SNi-dv-FUu"/>
                                             <outlet property="label" destination="DPN-Ti-ePL" id="FZA-6o-eL1"/>
+                                            <outlet property="missingButton" destination="SEp-Wv-VDo" id="k9E-f7-wyx"/>
+                                            <outlet property="needsRepairButton" destination="TGw-7f-X4N" id="qX2-ku-brL"/>
+                                            <outlet property="presentButton" destination="0Za-4f-oef" id="cla-Jt-Xo2"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -912,7 +955,7 @@
         <image name="YouTube.jpg" width="1280" height="800"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bWZ-LS-waz"/>
+        <segue reference="pjj-qN-vui"/>
         <segue reference="KKt-PJ-p6w"/>
     </inferredMetricsTieBreakers>
 </document>

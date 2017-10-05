@@ -9,11 +9,28 @@
 import UIKit
 import Firebase
 import Alamofire
+import DLRadioButton
 
-class pmrFormTableViewCell: UITableViewCell {
+
+
+class pmrFormTableViewCell: UITableViewCell{
 
     @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var presentButton: DLRadioButton!
+    @IBOutlet weak var missingButton: DLRadioButton!
+    @IBOutlet weak var needsRepairButton: DLRadioButton!
+    @IBOutlet weak var commentsTextField: UITextField!
     
+    
+    //Prevents overide of data into cells when scrolling
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.commentsTextField = nil
+        self.missingButton.isSelected = false
+        self.presentButton.isSelected = false
+        self.needsRepairButton.isSelected = false
+        
+    }
     
     
     override func awakeFromNib() {
