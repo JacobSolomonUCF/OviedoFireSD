@@ -663,9 +663,9 @@ exports.toDoList = functions.https.onRequest((req, res) => {
 
 								// set results
 								if(results && results[forms[i]]) {
-									timestamps = results[forms[i]];
+									timestamps = Object.keys(results[forms[i]]);
 
-									if(schedule == "Daily" && !timestamps[time.datestamp]) {
+									if(schedule == "Daily" && !timestamps.includes(time.datestamp)) {
 										completeBy = "End of Day";
 									} else if(schedule == "Weekly" && !time.weekstamps.includes(timestamps[timestamps.length-1])) {
 										completeBy = "End of Week";
