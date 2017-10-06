@@ -12,7 +12,7 @@ import {WebService} from "../../services/webService";
       </div>
       <div *ngSwitchCase="false" [ngSwitch]="users">
         <div *ngSwitchCase="undefined">Nothing here</div>
-        <item-table [heading]="heading" [rows]="users" [tableType]="'edit'" *ngSwitchDefault></item-table>
+        <item-table [heading]="heading" [rows]="users" [viewType]="'view'" [dataType]="'user'" *ngSwitchDefault></item-table>
       </div>
     </div>
   `
@@ -20,10 +20,10 @@ import {WebService} from "../../services/webService";
 export class EditUser {
   loading: any = true;
   heading: any[] = [
-    {prop: 'firstName', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'lastName', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'email', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'type', flexGrow: 1, dragable: false, resizable: false}
+    {prop: 'firstName', flexGrow: 1, dragable: false, resizeable: false, style: 'text'},
+    {prop: 'lastName', flexGrow: 1, dragable: false, resizeable: false, style: 'text'},
+    {prop: 'email', flexGrow: 1, dragable: false, resizeable: false, style: 'text'},
+    {prop: 'type', flexGrow: 1, dragable: false, resizable: false, style: 'dropdown'}
     // {prop: 'ID', flexGrow: 1, dragable: false, resizeable: false}
   ];
   users: any[];

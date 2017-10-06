@@ -18,19 +18,107 @@ import {MdDialog} from "@angular/material";
       </div>
     </div>
 
-    <div [ngSwitch]="style">
-      <div *ngSwitchCase="styles.edit">
-        <ngx-datatable
-          #myTable
-          class="table"
-          [rows]="rows"
-          [rowHeight]="36"
-          [columns]="heading"
-          [columnMode]="'flex'"
-          (select)="style.select"
-          [selectionType]="'single'"></ngx-datatable>
-      </div>
-      <div *ngSwitchDefault>
+    
+    <!-- group/data [ reports, trucks, users, ereports] -->
+    <div [ngSwitch]="dataType">
+      <ng-template ngSwitchCase="report">
+        <div [ngSwitch]="viewType">
+          <ngx-datatable
+            #myTable
+            class="table"
+            [rows]="rows"
+            [rowHeight]="36"
+            [columns]="heading"
+            [columnMode]="'flex'"
+            *ngSwitchCase="'edit'"
+            [selectionType]="'single'">
+          </ngx-datatable>
+          <div *ngSwitchDefault> default </div>
+        </div>
+      </ng-template>
+      <ng-template ngSwitchCase="truck">
+        <div [ngSwitch]="viewType">
+          <ngx-datatable
+            #myTable
+            class="table"
+            [rows]="rows"
+            [rowHeight]="36"
+            [columns]="heading"
+            [columnMode]="'flex'"
+            *ngSwitchCase="'edit'"
+            [selectionType]="'single'">
+          </ngx-datatable>
+          <div *ngSwitchDefault> default </div>
+        </div>
+      </ng-template>
+      <ng-template ngSwitchCase="user">
+        <div [ngSwitch]="viewType">
+          <ngx-datatable
+            #myTable
+            class="table"
+            [rows]="rows"
+            [rowHeight]="36"
+            [columns]="heading"
+            [columnMode]="'flex'"
+            (select)="userSelect($event, table)"
+            *ngSwitchCase="'view'"
+            [selectionType]="'single'">
+          </ngx-datatable>
+          <div *ngSwitchCase="'edit'" class="tile pure-form pure-form-stacked editing" style="height: calc(100vh - 250px)">
+              <fieldset>
+                <legend>{{temp.firstName + ' ' + temp.lastName}} </legend>
+
+                <div class="pure-g" style="letter-spacing: 0">
+                  <div class="pure-u-11-24 pure-u-sm-1">
+                    <label for="first-name">First Name</label>
+                    <input id="first-name" type="text" [ngModel]="temp.firstName">
+                  </div>
+                  <div class="pure-u-11-24 pure-u-sm-1">
+                    <label for="last-name">Last Name</label>
+                    <input id="last-name" type="text" [ngModel]="temp.lastName">
+                  </div>
+                  <div class="pure-u-11-24 pure-u-sm-1">
+                    <label for="email">Email</label>
+                    <input id="email" type="text" [ngModel]="temp.email">
+                  </div>
+
+                  <div class="pure-u-11-24 pure-u-sm-1">
+                    <label for="type">Type</label>
+                    <select id="type" [ngModel]="temp.type">
+                      <option>user</option>
+                      <option>administrator</option>
+                    </select>
+                  </div>
+
+                  <!--<div class="pure-u-1 pure-u-md-1-3">-->
+                    <!--<label for="last-name">Last Name</label>-->
+                    <!--<input id="last-name" class="pure-u-23-24" type="text" [ngModel]="temp.lastName">-->
+                  <!--</div>-->
+
+                  <!--<div class="pure-u-1 pure-u-md-1-3">-->
+                    <!--<label for="email">E-Mail</label>-->
+                    <!--<input id="email" class="pure-u-23-24" type="email" [ngModel]="temp.email">-->
+                  <!--</div>-->
+
+                  <!--<div class="pure-u-1 pure-u-md-1-3">-->
+                    <!--<label for="state">State</label>-->
+                    <!--<select id="state" class="pure-input-1-2">-->
+                      <!--<option>AL</option>-->
+                      <!--<option>CA</option>-->
+                      <!--<option>IL</option>-->
+                    <!--</select>-->
+                  <!--</div>-->
+                </div>
+                
+                <button type="submit" class="pure-button pure-button-primary">Submit</button>
+              </fieldset>
+          </div>
+          <div *ngSwitchDefault> default </div>
+        </div>
+        <div *ngSwitchDefault> default </div>
+      </ng-template>
+      
+      <ng-template ngSwitchDefault="">
         <ngx-datatable
           #myTable
           *ngIf="!row"
@@ -71,14 +159,15 @@ import {MdDialog} from "@angular/material";
                                 [flexGrow]="2">
           </ngx-datatable-column>
         </ngx-datatable>
-      </div>
+      </ng-template>
     </div>
   `
 })
 export class Table {
   @ViewChild('tableFilter') tableFilter: any;
   @ViewChild('myTable') table: any;
-  @Input() tableType: any;
+  @Input() dataType: any;
+  @Input() viewType: any;
   @Input() heading: any[];
   @Input() rows: any[];
   original: any;
@@ -124,7 +213,7 @@ export class Table {
   }
 
   ngOnInit() {
-    this.style = this.styles[this.tableType];
+    this.style = this.styles[this.viewType];
     this.original = this.rows;
   }
 
@@ -163,6 +252,13 @@ export class Table {
       heading: row.selected[0].data.heading
     }).rows;
     this.style = this.styles.modal;
+  }
+
+  userSelect(event, m) {
+    this.viewType = 'edit';
+    console.log(event);
+    this.temp = event.selected[0];
+    console.log(m);
   }
 
   toggleExpandGroup(group) {

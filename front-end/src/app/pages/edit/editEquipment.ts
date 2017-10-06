@@ -12,7 +12,7 @@ import {WebService} from "../../services/webService";
       </div>
       <div *ngSwitchCase="false" [ngSwitch]="reports">
         <div *ngSwitchCase="undefined">Nothing here</div>
-        <item-table [heading]="heading" [rows]="reports" [tableType]="'edit'"></item-table>
+        <item-table [heading]="heading" [rows]="reports" [viewType]="'edit'" [dataType]="'equipment'"></item-table>
       </div>
     </div>
   `

@@ -8,7 +8,7 @@ import {WebService} from "../services/webService";
     </div>
 
     <div class="content">
-      <item-table [heading]="heading" [rows]="reports" [tableType]="'view'"></item-table>
+      <item-table [heading]="heading" [rows]="reports" [viewType]="'view'" [dataType]="'reports'"></item-table>
     </div>
   `
   , styleUrls: ['../menu.sass']

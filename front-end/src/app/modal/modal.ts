@@ -27,7 +27,7 @@ import {MD_DIALOG_DATA} from "@angular/material";
         </ng-template>
         <ng-template [ngSwitchCase]="'view'">
           <item-table [heading]="data.body.data.heading" [rows]="data.body.data.rows"
-                      [tableType]="'modal'"></item-table>
+                      [viewType]="'modal'"></item-table>
         </ng-template>
         <ng-template ngSwitchDefault>
           Unknown modal type.
