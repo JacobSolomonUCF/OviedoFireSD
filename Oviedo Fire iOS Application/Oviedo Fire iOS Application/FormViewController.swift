@@ -8,9 +8,26 @@
 
 import UIKit
 
+
+struct formSaved {
+    var commentField:String
+    var pmrSelection:Int
+    var rowIndex:Int
+    
+    init(commentField:String,pmrSelection:Int, rowIndex:Int) {
+        self.commentField = commentField
+        self.pmrSelection = pmrSelection
+        self.rowIndex = rowIndex
+    }
+    
+}
+
+
 class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
     
     @IBOutlet weak var tableView: UITableView!
+
+    var checkedRows=Set<NSIndexPath>()
     
     
     var formId:String = ""
@@ -48,8 +65,16 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
         cell.label.text = form[indexPath.row].caption
 
+
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+    
+    
+    }
+    
 
     /*
     // MARK: - Navigation
