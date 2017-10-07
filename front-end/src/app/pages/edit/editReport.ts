@@ -6,17 +6,23 @@ import {WebService} from "../../services/webService";
     <div class="header">
       <h1>Edit Reports</h1>
     </div>
-    <div class="content">
-      <item-table [heading]="heading" [rows]="reports" [tableType]="'edit'"></item-table>
-    </div>
+    <div class="content" [ngSwitch]="loading">
+      <div *ngSwitchCase="true" class="centered">
+        <i class="fa fa-5x fa-spinner fa-pulse"></i>
+      </div>
+      <div *ngSwitchCase="false" [ngSwitch]="reports">
+        <div *ngSwitchCase="undefined">Nothing here</div>
+        <item-table [heading]="heading" [rows]="reports" [viewType]="'edit'" [dataType]="'report'"></item-table>
+      </div>
   `
   , styleUrls: ['../../menu.sass']
 })
 export class EditReport {
+  loading: boolean = true;
   heading: any[] = [
-    {prop:'name', flexGrow: 3, dragable: false, resizeable: true},
-    {prop:'schedule', flexGrow: 1, dragable: false, resizeable: true},
-    {prop:'status', flexGrow: 1, dragable: false, resizeable: true},
+    {prop: 'name', flexGrow: 3, dragable: false, resizeable: true},
+    {prop: 'schedule', flexGrow: 1, dragable: false, resizeable: true},
+    {prop: 'status', flexGrow: 1, dragable: false, resizeable: true},
     // {prop:'ID', flexGrow: 1, dragable: false, resizeable: true}
   ];
   reports: any[];
@@ -26,8 +32,12 @@ export class EditReport {
 
     webService.setState('eReport')
       .get('/reports')
-        .subscribe(resp => {
-        self.reports = resp['reportsList'];
-      });
+      .subscribe(resp => {
+          self.reports = resp['reportsList'];
+        }, () => {
+        }, () => {
+          self.loading = false;
+        }
+      );
   }
 }

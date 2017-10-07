@@ -1,4 +1,3 @@
-
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 
@@ -12,20 +11,22 @@ export class WebService {
   baseUrl = 'https://us-central1-oviedofiresd-55a71.cloudfunctions.net';
   state: string;
 
-  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase, public http: HttpClient) {}
+  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase, public http: HttpClient) {
+  }
 
   token() {
     return '?uid=' + this.getUID();
   }
+
   getUID() {
     return (this.uid === undefined) ? localStorage.getItem('uid') : this.uid;
   }
 
   login(email, password) {
     let self = this;
-    this.afAuth.auth.signInWithEmailAndPassword(email, password).then(function (x) {
-      localStorage.setItem('uid',self.uid = x.uid);
-      return x.uid;
+    this.afAuth.auth.signInWithEmailAndPassword(email, password).then(resp => {
+      localStorage.setItem('uid', self.uid = resp.uid);
+      return resp.uid;
     });
   }
 
