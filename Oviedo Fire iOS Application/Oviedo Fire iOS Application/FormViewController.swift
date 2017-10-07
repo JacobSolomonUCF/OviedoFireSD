@@ -37,8 +37,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.estimatedRowHeight = 100.00
-        tableView.rowHeight = UITableViewAutomaticDimension
+
         // Do any additional setup after loading the view.
         
     
@@ -62,10 +61,18 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
-        cell.label.text = form[indexPath.row].caption
+        var cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
+        if (form[indexPath.row].type == "pmr") {
+            cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
+            cell.label.text = form[indexPath.row].caption
+        }else if(form[indexPath.row].type == "num"){
+            cell = tableView.dequeueReusableCell(withIdentifier: "num", for: indexPath) as! pmrFormTableViewCell
+            cell.numLabel.text = form[indexPath.row].caption
+        }
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
+//        cell.label.text = form[indexPath.row].caption
 
-
+ 
         return cell
     }
     

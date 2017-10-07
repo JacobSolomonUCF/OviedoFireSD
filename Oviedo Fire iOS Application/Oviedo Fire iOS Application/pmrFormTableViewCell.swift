@@ -20,15 +20,13 @@ class pmrFormTableViewCell: UITableViewCell{
     @IBOutlet weak var missingButton: DLRadioButton!
     @IBOutlet weak var needsRepairButton: DLRadioButton!
     @IBOutlet weak var commentsTextField: UITextField!
+    @IBOutlet weak var numLabel: UILabel!
     
     
     //Prevents overide of data into cells when scrolling
     override func prepareForReuse() {
         super.prepareForReuse()
-        self.commentsTextField = nil
-        self.missingButton.isSelected = false
-        self.presentButton.isSelected = false
-        self.needsRepairButton.isSelected = false
+
         
     }
     

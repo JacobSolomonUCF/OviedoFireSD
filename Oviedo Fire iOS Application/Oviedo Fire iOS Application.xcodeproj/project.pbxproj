@@ -18,6 +18,7 @@
 		166C5B931F6A0ABC0015FAF6 /* Alamofire.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 166C5B921F6A0ABC0015FAF6 /* Alamofire.framework.dSYM */; };
 		166C5B951F6A13710015FAF6 /* ActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C5B941F6A13710015FAF6 /* ActiveViewController.swift */; };
 		168CE1541F86CDC400E56EFB /* ActiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 168CE1531F86CDC400E56EFB /* ActiveTableViewCell.swift */; };
+		16A65A9C1F882AC700DCDBFC /* toDoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A65A9B1F882AC700DCDBFC /* toDoListTableViewCell.swift */; };
 		16A90AE71F560C7C00F50919 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AE61F560C7C00F50919 /* AppDelegate.swift */; };
 		16A90AE91F560C7C00F50919 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AE81F560C7C00F50919 /* ViewController.swift */; };
 		16A90AEC1F560C7C00F50919 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A90AEA1F560C7C00F50919 /* Main.storyboard */; };
@@ -86,6 +87,7 @@
 		166C5B921F6A0ABC0015FAF6 /* Alamofire.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Alamofire.framework.dSYM; path = Carthage/Build/iOS/Alamofire.framework.dSYM; sourceTree = "<group>"; };
 		166C5B941F6A13710015FAF6 /* ActiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveViewController.swift; sourceTree = "<group>"; };
 		168CE1531F86CDC400E56EFB /* ActiveTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ActiveTableViewCell.swift; path = TableCells/ActiveTableViewCell.swift; sourceTree = "<group>"; };
+		16A65A9B1F882AC700DCDBFC /* toDoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = toDoListTableViewCell.swift; path = TableCells/toDoListTableViewCell.swift; sourceTree = "<group>"; };
 		16A90AE31F560C7C00F50919 /* Oviedo Fire iOS Application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Oviedo Fire iOS Application.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16A90AE61F560C7C00F50919 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		16A90AE81F560C7C00F50919 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -184,14 +186,15 @@
 				1654E9D21F68B77D00393980 /* SignUpViewController.swift */,
 				1654E39D1F563484002C43C6 /* HomeViewController.swift */,
 				166C5B941F6A13710015FAF6 /* ActiveViewController.swift */,
+				168CE1531F86CDC400E56EFB /* ActiveTableViewCell.swift */,
 				164CB79C1F733A0C0054F8B3 /* CompartmentsViewController.swift */,
 				16B2007F1F81B96E006BABAE /* toDoViewController.swift */,
+				16A65A9B1F882AC700DCDBFC /* toDoListTableViewCell.swift */,
 				16C238A71F570E570036B615 /* offTruckViewController.swift */,
 				16B200831F81C0C5006BABAE /* offTruckListViewController.swift */,
 				16B7D9241F6A1D5600DC64FB /* QRScannerViewController.swift */,
 				1627857D1F6C8071007D3E64 /* FormViewController.swift */,
 				160EA06D1F82DA2E00AF46DC /* pmrFormTableViewCell.swift */,
-				168CE1531F86CDC400E56EFB /* ActiveTableViewCell.swift */,
 				16A90AED1F560C7C00F50919 /* Assets.xcassets */,
 				16A90AEF1F560C7C00F50919 /* LaunchScreen.storyboard */,
 				16B4FA401F68A547000929F9 /* GoogleService-Info.plist */,
@@ -601,6 +604,7 @@
 				16A90AE91F560C7C00F50919 /* ViewController.swift in Sources */,
 				16B947591F72D96A0037FC39 /* Network.swift in Sources */,
 				16B7D9251F6A1D5600DC64FB /* QRScannerViewController.swift in Sources */,
+				16A65A9C1F882AC700DCDBFC /* toDoListTableViewCell.swift in Sources */,
 				16A90AE71F560C7C00F50919 /* AppDelegate.swift in Sources */,
 				16C238A91F570E570036B615 /* offTruckViewController.swift in Sources */,
 				1654E39E1F563484002C43C6 /* HomeViewController.swift in Sources */,
