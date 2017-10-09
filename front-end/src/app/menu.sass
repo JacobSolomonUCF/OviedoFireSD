@@ -54,7 +54,7 @@ ul
  *The content `<div>` is where all your content goes.
 
 .content
-  padding: 2.5em 2em
+  padding: 2.5em 2em .5em 2em
   width: calc(100% - 30px - 3em)
   margin: 0
   line-height: 1.6em
@@ -270,7 +270,7 @@ ul
 
 /* -- Buttons ------------------------------------------------------------------
 button
-  &.close
+  &.close, &.add
     right: .35em
     border: 0
     background: transparent
@@ -286,6 +286,14 @@ button
     display: inline-block
     font-size: 1em
     border-radius: 3px
+
+    &.small
+      padding: .1em .5em
+      right: .35em
+      border: 0
+      top: .35em
+      margin: 0
+
 
   &.default
     right: .35em
@@ -308,11 +316,12 @@ div.table-options
       padding: .25em
 
 ngx-datatable
+  border-radius: 1%
   // width: calc(100% - 30px - 1em)
   background-color: white
-  padding: 1em .5em
+  padding: 1em .5em 0 .5em
   // height: calc(85vh - 150px)
-  height: calc(100vh - 250px)
+  height: calc(100vh - 16em)
   overflow-y: auto
   overflow: scroll !important
   border: 1px solid lightgray
@@ -336,6 +345,9 @@ ngx-datatable
         content: $downarrow
         font-family: FontAwesome
         justify-content: flex-end
+
+    datatable-scroller, .datatable-header-inner, .datatable-row-center, datatable-body-row
+      width: 100% !important
 
     datatable-body-row
       cursor: pointer

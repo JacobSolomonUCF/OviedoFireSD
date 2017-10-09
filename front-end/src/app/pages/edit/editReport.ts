@@ -10,10 +10,10 @@ import {WebService} from "../../services/webService";
       <div *ngSwitchCase="true" class="centered">
         <i class="fa fa-5x fa-spinner fa-pulse"></i>
       </div>
-      <div *ngSwitchCase="false" [ngSwitch]="reports">
-        <div *ngSwitchCase="undefined">Nothing here</div>
-        <item-table [heading]="heading" [rows]="reports" [viewType]="'edit'" [dataType]="'report'"></item-table>
+      <div *ngSwitchCase="false">
+        <item-table [heading]="heading" [rows]="reports" [viewType]="'view'" [dataType]="'report'"></item-table>
       </div>
+    </div>
   `
   , styleUrls: ['../../menu.sass']
 })

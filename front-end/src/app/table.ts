@@ -5,13 +5,20 @@ import {MdDialog} from "@angular/material";
   selector: `item-table`,
   template: `
     <div class="table-options">
-      <div class="left">
-        <button class="close" (click)="toggle()" *ngIf="previousStyle"><i class="fa fa-chevron-left"></i> Back</button>
+      <div class="left" [ngSwitch]="getTheme()">
+        <button class="add" (click)="onclick()(undefined, table)" *ngSwitchCase="'view'">
+          <i class="fa fa-plus"></i> Add {{dataType}}
+        </button>
+        <div *ngSwitchCase="'reports'"></div>
+        <button class="close" (click)="toggle()" *ngSwitchDefault>
+          <i class="fa fa-chevron-left"></i> Back
+        </button>
       </div>
-      <div class="right">
+      <div class="right" [ngSwitch]="viewType">
         <input
           #tableFilter
           class='filter'
+          *ngIf="viewType != 'edit'"
           type='text'
           placeholder='Type to filter...'
           (keyup)='updateFilter($event)'/>
@@ -30,9 +37,33 @@ import {MdDialog} from "@angular/material";
             [rowHeight]="36"
             [columns]="heading"
             [columnMode]="'flex'"
-            *ngSwitchCase="'edit'"
+            (select)="onclick()($event, table)"
+            *ngSwitchCase="'view'"
             [selectionType]="'single'">
           </ngx-datatable>
+          <div *ngSwitchCase="'edit'" class="tile pure-form pure-form-stacked editing" style="height: calc(100vh - 250px)">
+            <fieldset>
+              <legend *ngIf="temp.title.length">{{temp.title}} </legend>
+              <legend *ngIf="!temp.title.length">New {{dataType}}</legend>
+
+              <div class="pure-g" style="letter-spacing: 0">
+                <div class="pure-u-11-24 pure-u-sm-1">
+                  <label for="first-name">Title</label>
+                  <input id="first-name" type="text" [ngModel]="temp.title">
+                </div>
+
+                <div class="pure-u-11-24 pure-u-sm-1">
+                  <label for="type">Type</label>
+                  <select id="type" [ngModel]="temp.type">
+                    <option>basic</option>
+                    <option>special</option>
+                  </select>
+                </div>
+              </div>
+              <br/>
+              <button type="submit" class="accept">Submit</button>
+            </fieldset>
+          </div>
           <div *ngSwitchDefault> default </div>
         </div>
       </ng-template>
@@ -45,9 +76,10 @@ import {MdDialog} from "@angular/material";
             [rowHeight]="36"
             [columns]="heading"
             [columnMode]="'flex'"
-            *ngSwitchCase="'edit'"
+            *ngSwitchCase="'view'"
             [selectionType]="'single'">
           </ngx-datatable>
+          
           <div *ngSwitchDefault> default </div>
         </div>
       </ng-template>
@@ -60,13 +92,14 @@ import {MdDialog} from "@angular/material";
             [rowHeight]="36"
             [columns]="heading"
             [columnMode]="'flex'"
-            (select)="userSelect($event, table)"
+            (select)="onclick()($event, table)"
             *ngSwitchCase="'view'"
             [selectionType]="'single'">
           </ngx-datatable>
           <div *ngSwitchCase="'edit'" class="tile pure-form pure-form-stacked editing" style="height: calc(100vh - 250px)">
               <fieldset>
-                <legend>{{temp.firstName + ' ' + temp.lastName}} </legend>
+                <legend *ngIf="temp.firstName.length">{{temp.firstName + ' ' + temp.lastName}} </legend>
+                <legend *ngIf="!temp.firstName.length">New User</legend>
 
                 <div class="pure-g" style="letter-spacing: 0">
                   <div class="pure-u-11-24 pure-u-sm-1">
@@ -89,28 +122,9 @@ import {MdDialog} from "@angular/material";
                       <option>administrator</option>
                     </select>
                   </div>
-
-                  <!--<div class="pure-u-1 pure-u-md-1-3">-->
-                    <!--<label for="last-name">Last Name</label>-->
-                    <!--<input id="last-name" class="pure-u-23-24" type="text" [ngModel]="temp.lastName">-->
-                  <!--</div>-->
-
-                  <!--<div class="pure-u-1 pure-u-md-1-3">-->
-                    <!--<label for="email">E-Mail</label>-->
-                    <!--<input id="email" class="pure-u-23-24" type="email" [ngModel]="temp.email">-->
-                  <!--</div>-->
-
-                  <!--<div class="pure-u-1 pure-u-md-1-3">-->
-                    <!--<label for="state">State</label>-->
-                    <!--<select id="state" class="pure-input-1-2">-->
-                      <!--<option>AL</option>-->
-                      <!--<option>CA</option>-->
-                      <!--<option>IL</option>-->
-                    <!--</select>-->
-                  <!--</div>-->
                 </div>
-                
-                <button type="submit" class="pure-button pure-button-primary">Submit</button>
+                <br/>
+                <button type="submit" class="accept">Submit</button>
               </fieldset>
           </div>
           <div *ngSwitchDefault> default </div>
@@ -130,7 +144,7 @@ import {MdDialog} from "@angular/material";
           [headerHeight]="50"
           [footerHeight]="0"
           [rowHeight]="40"
-          (select)="style.select($event, myTable)"
+          (select)="onclick()($event, myTable)"
           [cssClasses]="[]"
           [selectionType]="style.selectType"
           [groupExpansionDefault]="true">
@@ -192,7 +206,7 @@ export class Table {
       thingProp: 'Name',
       props: [{name: 'Schedule'}],
       select: (e, m) => {
-        return this.openDialog(e, m);
+        return this.onclick()(e, m);//this.openDialog(e, m);
       },
       selectType: 'single'
     },
@@ -217,12 +231,32 @@ export class Table {
     this.original = this.rows;
   }
 
+  getTheme() {
+    switch (this.viewType) {
+      case 'view':
+        switch (this.dataType) {
+          case 'truck': // just for the moment cannot edit trucks...
+          case 'reports': return 'reports';
+        }
+      default: return this.viewType;
+    }
+
+  }
+
   toggle() {
-    this.style = (this.previousStyle) ? this.previousStyle : this.style;
-    this.table.rows = this.rows;
-    delete this.previousStyle;
-    delete this.temp;
-    this.updateFilter(undefined);
+    let viewSwitch = {
+      edit: () => { this.viewType = 'view';},
+      ereport: () => {
+        this.viewType = 'view';
+        this.style = (this.previousStyle) ? this.previousStyle : this.style;
+        this.table.rows = this.rows;
+        delete this.previousStyle;
+        delete this.temp;
+        this.updateFilter(undefined);
+      }
+    };
+
+    viewSwitch[this.viewType]();
   }
 
   updateFilter(event) {
@@ -244,23 +278,29 @@ export class Table {
     });
   }
 
-  openDialog(row, m) {
-    this.tableFilter.nativeElement.value = "";
-    this.previousStyle = this.style;
-    m.rows = (this.temp = {
-      rows: row.selected[0].data.rows,
-      heading: row.selected[0].data.heading
-    }).rows;
-    this.style = this.styles.modal;
+  onclick() {
+    let onclick = {
+      reports: (event, m) => {
+        this.viewType = 'ereport';
+        this.tableFilter.nativeElement.value = "";
+        this.previousStyle = this.style;
+        m.rows = (this.temp = {
+          rows: event.selected[0].data.rows,
+          heading: event.selected[0].data.heading
+        }).rows;
+        this.style = this.styles.modal;
+      },
+      user: (event) => {
+        this.viewType = 'edit';
+        this.temp = (event === undefined) ? {firstName: "", lastName: "", email: "", type: ""} : event.selected[0];
+      },
+      report: (event) => {
+        this.viewType = 'edit';
+        this.temp = (event === undefined) ? {title: "", type: ""} : event.selected[0];
+      }
+    };
+    return onclick[this.dataType];
   }
-
-  userSelect(event, m) {
-    this.viewType = 'edit';
-    console.log(event);
-    this.temp = event.selected[0];
-    console.log(m);
-  }
-
   toggleExpandGroup(group) {
     this.table.groupHeader.toggleExpandGroup(group);
   }
