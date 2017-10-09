@@ -1,5 +1,4 @@
 import {Component, Input, ViewChild} from "@angular/core"
-import {MdDialog} from "@angular/material";
 
 @Component({
   selector: `item-table`,
@@ -25,7 +24,6 @@ import {MdDialog} from "@angular/material";
       </div>
     </div>
 
-    
     <!-- group/data [ reports, trucks, users, ereports] -->
     <div [ngSwitch]="dataType">
       <ng-template ngSwitchCase="report">
@@ -41,9 +39,10 @@ import {MdDialog} from "@angular/material";
             *ngSwitchCase="'view'"
             [selectionType]="'single'">
           </ngx-datatable>
-          <div *ngSwitchCase="'edit'" class="tile pure-form pure-form-stacked editing" style="height: calc(100vh - 250px)">
+          <div *ngSwitchCase="'edit'" class="tile pure-form pure-form-stacked editing"
+               style="height: calc(100vh - 250px)">
             <fieldset>
-              <legend *ngIf="temp.title.length">{{temp.title}} </legend>
+              <legend *ngIf="temp.title.length">{{temp.title}}</legend>
               <legend *ngIf="!temp.title.length">New {{dataType}}</legend>
 
               <div class="pure-g" style="letter-spacing: 0">
@@ -64,7 +63,7 @@ import {MdDialog} from "@angular/material";
               <button type="submit" class="accept">Submit</button>
             </fieldset>
           </div>
-          <div *ngSwitchDefault> default </div>
+          <div *ngSwitchDefault> default</div>
         </div>
       </ng-template>
       <ng-template ngSwitchCase="truck">
@@ -79,8 +78,8 @@ import {MdDialog} from "@angular/material";
             *ngSwitchCase="'view'"
             [selectionType]="'single'">
           </ngx-datatable>
-          
-          <div *ngSwitchDefault> default </div>
+
+          <div *ngSwitchDefault> default</div>
         </div>
       </ng-template>
       <ng-template ngSwitchCase="user">
@@ -96,42 +95,43 @@ import {MdDialog} from "@angular/material";
             *ngSwitchCase="'view'"
             [selectionType]="'single'">
           </ngx-datatable>
-          <div *ngSwitchCase="'edit'" class="tile pure-form pure-form-stacked editing" style="height: calc(100vh - 250px)">
-              <fieldset>
-                <legend *ngIf="temp.firstName.length">{{temp.firstName + ' ' + temp.lastName}} </legend>
-                <legend *ngIf="!temp.firstName.length">New User</legend>
+          <div *ngSwitchCase="'edit'" class="tile pure-form pure-form-stacked editing"
+               style="height: calc(100vh - 250px)">
+            <fieldset>
+              <legend *ngIf="temp.firstName.length">{{temp.firstName + ' ' + temp.lastName}}</legend>
+              <legend *ngIf="!temp.firstName.length">New User</legend>
 
-                <div class="pure-g" style="letter-spacing: 0">
-                  <div class="pure-u-11-24 pure-u-sm-1">
-                    <label for="first-name">First Name</label>
-                    <input id="first-name" type="text" [ngModel]="temp.firstName">
-                  </div>
-                  <div class="pure-u-11-24 pure-u-sm-1">
-                    <label for="last-name">Last Name</label>
-                    <input id="last-name" type="text" [ngModel]="temp.lastName">
-                  </div>
-                  <div class="pure-u-11-24 pure-u-sm-1">
-                    <label for="email">Email</label>
-                    <input id="email" type="text" [ngModel]="temp.email">
-                  </div>
-
-                  <div class="pure-u-11-24 pure-u-sm-1">
-                    <label for="type">Type</label>
-                    <select id="type" [ngModel]="temp.type">
-                      <option>user</option>
-                      <option>administrator</option>
-                    </select>
-                  </div>
+              <div class="pure-g" style="letter-spacing: 0">
+                <div class="pure-u-11-24 pure-u-sm-1">
+                  <label for="first-name">First Name</label>
+                  <input id="first-name" type="text" [ngModel]="temp.firstName">
                 </div>
-                <br/>
-                <button type="submit" class="accept">Submit</button>
-              </fieldset>
+                <div class="pure-u-11-24 pure-u-sm-1">
+                  <label for="last-name">Last Name</label>
+                  <input id="last-name" type="text" [ngModel]="temp.lastName">
+                </div>
+                <div class="pure-u-11-24 pure-u-sm-1">
+                  <label for="email">Email</label>
+                  <input id="email" type="text" [ngModel]="temp.email">
+                </div>
+
+                <div class="pure-u-11-24 pure-u-sm-1">
+                  <label for="type">Type</label>
+                  <select id="type" [ngModel]="temp.type">
+                    <option>user</option>
+                    <option>administrator</option>
+                  </select>
+                </div>
+              </div>
+              <br/>
+              <button type="submit" class="accept">Submit</button>
+            </fieldset>
           </div>
-          <div *ngSwitchDefault> default </div>
+          <div *ngSwitchDefault> default</div>
         </div>
-        <div *ngSwitchDefault> default </div>
+        <div *ngSwitchDefault> default</div>
       </ng-template>
-      
+
       <ng-template ngSwitchDefault="">
         <ngx-datatable
           #myTable
@@ -223,7 +223,7 @@ export class Table {
   style: any;
   previousStyle: any;
 
-  constructor(public dialog: MdDialog) {
+  constructor() {
   }
 
   ngOnInit() {
@@ -236,16 +236,20 @@ export class Table {
       case 'view':
         switch (this.dataType) {
           case 'truck': // just for the moment cannot edit trucks...
-          case 'reports': return 'reports';
+          case 'reports':
+            return 'reports';
         }
-      default: return this.viewType;
+      default:
+        return this.viewType;
     }
 
   }
 
   toggle() {
     let viewSwitch = {
-      edit: () => { this.viewType = 'view';},
+      edit: () => {
+        this.viewType = 'view';
+      },
       ereport: () => {
         this.viewType = 'view';
         this.style = (this.previousStyle) ? this.previousStyle : this.style;
@@ -301,6 +305,7 @@ export class Table {
     };
     return onclick[this.dataType];
   }
+
   toggleExpandGroup(group) {
     this.table.groupHeader.toggleExpandGroup(group);
   }

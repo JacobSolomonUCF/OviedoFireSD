@@ -14,6 +14,7 @@ import {WebService} from "../../services/webService";
         <div *ngSwitchCase="undefined">Nothing here</div>
         <item-table [heading]="heading" [rows]="reports" [viewType]="'view'" [dataType]="'truck'"></item-table>
       </div>
+    </div>
   `
   , styleUrls: ['../../menu.sass']
 })

@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 
 import {AngularFireAuth} from "angularfire2/auth";
-import {AngularFireDatabase} from "angularfire2/database";
 
 @Injectable()
 export class WebService {
@@ -11,7 +10,7 @@ export class WebService {
   baseUrl = 'https://us-central1-oviedofiresd-55a71.cloudfunctions.net';
   state: string;
 
-  constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase, public http: HttpClient) {
+  constructor(public afAuth: AngularFireAuth, public http: HttpClient) {
   }
 
   token() {
