@@ -14,20 +14,15 @@ import {WebService} from "../services/webService";
           <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Users</span>
             <div class="count">{{totalUsers}}</div>
-
           </div>
-          <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-wrench"></i> Equipment </span>
-            <div class="count">{{equipment}}</div>
-
-          </div>
+          
           <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
             <span class="count_top"><i class="fa fa-table"></i> Reports</span>
             <div class="count green">{{totalReports}}</div>
-
           </div>
+          
           <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-tasks"></i> Reports todo</span>
+            <span class="count_top"><i class="fa fa-tasks"></i> Todo</span>
             <div style="font-size: 2em;">{{reportsToDo}}</div>
           </div>
         </div>
@@ -84,7 +79,6 @@ import {WebService} from "../services/webService";
             <ul class="quick-list">
               <li><i class="pure-u-1-8 fa fa-table"></i><a uiSref="report">Reports</a></li>
               <li><i class="pure-u-1-8 fa fa-bar-chart"></i><a uiSref="statistic">Statistics</a></li>
-              <li><i class="pure-u-1-8 fa fa-wrench"></i><a uiSref="eEquipment">Edit Equipment</a></li>
               <li><i class="pure-u-1-8 fa fa-list-alt"></i><a uiSref="eReport">Edit Reports</a></li>
               <li><i class="pure-u-1-8 fa fa-user"></i><a uiSref="eUser">Edit Users</a></li>
             </ul>

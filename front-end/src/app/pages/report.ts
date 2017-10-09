@@ -15,20 +15,20 @@ import {WebService} from "../services/webService";
 })
 export class Report {
   headingDaily = [
-    {prop: 'Compartment', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Item', flexGrow: 3, dragable: false, resizeable: false},
-    {prop: 'Sun', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Mon', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Tues', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Wed', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Thur', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Fri', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Sat', flexGrow: 1, dragable: false, resizeable: false}
+    {prop: 'Compartment',   dragable: false, resizeable: false},
+    {prop: 'Item',  dragable: false, resizeable: false},
+    {prop: 'Sun',   dragable: false, resizeable: false},
+    {prop: 'Mon',   dragable: false, resizeable: false},
+    {prop: 'Tues',  dragable: false, resizeable: false},
+    {prop: 'Wed',   dragable: false, resizeable: false},
+    {prop: 'Thur',  dragable: false, resizeable: false},
+    {prop: 'Fri',   dragable: false, resizeable: false},
+    {prop: 'Sat',   dragable: false, resizeable: false}
   ];
   headingWeekly = [
-    {prop: 'Compartment', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Item', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Status', flexGrow: 1, dragable: false, resizeable: false}
+    {prop: 'Compartment', dragable: false, resizeable: false},
+    {prop: 'Item', dragable: false, resizeable: false},
+    {prop: 'Status', dragable: false, resizeable: false}
   ];
   //['Name','Schedule','Status','ID'];
   reports: any[] = [
@@ -51,11 +51,11 @@ export class Report {
           {
             Compartment: "Driver #1",
             Item: "Lights",
-            Sun: "Repair",
+            Sun: "Broken",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
-            Thur: 'Repair',
+            Wed: 'Broken',
+            Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
           },
@@ -65,7 +65,7 @@ export class Report {
             Sun: "Missing",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -84,11 +84,11 @@ export class Report {
           {
             Compartment: "Driver #1",
             Item: "Lights",
-            Sun: "Repair",
+            Sun: "Broken",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
-            Thur: 'Repair',
+            Wed: 'Broken',
+            Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
           },
@@ -98,7 +98,7 @@ export class Report {
             Sun: "Missing",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -117,11 +117,11 @@ export class Report {
           {
             Compartment: "Driver #1",
             Item: "Lights",
-            Sun: "Repair",
+            Sun: "Broken",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
-            Thur: 'Repair',
+            Wed: 'Broken',
+            Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
           },
@@ -131,7 +131,7 @@ export class Report {
             Sun: "Missing",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -140,9 +140,9 @@ export class Report {
             Compartment: "Driver #2",
             Item: "Map",
             Sun: "Okay",
-            Mon: 'Repair',
+            Mon: 'Broken',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -152,8 +152,8 @@ export class Report {
             Item: "Radios",
             Sun: "Okay",
             Mon: 'Okay',
-            Tues: 'Repair',
-            Wed: 'Repair',
+            Tues: 'Broken',
+            Wed: 'Broken',
             Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -163,8 +163,8 @@ export class Report {
             Item: "Radios",
             Sun: "Okay",
             Mon: 'Okay',
-            Tues: 'Repair',
-            Wed: 'Repair',
+            Tues: 'Broken',
+            Wed: 'Broken',
             Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -174,8 +174,8 @@ export class Report {
             Item: "Radios",
             Sun: "Okay",
             Mon: 'Okay',
-            Tues: 'Repair',
-            Wed: 'Repair',
+            Tues: 'Broken',
+            Wed: 'Broken',
             Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -202,11 +202,11 @@ export class Report {
           {
             Compartment: "Driver #1",
             Item: "Lights",
-            Sun: "Repair",
+            Sun: "Broken",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
-            Thur: 'Repair',
+            Wed: 'Broken',
+            Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
           },
@@ -216,7 +216,7 @@ export class Report {
             Sun: "Missing",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -235,11 +235,11 @@ export class Report {
           {
             Compartment: "Driver #1",
             Item: "Lights",
-            Sun: "Repair",
+            Sun: "Broken",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
-            Thur: 'Repair',
+            Wed: 'Broken',
+            Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
           },
@@ -249,7 +249,7 @@ export class Report {
             Sun: "Missing",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -268,11 +268,11 @@ export class Report {
           {
             Compartment: "Driver #1",
             Item: "Lights",
-            Sun: "Repair",
+            Sun: "Broken",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
-            Thur: 'Repair',
+            Wed: 'Broken',
+            Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
           },
@@ -282,7 +282,7 @@ export class Report {
             Sun: "Missing",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -291,9 +291,9 @@ export class Report {
             Compartment: "Driver #2",
             Item: "Map",
             Sun: "Okay",
-            Mon: 'Repair',
+            Mon: 'Broken',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -303,8 +303,8 @@ export class Report {
             Item: "Radios",
             Sun: "Okay",
             Mon: 'Okay',
-            Tues: 'Repair',
-            Wed: 'Repair',
+            Tues: 'Broken',
+            Wed: 'Broken',
             Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -314,8 +314,8 @@ export class Report {
             Item: "Radios",
             Sun: "Okay",
             Mon: 'Okay',
-            Tues: 'Repair',
-            Wed: 'Repair',
+            Tues: 'Broken',
+            Wed: 'Broken',
             Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -325,8 +325,8 @@ export class Report {
             Item: "Radios",
             Sun: "Okay",
             Mon: 'Okay',
-            Tues: 'Repair',
-            Wed: 'Repair',
+            Tues: 'Broken',
+            Wed: 'Broken',
             Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -353,11 +353,11 @@ export class Report {
           {
             Compartment: "Driver #1",
             Item: "Lights",
-            Sun: "Repair",
+            Sun: "Broken",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
-            Thur: 'Repair',
+            Wed: 'Broken',
+            Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
           },
@@ -367,7 +367,7 @@ export class Report {
             Sun: "Missing",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -386,11 +386,11 @@ export class Report {
           {
             Compartment: "Driver #1",
             Item: "Lights",
-            Sun: "Repair",
+            Sun: "Broken",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
-            Thur: 'Repair',
+            Wed: 'Broken',
+            Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
           },
@@ -400,7 +400,7 @@ export class Report {
             Sun: "Missing",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -419,11 +419,11 @@ export class Report {
           {
             Compartment: "Driver #1",
             Item: "Lights",
-            Sun: "Repair",
+            Sun: "Broken",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
-            Thur: 'Repair',
+            Wed: 'Broken',
+            Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
           },
@@ -433,7 +433,7 @@ export class Report {
             Sun: "Missing",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -442,9 +442,9 @@ export class Report {
             Compartment: "Driver #2",
             Item: "Map",
             Sun: "Okay",
-            Mon: 'Repair',
+            Mon: 'Broken',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -454,8 +454,8 @@ export class Report {
             Item: "Radios",
             Sun: "Okay",
             Mon: 'Okay',
-            Tues: 'Repair',
-            Wed: 'Repair',
+            Tues: 'Broken',
+            Wed: 'Broken',
             Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -465,8 +465,8 @@ export class Report {
             Item: "Radios",
             Sun: "Okay",
             Mon: 'Okay',
-            Tues: 'Repair',
-            Wed: 'Repair',
+            Tues: 'Broken',
+            Wed: 'Broken',
             Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -476,8 +476,8 @@ export class Report {
             Item: "Radios",
             Sun: "Okay",
             Mon: 'Okay',
-            Tues: 'Repair',
-            Wed: 'Repair',
+            Tues: 'Broken',
+            Wed: 'Broken',
             Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -505,11 +505,11 @@ export class Report {
           {
             Compartment: "Driver #1",
             Item: "Lights",
-            Sun: "Repair",
+            Sun: "Broken",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
-            Thur: 'Repair',
+            Wed: 'Broken',
+            Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
           },
@@ -519,7 +519,7 @@ export class Report {
             Sun: "Missing",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -538,11 +538,11 @@ export class Report {
           {
             Compartment: "Driver #1",
             Item: "Lights",
-            Sun: "Repair",
+            Sun: "Broken",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
-            Thur: 'Repair',
+            Wed: 'Broken',
+            Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
           },
@@ -552,7 +552,7 @@ export class Report {
             Sun: "Missing",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -571,11 +571,11 @@ export class Report {
           {
             Compartment: "Driver #1",
             Item: "Lights",
-            Sun: "Repair",
+            Sun: "Broken",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
-            Thur: 'Repair',
+            Wed: 'Broken',
+            Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
           },
@@ -585,7 +585,7 @@ export class Report {
             Sun: "Missing",
             Mon: 'Okay',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -594,9 +594,9 @@ export class Report {
             Compartment: "Driver #2",
             Item: "Map",
             Sun: "Okay",
-            Mon: 'Repair',
+            Mon: 'Broken',
             Tues: 'Okay',
-            Wed: 'Repair',
+            Wed: 'Broken',
             Thur: 'Okay',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -606,8 +606,8 @@ export class Report {
             Item: "Radios",
             Sun: "Okay",
             Mon: 'Okay',
-            Tues: 'Repair',
-            Wed: 'Repair',
+            Tues: 'Broken',
+            Wed: 'Broken',
             Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -617,8 +617,8 @@ export class Report {
             Item: "Radios",
             Sun: "Okay",
             Mon: 'Okay',
-            Tues: 'Repair',
-            Wed: 'Repair',
+            Tues: 'Broken',
+            Wed: 'Broken',
             Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'
@@ -628,8 +628,8 @@ export class Report {
             Item: "Radios",
             Sun: "Okay",
             Mon: 'Okay',
-            Tues: 'Repair',
-            Wed: 'Repair',
+            Tues: 'Broken',
+            Wed: 'Broken',
             Thur: 'Broken',
             Fri: 'Okay',
             Sat: 'Okay'

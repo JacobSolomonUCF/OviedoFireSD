@@ -42,20 +42,20 @@ import {Component, Input, ViewChild} from "@angular/core"
           <div *ngSwitchCase="'edit'" class="tile pure-form pure-form-stacked editing"
                style="height: calc(100vh - 250px)">
             <fieldset>
-              <legend *ngIf="temp.title.length">{{temp.title}}</legend>
-              <legend *ngIf="!temp.title.length">New {{dataType}}</legend>
+              <legend *ngIf="temp.name.length">{{temp.name}}</legend>
+              <legend *ngIf="!temp.name.length">New {{dataType}}</legend>
 
               <div class="pure-g" style="letter-spacing: 0">
                 <div class="pure-u-11-24 pure-u-sm-1">
                   <label for="first-name">Title</label>
-                  <input id="first-name" type="text" [ngModel]="temp.title">
+                  <input id="first-name" type="text" [ngModel]="temp.name">
                 </div>
 
                 <div class="pure-u-11-24 pure-u-sm-1">
-                  <label for="type">Type</label>
-                  <select id="type" [ngModel]="temp.type">
-                    <option>basic</option>
-                    <option>special</option>
+                  <label for="type">Schedule</label>
+                  <select id="type" [ngModel]="temp.schedule">
+                    <option>Daily</option>
+                    <option>Special</option>
                   </select>
                 </div>
               </div>
@@ -132,14 +132,14 @@ import {Component, Input, ViewChild} from "@angular/core"
         <div *ngSwitchDefault> default</div>
       </ng-template>
 
-      <ng-template ngSwitchDefault="">
+      <ng-template ngSwitchDefault>
         <ngx-datatable
           #myTable
           *ngIf="!row"
           class='material expandable'
           [rows]="rows"
           [groupRowsBy]="style.group"
-          [columnMode]="'flex'"
+          [columnMode]="'force'"
           [scrollbarH]="false"
           [headerHeight]="50"
           [footerHeight]="0"
@@ -296,11 +296,11 @@ export class Table {
       },
       user: (event) => {
         this.viewType = 'edit';
-        this.temp = (event === undefined) ? {firstName: "", lastName: "", email: "", type: ""} : event.selected[0];
+        this.temp = (event === undefined) ? {firstName: "", lastName: "", email: "", type: "user"} : event.selected[0];
       },
       report: (event) => {
         this.viewType = 'edit';
-        this.temp = (event === undefined) ? {title: "", type: ""} : event.selected[0];
+        this.temp = (event === undefined) ? {name: "", schedule: "Daily"} : event.selected[0];
       }
     };
     return onclick[this.dataType];

@@ -29,10 +29,11 @@ export class Statistic {
   public barChartLegend: boolean = true;
 
   public barChartData: any[] = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Broken'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Needs Repair'},
-    {data: [8, 18, 20, 29, 23, 47, 44], label: 'Missing'}
+    {data: [65, 59, 66, 60, 56, 55, 53], label: 'Broken'},
+    {data: [50, 48, 52, 30, 10, 15, 12], label: 'Missing'},
   ];
+
+  // {data: [2650, 2590, 2660, 2600, 2560, 2550, 2253], label: 'Okay'}
 
   constructor(webService: WebService) {
     webService.setState('statistics');
