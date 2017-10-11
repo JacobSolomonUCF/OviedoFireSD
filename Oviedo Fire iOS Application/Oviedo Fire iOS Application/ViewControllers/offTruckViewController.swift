@@ -20,6 +20,7 @@ class offTruckViewController: UIViewController {
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     //Variables
+    var type:String = ""
     var offTruckItem: [offTruck] = []
     let ID = Auth.auth().currentUser!.uid
     
@@ -29,6 +30,7 @@ class offTruckViewController: UIViewController {
         if segue.identifier == "toOffTruckList"{
             let nextController = segue.destination as! offTruckListViewController
             nextController.list = offTruckItem
+            nextController.type = type
             self.enableButtons()
             stopSpinning(activityView: activityView)
         }
@@ -83,16 +85,20 @@ class offTruckViewController: UIViewController {
     
     // MARK: ACTIONS
     @IBAction func stretchersClicked(_ sender: Any) {
-        offTruckList(Type: "stretchers")
+        offTruckList(Type: "Stretchers")
+        type = "stretchers"
     }
     @IBAction func laddersClicked(_ sender: Any) {
-        offTruckList(Type: "ladders")
+        offTruckList(Type: "Ladders")
+        type = "ladders"
     }
     @IBAction func scbaClicked(_ sender: Any) {
-        offTruckList(Type: "scbas")
+        offTruckList(Type: "Scbas")
+        type = "scbas"
     }
     @IBAction func miscClicked(_ sender: Any) {
-        offTruckList(Type: "misc")
+        offTruckList(Type: "Misc.")
+        type = "scbas"
     }
  
 }

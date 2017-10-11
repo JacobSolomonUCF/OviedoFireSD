@@ -146,7 +146,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nfB-Qj-hDE">
                                         <rect key="frame" x="0.0" y="0.0" width="293" height="113.33333333333334"/>
-                                        <color key="backgroundColor" red="0.88825023169999995" green="0.17013847830000001" blue="0.11494151499999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                         <color key="tintColor" red="0.99195677039999997" green="0.9962289929" blue="0.99192315340000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="ACTIVE" backgroundImage="YouTube.jpg">
@@ -169,7 +169,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="faq-zo-cEq">
                                         <rect key="frame" x="0.0" y="306" width="293" height="113.33333333333337"/>
-                                        <color key="backgroundColor" red="0.80799764389999995" green="0.8002353311" blue="0.78755575420000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                         <color key="tintColor" red="0.99195677039999997" green="0.9962289929" blue="0.99192315340000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="TO-DO LIST" backgroundImage="50 Shades of Grey.jpg">
@@ -181,9 +181,9 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0iE-Ug-gNC">
                                         <rect key="frame" x="0.0" y="459.33333333333343" width="293" height="112.66666666666657"/>
-                                        <color key="backgroundColor" red="0.34905770419999999" green="0.34495794769999999" blue="0.35316836829999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
-                                        <color key="tintColor" red="0.34905770419999999" green="0.34495794769999999" blue="0.35316836829999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="QR" backgroundImage="Deep Space.jpg">
                                             <color key="titleColor" red="0.70188313719999995" green="0.70200556520000001" blue="0.70187538859999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -262,10 +262,10 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0OI-W7-sdg">
                                         <rect key="frame" x="0.0" y="0.0" width="324" height="113.33333333333334"/>
-                                        <color key="backgroundColor" red="1" green="0.53490519520000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                         <color key="tintColor" red="0.99195677039999997" green="0.9962289929" blue="0.99192315340000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="STRETCHERS">
+                                        <state key="normal" title="STRETCHERS" backgroundImage="Learning and Leading.jpg">
                                             <color key="titleColor" red="0.044888928529999997" green="0.1109728292" blue="0.031768955289999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -274,10 +274,10 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ljT-pM-TqL">
                                         <rect key="frame" x="0.0" y="153.33333333333331" width="324" height="112.66666666666669"/>
-                                        <color key="backgroundColor" red="0.39425051210000001" green="0.60571730140000002" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                         <color key="tintColor" red="0.99195677039999997" green="0.9962289929" blue="0.99192315340000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="LADDERS">
+                                        <state key="normal" title="LADDERS" backgroundImage="Lush.jpg">
                                             <color key="titleColor" red="0.044888928529999997" green="0.1109728292" blue="0.031768955289999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -286,10 +286,10 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CmY-pc-jY1">
                                         <rect key="frame" x="0.0" y="306" width="324" height="113.33333333333337"/>
-                                        <color key="backgroundColor" red="0.80932754279999997" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                         <color key="tintColor" red="0.99195677039999997" green="0.9962289929" blue="0.99192315340000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="SCBA">
+                                        <state key="normal" title="SCBA" backgroundImage="YouTube.jpg">
                                             <color key="titleColor" red="0.044888928529999997" green="0.1109728292" blue="0.031768955289999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -298,10 +298,9 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L58-JN-aR3">
                                         <rect key="frame" x="0.0" y="459.33333333333343" width="324" height="112.66666666666657"/>
-                                        <color key="backgroundColor" red="0.67084872719999999" green="0.38567546009999998" blue="0.80939996240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
-                                        <color key="tintColor" red="0.34905770419999999" green="0.34495794769999999" blue="0.35316836829999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="MISC.">
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="MISC." backgroundImage="Amethyst.jpg">
                                             <color key="titleColor" red="0.044888928529999997" green="0.1109728292" blue="0.031768955289999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -883,6 +882,7 @@
                     </view>
                     <connections>
                         <outlet property="activityView" destination="mlK-Wh-6om" id="wIt-4K-bka"/>
+                        <outlet property="backgroundImage" destination="rTE-gW-aik" id="t9u-gW-8wq"/>
                         <outlet property="tableView" destination="gcG-WN-Une" id="MdQ-bL-vmd"/>
                         <segue destination="xui-d9-4GZ" kind="show" identifier="toForm" id="bWZ-LS-waz"/>
                     </connections>
@@ -894,6 +894,7 @@
     </scenes>
     <resources>
         <image name="50 Shades of Grey.jpg" width="1280" height="800"/>
+        <image name="Amethyst.jpg" width="1280" height="800"/>
         <image name="Deep Space.jpg" width="1280" height="800"/>
         <image name="Hydrogen.jpg" width="1280" height="800"/>
         <image name="Learning and Leading.jpg" width="1280" height="800"/>

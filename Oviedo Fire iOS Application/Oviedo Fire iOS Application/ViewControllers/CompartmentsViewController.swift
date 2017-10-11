@@ -92,6 +92,8 @@ extension CompartmentsViewController{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "compartmentsCell")
+        cell.backgroundColor = UIColor.clear
+        tableView.backgroundColor = UIColor.clear
         cell.textLabel?.text = list[indexPath.row].formName
         cell.detailTextLabel?.text =  list[indexPath.row].completeBy
         return cell

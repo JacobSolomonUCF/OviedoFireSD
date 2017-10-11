@@ -91,8 +91,11 @@ extension ActiveViewController{
         let number = list[indexPath.row].number
         var split = name.components(separatedBy: "/")
         
+
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActiveTableViewCell
+        cell.backgroundColor = UIColor.clear
+        tableView.backgroundColor = UIColor.clear
         
         if(name.contains("/")){
             cell.vehicleName.text = split[0]

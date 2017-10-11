@@ -94,6 +94,8 @@ extension toDoViewController{
     {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! toDoListTableViewCell
+        cell.backgroundColor = UIColor.clear
+        tableView.backgroundColor = UIColor.clear
         let fullName:String = list[indexPath.row].name
         var fIndex = fullName.endIndex
         var sIndex = fullName.index(of:"-") ?? fullName.endIndex

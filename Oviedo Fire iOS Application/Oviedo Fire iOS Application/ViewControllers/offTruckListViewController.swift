@@ -13,6 +13,7 @@ import Firebase
 
 class offTruckListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
@@ -20,12 +21,19 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     var list:[offTruck] = []
     var form:[formItem] = []
     var singleFormId:String = ""
+    var type:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        stopSpinning(activityView: activityView)
+        setupView()
 
+    }
+    
+    func setupView(){
+        stopSpinning(activityView: activityView)
+        
+        navigationItem.title = type
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,21 +48,17 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
             nextController.formId = singleFormId
             
         }
+        stopSpinning(activityView: activityView)
     }
 }
 
 extension offTruckListViewController{
     //List item is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        print(list[indexPath.row])
-        activityView.isHidden = false
-        activityView.startAnimating()
+
+        startSpinning(activityView: activityView)
         singleFormId = list[indexPath.row].formId
         
-        
-        activityView.isHidden = true
-        activityView.stopAnimating()
         performSegue(withIdentifier: "toForm", sender: nil)
         
         
@@ -72,6 +76,8 @@ extension offTruckListViewController{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+        cell.backgroundColor = UIColor.clear
+        tableView.backgroundColor = UIColor.clear
         cell.textLabel?.text = list[indexPath.row].name
         cell.detailTextLabel?.text = "Completed By: " + list[indexPath.row].completedBy
         
