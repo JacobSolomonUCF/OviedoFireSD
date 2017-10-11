@@ -16,6 +16,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
     //    Needed Variables:
+    var formName = ""
     var vehicle = ""
     var form: [formItem] = []
     var list: [compartments] = []
@@ -40,13 +41,11 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
         if segue.identifier == "toForm"{
             let nextController = segue.destination as! EqFormViewController
             nextController.form = form
+            nextController.formName = formName
             self.stopSpinning(activityView: self.activityView)
             tableView.allowsSelection = true
             
         }
-    }
-    @IBAction func backButtonClicked(_ sender: Any) {
-        performSegue(withIdentifier: "back", sender: nil)
     }
     
 }
@@ -68,6 +67,7 @@ extension CompartmentsViewController{
         //    Checking if the form has been completed:
         checkCompletion(userID: userID, formId: list[indexPath.row].formId, completion: { (isCompleted) in
             if(isCompleted == "false"){
+                self.formName = self.list[indexPath.row].formName
                 self.getForm(userID: self.userID, formId: self.list[indexPath.row].formId, completion:{(data) -> Void in
                     self.form = data
                     self.performSegue(withIdentifier: "toForm", sender: nil)
@@ -92,7 +92,7 @@ extension CompartmentsViewController{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "compartmentsCell")
-        cell.textLabel?.text = list[indexPath.row].truckname
+        cell.textLabel?.text = list[indexPath.row].formName
         cell.detailTextLabel?.text =  list[indexPath.row].completeBy
         return cell
     }

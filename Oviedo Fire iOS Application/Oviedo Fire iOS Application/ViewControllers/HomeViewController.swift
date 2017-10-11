@@ -28,13 +28,17 @@ class HomeViewController: UIViewController {
     
     //Prepare for segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let backItem = UIBarButtonItem()
+        backItem.title = "Home"
+        navigationItem.backBarButtonItem = backItem
+        
         if segue.identifier == "toActive"{
             let nextController = segue.destination as! ActiveViewController
             nextController.list = activeTrucks
             self.enableButtons()
             self.stopSpinning(activityView: self.activityView)
         }
-        if segue.identifier == "toTODO"{
+        if segue.identifier == "toToDoList"{
             let nextController = segue.destination as! toDoViewController
             nextController.list = TODOList
             self.enableButtons()
@@ -44,6 +48,7 @@ class HomeViewController: UIViewController {
             self.enableButtons()
         }
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,6 +91,9 @@ class HomeViewController: UIViewController {
     }
 
     //    MARK: ACTIONS
+    @IBAction func scannerClicked(_ sender: Any) {
+        self.performSegue(withIdentifier: "toScanner", sender: nil)
+    }
     @IBAction func Logout(_ sender: Any) {
         do {
             try Auth.auth().signOut()
@@ -112,7 +120,7 @@ class HomeViewController: UIViewController {
         startSpinning(activityView: activityView)
         getTODO(userID: ID, completion: {(todo) -> Void in
             self.TODOList = todo
-            self.performSegue(withIdentifier: "toTODO", sender: nil)
+            self.performSegue(withIdentifier: "toToDoList", sender: nil)
         })
     }
         

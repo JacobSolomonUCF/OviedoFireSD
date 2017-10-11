@@ -16,19 +16,18 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
+    var formName = ""
     var form: [formItem] = []
     var list: [toDo] = []
     let userID = Auth.auth().currentUser!.uid
     var singleFormId:String = ""
     
-    @IBAction func backButtonClicked(_ sender: Any) {
-        performSegue(withIdentifier: "back", sender: nil)
-    }
     
     
     func setupView(){
         stopSpinning(activityView: activityView)
         self.tableView?.rowHeight = 70.0
+        navigationItem.title = "ToDo List"
         let searchController = UISearchController(searchResultsController: nil)
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = true
@@ -49,8 +48,10 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
         if segue.identifier == "toForm"{
             let nextController = segue.destination as! EqFormViewController
             nextController.form = form
+            nextController.formName = formName
             
         }
+        self.stopSpinning(activityView: self.activityView)
     }
     
 }
@@ -60,13 +61,18 @@ extension toDoViewController{
     //    Table Functions:
     //    List item is tapped:
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(list[indexPath.row])
-        activityView.isHidden = false
-        activityView.startAnimating()
+        startSpinning(activityView: activityView)
         singleFormId = list[indexPath.row].formId
+        let fullName = list[indexPath.row].name
+        var sIndex = fullName.index(of:"-") ?? fullName.endIndex
+        sIndex = fullName.index(sIndex, offsetBy: 2)
+        formName = String(fullName[sIndex...])
+        
         
         getForm(userID: userID, formId: singleFormId, completion: {(form) -> Void in
+            self.form = form
             self.performSegue(withIdentifier: "toForm", sender: nil)
+            
             
         })
         
@@ -105,12 +111,12 @@ extension toDoViewController{
         
         //  Parsing the string:
         var firstName = String(fullName[..<fIndex])
-        let formName = String(fullName[sIndex...])
-        if(formName == firstName){
+        let oneFormName = String(fullName[sIndex...])
+        if(oneFormName == firstName){
             firstName = " "
         }
         //  Sets the views labels:
-        cell.formName.text = formName
+        cell.formName.text = oneFormName
         cell.vehicleName.text = firstName
         cell.completeBy.text = "Complete by " + list[indexPath.row].completeBy
         return cell

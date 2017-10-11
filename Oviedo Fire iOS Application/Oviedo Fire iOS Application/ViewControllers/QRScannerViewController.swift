@@ -18,9 +18,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     var videoPreviewLayer:AVCaptureVideoPreviewLayer?
     var captureSession:AVCaptureSession?
     
-    @IBAction func backButtonClicked(_ sender: Any) {
-        performSegue(withIdentifier: "back", sender: nil)
-    }
+ 
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -21,9 +21,15 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     var list: [active] = []
     var truckCompartments: [compartments] = []
     
+    func setupView(){
+        stopSpinning(activityView: activityView)
+        navigationItem.title = "Active Vehicles"
+    }
+    
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         if let selectionIndexPath = self.table.indexPathForSelectedRow {
             self.table.deselectRow(at: selectionIndexPath, animated: animated)
         }
@@ -31,9 +37,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        activityView.isHidden = true
-        activityView.center = self.view.center
-        print((Auth.auth().currentUser?.uid)!)
+        setupView()
     
     }
     
@@ -54,14 +58,6 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
             
         }
     }
-    
-    @IBAction func backButtonClicked(_ sender: Any) {
-        performSegue(withIdentifier:"back", sender: nil)
-        
-    }
-    
-    
-    
 
 }
 

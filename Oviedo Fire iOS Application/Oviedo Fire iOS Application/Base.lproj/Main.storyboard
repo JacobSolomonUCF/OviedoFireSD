@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,12 +18,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="PNN-47-jNF" kind="relationship" relationship="rootViewController" id="191-DZ-x34"/>
+                        <segue destination="PNN-47-jNF" kind="relationship" relationship="rootViewController" id="udh-MI-022"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6ah-x7-j5l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="226" y="285"/>
+            <point key="canvasLocation" x="238" y="285"/>
         </scene>
         <!--Login-->
         <scene sceneID="Xlp-4F-Z5e">
@@ -180,7 +179,7 @@
                                             <action selector="todoClicked:" destination="PNN-47-jNF" eventType="touchUpInside" id="Jwv-B5-MJ9"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0iE-Ug-gNC" customClass="QRSca">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0iE-Ug-gNC">
                                         <rect key="frame" x="0.0" y="459.33333333333343" width="293" height="112.66666666666657"/>
                                         <color key="backgroundColor" red="0.34905770419999999" green="0.34495794769999999" blue="0.35316836829999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
@@ -189,7 +188,7 @@
                                             <color key="titleColor" red="0.70188313719999995" green="0.70200556520000001" blue="0.70187538859999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="nm9-M1-cUr" kind="show" identifier="toScanner" id="t0V-WZ-h7t"/>
+                                            <action selector="scannerClicked:" destination="PNN-47-jNF" eventType="touchUpInside" id="DM8-sf-dcs"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -234,13 +233,14 @@
                         <outlet property="todoList" destination="faq-zo-cEq" id="1Yf-YE-FNa"/>
                         <segue destination="4hx-VL-0Te" kind="show" identifier="toLogin" id="7RN-cX-pn0"/>
                         <segue destination="aVn-DR-if7" kind="show" identifier="toActive" id="xMq-ES-cD9"/>
-                        <segue destination="nYJ-Fi-odQ" kind="show" identifier="toTODO" id="eQD-0k-axH"/>
-                        <segue destination="6HF-U3-l9y" kind="show" identifier="toOffTruck" id="nK7-ET-FK7"/>
+                        <segue destination="nm9-M1-cUr" kind="show" identifier="toScanner" id="dOh-BX-RUA"/>
+                        <segue destination="6HF-U3-l9y" kind="show" identifier="toOffTruck" id="PqR-Vt-paE"/>
+                        <segue destination="nYJ-Fi-odQ" kind="show" identifier="toToDoList" id="Bye-SV-vpk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z0W-IJ-EcH" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="978" y="285"/>
+            <point key="canvasLocation" x="993" y="275"/>
         </scene>
         <!--Off Truck-->
         <scene sceneID="TsF-Px-9aU">
@@ -337,13 +337,6 @@
                             <constraint firstAttribute="trailingMargin" secondItem="nBk-Aa-27c" secondAttribute="trailing" constant="25" id="ytM-2H-is7"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Off Truck" id="6KU-zh-AZf">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="XWM-Kn-pat">
-                            <connections>
-                                <action selector="Logout:" destination="PNN-47-jNF" id="jXs-8j-ZVY"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="activityView" destination="kI3-Rb-r15" id="CAR-nI-OTp"/>
                         <outlet property="ladders" destination="ljT-pM-TqL" id="hvq-dA-anv"/>
@@ -351,14 +344,13 @@
                         <outlet property="scba" destination="CmY-pc-jY1" id="rqq-i4-PFC"/>
                         <outlet property="stretchers" destination="0OI-W7-sdg" id="jiH-pC-y88"/>
                         <segue destination="GLa-kZ-1aO" kind="show" identifier="toOffTruckList" id="did-JA-IqT"/>
-                        <segue destination="PNN-47-jNF" kind="show" identifier="back" id="6DB-VZ-gUK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hKe-41-9cD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="993" y="-408"/>
         </scene>
-        <!--To Do-->
+        <!--To Do View Controller-->
         <scene sceneID="ybJ-Ak-I2W">
             <objects>
                 <viewController id="nYJ-Fi-odQ" customClass="toDoViewController" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target" sceneMemberID="viewController">
@@ -446,25 +438,17 @@
                             <constraint firstItem="M89-CV-FaC" firstAttribute="centerY" secondItem="FVP-BX-gnh" secondAttribute="centerY" id="wrw-bF-Yjy"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="To Do" id="QrK-YI-IIf">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="06g-LP-ifG">
-                            <connections>
-                                <action selector="backButtonClicked:" destination="nYJ-Fi-odQ" id="fq5-KH-GDf"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="activityView" destination="M89-CV-FaC" id="wIR-oK-ur0"/>
                         <outlet property="tableView" destination="7gN-rt-vC4" id="9ZG-DP-fK5"/>
                         <segue destination="xui-d9-4GZ" kind="show" identifier="toForm" id="Ca1-Q1-epV"/>
-                        <segue destination="PNN-47-jNF" kind="show" identifier="back" id="Ll7-vT-Tk9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Odq-QV-fwD" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1929" y="40"/>
         </scene>
-        <!--Active-->
+        <!--Active View Controller-->
         <scene sceneID="DuA-C5-Uax">
             <objects>
                 <viewController id="aVn-DR-if7" customClass="ActiveViewController" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target" sceneMemberID="viewController">
@@ -551,26 +535,17 @@
                             <constraint firstItem="zYw-3v-0XF" firstAttribute="leading" secondItem="aEB-oa-AXS" secondAttribute="leading" id="rx7-be-sH1"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Active" id="He4-zA-lWM">
-                        <barButtonItem key="backBarButtonItem" title="Home" id="6uW-Zr-HUX"/>
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="iOr-Tm-X8U">
-                            <connections>
-                                <action selector="backButtonClicked:" destination="aVn-DR-if7" id="iaQ-1w-NNs"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="activityView" destination="cXn-NV-nGX" id="tlM-SR-94y"/>
                         <outlet property="table" destination="zYw-3v-0XF" id="YZJ-DJ-ueo"/>
-                        <segue destination="HFO-mC-Tip" kind="show" identifier="toCompartments" id="d7l-k6-VfZ"/>
-                        <segue destination="PNN-47-jNF" kind="show" identifier="back" id="sQ2-Hc-fkU"/>
+                        <segue destination="HFO-mC-Tip" kind="show" identifier="toCompartments" id="hpK-95-7uX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X2i-54-Ubm" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="993" y="963"/>
+            <point key="canvasLocation" x="1009" y="1043"/>
         </scene>
-        <!--Scanner-->
+        <!--Scanner Controller-->
         <scene sceneID="nre-dQ-bik">
             <objects>
                 <viewController id="nm9-M1-cUr" customClass="QRScannerController" customModule="Oviedo_Fire_iOS_Application" sceneMemberID="viewController">
@@ -610,25 +585,17 @@
                             <constraint firstAttribute="trailing" secondItem="CiR-nw-lNF" secondAttribute="trailing" id="WXl-MU-OFY"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Scanner" id="pzI-Tp-rFh">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="sUh-MY-vJa">
-                            <connections>
-                                <action selector="backButtonClicked:" destination="nm9-M1-cUr" id="65u-Ih-h5n"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="messageLabel" destination="CiR-nw-lNF" id="Ihg-ka-p94"/>
                         <outlet property="topbar" destination="Kq1-6S-B5Y" id="HaL-U0-f0N"/>
                         <segue destination="xui-d9-4GZ" kind="show" identifier="toForm" id="5ke-Tr-8rg"/>
-                        <segue destination="PNN-47-jNF" kind="show" identifier="back" id="wqL-Nz-S04"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="smf-3H-DRq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1929" y="699"/>
         </scene>
-        <!--Form-->
+        <!--Eq Form View Controller-->
         <scene sceneID="PfM-46-B7Q">
             <objects>
                 <viewController id="xui-d9-4GZ" customClass="EqFormViewController" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target" sceneMemberID="viewController">
@@ -795,13 +762,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Form" id="bHs-i8-Slr">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="FrR-WF-jsX">
-                            <connections>
-                                <action selector="backButtonClicked:" destination="HFO-mC-Tip" id="C6h-yU-EEr"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="Dnc-Jf-rQD" id="8ky-fP-BLj"/>
                     </connections>
@@ -810,7 +770,7 @@
             </objects>
             <point key="canvasLocation" x="2985.507246376812" y="284.51086956521743"/>
         </scene>
-        <!--Compartments-->
+        <!--Compartments View Controller-->
         <scene sceneID="yg1-fj-Lim">
             <objects>
                 <viewController id="HFO-mC-Tip" customClass="CompartmentsViewController" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target" sceneMemberID="viewController">
@@ -861,25 +821,17 @@
                             <constraint firstItem="c2l-JH-hJB" firstAttribute="width" secondItem="3L9-ll-sfP" secondAttribute="width" id="oFY-MD-axH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Compartments" id="WZt-QB-QYk">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="6Hp-VK-ICd">
-                            <connections>
-                                <action selector="backButtonClicked:" destination="HFO-mC-Tip" id="3aS-I8-Ech"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="activityView" destination="utI-RB-5Nr" id="pG9-Vc-cif"/>
                         <outlet property="tableView" destination="hkw-fo-cmU" id="Qc4-vy-YQf"/>
                         <segue destination="xui-d9-4GZ" kind="show" identifier="toForm" id="pjj-qN-vui"/>
-                        <segue destination="aVn-DR-if7" kind="show" identifier="back" id="zNr-MQ-hi8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X9C-Ic-JoF" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1929" y="1366"/>
+            <point key="canvasLocation" x="1929" y="1352"/>
         </scene>
-        <!--offtruckItems-->
+        <!--Off Truck List View Controller-->
         <scene sceneID="lqH-9n-6av">
             <objects>
                 <viewController id="GLa-kZ-1aO" customClass="offTruckListViewController" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target" sceneMemberID="viewController">
@@ -929,28 +881,13 @@
                             <constraint firstItem="gcG-WN-Une" firstAttribute="top" secondItem="FQX-Wg-5OI" secondAttribute="bottom" id="zVv-gg-nHr"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="offtruckItems" id="5kr-Tm-5Qx">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="upk-p3-H5o">
-                            <connections>
-                                <action selector="backButtonClicked:" destination="GLa-kZ-1aO" id="5zx-Dp-nol"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
                     <connections>
                         <outlet property="activityView" destination="mlK-Wh-6om" id="wIt-4K-bka"/>
                         <outlet property="tableView" destination="gcG-WN-Une" id="MdQ-bL-vmd"/>
                         <segue destination="xui-d9-4GZ" kind="show" identifier="toForm" id="bWZ-LS-waz"/>
-                        <segue destination="6HF-U3-l9y" kind="show" identifier="back" id="Zqt-lR-tfW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="byS-Zk-95T" sceneMemberID="firstResponder"/>
-                <navigationItem title="To Do" id="bjM-Aq-EG3">
-                    <barButtonItem key="leftBarButtonItem" title="Back" id="qAo-PW-vUH">
-                        <connections>
-                            <action selector="backButtonClicked:" destination="nYJ-Fi-odQ" id="w1e-UP-Xy8"/>
-                        </connections>
-                    </barButtonItem>
-                </navigationItem>
             </objects>
             <point key="canvasLocation" x="1929" y="-655"/>
         </scene>
@@ -965,8 +902,5 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="bWZ-LS-waz"/>
-        <segue reference="xMq-ES-cD9"/>
-        <segue reference="nK7-ET-FK7"/>
-        <segue reference="191-DZ-x34"/>
     </inferredMetricsTieBreakers>
 </document>

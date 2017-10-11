@@ -29,16 +29,18 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     var checkedRows=Set<NSIndexPath>()
     
-    
+    var formName = ""
     var formId:String = ""
     var form:[formItem] = []
 
+    func setupView(){
+        navigationItem.title = formName
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
-        // Do any additional setup after loading the view.
+        setupView()
         
     
         

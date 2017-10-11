@@ -33,14 +33,14 @@ struct toDo{
     }
 }
 struct compartments {
-    var truckname: String
+    var formName: String
     var formId: String
     var completeBy: String
     
-    init(truckname:String,formId:String,completedBy:String) {
+    init(formName:String,formId:String,completedBy:String) {
         self.completeBy = completedBy
         self.formId = formId
-        self.truckname = truckname
+        self.formName = formName
     }
 }
 struct formItem {
@@ -191,7 +191,7 @@ extension UIViewController{
                 let main = result["list"] as? [[String:String]]{
                 // main[0]["name"] or use main.first?["name"] for first index or loop through array
                 for obj in main{
-                    list.append(compartments(truckname: obj["name"]!, formId: obj["formId"]!, completedBy: obj["completedBy"]!))
+                    list.append(compartments(formName: obj["name"]!, formId: obj["formId"]!, completedBy: obj["completedBy"]!))
                     
                 }
             }

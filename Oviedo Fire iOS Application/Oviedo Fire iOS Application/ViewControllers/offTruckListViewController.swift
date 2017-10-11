@@ -20,11 +20,6 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     var list:[offTruck] = []
     var form:[formItem] = []
     var singleFormId:String = ""
-
-    @IBAction func backButtonClicked(_ sender: Any) {
-        performSegue(withIdentifier: "back", sender: nil)
-    }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
