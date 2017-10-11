@@ -7,487 +7,66 @@ import {WebService} from "../services/webService";
       <h1>Reports</h1>
     </div>
 
-    <div class="content">
-      <item-table [heading]="heading" [rows]="reports" [viewType]="'view'" [dataType]="'reports'"></item-table>
+    <div class="content" [ngSwitch]="loading">
+      <div *ngSwitchCase="true" class="centered">
+        <i class="fa fa-5x fa-spinner fa-pulse"></i>
+      </div>
+      <div *ngSwitchCase="false">
+        <item-table [heading]="heading" [rows]="reports" [viewType]="'view'" [dataType]="'reports'"></item-table>
+      </div>
     </div>
   `
   , styleUrls: ['../menu.sass']
 })
 export class Report {
+  loading: boolean = true;
   headingDaily = [
-    {prop: 'Compartment',   dragable: false, resizeable: false},
-    {prop: 'Item',  dragable: false, resizeable: false},
-    {prop: 'Sun',   dragable: false, resizeable: false},
-    {prop: 'Mon',   dragable: false, resizeable: false},
-    {prop: 'Tues',  dragable: false, resizeable: false},
-    {prop: 'Wed',   dragable: false, resizeable: false},
-    {prop: 'Thur',  dragable: false, resizeable: false},
-    {prop: 'Fri',   dragable: false, resizeable: false},
-    {prop: 'Sat',   dragable: false, resizeable: false}
+    {prop: 'compartment',   dragable: false, resizeable: false},
+    {prop: 'item',  dragable: false, resizeable: false},
+    {prop: 'sunday', name: 'Sun',   dragable: false, resizeable: false},
+    {prop: 'monday',   dragable: false, resizeable: false},
+    {prop: 'tuesday',  dragable: false, resizeable: false},
+    {prop: 'wednesday',   dragable: false, resizeable: false},
+    {prop: 'thursday',  dragable: false, resizeable: false},
+    {prop: 'friday',   dragable: false, resizeable: false},
+    {prop: 'saturday',   dragable: false, resizeable: false}
   ];
   headingWeekly = [
-    {prop: 'Compartment', dragable: false, resizeable: false},
-    {prop: 'Item', dragable: false, resizeable: false},
-    {prop: 'Status', dragable: false, resizeable: false}
+    {prop: 'compartment', dragable: false, resizeable: false},
+    {prop: 'item', dragable: false, resizeable: false},
+    {prop: 'status', dragable: false, resizeable: false}
   ];
-  //['Name','Schedule','Status','ID'];
-  reports: any[] = [
-    {
-      Name: "ATV 46 Checklist test", Schedule: "Daily", Status: "Complete", ID: '10012',
-      data: {
-        heading: this.headingDaily,
-        rows: [
-          {
-            Compartment: "Driver #1",
-            Item: "Horn",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Broken',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Lights",
-            Sun: "Broken",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Bells",
-            Sun: "Missing",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Horn",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Broken',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Lights",
-            Sun: "Broken",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Bells",
-            Sun: "Missing",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Horn",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Broken',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Lights",
-            Sun: "Broken",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Bells",
-            Sun: "Missing",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #2",
-            Item: "Map",
-            Sun: "Okay",
-            Mon: 'Broken',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #2",
-            Item: "Radios",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Broken',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #2",
-            Item: "Radios",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Broken',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #2",
-            Item: "Radios",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Broken',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          }
-        ]
-      }
-    },
-    {
-      Name: "ATV 46 Checklist", Schedule: "Daily", Status: "Complete", ID: '10012',
-      data: {
-        heading: this.headingDaily,
-        rows: [
-          {
-            Compartment: "Driver #1",
-            Item: "Horn",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Broken',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Lights",
-            Sun: "Broken",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Bells",
-            Sun: "Missing",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Horn",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Broken',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Lights",
-            Sun: "Broken",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Bells",
-            Sun: "Missing",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Horn",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Broken',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Lights",
-            Sun: "Broken",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Bells",
-            Sun: "Missing",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #2",
-            Item: "Map",
-            Sun: "Okay",
-            Mon: 'Broken',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #2",
-            Item: "Radios",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Broken',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #2",
-            Item: "Radios",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Broken',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #2",
-            Item: "Radios",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Broken',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          }
-        ]
-      }
-    },
-    {
-      Name: "ATV 46 Checklist", Schedule: "Daily", Status: "Complete", ID: '10012',
-      data: {
-        heading: this.headingDaily,
-        rows: [
-          {
-            Compartment: "Driver #1",
-            Item: "Horn",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Broken',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Lights",
-            Sun: "Broken",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Bells",
-            Sun: "Missing",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Horn",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Broken',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Lights",
-            Sun: "Broken",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Bells",
-            Sun: "Missing",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Horn",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Broken',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Lights",
-            Sun: "Broken",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #1",
-            Item: "Bells",
-            Sun: "Missing",
-            Mon: 'Okay',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #2",
-            Item: "Map",
-            Sun: "Okay",
-            Mon: 'Broken',
-            Tues: 'Okay',
-            Wed: 'Broken',
-            Thur: 'Okay',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #2",
-            Item: "Radios",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Broken',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #2",
-            Item: "Radios",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Broken',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          },
-          {
-            Compartment: "Driver #2",
-            Item: "Radios",
-            Sun: "Okay",
-            Mon: 'Okay',
-            Tues: 'Broken',
-            Wed: 'Broken',
-            Thur: 'Broken',
-            Fri: 'Okay',
-            Sat: 'Okay'
-          }
-        ]
-      }
-    },
+  constructor(webService: WebService) {
+    let self = this;
 
+    webService
+      .setState('reports')
+      .get('/reports')
+      .subscribe((resp) => {
+        self.reports = resp['reports'].map((r) => {
+          if (r.status === 'Daily')
+            r.data.heading = self.headingDaily;
+          else
+            r.data.heading = self.headingWeekly;
+          return r;
+        });
+        self.loading = false;
+        console.log(self.reports);
+      })
+    ;
+  }
+
+  heading: any[] = [
+    {prop: 'name', dragable: false, resizeable: false},
+    {prop: 'schedule', dragable: false, resizeable: false},
+    {prop: 'status', dragable: false, resizeable: false},
+    {prop: 'id', dragable: false, resizeable: false}];
+
+  //['name','schedule','status','id'];
+  reports: any[];
+  old: any[] = [
     {
-      Name: "Engine 44 Checklist", Schedule: "Daily", Status: "Complete", ID: '10014',
+      name: "ATV 46 Checklist test", schedule: "Daily", status: "Complete", id: '10012',
       data: {
         heading: this.headingDaily,
         rows: [
@@ -638,34 +217,478 @@ export class Report {
       }
     },
     {
-      Name: "Engine 46 Checklist", Schedule: "Weekly", Status: "Not Complete", ID: '10015',
+      name: "ATV 46 Checklist", schedule: "Daily", status: "Complete", id: '10012',
+      data: {
+        heading: this.headingDaily,
+        rows: [
+          {
+            Compartment: "Driver #1",
+            Item: "Horn",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Broken',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Lights",
+            Sun: "Broken",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Bells",
+            Sun: "Missing",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Horn",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Broken',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Lights",
+            Sun: "Broken",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Bells",
+            Sun: "Missing",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Horn",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Broken',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Lights",
+            Sun: "Broken",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Bells",
+            Sun: "Missing",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #2",
+            Item: "Map",
+            Sun: "Okay",
+            Mon: 'Broken',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #2",
+            Item: "Radios",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Broken',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #2",
+            Item: "Radios",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Broken',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #2",
+            Item: "Radios",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Broken',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          }
+        ]
+      }
+    },
+    {
+      name: "ATV 46 Checklist", schedule: "Daily", status: "Complete", id: '10012',
+      data: {
+        heading: this.headingDaily,
+        rows: [
+          {
+            Compartment: "Driver #1",
+            Item: "Horn",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Broken',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Lights",
+            Sun: "Broken",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Bells",
+            Sun: "Missing",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Horn",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Broken',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Lights",
+            Sun: "Broken",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Bells",
+            Sun: "Missing",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Horn",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Broken',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Lights",
+            Sun: "Broken",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Bells",
+            Sun: "Missing",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #2",
+            Item: "Map",
+            Sun: "Okay",
+            Mon: 'Broken',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #2",
+            Item: "Radios",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Broken',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #2",
+            Item: "Radios",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Broken',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #2",
+            Item: "Radios",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Broken',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          }
+        ]
+      }
+    },
+    {
+      name: "Engine 44 Checklist", schedule: "Daily", status: "Complete", id: '10014',
+      data: {
+        heading: this.headingDaily,
+        rows: [
+          {
+            Compartment: "Driver #1",
+            Item: "Horn",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Broken',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Lights",
+            Sun: "Broken",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Bells",
+            Sun: "Missing",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Horn",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Broken',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Lights",
+            Sun: "Broken",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Bells",
+            Sun: "Missing",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Horn",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Broken',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Lights",
+            Sun: "Broken",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #1",
+            Item: "Bells",
+            Sun: "Missing",
+            Mon: 'Okay',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #2",
+            Item: "Map",
+            Sun: "Okay",
+            Mon: 'Broken',
+            Tues: 'Okay',
+            Wed: 'Broken',
+            Thur: 'Okay',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #2",
+            Item: "Radios",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Broken',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #2",
+            Item: "Radios",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Broken',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          },
+          {
+            Compartment: "Driver #2",
+            Item: "Radios",
+            Sun: "Okay",
+            Mon: 'Okay',
+            Tues: 'Broken',
+            Wed: 'Broken',
+            Thur: 'Broken',
+            Fri: 'Okay',
+            Sat: 'Okay'
+          }
+        ]
+      }
+    },
+    {
+      name: "Engine 46 Checklist", schedule: "Weekly", status: "Not Complete", id: '10015',
       data: {
         heading: this.headingWeekly,
         rows: [
-          {Compartment: "Driver #1", Item: "Horn", Status: 'Okay'},
-          {Compartment: "Driver #1", Item: "Lights", Status: '    '},
-          {Compartment: "Driver #1", Item: "Bells", Status: 'Okay'},
-          {Compartment: "Driver #1", Item: "Horn", Status: '    '},
-          {Compartment: "Driver #1", Item: "Lights", Status: 'Okay'},
-          {Compartment: "Driver #1", Item: "Bells", Status: 'Broken'},
-          {Compartment: "Driver #1", Item: "Horn", Status: '    '},
-          {Compartment: "Driver #1", Item: "Lights", Status: 'Okay'},
-          {Compartment: "Driver #1", Item: "Bells", Status: 'Okay'},
-          {Compartment: "Driver #2", Item: "Map", Status: 'Okay'},
-          {Compartment: "Driver #2", Item: "Radios", Status: ''},
-          {Compartment: "Driver #2", Item: "Radios", Status: 'Okay'},
-          {Compartment: "Driver #2", Item: "Radios", Status: 'Okay'}
+          {Compartment: "Driver #1", Item: "Horn", status: 'Okay'},
+          {Compartment: "Driver #1", Item: "Lights", status: '    '},
+          {Compartment: "Driver #1", Item: "Bells", status: 'Okay'},
+          {Compartment: "Driver #1", Item: "Horn", status: '    '},
+          {Compartment: "Driver #1", Item: "Lights", status: 'Okay'},
+          {Compartment: "Driver #1", Item: "Bells", status: 'Broken'},
+          {Compartment: "Driver #1", Item: "Horn", status: '    '},
+          {Compartment: "Driver #1", Item: "Lights", status: 'Okay'},
+          {Compartment: "Driver #1", Item: "Bells", status: 'Okay'},
+          {Compartment: "Driver #2", Item: "Map", status: 'Okay'},
+          {Compartment: "Driver #2", Item: "Radios", status: ''},
+          {Compartment: "Driver #2", Item: "Radios", status: 'Okay'},
+          {Compartment: "Driver #2", Item: "Radios", status: 'Okay'}
         ]
       }
     }
   ];
-  heading: any[] = [
-    {prop: 'Name', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Schedule', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'Status', flexGrow: 1, dragable: false, resizeable: false},
-    {prop: 'ID', flexGrow: 1, dragable: false, resizeable: false}];
-
-  constructor(webService: WebService) {
-    webService.setState('reports');
-  }
 }

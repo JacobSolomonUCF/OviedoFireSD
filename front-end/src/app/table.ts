@@ -9,7 +9,7 @@ import {Component, Input, ViewChild} from "@angular/core"
           <i class="fa fa-plus"></i> Add {{dataType}}
         </button>
         <div *ngSwitchCase="'reports'"></div>
-        <button class="close" (click)="toggle()" *ngSwitchDefault>
+        <button class="close" (click)="toggle()()" *ngSwitchDefault>
           <i class="fa fa-chevron-left"></i> Back
         </button>
       </div>
@@ -200,20 +200,26 @@ export class Table {
       selectType: 'single'
     },
     view: {
-      group: 'Status',
+      group: 'status',
       days: [],
-      thing: 'Report',
-      thingProp: 'Name',
-      props: [{name: 'Schedule'}],
+      thing: 'report',
+      thingProp: 'name',
+      props: [{name: 'schedule'}],
       select: (e, m) => {
         return this.onclick()(e, m);//this.openDialog(e, m);
       },
       selectType: 'single'
     },
     modal: {
-      group: 'Compartment',
-      days: ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'],
-      thing: 'Item',
+      group: 'compartment',
+      days: ['sunday',
+        'monday',
+        'tuesday',
+        'wednesday',
+        'thursday',
+        'friday',
+        'saturday'],
+      thing: 'item',
       props: [{name: 'Comment'}],
       select: () => {
       },
@@ -242,11 +248,10 @@ export class Table {
       default:
         return this.viewType;
     }
-
   }
 
   toggle() {
-    let viewSwitch = {
+    let options = {
       edit: () => {
         this.viewType = 'view';
       },
@@ -257,10 +262,10 @@ export class Table {
         delete this.previousStyle;
         delete this.temp;
         this.updateFilter(undefined);
-      }
+      },
+      other: () => {}
     };
-
-    viewSwitch[this.viewType]();
+    return options[this.viewType] || options.other;
   }
 
   updateFilter(event) {
@@ -276,15 +281,17 @@ export class Table {
 
     self.rows = source.rows.filter(row => {
       for (let i = 0, len = (!val ? 1 : source.heading.length); i < len; i++)
-        if (row[source.heading[i].prop].toLowerCase().indexOf(val) !== -1 || val == '')
+        if (val == '' || (""+row[source.heading[i].prop]).toLowerCase().indexOf(val) !== -1)
           return true;
       return false;
     });
   }
 
   onclick() {
-    let onclick = {
+    let options = {
       reports: (event, m) => {
+        if (this.viewType == 'ereport')
+          return;
         this.viewType = 'ereport';
         this.tableFilter.nativeElement.value = "";
         this.previousStyle = this.style;
@@ -301,9 +308,10 @@ export class Table {
       report: (event) => {
         this.viewType = 'edit';
         this.temp = (event === undefined) ? {name: "", schedule: "Daily"} : event.selected[0];
-      }
+      },
+      other: () => {}
     };
-    return onclick[this.dataType];
+    return options[this.dataType] || options.other;
   }
 
   toggleExpandGroup(group) {
@@ -311,18 +319,13 @@ export class Table {
   }
 
   getCheckBox(status) {
-    switch (status) {
-      case 'Okay':
-        return 'fa-check-square box-okay';
-      case 'Repair':
-        return 'fa-check-square box-repair';
-      case 'Missing':
-        return 'fa-check-square box-missing';
-      case 'Broken':
-        return 'fa-check-square box-broken';
-      default:
-        return 'fa-square-o'
-    }
-  }
+    let options = {
+      okay:    'fa-check-square box-okay',
+      missing: 'fa-check-square box-missing',
+      broken:  'fa-check-square box-broken',
+      other:   'fa-square-o'
+    };
 
+    return options[status] || options.other;
+  }
 }
