@@ -11,19 +11,6 @@ import Alamofire
 import Firebase
 
 
-struct compartments {
-    var truckname: String
-    var formId: String
-    var completeBy: String
-    
-    init(truckname:String,formId:String,completedBy:String) {
-        self.completeBy = completedBy
-        self.formId = formId
-        self.truckname = truckname
-    }
-    
-}
-
 class ActiveViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
    
     //Tableview and Activity Indicator

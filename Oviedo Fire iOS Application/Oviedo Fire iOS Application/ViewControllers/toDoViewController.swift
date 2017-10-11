@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import Alamofire
 import Firebase
+import Alamofire
+
 
 class toDoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
    
@@ -25,9 +26,6 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         self.tableView?.rowHeight = 70.0
-        activityView.isHidden = true
-
-//         Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {

@@ -17,10 +17,12 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var emailField: UITextField!
-    @IBOutlet weak var signUpButton: UIButton!
+    
+    //    Variables
+    var firstName = "NO NAME"
     
     override func viewDidLoad() {
-        activityView.isHidden = true
+        stopSpinning(activityView: activityView)
         super.viewDidLoad()
         
         //Hides the navigation bar
@@ -28,14 +30,24 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
         
         // Do any additional setup after loading the view.
         checkForUser()
-        screenFormat()
+        UILayout()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func screenFormat(){
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toHome"{
+            let navVC = segue.destination as? UINavigationController
+            let nextController = navVC?.viewControllers.first as! HomeViewController
+            nextController.firstName = firstName
+        }
+    
+    }
+    
+    func UILayout   (){
+        
         loginButton.layer.cornerRadius = 20
         loginButton.clipsToBounds = true
         
@@ -53,7 +65,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     func checkForUser(){
         Auth.auth().addStateDidChangeListener { auth, user in
             if user != nil{
-                self.performSegue(withIdentifier: "toHome", sender: nil)
+                let userId = Auth.auth().currentUser!.uid
+                self.getUsername(userID: userId, completion: { (name) -> Void in
+                    self.firstName = name
+                    self.performSegue(withIdentifier: "toHome", sender: nil)
+                })
             }else{
     
             }
@@ -63,29 +79,37 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     // MARK ACTIONS
     @IBAction func Login(_ sender: Any) {
         if emailField.text != "" && passwordField.text != ""{
-            activityView.isHidden = false
-            activityView.startAnimating()
+            self.startSpinning(activityView: self.activityView)
             Auth.auth().signIn(withEmail: emailField.text!, password: passwordField.text!) { (user, error) in
                 if user != nil{
-                   
-                    self.emailField.text = nil
-                    self.passwordField.text = nil
-                    self.emailField.resignFirstResponder()
-                    self.passwordField.resignFirstResponder()
+                    let userId = Auth.auth().currentUser!.uid
+                    self.getUsername(userID: userId, completion: { (name) -> Void in
+                        self.firstName = name
+                        print("FIRST NAME" + self.firstName)
+                
+                        self.emailField.text = nil
+                        self.passwordField.text = nil
+                        self.emailField.resignFirstResponder()
+                        self.passwordField.resignFirstResponder()
+                        
+                        self.stopSpinning(activityView: self.activityView)
+                        
+                        self.performSegue(withIdentifier: "toHome", sender: nil)
+                    })
                     
-                    self.activityView.isHidden = true
-                    self.activityView.stopAnimating()
-                    self.performSegue(withIdentifier: "toHome", sender: nil)
                     }else{
+                    
                     if let myError = error?.localizedDescription{
                         print(myError)
-                    self.alert(message: "Username/Password invalid")
+                        self.alert(message: "Username/Password invalid")
+                        self.stopSpinning(activityView: self.activityView)
                     }
                 }
             }
         
         }else{
             alert(message: "Please enter username/password")
+            self.stopSpinning(activityView: self.activityView)
         }
     }
 }

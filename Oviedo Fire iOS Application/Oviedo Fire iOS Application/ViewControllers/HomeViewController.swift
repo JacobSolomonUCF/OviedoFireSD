@@ -10,26 +10,6 @@ import UIKit
 import Firebase
 import Alamofire
 
-struct active{
-    var name: String
-    var number: String
-    
-    init(truckName:String,truckNumber:String) {
-        self.name = truckName
-        self.number = truckNumber
-    }
-}
-struct toDo{
-    var name: String
-    var formId: String
-    var completeBy: String
-    
-    init(truckName:String,formId:String, completeBy:String) {
-        self.name = truckName
-        self.formId = formId
-        self.completeBy = completeBy
-    }
-}
 
 class HomeViewController: UIViewController {
     
@@ -39,10 +19,13 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var offTruck: UIButton!
     @IBOutlet weak var todoList: UIButton!
     @IBOutlet weak var qrCode: UIButton!
-    
+    @IBOutlet weak var welcomeUser: UILabel!
+   
+    //Variables
     let ID = Auth.auth().currentUser!.uid
     var activeTrucks: [active] = []
     var TODOList: [toDo] = []
+    var firstName:String = ""
     
     //Prepare for segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -50,11 +33,13 @@ class HomeViewController: UIViewController {
             let nextController = segue.destination as! ActiveViewController
             nextController.list = activeTrucks
             self.enableButtons()
+            self.stopSpinning(activityView: self.activityView)
         }
         if segue.identifier == "toTODO"{
             let nextController = segue.destination as! toDoViewController
             nextController.list = TODOList
             self.enableButtons()
+            self.stopSpinning(activityView: self.activityView)
         }
         if segue.identifier == "toOffTruck"{
             self.enableButtons()
@@ -62,10 +47,8 @@ class HomeViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        activityView.isHidden = true
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+        stopSpinning(activityView: activityView)
         screenFormat()
         
     }
@@ -75,8 +58,9 @@ class HomeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
+    //    MARK: UI FUNCTIONS
     func screenFormat(){
+        welcomeUser.text = "Welcome " + firstName
         activeButton.layer.cornerRadius = 40
         activeButton.clipsToBounds = true
         offTruck.layer.cornerRadius = 40
@@ -99,8 +83,8 @@ class HomeViewController: UIViewController {
         todoList.isEnabled = true
         qrCode.isEnabled = true
     }
-    
-    //Actions
+
+    //    MARK: ACTIONS
     @IBAction func Logout(_ sender: Any) {
         do {
             try Auth.auth().signOut()
@@ -111,68 +95,24 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func activeClicked(_ sender: Any) {
-        //Disable other buttons
         disableButtons()
-        
-        //Start the activity view
-        activityView.isHidden = false
-        activityView.startAnimating()
-        
-        getActive(userID: ID, completion: {
-            self.activityView.stopAnimating()
-            self.activityView.isHidden = true
+        startSpinning(activityView: activityView)
+        getActive(userID: ID, completion: { (activeT) -> Void in
+            self.activeTrucks = activeT
             self.performSegue(withIdentifier: "toActive", sender: nil)
         })
+       
     }
     @IBAction func offtruckClicked(_ sender: Any) {
         performSegue(withIdentifier: "toOffTruck", sender: nil)
     }
     @IBAction func todoClicked(_ sender: Any) {
         disableButtons()
-        
-        activityView.isHidden = false
-        activityView.startAnimating()
-        
-        getTODO(userID: ID, completion: {
-            self.activityView.stopAnimating()
-            self.activityView.isHidden = true
+        startSpinning(activityView: activityView)
+        getTODO(userID: ID, completion: {(todo) -> Void in
+            self.TODOList = todo
             self.performSegue(withIdentifier: "toTODO", sender: nil)
         })
     }
-    
-    func getActive(userID:String,completion : @escaping ()->()){
         
-        if(self.activeTrucks.count != 0){
-            self.activeTrucks.removeAll()
-        }
-        
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/activeVehicles?uid=\(userID)") .responseJSON { response in
-            if let result = response.result.value as? [String:Any],
-                let main = result["list"] as? [[String:String]]{
-                // main[0]["name"] or use main.first?["name"] for first index or loop through array
-                for obj in main{
-                    self.activeTrucks.append(active(truckName: obj["name"]!, truckNumber: obj["id"]!))
-                }
-            }
-        completion()
-        }
-    }
-    
-    func getTODO(userID:String,completion : @escaping ()->()){
-        
-        if(self.TODOList.count != 0){
-            self.TODOList.removeAll()
-        }
-        
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/toDoList?uid=\(userID)") .responseJSON { response in
-            if let result = response.result.value as? [String:Any],
-                let main = result["list"] as? [[String:String]]{
-                // main[0]["name"] or use main.first?["name"] for first index or loop through array
-                for obj in main{
-                    self.TODOList.append(toDo(truckName: obj["name"]!, formId: obj["formId"]!,completeBy: obj["completeBy"]!))
-                }
-            }
-            completion()
-        }
-    }
 }

@@ -10,16 +10,6 @@ import UIKit
 import Alamofire
 import Firebase
 
-struct formItem {
-    var caption: String
-    var type: String
-    
-    init(caption:String,type:String) {
-        self.caption = caption
-        self.type = type
-    }
-    
-}
 
 class offTruckListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -87,20 +77,6 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
         
         return cell
     }
-    
-    
-    
 
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

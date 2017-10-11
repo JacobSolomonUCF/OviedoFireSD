@@ -32,9 +32,8 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     override func viewDidLoad() {
-        activityView.isHidden = true
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
     
 
@@ -46,7 +45,6 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     
     //Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "toForm"{
             let nextController = segue.destination as! EqFormViewController
             nextController.form = form
@@ -62,6 +60,17 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
         activityView.isHidden = false
         activityView.startAnimating()
         tableView.allowsSelection = false
+        
+        checkCompletion(userID: userID, formId: list[indexPath.row].formId, completion: { (isCompleted) in
+            print(isCompleted)
+            
+            if(isCompleted == "false"){
+                
+            }else{
+                self.alert(message: "Sorry! This form has been completed")
+            }
+            })
+        
         
         getForm(userID: userID, formId: list[indexPath.row].formId, completion: {
             print(self.form)
