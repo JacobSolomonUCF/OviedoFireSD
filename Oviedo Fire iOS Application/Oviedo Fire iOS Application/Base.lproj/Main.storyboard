@@ -19,12 +19,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="PNN-47-jNF" kind="relationship" relationship="rootViewController" id="1b5-Nh-osP"/>
+                        <segue destination="PNN-47-jNF" kind="relationship" relationship="rootViewController" id="191-DZ-x34"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6ah-x7-j5l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="306" y="285"/>
+            <point key="canvasLocation" x="226" y="285"/>
         </scene>
         <!--Login-->
         <scene sceneID="Xlp-4F-Z5e">
@@ -142,15 +142,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Learning and Leading.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="GLg-1P-UYM">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome User" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rnK-aT-zSw">
-                                <rect key="frame" x="128.33333333333331" y="69" width="157.33333333333331" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="O6p-HP-S80"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="Wxt-pJ-hSv">
                                 <rect key="frame" x="60.666666666666657" y="139" width="293" height="572"/>
                                 <subviews>
@@ -198,7 +189,7 @@
                                             <color key="titleColor" red="0.70188313719999995" green="0.70200556520000001" blue="0.70187538859999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <segue destination="nm9-M1-cUr" kind="show" id="t0V-WZ-h7t"/>
+                                            <segue destination="nm9-M1-cUr" kind="show" identifier="toScanner" id="t0V-WZ-h7t"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -218,12 +209,10 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="ReZ-ne-nEs" firstAttribute="centerY" secondItem="Wxt-pJ-hSv" secondAttribute="centerY" id="0xI-Fh-5Fc"/>
-                            <constraint firstItem="nfB-Qj-hDE" firstAttribute="top" secondItem="rnK-aT-zSw" secondAttribute="bottom" constant="40" id="4eO-oJ-t2j"/>
                             <constraint firstItem="GLg-1P-UYM" firstAttribute="centerY" secondItem="lXw-mV-OJ1" secondAttribute="centerY" id="6aw-G2-acW"/>
                             <constraint firstItem="ReZ-ne-nEs" firstAttribute="centerX" secondItem="Wxt-pJ-hSv" secondAttribute="centerX" id="8nu-Ew-NZE"/>
                             <constraint firstItem="Wxt-pJ-hSv" firstAttribute="top" secondItem="BTb-xf-JsS" secondAttribute="bottom" constant="75" id="D3S-84-f0g"/>
                             <constraint firstItem="Wxt-pJ-hSv" firstAttribute="centerX" secondItem="lXw-mV-OJ1" secondAttribute="centerX" id="D4Z-dc-gJS"/>
-                            <constraint firstItem="rnK-aT-zSw" firstAttribute="centerX" secondItem="lXw-mV-OJ1" secondAttribute="centerX" id="Dl0-Ay-kCK"/>
                             <constraint firstItem="GLg-1P-UYM" firstAttribute="width" secondItem="lXw-mV-OJ1" secondAttribute="width" id="LPo-Zr-Iak"/>
                             <constraint firstItem="GLg-1P-UYM" firstAttribute="height" secondItem="lXw-mV-OJ1" secondAttribute="height" id="nSF-Jj-tn1"/>
                             <constraint firstItem="hhu-Od-whm" firstAttribute="top" secondItem="Wxt-pJ-hSv" secondAttribute="bottom" constant="25" id="w31-Sx-c6v"/>
@@ -243,16 +232,15 @@
                         <outlet property="offTruck" destination="suI-nA-7Be" id="ta1-b4-0nl"/>
                         <outlet property="qrCode" destination="0iE-Ug-gNC" id="B0b-SL-Lot"/>
                         <outlet property="todoList" destination="faq-zo-cEq" id="1Yf-YE-FNa"/>
-                        <outlet property="welcomeUser" destination="rnK-aT-zSw" id="sci-99-zUj"/>
                         <segue destination="4hx-VL-0Te" kind="show" identifier="toLogin" id="7RN-cX-pn0"/>
                         <segue destination="aVn-DR-if7" kind="show" identifier="toActive" id="xMq-ES-cD9"/>
                         <segue destination="nYJ-Fi-odQ" kind="show" identifier="toTODO" id="eQD-0k-axH"/>
-                        <segue destination="6HF-U3-l9y" kind="show" identifier="toOffTruck" id="2Ab-6u-zls"/>
+                        <segue destination="6HF-U3-l9y" kind="show" identifier="toOffTruck" id="nK7-ET-FK7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z0W-IJ-EcH" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="992.75362318840587" y="284.51086956521743"/>
+            <point key="canvasLocation" x="978" y="285"/>
         </scene>
         <!--Off Truck-->
         <scene sceneID="TsF-Px-9aU">
@@ -349,6 +337,13 @@
                             <constraint firstAttribute="trailingMargin" secondItem="nBk-Aa-27c" secondAttribute="trailing" constant="25" id="ytM-2H-is7"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Off Truck" id="6KU-zh-AZf">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="XWM-Kn-pat">
+                            <connections>
+                                <action selector="Logout:" destination="PNN-47-jNF" id="jXs-8j-ZVY"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityView" destination="kI3-Rb-r15" id="CAR-nI-OTp"/>
                         <outlet property="ladders" destination="ljT-pM-TqL" id="hvq-dA-anv"/>
@@ -356,6 +351,7 @@
                         <outlet property="scba" destination="CmY-pc-jY1" id="rqq-i4-PFC"/>
                         <outlet property="stretchers" destination="0OI-W7-sdg" id="jiH-pC-y88"/>
                         <segue destination="GLa-kZ-1aO" kind="show" identifier="toOffTruckList" id="did-JA-IqT"/>
+                        <segue destination="PNN-47-jNF" kind="show" identifier="back" id="6DB-VZ-gUK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hKe-41-9cD" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -450,16 +446,23 @@
                             <constraint firstItem="M89-CV-FaC" firstAttribute="centerY" secondItem="FVP-BX-gnh" secondAttribute="centerY" id="wrw-bF-Yjy"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="To Do" id="QrK-YI-IIf"/>
+                    <navigationItem key="navigationItem" title="To Do" id="QrK-YI-IIf">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="06g-LP-ifG">
+                            <connections>
+                                <action selector="backButtonClicked:" destination="nYJ-Fi-odQ" id="fq5-KH-GDf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityView" destination="M89-CV-FaC" id="wIR-oK-ur0"/>
                         <outlet property="tableView" destination="7gN-rt-vC4" id="9ZG-DP-fK5"/>
                         <segue destination="xui-d9-4GZ" kind="show" identifier="toForm" id="Ca1-Q1-epV"/>
+                        <segue destination="PNN-47-jNF" kind="show" identifier="back" id="Ll7-vT-Tk9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Odq-QV-fwD" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1929" y="42"/>
+            <point key="canvasLocation" x="1929" y="40"/>
         </scene>
         <!--Active-->
         <scene sceneID="DuA-C5-Uax">
@@ -473,8 +476,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="YouTube.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="TBA-mU-bhj">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="YouTube.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="TBA-mU-bhj">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="69" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zYw-3v-0XF">
                                 <rect key="frame" x="0.0" y="64" width="414" height="672"/>
@@ -542,27 +546,31 @@
                             <constraint firstItem="cXn-NV-nGX" firstAttribute="centerX" secondItem="aEB-oa-AXS" secondAttribute="centerX" id="8j0-lL-GGM"/>
                             <constraint firstItem="hH1-ua-rnb" firstAttribute="top" secondItem="zYw-3v-0XF" secondAttribute="bottom" id="9VA-mW-hZN"/>
                             <constraint firstItem="zYw-3v-0XF" firstAttribute="top" secondItem="Dzv-La-Yk8" secondAttribute="bottom" id="BdZ-JS-tW2"/>
-                            <constraint firstItem="TBA-mU-bhj" firstAttribute="centerX" secondItem="aEB-oa-AXS" secondAttribute="centerX" id="GnE-CM-nMX"/>
                             <constraint firstItem="cXn-NV-nGX" firstAttribute="centerY" secondItem="aEB-oa-AXS" secondAttribute="centerY" id="Rak-OJ-lD6"/>
-                            <constraint firstItem="TBA-mU-bhj" firstAttribute="height" secondItem="aEB-oa-AXS" secondAttribute="height" id="coD-se-lsW"/>
-                            <constraint firstItem="TBA-mU-bhj" firstAttribute="centerY" secondItem="aEB-oa-AXS" secondAttribute="centerY" id="feO-F5-dE2"/>
                             <constraint firstAttribute="trailing" secondItem="zYw-3v-0XF" secondAttribute="trailing" id="gKB-lN-VTn"/>
-                            <constraint firstItem="TBA-mU-bhj" firstAttribute="width" secondItem="aEB-oa-AXS" secondAttribute="width" id="hEI-yc-ETC"/>
                             <constraint firstItem="zYw-3v-0XF" firstAttribute="leading" secondItem="aEB-oa-AXS" secondAttribute="leading" id="rx7-be-sH1"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Active" id="fkq-8q-1sM"/>
+                    <navigationItem key="navigationItem" title="Active" id="He4-zA-lWM">
+                        <barButtonItem key="backBarButtonItem" title="Home" id="6uW-Zr-HUX"/>
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="iOr-Tm-X8U">
+                            <connections>
+                                <action selector="backButtonClicked:" destination="aVn-DR-if7" id="iaQ-1w-NNs"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityView" destination="cXn-NV-nGX" id="tlM-SR-94y"/>
                         <outlet property="table" destination="zYw-3v-0XF" id="YZJ-DJ-ueo"/>
                         <segue destination="HFO-mC-Tip" kind="show" identifier="toCompartments" id="d7l-k6-VfZ"/>
+                        <segue destination="PNN-47-jNF" kind="show" identifier="back" id="sQ2-Hc-fkU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X2i-54-Ubm" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="992.75362318840587" y="1000.2717391304349"/>
+            <point key="canvasLocation" x="993" y="963"/>
         </scene>
-        <!--Scanner Controller-->
+        <!--Scanner-->
         <scene sceneID="nre-dQ-bik">
             <objects>
                 <viewController id="nm9-M1-cUr" customClass="QRScannerController" customModule="Oviedo_Fire_iOS_Application" sceneMemberID="viewController">
@@ -602,17 +610,25 @@
                             <constraint firstAttribute="trailing" secondItem="CiR-nw-lNF" secondAttribute="trailing" id="WXl-MU-OFY"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Scanner" id="pzI-Tp-rFh">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="sUh-MY-vJa">
+                            <connections>
+                                <action selector="backButtonClicked:" destination="nm9-M1-cUr" id="65u-Ih-h5n"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="messageLabel" destination="CiR-nw-lNF" id="Ihg-ka-p94"/>
                         <outlet property="topbar" destination="Kq1-6S-B5Y" id="HaL-U0-f0N"/>
                         <segue destination="xui-d9-4GZ" kind="show" identifier="toForm" id="5ke-Tr-8rg"/>
+                        <segue destination="PNN-47-jNF" kind="show" identifier="back" id="wqL-Nz-S04"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="smf-3H-DRq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1929" y="701"/>
+            <point key="canvasLocation" x="1929" y="699"/>
         </scene>
-        <!--Eq Form View Controller-->
+        <!--Form-->
         <scene sceneID="PfM-46-B7Q">
             <objects>
                 <viewController id="xui-d9-4GZ" customClass="EqFormViewController" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target" sceneMemberID="viewController">
@@ -779,6 +795,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Form" id="bHs-i8-Slr">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="FrR-WF-jsX">
+                            <connections>
+                                <action selector="backButtonClicked:" destination="HFO-mC-Tip" id="C6h-yU-EEr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="Dnc-Jf-rQD" id="8ky-fP-BLj"/>
                     </connections>
@@ -838,11 +861,18 @@
                             <constraint firstItem="c2l-JH-hJB" firstAttribute="width" secondItem="3L9-ll-sfP" secondAttribute="width" id="oFY-MD-axH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Compartments" id="WZt-QB-QYk"/>
+                    <navigationItem key="navigationItem" title="Compartments" id="WZt-QB-QYk">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="6Hp-VK-ICd">
+                            <connections>
+                                <action selector="backButtonClicked:" destination="HFO-mC-Tip" id="3aS-I8-Ech"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityView" destination="utI-RB-5Nr" id="pG9-Vc-cif"/>
                         <outlet property="tableView" destination="hkw-fo-cmU" id="Qc4-vy-YQf"/>
                         <segue destination="xui-d9-4GZ" kind="show" identifier="toForm" id="pjj-qN-vui"/>
+                        <segue destination="aVn-DR-if7" kind="show" identifier="back" id="zNr-MQ-hi8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X9C-Ic-JoF" sceneMemberID="firstResponder"/>
@@ -899,14 +929,28 @@
                             <constraint firstItem="gcG-WN-Une" firstAttribute="top" secondItem="FQX-Wg-5OI" secondAttribute="bottom" id="zVv-gg-nHr"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="offtruckItems" id="5kr-Tm-5Qx"/>
+                    <navigationItem key="navigationItem" title="offtruckItems" id="5kr-Tm-5Qx">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="upk-p3-H5o">
+                            <connections>
+                                <action selector="backButtonClicked:" destination="GLa-kZ-1aO" id="5zx-Dp-nol"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityView" destination="mlK-Wh-6om" id="wIt-4K-bka"/>
                         <outlet property="tableView" destination="gcG-WN-Une" id="MdQ-bL-vmd"/>
                         <segue destination="xui-d9-4GZ" kind="show" identifier="toForm" id="bWZ-LS-waz"/>
+                        <segue destination="6HF-U3-l9y" kind="show" identifier="back" id="Zqt-lR-tfW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="byS-Zk-95T" sceneMemberID="firstResponder"/>
+                <navigationItem title="To Do" id="bjM-Aq-EG3">
+                    <barButtonItem key="leftBarButtonItem" title="Back" id="qAo-PW-vUH">
+                        <connections>
+                            <action selector="backButtonClicked:" destination="nYJ-Fi-odQ" id="w1e-UP-Xy8"/>
+                        </connections>
+                    </barButtonItem>
+                </navigationItem>
             </objects>
             <point key="canvasLocation" x="1929" y="-655"/>
         </scene>
@@ -920,6 +964,9 @@
         <image name="YouTube.jpg" width="1280" height="800"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Ca1-Q1-epV"/>
+        <segue reference="bWZ-LS-waz"/>
+        <segue reference="xMq-ES-cD9"/>
+        <segue reference="nK7-ET-FK7"/>
+        <segue reference="191-DZ-x34"/>
     </inferredMetricsTieBreakers>
 </document>

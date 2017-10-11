@@ -12,113 +12,89 @@ import Alamofire
 
 class CompartmentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    //    Linking the buttons:
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView!
-    
+    //    Needed Variables:
+    var vehicle = ""
     var form: [formItem] = []
     var list: [compartments] = []
     let userID = Auth.auth().currentUser!.uid
     
-    
-    override func viewWillDisappear(_ animated : Bool) {
-        super.viewWillDisappear(animated)
-        
-        if self.isMovingFromParentViewController {
-            list.removeAll()
-            print(list.count)
-            tableView.reloadData()
-
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupView()
     }
     
-
+    func setupView(){
+        stopSpinning(activityView: activityView)
+        navigationItem.title = vehicle
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
     //Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toForm"{
             let nextController = segue.destination as! EqFormViewController
             nextController.form = form
+            self.stopSpinning(activityView: self.activityView)
+            tableView.allowsSelection = true
             
         }
     }
+    @IBAction func backButtonClicked(_ sender: Any) {
+        performSegue(withIdentifier: "back", sender: nil)
+    }
     
+}
+
+
+    //     Tableview functions
+extension CompartmentsViewController{
     
-    
-    //Table Functions
+    //    For when a table view is selected
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //print(list[indexPath.row])
-        activityView.isHidden = false
-        activityView.startAnimating()
+        startSpinning(activityView: activityView)
         tableView.allowsSelection = false
         
+        //    Preventing duplicated from reloading the view:
+        if(form.count != 0){
+            form.removeAll()
+        }
+        
+        //    Checking if the form has been completed:
         checkCompletion(userID: userID, formId: list[indexPath.row].formId, completion: { (isCompleted) in
-            print(isCompleted)
-            
             if(isCompleted == "false"){
+                self.getForm(userID: self.userID, formId: self.list[indexPath.row].formId, completion:{(data) -> Void in
+                    self.form = data
+                    self.performSegue(withIdentifier: "toForm", sender: nil)
+                })
                 
             }else{
                 self.alert(message: "Sorry! This form has been completed")
+                self.stopSpinning(activityView: self.activityView)
+                tableView.allowsSelection = true
             }
-            })
-        
-        
-        getForm(userID: userID, formId: list[indexPath.row].formId, completion: {
-            print(self.form)
-            self.performSegue(withIdentifier: "toForm", sender: nil)
-            self.activityView.stopAnimating()
-            self.activityView.isHidden = true
-            tableView.allowsSelection = true
-            })
-    
-        
+        })
 
-        
     }
     
+    //    List of table elements:
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
         return list.count
     }
     
+    //    Generate the table view
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "compartmentsCell")
         cell.textLabel?.text = list[indexPath.row].truckname
         cell.detailTextLabel?.text =  list[indexPath.row].completeBy
-        
-        
         return cell
     }
-    //End Table Functions
-
-    func getForm(userID:String,formId:String,completion : @escaping ()->()){
-        
-        if(form.count != 0){
-            form.removeAll()
-        }
-        
-        
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/form?uid=\(userID)&formId=\(formId)") .responseJSON { response in
-            if let result = response.result.value as? [String:Any],
-                let main = result["inputElements"] as? [[String:String]]{
-                // main[0]["name"] or use main.first?["name"] for first index or loop through array
-                for obj in main{
-                    self.form.append(formItem(caption: obj["caption"]!, type: obj["type"]!))
-                }
-            }
-            completion()
-        }
-    }
     
-
 }

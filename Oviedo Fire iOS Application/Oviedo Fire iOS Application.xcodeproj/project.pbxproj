@@ -178,10 +178,10 @@
 				16CF468B1F560CB70063834B /* BG */,
 				16EDEBF71F8C0056001E50C1 /* TableCells */,
 				16EDEBE21F8C004C001E50C1 /* ViewControllers */,
+				16B947581F72D96A0037FC39 /* Network.swift */,
 				16A90AE61F560C7C00F50919 /* AppDelegate.swift */,
 				16A90AE81F560C7C00F50919 /* ViewController.swift */,
 				16A90AEA1F560C7C00F50919 /* Main.storyboard */,
-				16B947581F72D96A0037FC39 /* Network.swift */,
 				16A90AED1F560C7C00F50919 /* Assets.xcassets */,
 				16A90AEF1F560C7C00F50919 /* LaunchScreen.storyboard */,
 				16B4FA401F68A547000929F9 /* GoogleService-Info.plist */,
@@ -789,7 +789,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 68UXX2W585;
 				INFOPLIST_FILE = "Oviedo Fire iOS Application/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "UCFSeniorDesignGroup9.Oviedo-Fire-iOS-Application";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -805,7 +805,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 68UXX2W585;
 				INFOPLIST_FILE = "Oviedo Fire iOS Application/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "UCFSeniorDesignGroup9.Oviedo-Fire-iOS-Application";
 				PRODUCT_NAME = "$(TARGET_NAME)";

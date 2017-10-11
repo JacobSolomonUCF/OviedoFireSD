@@ -19,7 +19,6 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var offTruck: UIButton!
     @IBOutlet weak var todoList: UIButton!
     @IBOutlet weak var qrCode: UIButton!
-    @IBOutlet weak var welcomeUser: UILabel!
    
     //Variables
     let ID = Auth.auth().currentUser!.uid
@@ -60,7 +59,9 @@ class HomeViewController: UIViewController {
 
     //    MARK: UI FUNCTIONS
     func screenFormat(){
-        welcomeUser.text = "Welcome " + firstName
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = "Welcome " + firstName
+//        welcomeUser.text = "Welcome " + firstName
         activeButton.layer.cornerRadius = 40
         activeButton.clipsToBounds = true
         offTruck.layer.cornerRadius = 40

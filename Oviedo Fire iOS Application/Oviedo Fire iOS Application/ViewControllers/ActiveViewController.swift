@@ -17,6 +17,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
+    var truckName:String = "\0"
     var list: [active] = []
     var truckCompartments: [compartments] = []
     
@@ -45,23 +46,40 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "toCompartments"{
+            self.stopSpinning(activityView: self.activityView)
+            self.table.allowsSelection = true
             let nextController = segue.destination as! CompartmentsViewController
-            print(truckCompartments)
             nextController.list = truckCompartments
+            nextController.vehicle = truckName
             
         }
     }
+    
+    @IBAction func backButtonClicked(_ sender: Any) {
+        performSegue(withIdentifier:"back", sender: nil)
+        
+    }
+    
+    
+    
+
+}
+
+extension ActiveViewController{
+    
     //Table Functions
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(list[indexPath.row])
-        activityView.isHidden = false
-        activityView.startAnimating()
+        startSpinning(activityView: activityView)
         table.allowsSelection = false
+        if(truckCompartments.count != 0){
+            truckCompartments.removeAll()
+        }
         
-        getCompartments(singleSelection: list[indexPath.row].number, completion:{
-            self.activityView.stopAnimating()
-            self.activityView.isHidden = true
-            self.table.allowsSelection = true
+        var split = list[indexPath.row].name.components(separatedBy: "/")
+        truckName = split[0]
+        
+        getCompartments(singleSelection: list[indexPath.row].number, completion:{(list) -> Void in
+            self.truckCompartments = list
             self.performSegue(withIdentifier: "toCompartments", sender: (Any).self)
         })
     }
@@ -87,33 +105,11 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
             cell.vehicleName.text = split[0]
             cell.vehicleName2.text = ""
         }
-
+        
         
         cell.vehicleNumber.text = "Vehicle #: "     +  number
         return cell
     }
     //End Table Functions
-    
-    //Get Compartments
-    func getCompartments(singleSelection:String,completion : @escaping ()->()){
-        
-        let userID:String = (Auth.auth().currentUser?.uid)!
-
-        if(self.truckCompartments.count != 0){
-            self.truckCompartments.removeAll()
-        }
-        
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/vehicleCompartments?uid=\(userID)&vehicleId=\(singleSelection)") .responseJSON { response in
-            if let result = response.result.value as? [String:Any],
-                let main = result["list"] as? [[String:String]]{
-                // main[0]["name"] or use main.first?["name"] for first index or loop through array
-                for obj in main{
-                    self.truckCompartments.append(compartments(truckname: obj["name"]!, formId: obj["formId"]!, completedBy: obj["completedBy"]!))
-                    
-                }
-            }
-            completion()
-        }
-    }
     
 }

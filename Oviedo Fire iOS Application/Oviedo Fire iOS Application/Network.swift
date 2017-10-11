@@ -97,7 +97,7 @@ extension UIViewController{
             completion(firstName)
         }
     }
-    
+    //    Gets Active Items:
     func getActive(userID:String,completion : @escaping ([active])->()){
         
         var activeTrucks: [active] = []
@@ -116,6 +116,7 @@ extension UIViewController{
         }
     }
     
+    //     Gets the TODO List:
     func getTODO(userID:String,completion : @escaping ([toDo])->()){
         var TODOList: [toDo] = []
         if(TODOList.count != 0){
@@ -133,6 +134,7 @@ extension UIViewController{
         }
     }
     
+    //    Get list of off truck items:
     func getOffTruck(userID:String,type:String,completion : @escaping ([offTruck])->()){
         var offTruckItem:[offTruck] = []
         
@@ -152,17 +154,50 @@ extension UIViewController{
         }
     }
     
+    //    Checks for form already being completed:
     func checkCompletion(userID:String,formId:String,completion : @escaping (String)->()){
         Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/checkCompletion?uid=\(userID)&formId=\(formId)") .responseJSON { response in
             let isCompleted = String(data: response.data!, encoding: .utf8)
-            
-            
-//            let isCompleted = response.result.value as! String
-            
             completion(isCompleted!)
             }
         
         }
+    
+    //    Gets the form:
+    func getForm(userID:String,formId:String,completion : @escaping ([formItem])->()){
+        
+        var form:[formItem] = []
+
+        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/form?uid=\(userID)&formId=\(formId)") .responseJSON { response in
+            if let result = response.result.value as? [String:Any],
+                let main = result["inputElements"] as? [[String:String]]{
+                // main[0]["name"] or use main.first?["name"] for first index or loop through array
+                for obj in main{
+                    form.append(formItem(caption: obj["caption"]!, type: obj["type"]!))
+                }
+            }
+            completion(form)
+        }
+    }
+    
+    //    Get Compartments:
+    func getCompartments(singleSelection:String,completion : @escaping ([compartments])->()){
+        var list:[compartments] = []
+        
+        let userID:String = (Auth.auth().currentUser?.uid)!
+        
+        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/vehicleCompartments?uid=\(userID)&vehicleId=\(singleSelection)") .responseJSON { response in
+            if let result = response.result.value as? [String:Any],
+                let main = result["list"] as? [[String:String]]{
+                // main[0]["name"] or use main.first?["name"] for first index or loop through array
+                for obj in main{
+                    list.append(compartments(truckname: obj["name"]!, formId: obj["formId"]!, completedBy: obj["completedBy"]!))
+                    
+                }
+            }
+            completion(list)
+        }
+    }
     
     
     

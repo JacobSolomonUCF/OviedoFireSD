@@ -21,12 +21,16 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     var form:[formItem] = []
     var singleFormId:String = ""
 
+    @IBAction func backButtonClicked(_ sender: Any) {
+        performSegue(withIdentifier: "back", sender: nil)
+    }
+    
+    
     override func viewDidLoad() {
-        activityView.isHidden = true
         super.viewDidLoad()
+        
+        stopSpinning(activityView: activityView)
 
-        print(list)
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,7 +46,9 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
             
         }
     }
-    
+}
+
+extension offTruckListViewController{
     //List item is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -50,14 +56,14 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
         activityView.isHidden = false
         activityView.startAnimating()
         singleFormId = list[indexPath.row].formId
-
+        
         
         activityView.isHidden = true
         activityView.stopAnimating()
         performSegue(withIdentifier: "toForm", sender: nil)
-            
         
-
+        
+        
     }
     
     //Number of cells
@@ -77,6 +83,4 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
         
         return cell
     }
-
-
 }
