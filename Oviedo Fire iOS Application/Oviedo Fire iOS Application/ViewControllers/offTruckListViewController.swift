@@ -31,8 +31,20 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     
     func setupView(){
         stopSpinning(activityView: activityView)
-        
+        self.tableView?.rowHeight = 70.0
         navigationItem.title = type
+        switch type {
+        case "Stretchers":
+            backgroundImage.image = UIImage(named: "Learning and Leading.jpg")
+        case "Ladders":
+            backgroundImage.image = UIImage(named: "Lush.jpg")
+        case "Misc.":
+            backgroundImage.image = UIImage(named: "Amethyst.jpg")
+        case "Scbas":
+            backgroundImage.image = UIImage(named: "YouTube.jpg")
+        default:
+            print("NO IMAGE")
+        }
         
     }
 
@@ -75,12 +87,15 @@ extension offTruckListViewController{
     //Cell formatting
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TwoItemTableViewCell
         cell.backgroundColor = UIColor.clear
         tableView.backgroundColor = UIColor.clear
-        cell.textLabel?.text = list[indexPath.row].name
-        cell.detailTextLabel?.text = "Completed By: " + list[indexPath.row].completedBy
-        
+        cell.formName.text = list[indexPath.row].name
+        if(list[indexPath.row].completedBy != "nobody"){
+            cell.completedBy.text = "Completed By: " + list[indexPath.row].completedBy
+        }else{
+            cell.completedBy.text = ""
+        }
         
         return cell
     }

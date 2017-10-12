@@ -85,20 +85,20 @@ class offTruckViewController: UIViewController {
     
     // MARK: ACTIONS
     @IBAction func stretchersClicked(_ sender: Any) {
-        offTruckList(Type: "Stretchers")
-        type = "stretchers"
+        offTruckList(Type: "stretchers")
+        type = "Stretchers"
     }
     @IBAction func laddersClicked(_ sender: Any) {
-        offTruckList(Type: "Ladders")
-        type = "ladders"
+        offTruckList(Type: "ladders")
+        type = "Ladders"
     }
     @IBAction func scbaClicked(_ sender: Any) {
-        offTruckList(Type: "Scbas")
-        type = "scbas"
+        offTruckList(Type: "scbas")
+        type = "Scbas"
     }
     @IBAction func miscClicked(_ sender: Any) {
-        offTruckList(Type: "Misc.")
-        type = "scbas"
+        offTruckList(Type: "misc")
+        type = "Misc."
     }
  
 }

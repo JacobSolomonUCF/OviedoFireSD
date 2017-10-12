@@ -35,19 +35,15 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     func setupView(){
         navigationItem.title = formName
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
-        
-    
-        
-        
-        
-        
-        
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,6 +51,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Dispose of any resources that can be recreated.
     }
     
+
     
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
@@ -64,12 +61,13 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         var cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
+        
         if (form[indexPath.row].type == "pmr") {
             cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
             cell.label.text = form[indexPath.row].caption
-        }else if(form[indexPath.row].type == "num"){
+        }else if(form[indexPath.row].type == "num" || form[indexPath.row].type == "per"){
             cell = tableView.dequeueReusableCell(withIdentifier: "num", for: indexPath) as! pmrFormTableViewCell
-            cell.numLabel.text = form[indexPath.row].caption
+            cell.numName.text = form[indexPath.row].caption
         }
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
 //        cell.label.text = form[indexPath.row].caption
@@ -79,7 +77,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+//        print(indexPath.row)
     
     
     }

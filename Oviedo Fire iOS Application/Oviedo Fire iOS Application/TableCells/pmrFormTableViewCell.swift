@@ -20,7 +20,9 @@ class pmrFormTableViewCell: UITableViewCell{
     @IBOutlet weak var missingButton: DLRadioButton!
     @IBOutlet weak var needsRepairButton: DLRadioButton!
     @IBOutlet weak var commentsTextField: UITextField!
-    @IBOutlet weak var numLabel: UILabel!
+    @IBOutlet weak var numName: UILabel!
+    @IBOutlet weak var numValue: UITextField!
+    
     
     
     //Prevents overide of data into cells when scrolling

@@ -142,6 +142,8 @@ extension UIViewController{
             offTruckItem.removeAll()
         }
         
+        print(userID)
+        print(type)
         Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/\(type)?uid=\(userID)") .responseJSON { response in
             if let result = response.result.value as? [String:Any],
                 let main = result["list"] as? [[String:String]]{
@@ -150,6 +152,7 @@ extension UIViewController{
                     offTruckItem.append(offTruck(name: obj["name"]!, formId: obj["formId"]!, completedBy: obj["completedBy"]!))
                 }
             }
+            
             completion(offTruckItem)
         }
     }

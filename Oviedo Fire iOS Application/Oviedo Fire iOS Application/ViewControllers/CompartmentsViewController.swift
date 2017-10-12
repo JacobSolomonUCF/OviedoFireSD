@@ -30,6 +30,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     func setupView(){
         stopSpinning(activityView: activityView)
         navigationItem.title = vehicle
+        self.tableView?.rowHeight = 70.0
     }
     
     override func didReceiveMemoryWarning() {
@@ -82,7 +83,7 @@ extension CompartmentsViewController{
 
     }
     
-    //    List of table elements:
+    //    List of table elements
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
         return list.count
@@ -91,11 +92,15 @@ extension CompartmentsViewController{
     //    Generate the table view
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell:UITableViewCell=UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "compartmentsCell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TwoItemTableViewCell
         cell.backgroundColor = UIColor.clear
         tableView.backgroundColor = UIColor.clear
-        cell.textLabel?.text = list[indexPath.row].formName
-        cell.detailTextLabel?.text =  list[indexPath.row].completeBy
+        cell.formName.text = list[indexPath.row].formName
+        if(list[indexPath.row].completeBy != "nobody"){
+            cell.completedBy.text = "Completed By: " + list[indexPath.row].completeBy
+        }else{
+            cell.completedBy.text = ""
+        }
         return cell
     }
     
