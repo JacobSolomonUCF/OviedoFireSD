@@ -64,9 +64,15 @@ extension toDoViewController{
         startSpinning(activityView: activityView)
         singleFormId = list[indexPath.row].formId
         let fullName = list[indexPath.row].name
-        var sIndex = fullName.index(of:"-") ?? fullName.endIndex
-        sIndex = fullName.index(sIndex, offsetBy: 2)
-        formName = String(fullName[sIndex...])
+        if(fullName.contains("Check-Off")){
+            formName = fullName
+        }else{
+            var sIndex = fullName.index(of:"-") ?? fullName.endIndex
+            sIndex = fullName.index(sIndex, offsetBy: 2)
+            formName = String(fullName[sIndex...])
+            
+        }
+
         
         
         getForm(userID: userID, formId: singleFormId, completion: {(form) -> Void in

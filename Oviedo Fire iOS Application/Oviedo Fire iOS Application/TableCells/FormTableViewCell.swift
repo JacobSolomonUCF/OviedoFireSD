@@ -13,7 +13,7 @@ import DLRadioButton
 
 
 
-class pmrFormTableViewCell: UITableViewCell{
+class FormTableViewCell: UITableViewCell{
 
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var presentButton: DLRadioButton!
@@ -22,6 +22,12 @@ class pmrFormTableViewCell: UITableViewCell{
     @IBOutlet weak var commentsTextField: UITextField!
     @IBOutlet weak var numName: UILabel!
     @IBOutlet weak var numValue: UITextField!
+    @IBOutlet weak var percentName: UILabel!
+    @IBOutlet weak var percentValue: UILabel!
+    @IBOutlet weak var percentSlider: UISlider!
+    @IBOutlet weak var pfName: UILabel!
+    @IBOutlet weak var pfValue: UILabel!
+    @IBOutlet weak var pfSwitch: UISwitch!
     
     
     
@@ -32,6 +38,17 @@ class pmrFormTableViewCell: UITableViewCell{
         
     }
     
+    @IBAction func switchClicked(_ sender: Any) {
+        
+        if(self.pfSwitch.isOn){
+            self.pfValue.text = "Pass"
+            self.pfValue.textColor = UIColor.green
+        }else{
+            self.pfValue.text = "Fail"
+            self.pfValue.textColor = UIColor.red
+        }
+
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

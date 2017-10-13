@@ -36,7 +36,7 @@
 		16EDEBF61F8C004C001E50C1 /* ActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBEC1F8C004C001E50C1 /* ActiveViewController.swift */; };
 		16EDEBFB1F8C0057001E50C1 /* toDoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBF81F8C0056001E50C1 /* toDoListTableViewCell.swift */; };
 		16EDEBFC1F8C0057001E50C1 /* ActiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBF91F8C0056001E50C1 /* ActiveTableViewCell.swift */; };
-		16EDEBFD1F8C0057001E50C1 /* pmrFormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBFA1F8C0056001E50C1 /* pmrFormTableViewCell.swift */; };
+		16EDEBFD1F8C0057001E50C1 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBFA1F8C0056001E50C1 /* FormTableViewCell.swift */; };
 		16F3829C1F8EDDF500635B22 /* Amethyst.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16F3829B1F8EDD7300635B22 /* Amethyst.jpg */; };
 		16F3829E1F8EE79E00635B22 /* TwoItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F3829D1F8EE79E00635B22 /* TwoItemTableViewCell.swift */; };
 		3352CDD3C31FD1A7157745B7 /* Pods_Oviedo_Fire_iOS_ApplicationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04126A9BD7AE62BE969848A8 /* Pods_Oviedo_Fire_iOS_ApplicationTests.framework */; };
@@ -112,7 +112,7 @@
 		16EDEBEC1F8C004C001E50C1 /* ActiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveViewController.swift; sourceTree = "<group>"; };
 		16EDEBF81F8C0056001E50C1 /* toDoListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = toDoListTableViewCell.swift; sourceTree = "<group>"; };
 		16EDEBF91F8C0056001E50C1 /* ActiveTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveTableViewCell.swift; sourceTree = "<group>"; };
-		16EDEBFA1F8C0056001E50C1 /* pmrFormTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pmrFormTableViewCell.swift; sourceTree = "<group>"; };
+		16EDEBFA1F8C0056001E50C1 /* FormTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		16F3829B1F8EDD7300635B22 /* Amethyst.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Amethyst.jpg; sourceTree = "<group>"; };
 		16F3829D1F8EE79E00635B22 /* TwoItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoItemTableViewCell.swift; sourceTree = "<group>"; };
 		31C04D7FB04BD12772392A3B /* Pods-Oviedo Fire iOS Application.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oviedo Fire iOS Application.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Oviedo Fire iOS Application/Pods-Oviedo Fire iOS Application.debug.xcconfig"; sourceTree = "<group>"; };
@@ -248,7 +248,7 @@
 			children = (
 				16EDEBF81F8C0056001E50C1 /* toDoListTableViewCell.swift */,
 				16EDEBF91F8C0056001E50C1 /* ActiveTableViewCell.swift */,
-				16EDEBFA1F8C0056001E50C1 /* pmrFormTableViewCell.swift */,
+				16EDEBFA1F8C0056001E50C1 /* FormTableViewCell.swift */,
 				16F3829D1F8EE79E00635B22 /* TwoItemTableViewCell.swift */,
 			);
 			path = TableCells;
@@ -625,7 +625,7 @@
 				16A90AE91F560C7C00F50919 /* ViewController.swift in Sources */,
 				16B947591F72D96A0037FC39 /* Network.swift in Sources */,
 				16EDEBF21F8C004C001E50C1 /* HomeViewController.swift in Sources */,
-				16EDEBFD1F8C0057001E50C1 /* pmrFormTableViewCell.swift in Sources */,
+				16EDEBFD1F8C0057001E50C1 /* FormTableViewCell.swift in Sources */,
 				16EDEBF11F8C004C001E50C1 /* FormViewController.swift in Sources */,
 				16A90AE71F560C7C00F50919 /* AppDelegate.swift in Sources */,
 				16EDEBF41F8C004C001E50C1 /* LoginViewController.swift in Sources */,

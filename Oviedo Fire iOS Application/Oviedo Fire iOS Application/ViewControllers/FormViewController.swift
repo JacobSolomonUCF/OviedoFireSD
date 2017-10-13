@@ -37,7 +37,11 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         navigationItem.title = formName
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
+        
+
     }
+    
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,14 +64,25 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
         
         if (form[indexPath.row].type == "pmr") {
-            cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
+            cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
             cell.label.text = form[indexPath.row].caption
-        }else if(form[indexPath.row].type == "num" || form[indexPath.row].type == "per"){
-            cell = tableView.dequeueReusableCell(withIdentifier: "num", for: indexPath) as! pmrFormTableViewCell
+        }else if(form[indexPath.row].type == "num"){
+            cell = tableView.dequeueReusableCell(withIdentifier: "num", for: indexPath) as! FormTableViewCell
             cell.numName.text = form[indexPath.row].caption
+        }else if(form[indexPath.row].type == "per"){
+            cell = tableView.dequeueReusableCell(withIdentifier: "per", for: indexPath) as! FormTableViewCell
+            cell.percentName.text = form[indexPath.row].caption
+            cell.percentValue.text = ""
+            
+        }else if(form[indexPath.row].type == "pf"){
+            cell = tableView.dequeueReusableCell(withIdentifier: "pf", for: indexPath) as! FormTableViewCell
+            cell.pfName.text = form[indexPath.row].caption
+            cell.pfValue.text = "Fail"
+            cell.pfValue.textColor = UIColor.red
+            
         }
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
 //        cell.label.text = form[indexPath.row].caption
@@ -81,6 +96,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     
     }
+
     
 
     /*
@@ -93,4 +109,5 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     */
 
+    
 }

@@ -22,6 +22,7 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     var form:[formItem] = []
     var singleFormId:String = ""
     var type:String = ""
+    var formName:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +59,8 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
         if segue.identifier == "toForm"{
             let nextController = segue.destination as! EqFormViewController
             nextController.formId = singleFormId
+            nextController.form = form
+            nextController.formName = formName
             
         }
         stopSpinning(activityView: activityView)
@@ -70,8 +73,13 @@ extension offTruckListViewController{
 
         startSpinning(activityView: activityView)
         singleFormId = list[indexPath.row].formId
+        formName = list[indexPath.row].name
         
-        performSegue(withIdentifier: "toForm", sender: nil)
+        getForm(userID: userID, formId: singleFormId) { (list) in
+            self.form = list
+            self.performSegue(withIdentifier: "toForm", sender: nil)
+            
+        }
         
         
         
