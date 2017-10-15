@@ -30,6 +30,8 @@ class FormTableViewCell: UITableViewCell{
     @IBOutlet weak var pfSwitch: UISwitch!
     @IBOutlet weak var title: UILabel!
     
+
+    
     
     
     //Prevents overide of data into cells when scrolling
@@ -40,6 +42,15 @@ class FormTableViewCell: UITableViewCell{
     }
     @IBAction func sliderChanged(_ sender: Any) {
         self.percentValue.text = String(round(self.percentSlider.value*10)/10)
+    }
+    @IBAction func showComments(_ sender: Any) {
+        self.commentsTextField.isHidden = false
+    }
+    @IBAction func missingSelected(_ sender: Any) {
+        self.commentsTextField.isHidden = true
+    }
+    @IBAction func presentSelected(_ sender: Any) {
+        self.commentsTextField.isHidden = true
     }
     
     @IBAction func switchClicked(_ sender: Any) {

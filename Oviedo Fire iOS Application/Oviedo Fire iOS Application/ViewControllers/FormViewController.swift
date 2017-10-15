@@ -23,8 +23,7 @@ struct formSaved {
 }
 
 
-class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDataSource  {
-    
+class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     @IBOutlet weak var tableView: UITableView!
 
     var checkedRows=Set<NSIndexPath>()
@@ -32,9 +31,11 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var formName = ""
     var formId:String = ""
     var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
+    var selectedIndex:Int = 0
 
     func setupView(){
-        navigationItem.title = formName
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.title = ""
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -85,7 +86,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         return item
     }
-
+    
     
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
@@ -101,6 +102,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if (entry.type == "pmr") {
             cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
             cell.label.text = entry.caption
+            cell.commentsTextField.isHidden = true
         }else if(entry.type == "num"){
             cell = tableView.dequeueReusableCell(withIdentifier: "num", for: indexPath) as! FormTableViewCell
             cell.numName.text = entry.caption
@@ -117,41 +119,22 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell = tableView.dequeueReusableCell(withIdentifier: "title", for: indexPath) as! FormTableViewCell
             cell.title.text = entry.caption
         }
-        
-        
-    
-        
-        
-        /*if (form[indexPath.row].type == "pmr") {
-            cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
-            cell.label.text = form[indexPath.row].caption
-        }else if(form[indexPath.row].type == "num"){
-            cell = tableView.dequeueReusableCell(withIdentifier: "num", for: indexPath) as! FormTableViewCell
-            cell.numName.text = form[indexPath.row].caption
-        }else if(form[indexPath.row].type == "per"){
-            cell = tableView.dequeueReusableCell(withIdentifier: "per", for: indexPath) as! FormTableViewCell
-            cell.percentName.text = form[indexPath.row].caption
-            cell.percentValue.text = ""
-            
-        }else if(form[indexPath.row].type == "pf"){
-            cell = tableView.dequeueReusableCell(withIdentifier: "pf", for: indexPath) as! FormTableViewCell
-            cell.pfName.text = form[indexPath.row].caption
-            cell.pfValue.text = "Fail"
-            cell.pfValue.textColor = UIColor.red
-            
-        }*/
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
-//        cell.label.text = form[indexPath.row].caption
 
  
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(indexPath.row)
+
     
     
     }
+    
+    @IBAction func needsRepairClicked(_ sender: Any) {
+        updateViewConstraints()
+    }
+    
+
 
     
 
