@@ -612,7 +612,7 @@
                                 <rect key="frame" x="0.0" y="72" width="414" height="672"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="title" rowHeight="50" id="x3t-Qq-D1v" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="title" rowHeight="50" id="x3t-Qq-D1v" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="x3t-Qq-D1v" id="NAy-oI-psV">
@@ -639,106 +639,102 @@
                                             <outlet property="title" destination="QHm-K2-eQo" id="e5Z-AQ-Lz0"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pmr" rowHeight="125" id="CAY-zx-udc" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pmr" rowHeight="125" id="CAY-zx-udc" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="78" width="414" height="125"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CAY-zx-udc" id="oxr-3B-soR">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="124.66666666666667"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pRT-dm-Xvh">
-                                                    <rect key="frame" x="16" y="8" width="382" height="108.66666666666667"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DJF-ne-Pis">
+                                                    <rect key="frame" x="16" y="40.666666666666671" width="382" height="34.000000000000014"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPN-Ti-ePL">
-                                                            <rect key="frame" x="0.0" y="0.0" width="382" height="30"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DJF-ne-Pis">
-                                                            <rect key="frame" x="0.0" y="30.000000000000007" width="382" height="78.666666666666686"/>
-                                                            <subviews>
-                                                                <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Za-4f-oef" customClass="DLRadioButton">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="78.666666666666671"/>
-                                                                    <state key="normal" title="Present">
-                                                                        <color key="titleColor" red="0.027597062289714813" green="0.023808613419532776" blue="0.0071489778347313404" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    </state>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
-                                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="indicatorColor">
-                                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                    </userDefinedRuntimeAttributes>
-                                                                    <connections>
-                                                                        <action selector="presentSelected:" destination="CAY-zx-udc" eventType="touchUpInside" id="Shv-5m-MyQ"/>
-                                                                        <outletCollection property="otherButtons" destination="SEp-Wv-VDo" id="fqD-T2-7Nk"/>
-                                                                        <outletCollection property="otherButtons" destination="TGw-7f-X4N" id="XBa-pi-vmX"/>
-                                                                    </connections>
-                                                                </button>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SEp-Wv-VDo" customClass="DLRadioButton">
-                                                                    <rect key="frame" x="100" y="0.0" width="100" height="78.666666666666671"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" constant="100" id="bBA-Jo-NMM"/>
-                                                                    </constraints>
-                                                                    <state key="normal" title="Missing">
-                                                                        <color key="titleColor" red="0.027597062289714813" green="0.023808613419532776" blue="0.0071489778347313404" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    </state>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
-                                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="indicatorColor">
-                                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                    </userDefinedRuntimeAttributes>
-                                                                    <connections>
-                                                                        <action selector="missingSelected:" destination="CAY-zx-udc" eventType="touchUpInside" id="l6t-Mr-pEz"/>
-                                                                    </connections>
-                                                                </button>
-                                                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGw-7f-X4N" customClass="DLRadioButton">
-                                                                    <rect key="frame" x="200" y="0.0" width="182" height="78.666666666666671"/>
-                                                                    <state key="normal" title="Needs Repair">
-                                                                        <color key="titleColor" red="0.027597062289714813" green="0.023808613419532776" blue="0.0071489778347313404" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                    </state>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
-                                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                        <userDefinedRuntimeAttribute type="color" keyPath="indicatorColor">
-                                                                            <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                        </userDefinedRuntimeAttribute>
-                                                                    </userDefinedRuntimeAttributes>
-                                                                    <connections>
-                                                                        <action selector="needsRepairClicked:" destination="xui-d9-4GZ" eventType="touchUpInside" id="Mhh-Rv-7rT"/>
-                                                                        <action selector="showComments:" destination="CAY-zx-udc" eventType="touchUpInside" id="yfs-4W-ONF"/>
-                                                                    </connections>
-                                                                </button>
-                                                            </subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Za-4f-oef" customClass="DLRadioButton">
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="34.000000000000007"/>
+                                                            <state key="normal" title="Present">
+                                                                <color key="titleColor" red="0.027597062289714813" green="0.023808613419532776" blue="0.0071489778347313404" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                                                    <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="indicatorColor">
+                                                                    <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <outletCollection property="otherButtons" destination="SEp-Wv-VDo" id="fqD-T2-7Nk"/>
+                                                                <outletCollection property="otherButtons" destination="TGw-7f-X4N" id="XBa-pi-vmX"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SEp-Wv-VDo" customClass="DLRadioButton">
+                                                            <rect key="frame" x="100" y="0.0" width="100" height="34.000000000000007"/>
                                                             <constraints>
-                                                                <constraint firstItem="SEp-Wv-VDo" firstAttribute="width" secondItem="0Za-4f-oef" secondAttribute="width" id="dJW-4i-l6w"/>
+                                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="bBA-Jo-NMM"/>
                                                             </constraints>
-                                                        </stackView>
-                                                        <textField hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Comments" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WaQ-tM-gio">
-                                                            <rect key="frame" x="0.0" y="108.66666666666667" width="382" height="0.0"/>
-                                                            <nil key="textColor"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <textInputTraits key="textInputTraits"/>
-                                                        </textField>
+                                                            <state key="normal" title="Missing">
+                                                                <color key="titleColor" red="0.027597062289714813" green="0.023808613419532776" blue="0.0071489778347313404" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                                                    <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="indicatorColor">
+                                                                    <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGw-7f-X4N" customClass="DLRadioButton">
+                                                            <rect key="frame" x="200" y="0.0" width="182" height="34.000000000000007"/>
+                                                            <state key="normal" title="Needs Repair">
+                                                                <color key="titleColor" red="0.027597062289714813" green="0.023808613419532776" blue="0.0071489778347313404" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="iconColor">
+                                                                    <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="indicatorColor">
+                                                                    <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                        </button>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="SEp-Wv-VDo" firstAttribute="width" secondItem="0Za-4f-oef" secondAttribute="width" id="dJW-4i-l6w"/>
+                                                    </constraints>
                                                 </stackView>
+                                                <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Comments" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WaQ-tM-gio">
+                                                    <rect key="frame" x="16" y="84.666666666666671" width="382" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="0ua-sj-ele"/>
+                                                    </constraints>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPN-Ti-ePL">
+                                                    <rect key="frame" x="16" y="8" width="382" height="27.666666666666664"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="pRT-dm-Xvh" secondAttribute="bottom" constant="8" id="KVI-Zd-Q4n"/>
-                                                <constraint firstItem="pRT-dm-Xvh" firstAttribute="top" secondItem="oxr-3B-soR" secondAttribute="top" constant="8" id="g5z-ae-D1r"/>
+                                                <constraint firstItem="DJF-ne-Pis" firstAttribute="top" secondItem="DPN-Ti-ePL" secondAttribute="bottom" constant="5" id="22x-ri-lR8"/>
+                                                <constraint firstItem="DPN-Ti-ePL" firstAttribute="leading" secondItem="oxr-3B-soR" secondAttribute="leading" constant="16" id="3q6-ba-VkT"/>
+                                                <constraint firstAttribute="trailing" secondItem="WaQ-tM-gio" secondAttribute="trailing" constant="16" id="7mn-PM-ax4"/>
+                                                <constraint firstAttribute="trailing" secondItem="DJF-ne-Pis" secondAttribute="trailing" constant="16" id="9FK-XY-A5R"/>
+                                                <constraint firstItem="DPN-Ti-ePL" firstAttribute="top" secondItem="oxr-3B-soR" secondAttribute="top" constant="8" id="Nls-xI-pQw"/>
+                                                <constraint firstAttribute="bottom" secondItem="WaQ-tM-gio" secondAttribute="bottom" constant="10" id="YTO-yH-bf4"/>
+                                                <constraint firstItem="WaQ-tM-gio" firstAttribute="leading" secondItem="oxr-3B-soR" secondAttribute="leading" constant="16" id="c0N-IA-5Eu"/>
+                                                <constraint firstItem="DPN-Ti-ePL" firstAttribute="centerX" secondItem="oxr-3B-soR" secondAttribute="centerX" id="lcw-uC-FkI"/>
+                                                <constraint firstItem="DJF-ne-Pis" firstAttribute="leading" secondItem="oxr-3B-soR" secondAttribute="leading" constant="16" id="oGr-r1-tce"/>
+                                                <constraint firstItem="WaQ-tM-gio" firstAttribute="top" secondItem="DJF-ne-Pis" secondAttribute="bottom" constant="10" id="vb8-Tf-foi"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="DPN-Ti-ePL" secondAttribute="trailing" id="zx0-uL-7bA"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="pRT-dm-Xvh" secondAttribute="trailing" constant="16" id="AGa-Xc-hH0"/>
-                                            <constraint firstItem="pRT-dm-Xvh" firstAttribute="leading" secondItem="CAY-zx-udc" secondAttribute="leading" constant="16" id="lTU-aN-GBf"/>
-                                        </constraints>
                                         <connections>
+                                            <outlet property="commentHieght" destination="0ua-sj-ele" id="lRR-kB-lH7"/>
                                             <outlet property="commentsTextField" destination="WaQ-tM-gio" id="SNi-dv-FUu"/>
                                             <outlet property="label" destination="DPN-Ti-ePL" id="FZA-6o-eL1"/>
                                             <outlet property="missingButton" destination="SEp-Wv-VDo" id="k9E-f7-wyx"/>
@@ -746,7 +742,7 @@
                                             <outlet property="presentButton" destination="0Za-4f-oef" id="cla-Jt-Xo2"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="num" rowHeight="80" id="Uc2-DD-Ey7" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="num" rowHeight="80" id="Uc2-DD-Ey7" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="203" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Uc2-DD-Ey7" id="zts-NO-BGh">
@@ -786,7 +782,7 @@
                                             <outlet property="numValue" destination="9o3-IJ-zXX" id="zaP-DX-aae"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="per" rowHeight="80" id="LLU-HT-bnq" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="per" rowHeight="80" id="LLU-HT-bnq" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="283" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="LLU-HT-bnq" id="qnI-M8-q6F">
@@ -834,7 +830,7 @@
                                             <outlet property="percentValue" destination="jb5-fs-oV3" id="OhE-gj-ZS5"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pf" rowHeight="80" id="Yji-jF-foz" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pf" rowHeight="80" id="Yji-jF-foz" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="363" width="414" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Yji-jF-foz" id="gHT-K1-P6x">

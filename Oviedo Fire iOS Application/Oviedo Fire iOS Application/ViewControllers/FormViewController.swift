@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DLRadioButton
 
 
 struct formSaved {
@@ -22,35 +23,37 @@ struct formSaved {
     
 }
 
-
 class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     @IBOutlet weak var tableView: UITableView!
-
+    
+    var expandedRows = Set<Int>()
     var checkedRows=Set<NSIndexPath>()
     
     var formName = ""
     var formId:String = ""
     var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
     var selectedIndex:Int = 0
-
+    
     func setupView(){
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.title = ""
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
         
-
+        
     }
     
-
-
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
-
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -87,6 +90,73 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return item
     }
     
+    @objc func needsRepairbuttonClicked(sender:UIButton) {
+        let indexPath = IndexPath(row: sender.tag , section: 0)
+        let buttonRow = sender.tag
+        print("Needs Repair \(buttonRow)")
+        
+        let entry = findItem(index: buttonRow, form: form)
+        if (entry.type == "pmr"){
+            guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell
+                else { return }
+            if (!cell.isExpanded){
+                self.expandedRows.insert(buttonRow)
+            }else{return}
+            cell.isExpanded = !cell.isExpanded
+            cell.presentButton.isUserInteractionEnabled = true
+            cell.missingButton.isUserInteractionEnabled = true
+            cell.needsRepairButton.isUserInteractionEnabled = false
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
+            
+        }
+        
+    }
+    @objc func missingbuttonClicked(sender:UIButton) {
+        let indexPath = IndexPath(row: sender.tag , section: 0)
+        let buttonRow = sender.tag
+        print("Missing Repair \(buttonRow)")
+        
+        let entry = findItem(index: buttonRow, form: form)
+        if (entry.type == "pmr"){
+            guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell
+                else { return }
+            if (cell.isExpanded){
+                self.expandedRows.remove(buttonRow)
+            }else{return}
+            cell.isExpanded = !cell.isExpanded
+            cell.presentButton.isUserInteractionEnabled = true
+            cell.missingButton.isUserInteractionEnabled = false
+            cell.needsRepairButton.isUserInteractionEnabled = true
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
+            
+            
+        }
+    }
+    @objc func presentbuttonClicked(sender:UIButton) {
+        let indexPath = IndexPath(row: sender.tag , section: 0)
+        let buttonRow = sender.tag
+        print("Present Repair \(buttonRow)")
+        
+        let entry = findItem(index: buttonRow, form: form)
+        if (entry.type == "pmr"){
+            guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell
+                else { return }
+            if (cell.isExpanded){
+                self.expandedRows.remove(buttonRow)
+            }else{return}
+            cell.isExpanded = !cell.isExpanded
+            cell.presentButton.isUserInteractionEnabled = false
+            cell.missingButton.isUserInteractionEnabled = true
+            cell.needsRepairButton.isUserInteractionEnabled = true
+            self.tableView.beginUpdates()
+            self.tableView.endUpdates()
+            
+            
+        }
+    }
+    
     
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
@@ -102,7 +172,13 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if (entry.type == "pmr") {
             cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
             cell.label.text = entry.caption
-            cell.commentsTextField.isHidden = true
+            cell.isExpanded = self.expandedRows.contains(indexPath.row)
+            cell.missingButton.addTarget(self, action: #selector(EqFormViewController.missingbuttonClicked(sender:)), for: .touchUpInside)
+            cell.presentButton.addTarget(self, action: #selector(EqFormViewController.presentbuttonClicked(sender:)), for: .touchUpInside)
+            cell.needsRepairButton.addTarget(self, action: #selector(EqFormViewController.needsRepairbuttonClicked(sender:)), for: .touchUpInside)
+            cell.needsRepairButton.tag = indexPath.row
+            cell.missingButton.tag = indexPath.row
+            cell.presentButton.tag = indexPath.row
         }else if(entry.type == "num"){
             cell = tableView.dequeueReusableCell(withIdentifier: "num", for: indexPath) as! FormTableViewCell
             cell.numName.text = entry.caption
@@ -119,34 +195,16 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell = tableView.dequeueReusableCell(withIdentifier: "title", for: indexPath) as! FormTableViewCell
             cell.title.text = entry.caption
         }
-
- 
+        
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-    
-    
+        print(indexPath.row)
+        
+        
     }
-    
-    @IBAction func needsRepairClicked(_ sender: Any) {
-        updateViewConstraints()
-    }
-    
-
-
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
     
 }
+

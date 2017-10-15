@@ -29,9 +29,21 @@ class FormTableViewCell: UITableViewCell{
     @IBOutlet weak var pfValue: UILabel!
     @IBOutlet weak var pfSwitch: UISwitch!
     @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var commentHieght: NSLayoutConstraint!
     
 
-    
+    var isExpanded:Bool = false
+    {
+        didSet
+        {
+            if !isExpanded {
+                self.commentHieght.constant = 0.0
+                
+            } else {
+                self.commentHieght.constant = 30.0
+            }
+        }
+    }
     
     
     //Prevents overide of data into cells when scrolling
