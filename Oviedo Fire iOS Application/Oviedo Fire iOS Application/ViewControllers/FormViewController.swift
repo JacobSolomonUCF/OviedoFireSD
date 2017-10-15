@@ -31,7 +31,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var formName = ""
     var formId:String = ""
-    var form:[formItem] = []
+    var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
 
     func setupView(){
         navigationItem.title = formName
@@ -55,18 +55,74 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         // Dispose of any resources that can be recreated.
     }
     
+    func formCount() -> Int{
+        var count = 0
+        let subsections = form.subSection
+        for items in subsections{
+            let sections = items.formItem
+            for _ in sections{
+                count += 1
+            }
+        }
+        return count
+    }
+    
+    func findItem(index:Int, form:completeForm) -> formItem{
+        var item = formItem.init(caption: "NA", type: "NA")
+        
+        var count = 0
+        let subsections = form.subSection
+        for items in subsections{
+            let sections = items.formItem
+            for row in sections{
+                if(index == count){
+                    item.caption = row.caption
+                    item.type = row.type
+                    return item
+                }
+                count += 1
+            }
+        }
+        return item
+    }
 
     
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
-        return form.count
+        return formCount()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
         
-        if (form[indexPath.row].type == "pmr") {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
+        let entry = findItem(index: indexPath.row, form: form)
+        
+        if (entry.type == "pmr") {
+            cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
+            cell.label.text = entry.caption
+        }else if(entry.type == "num"){
+            cell = tableView.dequeueReusableCell(withIdentifier: "num", for: indexPath) as! FormTableViewCell
+            cell.numName.text = entry.caption
+        }else if(entry.type == "per"){
+            cell = tableView.dequeueReusableCell(withIdentifier: "per", for: indexPath) as! FormTableViewCell
+            cell.percentName.text = entry.caption
+            cell.percentValue.text = ""
+        }else if(entry.type == "pf"){
+            cell = tableView.dequeueReusableCell(withIdentifier: "pf", for: indexPath) as! FormTableViewCell
+            cell.pfName.text = entry.caption
+            cell.pfValue.text = "Fail"
+            cell.pfValue.textColor = UIColor.red
+        }else if(entry.type == "title"){
+            cell = tableView.dequeueReusableCell(withIdentifier: "title", for: indexPath) as! FormTableViewCell
+            cell.title.text = entry.caption
+        }
+        
+        
+    
+        
+        
+        /*if (form[indexPath.row].type == "pmr") {
             cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
             cell.label.text = form[indexPath.row].caption
         }else if(form[indexPath.row].type == "num"){
@@ -83,7 +139,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.pfValue.text = "Fail"
             cell.pfValue.textColor = UIColor.red
             
-        }
+        }*/
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! pmrFormTableViewCell
 //        cell.label.text = form[indexPath.row].caption
 

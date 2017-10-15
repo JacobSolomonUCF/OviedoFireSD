@@ -28,6 +28,7 @@ class FormTableViewCell: UITableViewCell{
     @IBOutlet weak var pfName: UILabel!
     @IBOutlet weak var pfValue: UILabel!
     @IBOutlet weak var pfSwitch: UISwitch!
+    @IBOutlet weak var title: UILabel!
     
     
     
@@ -36,6 +37,9 @@ class FormTableViewCell: UITableViewCell{
         super.prepareForReuse()
 
         
+    }
+    @IBAction func sliderChanged(_ sender: Any) {
+        self.percentValue.text = String(round(self.percentSlider.value*10)/10)
     }
     
     @IBAction func switchClicked(_ sender: Any) {

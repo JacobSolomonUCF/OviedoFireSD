@@ -17,7 +17,7 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     var formName = ""
-    var form: [formItem] = []
+    var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
     var list: [toDo] = []
     let userID = Auth.auth().currentUser!.uid
     var singleFormId:String = ""

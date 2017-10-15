@@ -85,7 +85,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
                     let userId = Auth.auth().currentUser!.uid
                     self.getUsername(userID: userId, completion: { (name) -> Void in
                         self.firstName = name
-                        print("FIRST NAME" + self.firstName)
+//                        print("FIRST NAME" + self.firstName)
                 
                         self.emailField.text = nil
                         self.passwordField.text = nil

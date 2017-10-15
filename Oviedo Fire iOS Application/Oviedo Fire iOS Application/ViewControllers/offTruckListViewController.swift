@@ -19,7 +19,7 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     
     let userID = Auth.auth().currentUser!.uid
     var list:[offTruck] = []
-    var form:[formItem] = []
+    var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
     var singleFormId:String = ""
     var type:String = ""
     var formName:String = ""

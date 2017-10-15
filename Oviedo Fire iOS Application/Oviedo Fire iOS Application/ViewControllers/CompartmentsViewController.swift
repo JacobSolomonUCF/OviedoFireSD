@@ -18,7 +18,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     //    Needed Variables:
     var formName = ""
     var vehicle = ""
-    var form: [formItem] = []
+    var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
     var list: [compartments] = []
     let userID = Auth.auth().currentUser!.uid
     
@@ -60,10 +60,6 @@ extension CompartmentsViewController{
         startSpinning(activityView: activityView)
         tableView.allowsSelection = false
         
-        //    Preventing duplicated from reloading the view:
-        if(form.count != 0){
-            form.removeAll()
-        }
         
         //    Checking if the form has been completed:
         checkCompletion(userID: userID, formId: list[indexPath.row].formId, completion: { (isCompleted) in

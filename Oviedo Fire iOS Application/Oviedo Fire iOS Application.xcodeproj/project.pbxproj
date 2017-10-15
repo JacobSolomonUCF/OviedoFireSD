@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		161EE5151F68A83900FFEC0B /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 161EE5141F68A83900FFEC0B /* Podfile */; };
 		165023A71F56130300FF3DD4 /* Deep Space.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 165023A61F56130300FF3DD4 /* Deep Space.jpg */; };
-		166C5B901F6A0AA70015FAF6 /* Carthage in Resources */ = {isa = PBXBuildFile; fileRef = 166C5B8E1F6A0A830015FAF6 /* Carthage */; };
-		166C5B931F6A0ABC0015FAF6 /* Alamofire.framework.dSYM in CopyFiles */ = {isa = PBXBuildFile; fileRef = 166C5B921F6A0ABC0015FAF6 /* Alamofire.framework.dSYM */; };
 		16A90AE71F560C7C00F50919 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AE61F560C7C00F50919 /* AppDelegate.swift */; };
 		16A90AE91F560C7C00F50919 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AE81F560C7C00F50919 /* ViewController.swift */; };
 		16A90AEC1F560C7C00F50919 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A90AEA1F560C7C00F50919 /* Main.storyboard */; };
@@ -68,7 +66,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				166C5B931F6A0ABC0015FAF6 /* Alamofire.framework.dSYM in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,8 +76,6 @@
 		0FF0788381DD34BAD829472F /* Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationUITests/Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		161EE5141F68A83900FFEC0B /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		165023A61F56130300FF3DD4 /* Deep Space.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Deep Space.jpg"; sourceTree = "<group>"; };
-		166C5B8E1F6A0A830015FAF6 /* Carthage */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Carthage; sourceTree = "<group>"; };
-		166C5B921F6A0ABC0015FAF6 /* Alamofire.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Alamofire.framework.dSYM; path = Carthage/Build/iOS/Alamofire.framework.dSYM; sourceTree = "<group>"; };
 		16A90AE31F560C7C00F50919 /* Oviedo Fire iOS Application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Oviedo Fire iOS Application.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16A90AE61F560C7C00F50919 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		16A90AE81F560C7C00F50919 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -155,8 +150,6 @@
 		16A90ADA1F560C7C00F50919 = {
 			isa = PBXGroup;
 			children = (
-				166C5B921F6A0ABC0015FAF6 /* Alamofire.framework.dSYM */,
-				166C5B8E1F6A0A830015FAF6 /* Carthage */,
 				16A90AE51F560C7C00F50919 /* Oviedo Fire iOS Application */,
 				16A90AFA1F560C7C00F50919 /* Oviedo Fire iOS ApplicationTests */,
 				16A90B051F560C7C00F50919 /* Oviedo Fire iOS ApplicationUITests */,
@@ -400,7 +393,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				166C5B901F6A0AA70015FAF6 /* Carthage in Resources */,
 				16CF46931F560CB70063834B /* Learning and Leading.jpg in Resources */,
 				16CF46941F560CB70063834B /* Lush.jpg in Resources */,
 				16CF46921F560CB70063834B /* Hydrogen.jpg in Resources */,
@@ -462,6 +454,7 @@
 				"${BUILT_PRODUCTS_DIR}/DLRadioButton/DLRadioButton.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -470,6 +463,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DLRadioButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
