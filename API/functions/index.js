@@ -739,17 +739,20 @@ exports.results = functions.https.onRequest((req, res) => {
                             var root = snap.val();
                             var results = root.forms.results;
                             var intervals = root.forms.intervals;
+                            var templates = root.forms.templates;
 
                             var completedResults;
 
                             if(results && results[req.query.formId]) {
                                 var timestamps = Object.keys(results[req.query.formId]);
                                 var result = results[req.query.formId][timestamps[timestamps.length - 1]];
+                                var title = templates[req.query.formId].title;
 
                                 completedResults = {
                                     "completedBy": result.completedBy,
                                     "datestamp": timestamps[timestamps.length - 1],
-                                    "results": result.results
+                                    "results": result.results,
+                                    "title": title
                                 };
 
                                 cors(req, res, () => {
@@ -873,7 +876,6 @@ exports.home = functions.https.onRequest((req, res) => {
 
                             // initialize return variables
                             var totalUsers = Object.keys(users).length;
-                            var equipment = 0;
                             var totalReports = 0;
                             var reportsToDo = 0;
                             var toDoList = [];
@@ -965,7 +967,6 @@ exports.home = functions.https.onRequest((req, res) => {
                             // create JSON response object
                             var home = {
                                 "totalUsers": totalUsers,
-                                "equipment": equipment,
                                 "totalReports": totalReports,
                                 "reportsToDo": reportsToDo,
                                 "toDoList": toDoList
