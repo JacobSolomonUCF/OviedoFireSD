@@ -41,6 +41,7 @@ class HomeViewController: UIViewController {
         if segue.identifier == "toToDoList"{
             let nextController = segue.destination as! toDoViewController
             nextController.list = TODOList
+            nextController.filterdList = TODOList
             self.enableButtons()
             self.stopSpinning(activityView: self.activityView)
         }
