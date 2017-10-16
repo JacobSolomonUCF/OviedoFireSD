@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CF4F1BB6B6ABA3A0C4FF4E120EE44DA1"
-               BuildableName = "Pods_Oviedo_Fire_iOS_Application.framework"
-               BlueprintName = "Pods-Oviedo Fire iOS Application"
+               BlueprintIdentifier = "5E1CED39945C259B5AB79FE4EDE3D311"
+               BuildableName = "SwiftyJSON.framework"
+               BlueprintName = "SwiftyJSON"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,9 +47,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CF4F1BB6B6ABA3A0C4FF4E120EE44DA1"
-            BuildableName = "Pods_Oviedo_Fire_iOS_Application.framework"
-            BlueprintName = "Pods-Oviedo Fire iOS Application"
+            BlueprintIdentifier = "5E1CED39945C259B5AB79FE4EDE3D311"
+            BuildableName = "SwiftyJSON.framework"
+            BlueprintName = "SwiftyJSON"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
