@@ -41,7 +41,7 @@ export class Report {
 
     webService
       .setState('reports')
-      .get('/reports')
+      .doGet('/reports')
       .subscribe((resp) => {
         self.reports = resp['reports'].map((r) => {
           if (r.status === 'Daily')
@@ -51,7 +51,6 @@ export class Report {
           return r;
         });
         self.loading = false;
-        console.log(self.reports);
       })
     ;
   }

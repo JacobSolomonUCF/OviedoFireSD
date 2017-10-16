@@ -31,10 +31,10 @@ export class EditUser {
 
   constructor(webService: WebService) {
     webService.setState('eUser')
-      .get('/users')
+      .doGet('/users')
       .subscribe(resp => {
         this.users = resp['list'];
-      }, error => {
+      }, () => {
         this.users = undefined;
       }, () => {
         this.loading = false;

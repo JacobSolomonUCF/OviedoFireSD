@@ -1,4 +1,5 @@
 import {Component, Input, ViewChild} from "@angular/core"
+import {WebService} from "./services/webService";
 
 @Component({
   selector: `item-table`,
@@ -23,8 +24,6 @@ import {Component, Input, ViewChild} from "@angular/core"
           (keyup)='updateFilter($event)'/>
       </div>
     </div>
-
-    <!-- group/data [ reports, trucks, users, ereports] -->
     <div [ngSwitch]="dataType">
       <ng-template ngSwitchCase="report">
         <div [ngSwitch]="viewType">
@@ -60,7 +59,7 @@ import {Component, Input, ViewChild} from "@angular/core"
                 </div>
               </div>
               <br/>
-              <button type="submit" class="accept">Submit</button>
+              <button type="submit" class="accept" [disabled]="true">Submit</button>
             </fieldset>
           </div>
           <div *ngSwitchDefault> default</div>
@@ -98,40 +97,47 @@ import {Component, Input, ViewChild} from "@angular/core"
           <div *ngSwitchCase="'edit'" class="tile pure-form pure-form-stacked editing"
                style="height: calc(100vh - 250px)">
             <fieldset>
-              <legend *ngIf="temp.firstName.length">{{temp.firstName + ' ' + temp.lastName}}</legend>
-              <legend *ngIf="!temp.firstName.length">New User</legend>
-
               <div class="pure-g" style="letter-spacing: 0">
                 <div class="pure-u-11-24 pure-u-sm-1">
                   <label for="first-name">First Name</label>
-                  <input id="first-name" type="text" [ngModel]="temp.firstName">
+                  <input #firstName id="first-name" type="text" [ngModel]="temp.firstName"
+                         (keyup)="keyup('firstName', firstName.value)">
                 </div>
                 <div class="pure-u-11-24 pure-u-sm-1">
                   <label for="last-name">Last Name</label>
-                  <input id="last-name" type="text" [ngModel]="temp.lastName">
+                  <input #lastName id="last-name" type="text" [ngModel]="temp.lastName"
+                         (keyup)="keyup('lastName', lastName.value)">
                 </div>
                 <div class="pure-u-11-24 pure-u-sm-1">
                   <label for="email">Email</label>
-                  <input id="email" type="text" [ngModel]="temp.email">
+                  <input #email id="email" type="text" [ngModel]="temp.email" (keyup)="keyup('email', email.value)">
                 </div>
 
                 <div class="pure-u-11-24 pure-u-sm-1">
                   <label for="type">Type</label>
-                  <select id="type" [ngModel]="temp.type">
+                  <select #type id="type" [ngModel]="temp.type" (change)="temp.type = type.value">
                     <option>user</option>
                     <option>administrator</option>
                   </select>
                 </div>
               </div>
               <br/>
-              <button type="submit" class="accept">Submit</button>
+              <button type="submit" class="accept"
+                      [disabled]="loading || !(temp.firstName && temp.lastName && temp.type && temp.email)"
+                      (click)="submit()">
+                <i class="fa fa-spinner fa-spin" *ngIf="loading && !temp.original"></i>
+                Submit
+              </button>
+              <button type="submit" class="accept" (click)="doDelete()" *ngIf="temp.original" [disabled]="loading">
+                <i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+                Delete
+              </button>
             </fieldset>
           </div>
           <div *ngSwitchDefault> default</div>
         </div>
         <div *ngSwitchDefault> default</div>
       </ng-template>
-
       <ng-template ngSwitchDefault>
         <ngx-datatable
           #myTable
@@ -184,6 +190,8 @@ export class Table {
   @Input() viewType: any;
   @Input() heading: any[];
   @Input() rows: any[];
+  webService: WebService;
+  loading: boolean = false;
   original: any;
   temp: any;
   row: any;
@@ -229,7 +237,8 @@ export class Table {
   style: any;
   previousStyle: any;
 
-  constructor() {
+  constructor(webService: WebService) {
+    this.webService = webService;
   }
 
   ngOnInit() {
@@ -238,22 +247,62 @@ export class Table {
   }
 
   getTheme() {
-    switch (this.viewType) {
-      case 'view':
-        switch (this.dataType) {
-          case 'truck': // just for the moment cannot edit trucks...
-          case 'reports':
-            return 'reports';
+    let options = {
+      view: {
+        truck: 'reports',
+        reports: 'reports',
+        other: this.dataType
+      },
+      other: this.viewType
+    };
+
+    return options[this.viewType] && options[this.viewType][this.dataType] || options.other;
+  }
+
+  keyup(index, value) {
+    this.temp[index] = value;
+  }
+
+  submit() {
+    if (!(this.temp.firstName && this.temp.lastName && this.temp.type && this.temp.email))
+      return;
+
+    if (this.temp.original)
+      delete this.temp.original;
+    else
+      this.rows.push(this.temp);
+
+    this.loading = true;
+    this.webService.doPost('/users', {user: this.temp})
+      .subscribe(() => {
+          this.toggle()();
+        }, () => {
+          this.rows.splice(this.temp, 1);
+        }, () => {
+          this.loading = false;
         }
-      default:
-        return this.viewType;
-    }
+      );
+  }
+
+  doDelete() {
+    this.loading = true;
+    this.webService.doDelete('/users', {user: {email: this.temp.email}})
+      .subscribe(() => {
+        console.log(this.temp.original);
+        this.rows.splice(this.rows.indexOf(this.temp.original), 1);
+        this.toggle()();
+      }, () => {
+      }, () => {
+        this.loading = false;
+      });
   }
 
   toggle() {
     let options = {
       edit: () => {
+        delete this.temp;
         this.viewType = 'view';
+        console.log(this.viewType, 'edit');
       },
       ereport: () => {
         this.viewType = 'view';
@@ -263,7 +312,9 @@ export class Table {
         delete this.temp;
         this.updateFilter(undefined);
       },
-      other: () => {}
+      other: () => {
+        console.log('damn');
+      }
     };
     return options[this.viewType] || options.other;
   }
@@ -304,6 +355,7 @@ export class Table {
       user: (event) => {
         this.viewType = 'edit';
         this.temp = (event === undefined) ? {firstName: "", lastName: "", email: "", type: "user"} : event.selected[0];
+        this.temp.original = event ? event.selected[0] : event;
       },
       report: (event) => {
         this.viewType = 'edit';

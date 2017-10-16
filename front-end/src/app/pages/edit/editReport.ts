@@ -31,7 +31,7 @@ export class EditReport {
     let self = this;
 
     webService.setState('eReport')
-      .get('/reports')
+      .doGet('/reports')
       .subscribe(resp => {
           self.reports = resp['reports'];
         }, () => {
