@@ -18,6 +18,15 @@ admin.initializeApp({
 	databaseURL: "https://oviedofiresd-55a71.firebaseio.com"
 });
 
+var weekday = new Array(7);
+weekday[0] = "sunday";
+weekday[1] = "monday";
+weekday[2] = "tuesday";
+weekday[3] = "wednesday";
+weekday[4] = "thursday";
+weekday[5] = "friday";
+weekday[6] = "saturday";
+
 function getAuth(uid, callback) {
 	admin.database().ref('/users/' + uid + '/authentication').once('value', function(snap) {
 		if(snap.val() || snap.val() == 0) {
@@ -29,15 +38,6 @@ function getAuth(uid, callback) {
 }
 
 function getTime() {
-    var weekday = new Array(7);
-    weekday[0] = "sunday";
-    weekday[1] = "monday";
-    weekday[2] = "tuesday";
-    weekday[3] = "wednesday";
-    weekday[4] = "thursday";
-    weekday[5] = "friday";
-    weekday[6] = "saturday";
-
 	var offset = -5.0;
 	var serverDate = new Date();
 	var utc = serverDate.getTime() + (serverDate.getTimezoneOffset() * 60000);
@@ -814,7 +814,7 @@ exports.checkCompletion = functions.https.onRequest((req, res) => {
                                     completed = true;
                                 } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
                                     completed = true;
-                                } else if(schedule == "Monthy" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
                                     completed = true;
                                 }
                             }
@@ -877,8 +877,6 @@ exports.home = functions.https.onRequest((req, res) => {
                             var totalReports = 0;
                             var reportsToDo = 0;
                             var toDoList = [];
-
-                            // recursively count equipment in inventory
 
                             // run through available forms and add to counters and todo list
                             for(var i = 0; i < Object.keys(inventory).length; i++) {
@@ -955,7 +953,7 @@ exports.home = functions.https.onRequest((req, res) => {
 
                                                 totalReports++;
                                                 toDoList.push({
-                                                    "title": templates[formId].title,
+                                                    "title": templates[formId[l]].title,
                                                     "complete": complete
                                                 });
                                             }
@@ -1014,57 +1012,121 @@ exports.reports = functions.https.onRequest((req, res) => {
                             var results = root.forms.results;
                             var templates = root.forms.templates;
                             var inventory = root.inventory;
-                            var users = root.users
+                            var users = root.users;
                             var forms = Object.keys(intervals);
                             var time = getTime();
 
-                            // initialize return variables
-                            var reportsList = [];
-                            var name;
-                            var schedule;
-                            var status;
-                            var id;
+                            var retVal = {
+                                "reports": []
+                            };
 
-                            // run through all forms in the database
-                            for(var i = 0; i < forms.length; i++) {
-                                // set name of the report
-                                name = templates[forms[i]].title;
+                            // run through available forms and add to counters and todo list
+                            for(var i = 0; i < Object.keys(inventory).length; i++) {
+                                var itemType = Object.keys(inventory)[i];
+                                for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
+                                    var itemKey = Object.keys(inventory[itemType])[j];
+                                    if(inventory[itemType][itemKey].compartments) {
+                                        var compartments = inventory[itemType][itemKey].compartments;
 
-                                // set schedule of the report
-                                schedule = intervals[forms[i]].frequency;
+                                        var name = inventory[itemType][itemKey].name;
+                                        var schedule;
+                                        var status = "Complete";
+                                        var id = itemKey;
+                                        var data = {
+                                            "rows": []
+                                        };
 
-                                // check to see if the form has been completed
-                                status = "Incomplete";
-                                if(results && results[forms[i]]) {
-                                    var timestamps = Object.keys(results[forms[i]]);
-                                    if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
-                                        status = "Complete";
-                                    } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                        status = "Complete";
-                                    } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                        status = "Complete";
+                                        for(var k = 0; k < Object.keys(compartments).length; k++) {
+                                            var formId = compartments[Object.keys(compartments)[k]].formId;
+                                            for(var l = 0; l < formId.length; l++) {
+                                                var frequency = intervals[formId[l]].frequency;
+                                                schedule = frequency;
+
+                                                for(var m = 0; m < templates[formId[l]].inputElements.length; m++) {
+                                                    data.rows.push({
+                                                        "compartment": templates[formId[l]].title,
+                                                        "item": templates[formId[l]].inputElements[m].caption,
+                                                        "sunday": null,
+                                                        "monday": null,
+                                                        "tuesday": null,
+                                                        "wednesday": null,
+                                                        "thursday": null,
+                                                        "friday": null,
+                                                        "saturday": null,
+                                                    });
+                                                }
+
+                                                if(results && results[formId[l]]) {
+                                                    var timestamps = Object.keys(results[formId[l]]);
+
+                                                    if(frequency == "Daily") {
+                                                        for(var m = 0; m < time.weekstamps.length; m++) {
+                                                            if(!timestamps.includes(time.weekstamps[m])) {
+                                                                status = "Incomplete";
+                                                            } else {
+                                                                for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
+                                                                    data.rows[n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
+                                                                }
+                                                            }
+                                                        }
+                                                    } else if(frequency == "Weekly") {
+                                                        if(!time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                                            status = "Incomplete";
+                                                        } else {
+
+                                                        }
+                                                    } else if(frequency == "Monthly") {
+                                                        if(!timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                                            status = "Incomplete";
+                                                        } else {
+
+                                                        }
+                                                    }
+                                                } else {
+                                                    status = "Incomplete";
+                                                }
+                                            }
+                                        }
+
+                                        retVal.reports.push({
+                                            "name": name,
+                                            "schedule": schedule,
+                                            "status": status,
+                                            "id": id,
+                                            "data": data
+                                        });
+
+                                    } else {
+                                        /*var formId = inventory[itemType][itemKey].formId;
+                                        for(var l = 0; l < formId.length; l++) {
+                                            if(intervals[formId[l]].days[time.weekday]) {
+                                                var complete = false;
+
+                                                if(results && results[formId[l]]) {
+                                                    var frequency = intervals[formId[l]].frequency;
+                                                    var timestamps = Object.keys(results[formId[l]]);
+
+                                                    if(frequency == "Daily" && timestamps.includes(time.datestamp)) {
+                                                        complete = true;
+                                                    } else if(frequency == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                                        complete = true;
+                                                    } else if(frequency == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                                        complete = true;
+                                                    }
+                                                }
+
+                                                if(!complete) {
+                                                    reportsToDo++;
+                                                }
+                                            }
+                                        }*/
                                     }
                                 }
-
-                                // set id of the report
-                                id = forms[i];
-
-                                // create JSON object for the array
-                                var report = {
-                                    "name": name,
-                                    "schedule": schedule,
-                                    "status": status,
-                                    "id": id
-                                };
-                                reportsList.push(report);
                             }
-
-                            // create JSON response object
-                            var reports = {reportsList};
 
                             // send response
                             cors(req, res, () => {
-                                res.status(200).send(reports);
+                                res.status(200).send(retVal);
                             });
                         });
                     } else {
@@ -1166,10 +1228,12 @@ exports.users = functions.https.onRequest((req, res) => {
                                     res.sendStatus(200);
                                 });
                             }).catch(function(error) {
+                                var password = Math.random().toString(36).slice(-8);
+
                                 admin.auth().createUser({
                                     email: body.user.email,
                                     emailVerified: true,
-                                    password: "testPassw0rd",
+                                    password: password,
                                     disabled: false
                                 }).then(function(user) {
                                     var authentication;
@@ -1228,6 +1292,105 @@ exports.users = functions.https.onRequest((req, res) => {
         } else {
             cors(req, res, () => {
                 res.status(400).send("Missing request body");
+            });
+        }
+    } else if(req.method == "DELETE") {
+        if(req.body) {
+            var body = req.body;
+            if(body.uid && body.user) {
+                getAuth(body.uid, function(auth) {
+                    if(auth != 401) {
+                        if(auth == 0) {
+                            admin.auth().getUserByEmail(body.user.email).then(function(user) {
+                                admin.auth().deleteUser(user.uid).then(function() {
+                                    admin.database().ref('/users/' + user.uid).set(null);
+                                }).catch(function(error) {
+                                    cors(req, res, () => {
+                                        res.status(400).send(error);
+                                    });
+                                });
+
+                                cors(req, res, () => {
+                                    res.sendStatus(200);
+                                });
+                            }).catch(function(error) {
+                                cors(req, res, () => {
+                                    res.status(400).send(error);
+                                });
+                            });
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send('The user is not authorized for access');
+                        });
+                    }
+                });
+            } else if(body.uid && !body.user) {
+                cors(req, res, () => {
+                    res.status(400).send("Missing 'user' parameter");
+                });
+            } else if(!body.uid && body.user) {
+                cors(req, res, () => {
+                    res.status(400).send("Missing 'uid' parameter");
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing 'uid' and 'user' parameter");
+                });
+            }
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing request body");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
+
+exports.userInfo = functions.https.onRequest((req, res) => {
+    if(req.method == "GET") {
+        if(req.query.uid) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0 || auth == 1) {
+                        admin.database().ref('/users/' + req.query.uid).once('value', function(snap) {
+                            // initialize data variables
+                            var userInfo = snap.val();
+
+                            var type;
+
+                            if(userInfo.authentication == 0) {
+                                type = "administrator";
+                            } else if(userInfo.authentication == 1) {
+                                type = "user";
+                            }
+
+                            // send response
+                            cors(req, res, () => {
+                                res.status(200).send(userInfo);
+                            });
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' parameter");
             });
         }
     } else {
