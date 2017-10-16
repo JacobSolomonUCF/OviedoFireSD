@@ -1036,11 +1036,13 @@ exports.reports = functions.https.onRequest((req, res) => {
                                         var data = {
                                             "rows": []
                                         };
+                                        var offset = 0;
 
                                         for(var k = 0; k < Object.keys(compartments).length; k++) {
                                             var formId = compartments[Object.keys(compartments)[k]].formId;
                                             for(var l = 0; l < formId.length; l++) {
                                                 var frequency = intervals[formId[l]].frequency;
+                                                var itemCount = templates[formId[l]].inputElements.length;
                                                 schedule = frequency;
 
                                                 for(var m = 0; m < templates[formId[l]].inputElements.length; m++) {
@@ -1066,7 +1068,7 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                 status = "Incomplete";
                                                             } else {
                                                                 for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-                                                                    data.rows[n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
+                                                                    data.rows[offset+n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
                                                                 }
                                                             }
                                                         }
@@ -1086,6 +1088,8 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                 } else {
                                                     status = "Incomplete";
                                                 }
+
+                                                offset += itemCount;
                                             }
                                         }
 
