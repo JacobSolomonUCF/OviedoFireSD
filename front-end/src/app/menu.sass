@@ -67,7 +67,7 @@ ul
     border-right: 2px solid darkgray
 
   .tile
-    overflow: scroll
+    overflow: hidden
     background: white
     border-radius: 1%
     margin: 0.2em 0
@@ -160,6 +160,8 @@ ul
       &.active
         background: $hover
 
+    .fa-ul
+      margin-left: 1.25em
     .pure-menu-sublist
       height: 20px
       &:hover, &:focus
@@ -167,12 +169,14 @@ ul
     ul
       border: none
       border-top: 1px solid #333
-    .menu-item-divided
-      border-top: 1px solid #333
     li a
       padding: 1em
       &:hover, &:focus
         background: $hover
+
+      i.small
+        font-size: .5em
+
   .pure-menu-selected
     background: $hover
     height: 30px
@@ -238,7 +242,7 @@ ul
 
 /*
  *Hides the menu at `48em`, but modify this based on your app's needs.
-@media (min-width: 48em)
+@media (min-width: 0) // was 48em
   .header, .content
     padding-left: 2em
     padding-right: 2em
@@ -257,7 +261,7 @@ ul
   #layout.active .menu-link
     left: 150px
 
-@media (max-width: 48em)
+@media (max-width: 0) // was 48em
   /* Only apply this when the window is small. Otherwise, the following
    *case results in extras padding on the left:
    *    * Make the window small.
