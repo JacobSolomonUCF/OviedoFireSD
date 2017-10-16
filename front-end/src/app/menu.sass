@@ -29,7 +29,6 @@ ul
 #layout, #menu, .menu-link
   -webkit-transition: all 0.2s ease-out
   -moz-transition: all 0.2s ease-out
-  -ms-transition: all 0.2s ease-out
   -o-transition: all 0.2s ease-out
   transition: all 0.2s ease-out
 
@@ -249,7 +248,7 @@ ul
     left: 0
   #menu
     left: 150px
-    .edit-tab, logout-tab
+    .edit-tab, .logout-tab
       cursor: pointer
   .menu-link
     position: fixed
@@ -305,6 +304,10 @@ button
     font-size: 1em
     border-radius: 3px
 
+button:disabled
+  background-color: lightgray
+  cursor: not-allowed
+
 /* -- Table --------------------------------------------------------------------
 
 div.table-options
@@ -338,11 +341,11 @@ ngx-datatable
       text-transform: capitalize
       .datatable-icon-up:after
         content: $uparrow
-        font-family: FontAwesome
+        font-family: FontAwesome, serif
         justify-content: flex-end
       .datatable-icon-down:after
         content: $downarrow
-        font-family: FontAwesome
+        font-family: FontAwesome, serif
         justify-content: flex-end
 
     datatable-scroller, .datatable-header-inner, .datatable-row-center, datatable-body-row
