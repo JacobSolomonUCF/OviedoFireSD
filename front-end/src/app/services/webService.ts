@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 
 import {AngularFireAuth} from "angularfire2/auth";
+import {RequestOptions} from "@angular/http";
 
 @Injectable()
 export class WebService {
@@ -33,12 +34,19 @@ export class WebService {
     this.afAuth.auth.signOut();
   }
 
-  get(url) {
+  doGet(url) {
     return this.http.get(this.baseUrl + url + this.token());
   }
 
-  post(url, body) {
-    return this.http.post(this.baseUrl + url + this.token(), body);
+  doPost(url, body) {
+    body.uid = this.getUID();
+    return this.http.post(this.baseUrl + url, body);
+  }
+
+  doDelete(url, body) {
+    body.uid = this.getUID();
+    body = new RequestOptions({body: body});
+    return this.http.delete(this.baseUrl + url, body);
   }
 
   getHome() {
