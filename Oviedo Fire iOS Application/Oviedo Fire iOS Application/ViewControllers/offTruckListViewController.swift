@@ -23,6 +23,7 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     var singleFormId:String = ""
     var type:String = ""
     var formName:String = ""
+    var userName:[String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,12 +62,15 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
             nextController.formId = singleFormId
             nextController.form = form
             nextController.formName = formName
+            nextController.userName = userName
             
         }
         stopSpinning(activityView: activityView)
     }
 }
 
+
+//    MARK: TABLE FUNCTIONS
 extension offTruckListViewController{
     //List item is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

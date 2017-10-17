@@ -23,6 +23,7 @@ class offTruckViewController: UIViewController {
     var type:String = ""
     var offTruckItem: [offTruck] = []
     let ID = Auth.auth().currentUser!.uid
+    var userName:[String] = []
     
     //Prepare for Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

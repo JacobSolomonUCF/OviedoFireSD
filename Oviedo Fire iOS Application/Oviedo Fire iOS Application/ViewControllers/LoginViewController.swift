@@ -19,7 +19,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     @IBOutlet weak var emailField: UITextField!
     
     //    Variables
-    var firstName = "NO NAME"
+    var firstName:[String] = []
     
     override func viewDidLoad() {
         stopSpinning(activityView: activityView)

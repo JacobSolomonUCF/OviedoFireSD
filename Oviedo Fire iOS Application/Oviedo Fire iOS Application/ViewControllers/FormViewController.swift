@@ -8,6 +8,7 @@
 
 import UIKit
 import DLRadioButton
+import Firebase
 
 
 struct formSaved {
@@ -29,12 +30,19 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var expandedRows = Set<Int>()
     var checkedRows=Set<NSIndexPath>()
     
+    let userID = Auth.auth().currentUser!.uid
     var formName = ""
     var formId:String = ""
     var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
     var selectedIndex:Int = 0
+    var userName:[String] = []
     
     func setupView(){
+        
+        if form.alert != "No Alert" {
+            alert(message: form.alert)
+        }
+        
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.title = ""
         tableView.estimatedRowHeight = 100
@@ -89,6 +97,10 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         return item
     }
+    
+    
+    
+    //    MARK: Button Actions
     
     @objc func needsRepairbuttonClicked(sender:UIButton) {
         let indexPath = IndexPath(row: sender.tag , section: 0)
@@ -158,46 +170,71 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     
+    
+    
+}
+
+
+//    MARK: TABLE FUNCTIONS
+extension EqFormViewController{
+    
+    
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
-        return formCount()
+        return formCount()+1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         
         var cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
-        let entry = findItem(index: indexPath.row, form: form)
         
-        if (entry.type == "pmr") {
-            cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
-            cell.label.text = entry.caption
-            cell.isExpanded = self.expandedRows.contains(indexPath.row)
-            cell.missingButton.addTarget(self, action: #selector(EqFormViewController.missingbuttonClicked(sender:)), for: .touchUpInside)
-            cell.presentButton.addTarget(self, action: #selector(EqFormViewController.presentbuttonClicked(sender:)), for: .touchUpInside)
-            cell.needsRepairButton.addTarget(self, action: #selector(EqFormViewController.needsRepairbuttonClicked(sender:)), for: .touchUpInside)
-            cell.needsRepairButton.tag = indexPath.row
-            cell.missingButton.tag = indexPath.row
-            cell.presentButton.tag = indexPath.row
-        }else if(entry.type == "num"){
-            cell = tableView.dequeueReusableCell(withIdentifier: "num", for: indexPath) as! FormTableViewCell
-            cell.numName.text = entry.caption
-        }else if(entry.type == "per"){
-            cell = tableView.dequeueReusableCell(withIdentifier: "per", for: indexPath) as! FormTableViewCell
-            cell.percentName.text = entry.caption
-            cell.percentValue.text = ""
-        }else if(entry.type == "pf"){
-            cell = tableView.dequeueReusableCell(withIdentifier: "pf", for: indexPath) as! FormTableViewCell
-            cell.pfName.text = entry.caption
-            cell.pfValue.text = "Fail"
-            cell.pfValue.textColor = UIColor.red
-        }else if(entry.type == "title"){
-            cell = tableView.dequeueReusableCell(withIdentifier: "title", for: indexPath) as! FormTableViewCell
-            cell.title.text = entry.caption
+        if (indexPath.row == formCount()){
+            cell = tableView.dequeueReusableCell(withIdentifier: "submit", for: indexPath) as! FormTableViewCell
+            cell.submitButton.clipsToBounds = true
+            cell.submitButton.layer.cornerRadius = 20
+            return cell
+
+        }else{
+            let entry = findItem(index: indexPath.row, form: form)
+            
+            if (entry.type == "pmr") {
+                cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
+                cell.label.text = entry.caption
+                cell.isExpanded = self.expandedRows.contains(indexPath.row)
+                cell.missingButton.addTarget(self, action: #selector(EqFormViewController.missingbuttonClicked(sender:)), for: .touchUpInside)
+                cell.presentButton.addTarget(self, action: #selector(EqFormViewController.presentbuttonClicked(sender:)), for: .touchUpInside)
+                cell.needsRepairButton.addTarget(self, action: #selector(EqFormViewController.needsRepairbuttonClicked(sender:)), for: .touchUpInside)
+                cell.needsRepairButton.tag = indexPath.row
+                cell.missingButton.tag = indexPath.row
+                cell.presentButton.tag = indexPath.row
+            }else if(entry.type == "num"){
+                cell = tableView.dequeueReusableCell(withIdentifier: "num", for: indexPath) as! FormTableViewCell
+                cell.numName.text = entry.caption
+            }else if(entry.type == "per"){
+                cell = tableView.dequeueReusableCell(withIdentifier: "per", for: indexPath) as! FormTableViewCell
+                cell.percentName.text = entry.caption
+                cell.percentValue.text = ""
+            }else if(entry.type == "pf"){
+                cell = tableView.dequeueReusableCell(withIdentifier: "pf", for: indexPath) as! FormTableViewCell
+                cell.pfName.text = entry.caption
+                cell.pfValue.text = "Fail"
+                cell.pfValue.textColor = UIColor.red
+            }else if(entry.type == "title"){
+                cell = tableView.dequeueReusableCell(withIdentifier: "title", for: indexPath) as! FormTableViewCell
+                cell.title.text = entry.caption
+            }else if(entry.type == "formTitle"){
+                cell = tableView.dequeueReusableCell(withIdentifier: "formTitle", for: indexPath) as! FormTableViewCell
+                let titleParts:[String] = splitFormTitle(formTitle: entry.caption)
+                cell.truckName.text = titleParts[0]
+                cell.formTitle.text = titleParts[1]
+                cell.personCompleting.text = "Being completed by: " + userName[0] + " " + userName[1]
+                
+            }
+            
+            
+            return cell
         }
-        
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -205,6 +242,5 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         
     }
-    
 }
 
