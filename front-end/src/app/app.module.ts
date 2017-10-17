@@ -29,7 +29,6 @@ import {ChartsModule} from "ng2-charts/ng2-charts";
 import {WebService} from "./services/webService";
 import {HttpModule} from "@angular/http";
 import {Datepicker} from "./datepicker";
-import {Modal} from "./modal/modal";
 
 // Initialize Firebase
 export const firebaseConfig = {
@@ -66,7 +65,7 @@ let states = [
 export class PlunkerMaterialModule {}
 
 @NgModule({
-  declarations: [AppComponent, Home, Report, EditEquipment, EditReport, EditTruck, EditUser, Statistic, Extra, Table, Datepicker, Modal],
+  declarations: [AppComponent, Home, Report, EditEquipment, EditReport, EditTruck, EditUser, Statistic, Extra, Table, Datepicker],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
