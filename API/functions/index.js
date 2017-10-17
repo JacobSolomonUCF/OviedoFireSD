@@ -1102,29 +1102,68 @@ exports.reports = functions.https.onRequest((req, res) => {
                                         });
 
                                     } else {
-                                        /*var formId = inventory[itemType][itemKey].formId;
+                                        var formId = inventory[itemType][itemKey].formId;
                                         for(var l = 0; l < formId.length; l++) {
-                                            if(intervals[formId[l]].days[time.weekday]) {
-                                                var complete = false;
+                                            var frequency = intervals[formId[l]].frequency;
 
-                                                if(results && results[formId[l]]) {
-                                                    var frequency = intervals[formId[l]].frequency;
-                                                    var timestamps = Object.keys(results[formId[l]]);
+                                            var name = templates[formId[l]].title;
+                                            var schedule = frequency;
+                                            var status = "Complete";
+                                            var id = formId[l];
+                                            var data = {
+                                                "rows": []
+                                            };
 
-                                                    if(frequency == "Daily" && timestamps.includes(time.datestamp)) {
-                                                        complete = true;
-                                                    } else if(frequency == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                                        complete = true;
-                                                    } else if(frequency == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                                        complete = true;
+                                            /*for(var m = 0; m < templates[formId[l]].inputElements.length; m++) {
+                                                data.rows.push({
+                                                    "compartment": templates[formId[l]].title,
+                                                    "item": templates[formId[l]].inputElements[m].caption,
+                                                    "sunday": null,
+                                                    "monday": null,
+                                                    "tuesday": null,
+                                                    "wednesday": null,
+                                                    "thursday": null,
+                                                    "friday": null,
+                                                    "saturday": null,
+                                                });
+                                            }*/
+
+                                            if(results && results[formId[l]]) {
+                                                var timestamps = Object.keys(results[formId[l]]);
+
+                                                if(frequency == "Daily") {
+                                                    for(var m = 0; m < time.weekstamps.length; m++) {
+                                                        if(!timestamps.includes(time.weekstamps[m])) {
+                                                            status = "Incomplete";
+                                                        } else {
+
+                                                        }
+                                                    }
+                                                } else if(frequency == "Weekly") {
+                                                    if(!time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                                        status = "Incomplete";
+                                                    } else {
+
+                                                    }
+                                                } else if(frequency == "Monthly") {
+                                                    if(!timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                                        status = "Incomplete";
+                                                    } else {
+
                                                     }
                                                 }
-
-                                                if(!complete) {
-                                                    reportsToDo++;
-                                                }
+                                            } else {
+                                                status = "Incomplete";
                                             }
-                                        }*/
+
+                                            retVal.reports.push({
+                                                "name": name,
+                                                "schedule": schedule,
+                                                "status": status,
+                                                "id": id,
+                                                "data": data
+                                            });
+                                        }
                                     }
                                 }
                             }
