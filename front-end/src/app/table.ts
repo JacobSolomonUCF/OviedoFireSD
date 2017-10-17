@@ -10,7 +10,7 @@ import {WebService} from "./services/webService";
           <i class="fa fa-plus"></i> Add {{dataType}}
         </button>
         <div *ngSwitchCase="'reports'">
-          <datepicker></datepicker>
+          <datepicker #datepicker></datepicker>
         </div>
         <button class="close" (click)="toggle()()" *ngSwitchDefault>
           <i class="fa fa-chevron-left"></i> Back
@@ -40,16 +40,12 @@ import {WebService} from "./services/webService";
             *ngSwitchCase="'view'"
             [selectionType]="'single'">
           </ngx-datatable>
-          <div *ngSwitchCase="'edit'" class="tile pure-form pure-form-stacked editing"
-               style="height: calc(100vh - 250px)">
+          <div *ngSwitchCase="'edit'" class="tile pure-form pure-form-stacked editing">
             <fieldset>
-              <legend *ngIf="temp.name.length">{{temp.name}}</legend>
-              <legend *ngIf="!temp.name.length">New {{dataType}}</legend>
-
               <div class="pure-g" style="letter-spacing: 0">
                 <div class="pure-u-11-24 pure-u-sm-1">
-                  <label for="first-name">Title</label>
-                  <input id="first-name" type="text" [ngModel]="temp.name">
+                  <label for="title">Title</label>
+                  <input #title id="title" type="text" [ngModel]="temp.name" (keyup)="keyup('title', title.value)">
                 </div>
 
                 <div class="pure-u-11-24 pure-u-sm-1">
@@ -186,6 +182,7 @@ import {WebService} from "./services/webService";
   `
 })
 export class Table {
+  @ViewChild('datepicker') datepicker: any;
   @ViewChild('tableFilter') tableFilter: any;
   @ViewChild('myTable') table: any;
   @Input() dataType: any;
@@ -246,7 +243,10 @@ export class Table {
   ngOnInit() {
     this.style = this.styles[this.viewType];
     this.original = this.rows;
-    console.log(this.rows, this.heading);
+  }
+
+  getDate() {
+    return (this.datepicker) ? this.datepicker.getDate() : '';
   }
 
   getTheme() {
@@ -291,7 +291,6 @@ export class Table {
     this.loading = true;
     this.webService.doDelete('/users', {user: {email: this.temp.email}})
       .subscribe(() => {
-        console.log(this.temp.original);
         this.rows.splice(this.rows.indexOf(this.temp.original), 1);
         this.toggle()();
       }, () => {
@@ -305,7 +304,6 @@ export class Table {
       edit: () => {
         delete this.temp;
         this.viewType = 'view';
-        console.log(this.viewType, 'edit');
       },
       ereport: () => {
         this.viewType = 'view';
@@ -315,9 +313,7 @@ export class Table {
         delete this.temp;
         this.updateFilter(undefined);
       },
-      other: () => {
-        console.log('damn');
-      }
+      other: () => { }
     };
     return options[this.viewType] || options.other;
   }
