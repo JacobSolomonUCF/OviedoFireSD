@@ -107,16 +107,31 @@ extension UIViewController{
         activityView.isHidden = true
         activityView.stopAnimating()
     }
+    func splitFormTitle(formTitle:String) -> [String]{
+        var names:[String] = []
+        
+        if(formTitle.contains("Check-Off")){
+            names.append("Other")
+            names.append(formTitle)
+        }else{
+            var split = formTitle.components(separatedBy: "- ")
+            names.append(split[0])
+            names.append(split[1])
+        }
+        
+        return names
+    }
     
     
     //    MARK: NETWORK FUNCTIONS
     
     //    Gets the username of the current user
-    func getUsername(userID:String,completion : @escaping (String)->()){
-        var firstName:String = "NONE"
+    func getUsername(userID:String,completion : @escaping ([String])->()){
+        var firstName:[String] = []
         Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/userInfo?uid=\(userID)") .responseJSON { response in
             if let result = response.result.value as? [String:Any]{
-                firstName = result["firstName"] as! String
+                firstName.append(result["firstName"] as! String)
+                firstName.append(result["lastName"] as! String)
             }
             completion(firstName)
         }
@@ -201,6 +216,7 @@ extension UIViewController{
             if((response.result.value) != nil){
                 let json = JSON(response.result.value!)
                 if(json["subSections"].exists()){
+                    formItemList.append(formItem.init(caption: json["title"].string!, type: "formTitle"))
                     for (_,subJson) in json["subSections"]{
                         formItemList.append(formItem(caption: subJson["title"].string!,type: "title"))
                         for (_,subsubJson) in subJson["inputElements"]{
@@ -229,15 +245,23 @@ extension UIViewController{
                     
                     
                 }else{
-                    formItemList.append(formItem(caption: json["title"].string!,type: "title"))
+                    formItemList.append(formItem(caption: json["title"].string!,type: "formTitle"))
                     for (_,subJson) in json["inputElements"]{
                         if let type = subJson["type"].string, let caption = subJson["caption"].string{
                             formItemList.append(formItem(caption: caption, type:type))
                         }
                     }
-                    subSectionList.append(subSection(title: json["title"].string! , formItem: formItemList))
-                    form.alert = "No Alert"
-                    form.title = "Single Section"
+                    subSectionList.append(subSection(title: "N/A" , formItem: formItemList))
+                    if let title:String = json["title"].string, let alert:String = json["alert"].string{
+                        form.alert = alert
+                        form.title = title
+                        form.subSection = subSectionList
+                    }else{
+                        form.alert = "No Alert"
+                        form.title = "No Title"
+                        form.subSection = subSectionList
+                    }
+
                     form.subSection = subSectionList
                     formItemList.removeAll()
                 }
@@ -245,17 +269,7 @@ extension UIViewController{
             }
             
             completion(form)
-            
-           /* if let result = response.result.value as? [String:Any],
-                let main = result["inputElements"] as? [[String:String]]{
-                // main[0]["name"] or use main.first?["name"] for first index or loop through array
-                for obj in main{
-                    form.append(formItem(caption: obj["caption"]!, type: obj["type"]!, title: "TEST"))
-                    
-                }
-                
-            }
-            completion(form)*/
+        
         }
     }
     

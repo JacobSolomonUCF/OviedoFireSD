@@ -20,6 +20,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     var vehicle = ""
     var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
     var list: [compartments] = []
+    var userName:[String] = []
     let userID = Auth.auth().currentUser!.uid
     
     override func viewDidLoad() {
@@ -43,6 +44,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
             let nextController = segue.destination as! EqFormViewController
             nextController.form = form
             nextController.formName = formName
+            nextController.userName = userName
             self.stopSpinning(activityView: self.activityView)
             tableView.allowsSelection = true
             

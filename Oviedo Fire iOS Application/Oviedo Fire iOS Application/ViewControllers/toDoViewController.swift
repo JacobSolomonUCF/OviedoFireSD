@@ -29,6 +29,7 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
     let userID = Auth.auth().currentUser!.uid
     var singleFormId:String = ""
     let searchController = UISearchController(searchResultsController: nil)
+    var userName:[String] = []
     
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
@@ -76,6 +77,7 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
             let nextController = segue.destination as! EqFormViewController
             nextController.form = form
             nextController.formName = formName
+            nextController.userName = userName
             
         }
         self.stopSpinning(activityView: self.activityView)

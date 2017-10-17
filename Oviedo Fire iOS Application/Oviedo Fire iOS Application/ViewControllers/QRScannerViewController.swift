@@ -17,6 +17,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     var captureDevice:AVCaptureDevice?
     var videoPreviewLayer:AVCaptureVideoPreviewLayer?
     var captureSession:AVCaptureSession?
+    var userName:[String] = []
     
  
     

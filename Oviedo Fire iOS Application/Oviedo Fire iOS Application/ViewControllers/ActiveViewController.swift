@@ -20,6 +20,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     var truckName:String = "\0"
     var list: [active] = []
     var truckCompartments: [compartments] = []
+    var userName:[String] = []
     
     func setupView(){
         stopSpinning(activityView: activityView)

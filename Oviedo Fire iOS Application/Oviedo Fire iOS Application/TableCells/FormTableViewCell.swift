@@ -30,6 +30,10 @@ class FormTableViewCell: UITableViewCell{
     @IBOutlet weak var pfSwitch: UISwitch!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var commentHieght: NSLayoutConstraint!
+    @IBOutlet weak var truckName: UILabel!
+    @IBOutlet weak var formTitle: UILabel!
+    @IBOutlet weak var personCompleting: UILabel!
+    @IBOutlet weak var submitButton: UIButton!
     
 
     var isExpanded:Bool = false

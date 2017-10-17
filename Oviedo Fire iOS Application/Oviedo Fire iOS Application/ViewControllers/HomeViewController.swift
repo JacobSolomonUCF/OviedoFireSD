@@ -24,7 +24,7 @@ class HomeViewController: UIViewController {
     let ID = Auth.auth().currentUser!.uid
     var activeTrucks: [active] = []
     var TODOList: [toDo] = []
-    var firstName:String = ""
+    var firstName:[String] = []
     
     //Prepare for segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -35,6 +35,7 @@ class HomeViewController: UIViewController {
         if segue.identifier == "toActive"{
             let nextController = segue.destination as! ActiveViewController
             nextController.list = activeTrucks
+            nextController.userName = firstName
             self.enableButtons()
             self.stopSpinning(activityView: self.activityView)
         }
@@ -42,12 +43,16 @@ class HomeViewController: UIViewController {
             let nextController = segue.destination as! toDoViewController
             nextController.list = TODOList
             nextController.filterdList = TODOList
+            nextController.userName = firstName
             self.enableButtons()
             self.stopSpinning(activityView: self.activityView)
         }
         if segue.identifier == "toOffTruck"{
+            let nextController = segue.destination as! offTruckViewController
+            nextController.userName = firstName
             self.enableButtons()
         }
+        
     }
     
     
@@ -66,7 +71,7 @@ class HomeViewController: UIViewController {
     //    MARK: UI FUNCTIONS
     func screenFormat(){
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "Welcome " + firstName
+        navigationItem.title = "Welcome " + firstName[0]
 //        welcomeUser.text = "Welcome " + firstName
         activeButton.layer.cornerRadius = 40
         activeButton.clipsToBounds = true
