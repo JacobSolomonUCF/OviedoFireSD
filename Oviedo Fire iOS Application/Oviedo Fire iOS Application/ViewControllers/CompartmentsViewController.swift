@@ -52,7 +52,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
 }
 
 
-    //     Tableview functions
+//    MARK: TABLE FUNCTIONS
 extension CompartmentsViewController{
     
     //    For when a table view is selected

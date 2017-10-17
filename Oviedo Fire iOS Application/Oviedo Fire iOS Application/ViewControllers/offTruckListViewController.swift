@@ -67,6 +67,8 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     }
 }
 
+
+//    MARK: TABLE FUNCTIONS
 extension offTruckListViewController{
     //List item is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

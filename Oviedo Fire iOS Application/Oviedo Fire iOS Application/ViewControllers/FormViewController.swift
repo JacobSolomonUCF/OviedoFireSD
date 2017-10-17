@@ -158,6 +158,15 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     
+    
+    
+}
+
+
+//    MARK: TABLE FUNCTIONS
+extension EqFormViewController{
+    
+    
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
     {
         return formCount()
@@ -205,6 +214,5 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         
     }
-    
 }
 

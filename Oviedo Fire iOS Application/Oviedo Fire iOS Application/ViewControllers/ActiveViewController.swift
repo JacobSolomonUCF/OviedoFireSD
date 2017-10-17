@@ -61,6 +61,8 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
 
 }
 
+
+//    MARK: TABLE FUNCTIONS
 extension ActiveViewController{
     
     //Table Functions
