@@ -27,8 +27,9 @@
     "@angular/router": "^4.0.2",
     "@swimlane/ngx-datatable": "^10.2.1",
     "@uirouter/angular": "^1.0.0-beta.4",
+    "angularfire2": "^5.0.0-rc.3",
     "chart.js": "^2.6.0",
-    "firebase": "^4.3.0",
+    "firebase": "^4.5.2",
     "ng2-charts": "^1.6.0",
     "typescript": "^2.2.2",
     "zone.js": "^0.8.5"

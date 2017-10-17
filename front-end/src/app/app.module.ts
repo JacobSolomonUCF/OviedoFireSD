@@ -1,7 +1,7 @@
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {MdDialogModule} from '@angular/material';
+import {MatDatepickerModule, MatNativeDateModule, MatInputModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 // login functionality
 import {AngularFireModule} from 'angularfire2';
@@ -14,7 +14,6 @@ import {UIRouterModule} from '@uirouter/angular';
 import {AppComponent} from './app.component';
 // custom directives
 import {Table} from './table';
-import {Modal} from './modal/modal';
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 // pages
 import {Home} from "./pages/home";
@@ -28,6 +27,9 @@ import {Extra} from "./pages/extra";
 // charts
 import {ChartsModule} from "ng2-charts/ng2-charts";
 import {WebService} from "./services/webService";
+import {HttpModule} from "@angular/http";
+import {Datepicker} from "./datepicker";
+import {Modal} from "./modal/modal";
 
 // Initialize Firebase
 export const firebaseConfig = {
@@ -53,24 +55,38 @@ let states = [
   , {name: 'table', url: '', component: Table}
 ];
 
+
 @NgModule({
-  declarations: [AppComponent, Home, Report, EditEquipment, EditReport, EditTruck, EditUser, Statistic, Extra, Table, Modal],
+  exports: [
+    MatDatepickerModule,
+    MatInputModule,
+    MatNativeDateModule
+  ]
+})
+export class PlunkerMaterialModule {}
+
+@NgModule({
+  declarations: [AppComponent, Home, Report, EditEquipment, EditReport, EditTruck, EditUser, Statistic, Extra, Table, Datepicker, Modal],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     UIRouterModule.forRoot({states: states, useHash: true}),
-    MdDialogModule,
     FormsModule,
     ChartsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     HttpClientModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    MatDatepickerModule,
+    BrowserModule,
+    HttpModule,
+    PlunkerMaterialModule
   ],
   providers: [WebService],
   bootstrap: [AppComponent],
-  entryComponents: [Modal]
+  entryComponents: [],
+  exports: []
 })
-export class AppModule {
-}
+export class AppModule { }
+

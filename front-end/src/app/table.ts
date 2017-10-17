@@ -9,7 +9,9 @@ import {WebService} from "./services/webService";
         <button class="add" (click)="onclick()(undefined, table)" *ngSwitchCase="'view'">
           <i class="fa fa-plus"></i> Add {{dataType}}
         </button>
-        <div *ngSwitchCase="'reports'"></div>
+        <div *ngSwitchCase="'reports'">
+          <datepicker></datepicker>
+        </div>
         <button class="close" (click)="toggle()()" *ngSwitchDefault>
           <i class="fa fa-chevron-left"></i> Back
         </button>
@@ -161,7 +163,7 @@ import {WebService} from "./services/webService";
                    (click)="toggleExpandGroup(group)">
               <span
                 title="Expand/Collapse Group">
-                <b><i class="fa {{expanded ? 'fa-chevron-down' : 'fa-chevron-right'}}" style="font-size: .7em"></i>&nbsp;{{style.group}}: {{group.value[0][style.group]}}</b>
+                <b><i class="fa {{expanded ? 'fa-chevron-down' : 'fa-chevron-right'}}" style="font-size: .7em"></i>&nbsp;{{style.group}}: {{style.report ? group.value[0][style.group].slice(style.report.length + 3) : group.value[0][style.group]}}</b>
               </span>
               </div>
             </ng-template>
@@ -169,7 +171,7 @@ import {WebService} from "./services/webService";
           <ngx-datatable-column [name]="style.thing"
                                 [prop]="(style.thingProp) ? style.thingProp : style.thing"
                                 [flexGrow]="3"></ngx-datatable-column>
-          <ngx-datatable-column *ngFor="let x of style.days" [name]="x" [prop]="x" [maxWidth]="100" [flexGrow]="1">
+          <ngx-datatable-column *ngFor="let x of style.days" [name]="x[0]" [prop]="x" [maxWidth]="75" [flexGrow]="1">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                          let-group="group">
               <i class="fa {{getCheckBox(value)}}"></i>
@@ -244,6 +246,7 @@ export class Table {
   ngOnInit() {
     this.style = this.styles[this.viewType];
     this.original = this.rows;
+    console.log(this.rows, this.heading);
   }
 
   getTheme() {
@@ -351,6 +354,7 @@ export class Table {
           heading: event.selected[0].data.heading
         }).rows;
         this.style = this.styles.modal;
+        this.style.report = event.selected[0].name;
       },
       user: (event) => {
         this.viewType = 'edit';
@@ -375,7 +379,7 @@ export class Table {
       okay:    'fa-check-square box-okay',
       missing: 'fa-check-square box-missing',
       broken:  'fa-check-square box-broken',
-      other:   'fa-square-o'
+      other:   ''
     };
 
     return options[status] || options.other;
