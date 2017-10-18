@@ -12,8 +12,28 @@ import {WebService} from "../../services/webService";
       </div>
       <div *ngSwitchCase="false" [ngSwitch]="users">
         <div *ngSwitchCase="undefined">Nothing here</div>
-        <item-table [heading]="heading" [rows]="users" [viewType]="'view'" [dataType]="'user'"
-                    *ngSwitchDefault></item-table>
+        <item-table #itemtable [heading]="heading" [rows]="users" [viewType]="'view'" [dataType]="'user'" *ngSwitchDefault>
+          <div class="item-table-options-view table-options">
+            <div class="left">
+              <button class="add" (click)="itemtable.onclick()(undefined, itemtable.table)">
+                <i class="fa fa-plus"></i> Add user
+              </button>
+            </div>
+            <div class="right">
+              <input
+                #tableFilter
+                class='filter'
+                type='text'
+                placeholder='Type to filter...'
+                (keyup)='itemtable.updateFilter($event)'/>
+            </div>
+          </div>
+          <div class="item-table-options-edit table-options">
+            <button class="close" (click)="itemtable.toggle()()">
+              <i class="fa fa-chevron-left"></i> Back
+            </button>
+          </div>
+        </item-table>
       </div>
     </div>
   `

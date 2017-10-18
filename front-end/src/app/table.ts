@@ -4,27 +4,10 @@ import {WebService} from "./services/webService";
 @Component({
   selector: `item-table`,
   template: `
-    <div class="table-options">
-      <div class="left" [ngSwitch]="getTheme()">
-        <button class="add" (click)="onclick()(undefined, table)" *ngSwitchCase="'view'">
-          <i class="fa fa-plus"></i> Add {{dataType}}
-        </button>
-        <div *ngSwitchCase="'reports'">
-          <datepicker #datepicker></datepicker>
-        </div>
-        <button class="close" (click)="toggle()()" *ngSwitchDefault>
-          <i class="fa fa-chevron-left"></i> Back
-        </button>
-      </div>
-      <div class="right" [ngSwitch]="viewType">
-        <input
-          #tableFilter
-          class='filter'
-          *ngIf="viewType != 'edit'"
-          type='text'
-          placeholder='Type to filter...'
-          (keyup)='updateFilter($event)'/>
-      </div>
+    <div [ngSwitch]="viewType">
+      <ng-content select=".item-table-options-view" *ngSwitchCase="'view'"></ng-content>
+      <ng-content select=".item-table-options-edit" *ngSwitchCase="'edit'"></ng-content>
+      <ng-content select=".item-table-options-default" *ngSwitchDefault></ng-content>
     </div>
     <div [ngSwitch]="dataType">
       <ng-template ngSwitchCase="report">

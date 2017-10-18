@@ -12,7 +12,38 @@ import {WebService} from "../services/webService";
         <i class="fa fa-5x fa-spinner fa-pulse"></i>
       </div>
       <div *ngSwitchCase="false">
-        <item-table [heading]="heading" [rows]="reports" [viewType]="'view'" [dataType]="'reports'"></item-table>
+        <item-table #itemtable [heading]="heading" [rows]="reports" [viewType]="'view'" [dataType]="'reports'">
+          <div class="item-table-options-view table-options">
+            <div class="left">
+              <datepicker #datepicker></datepicker>
+            </div>
+            <div class="right">
+              <input
+                #tableFilterView
+                class='filter'
+                type='text'
+                [ngModel]="itemtable.filter"
+                placeholder='Type to filter...'
+                (keyup)='itemtable.filter = tableFilterView.value; itemtable.updateFilter($event)'/>
+            </div>
+          </div>
+          <div class="item-table-options-default table-options">
+            <div class="left">
+              <button class="close" (click)="itemtable.toggle()()">
+                <i class="fa fa-chevron-left"></i> Back
+              </button>
+            </div>
+            <div class="right">
+              <input
+                #tableFilter
+                class='filter'
+                type='text'
+                [ngModel]="itemtable.filter"
+                placeholder='Type to filter...'
+                (keyup)='itemtable.filter = tableFilter.value; itemtable.updateFilter($event)'/>
+            </div>
+          </div>
+        </item-table>
       </div>
     </div>
   `
@@ -36,6 +67,7 @@ export class Report {
     {prop: 'item', dragable: false, resizeable: false},
     {prop: 'status', dragable: false, resizeable: false}
   ];
+  filter;
   constructor(webService: WebService) {
     let self = this;
 

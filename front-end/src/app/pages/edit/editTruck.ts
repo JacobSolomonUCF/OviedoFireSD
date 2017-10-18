@@ -12,7 +12,26 @@ import {WebService} from "../../services/webService";
       </div>
       <div *ngSwitchCase="false" [ngSwitch]="reports">
         <div *ngSwitchCase="undefined">Nothing here</div>
-        <item-table [heading]="heading" [rows]="reports" [viewType]="'view'" [dataType]="'truck'"></item-table>
+        <item-table #itemtable [heading]="heading" [rows]="reports" [viewType]="'view'" [dataType]="'truck'">
+          <div class="item-table-options-view table-options">
+            <button class="add" (click)="itemtable.onclick()(undefined, itemtable.table)">
+              <i class="fa fa-plus"></i> Add truck
+            </button>
+            <div class="right">
+              <input
+                #tableFilter
+                class='filter'
+                type='text'
+                placeholder='Type to filter...'
+                (keyup)='itemtable.updateFilter($event)'/>
+            </div>
+          </div>
+          <div class="item-table-options-edit table-options">
+            <button class="close" (click)="itemtable.toggle()()">
+              <i class="fa fa-chevron-left"></i> Back
+            </button>
+          </div>
+        </item-table>
       </div>
     </div>
   `
