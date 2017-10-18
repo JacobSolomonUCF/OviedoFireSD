@@ -32,6 +32,7 @@ class offTruckViewController: UIViewController {
             let nextController = segue.destination as! offTruckListViewController
             nextController.list = offTruckItem
             nextController.type = type
+            nextController.userName = userName
             self.enableButtons()
             stopSpinning(activityView: activityView)
         }

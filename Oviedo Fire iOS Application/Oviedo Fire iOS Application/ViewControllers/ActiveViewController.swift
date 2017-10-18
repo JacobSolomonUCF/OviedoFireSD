@@ -56,6 +56,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
             let nextController = segue.destination as! CompartmentsViewController
             nextController.list = truckCompartments
             nextController.vehicle = truckName
+            nextController.userName = userName
             
         }
     }

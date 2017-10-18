@@ -20,6 +20,7 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     let userID = Auth.auth().currentUser!.uid
     var list:[offTruck] = []
     var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
+    var resultForm = result(completeBy: "Default", timeStamp: "Default", title: "Default", resultSection: [])
     var singleFormId:String = ""
     var type:String = ""
     var formName:String = ""
@@ -57,14 +58,19 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "toForm"{
+        if (segue.identifier == "toForm"){
             let nextController = segue.destination as! EqFormViewController
             nextController.formId = singleFormId
             nextController.form = form
             nextController.formName = formName
             nextController.userName = userName
             
+        }else if(segue.identifier == "toResult"){
+            let nextController = segue.destination as! resultsViewController
+            nextController.resultForm = resultForm
+            nextController.userName = userName
         }
+        
         stopSpinning(activityView: activityView)
     }
 }
@@ -79,11 +85,22 @@ extension offTruckListViewController{
         singleFormId = list[indexPath.row].formId
         formName = list[indexPath.row].name
         
-        getForm(userID: userID, formId: singleFormId) { (list) in
-            self.form = list
-            self.performSegue(withIdentifier: "toForm", sender: nil)
-            
+        checkCompletion(userID: userID, formId: singleFormId) { (result) in
+            if(result == "true"){
+                self.getResults(userID: self.userID, formId: self.singleFormId, completion: { (results) in
+                    self.resultForm = results
+                    self.performSegue(withIdentifier: "toResult", sender: nil)
+                })
+                
+            }else{
+                self.getForm(userID: self.userID, formId: self.singleFormId) { (list) in
+                    self.form = list
+                    self.performSegue(withIdentifier: "toForm", sender: nil)
+                    
+                }
+            }
         }
+        
         
         
         

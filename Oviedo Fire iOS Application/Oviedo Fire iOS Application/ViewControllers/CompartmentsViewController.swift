@@ -19,6 +19,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     var formName = ""
     var vehicle = ""
     var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
+    var resultForm = result(completeBy: "Default", timeStamp: "Default", title: "Default", resultSection: [])
     var list: [compartments] = []
     var userName:[String] = []
     let userID = Auth.auth().currentUser!.uid
@@ -48,6 +49,11 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
             self.stopSpinning(activityView: self.activityView)
             tableView.allowsSelection = true
             
+        }else if (segue.identifier == "toResult"){
+            let nextController = segue.destination as! resultsViewController
+            nextController.resultForm = resultForm
+            nextController.userName = userName
+            
         }
     }
     
@@ -69,14 +75,21 @@ extension CompartmentsViewController{
                 self.formName = self.list[indexPath.row].formName
                 self.getForm(userID: self.userID, formId: self.list[indexPath.row].formId, completion:{(data) -> Void in
                     self.form = data
-                    self.performSegue(withIdentifier: "toForm", sender: nil)
+                    self.performSegue(withIdentifier: "toForm1", sender: nil)
                 })
                 
             }else{
-                self.alert(message: "Sorry! This form has been completed")
-                self.stopSpinning(activityView: self.activityView)
-                tableView.allowsSelection = true
+                self.alert(message: "This form has already been completed")
+                self.getResults(userID: self.userID, formId: self.list[indexPath.row].formId, completion: { (result) in
+                    self.resultForm = result
+                    self.performSegue(withIdentifier: "toResult" , sender: nil)
+
+
+                })
+
             }
+            self.stopSpinning(activityView: self.activityView)
+            tableView.allowsSelection = true
         })
 
     }
