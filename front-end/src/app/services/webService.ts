@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 
 import {AngularFireAuth} from "angularfire2/auth";
-import {RequestOptions} from "@angular/http";
 
 @Injectable()
 export class WebService {
@@ -40,12 +39,12 @@ export class WebService {
 
   doPost(url, body) {
     body.uid = this.getUID();
-    return this.http.post(this.baseUrl + url, body);
+    return this.http.post(this.baseUrl + url, body, {responseType: 'text'});
   }
 
   doDelete(url, body) {
     body.uid = this.getUID();
-    body = new RequestOptions({body: body});
+    body = {body: body, responseType: 'text'};
     return this.http.delete(this.baseUrl + url, body);
   }
 
