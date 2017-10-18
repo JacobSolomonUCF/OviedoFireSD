@@ -12,18 +12,21 @@ import {WebService} from "../services/webService";
         <!-- top tiles -->
         <div class="row tile_count" style="text-align: center">
           <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-user"></i> Users</span>
-            <div class="count">{{totalUsers}}</div>
+            <div class="count_top"><i class="fa fa-user"></i> Users</div>
+            <div class="count" *ngIf="totalUsers">{{totalUsers}}</div>
+            <i class="fa fa-2x fa-spinner fa-pulse" *ngIf="!totalUsers && loading"></i>
           </div>
           
           <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-table"></i> Reports</span>
-            <div class="count green">{{totalReports}}</div>
+            <div class="count_top"><i class="fa fa-table"></i> Reports</div>
+            <div class="count" *ngIf="totalReports">{{totalReports}}</div>
+            <i class="fa fa-2x fa-spinner fa-pulse" *ngIf="!totalReports && loading"></i>
           </div>
           
           <div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-            <span class="count_top"><i class="fa fa-tasks"></i> Todo</span>
-            <div style="font-size: 2em;">{{reportsToDo}}</div>
+            <div class="count_top"><i class="fa fa-tasks"></i> Todo</div>
+            <div style="font-size: 2em;" *ngIf="reportsToDo">{{reportsToDo}}</div>
+            <i class="fa fa-2x fa-spinner fa-pulse" *ngIf="!reportsToDo && loading"></i>
           </div>
         </div>
         <br>

@@ -50,11 +50,24 @@ import {WebService} from "./services/webService";
 
                 <div class="pure-u-11-24 pure-u-sm-1">
                   <label for="type">Schedule</label>
-                  <select id="type" [ngModel]="temp.schedule">
-                    <option>Daily</option>
-                    <option>Special</option>
+                  <select #schedule id="type" [(ngModel)]="temp.schedule"
+                          (change)="console.log(schedule); temp.schedule = schedule.state">
+                    <option value="Daily">Daily</option>
+                    <option value="Special">Special</option>
                   </select>
                 </div>
+                <ng-template [ngIf]="temp.schedule && temp.schedule.length">
+                  <div *ngIf="temp.schedule === 'Daily'" class="pure-u-1">
+                    <label for="type">Truck</label>
+                    <select id="type" [(ngModel)]="temp.base">
+                      <option value="ATV 46">ATV 46</option>
+                      <option value="Rescue 44">Rescue 44</option>
+                    </select>
+                  </div>
+                  <div *ngIf="temp.schedule === 'Special'" class="pure-u-1">
+                    special
+                  </div>
+                </ng-template>
               </div>
               <br/>
               <button type="submit" class="accept" [disabled]="true">Submit</button>
@@ -183,7 +196,6 @@ import {WebService} from "./services/webService";
 })
 export class Table {
   @ViewChild('datepicker') datepicker: any;
-  @ViewChild('tableFilter') tableFilter: any;
   @ViewChild('myTable') table: any;
   @Input() dataType: any;
   @Input() viewType: any;
@@ -192,6 +204,7 @@ export class Table {
   webService: WebService;
   loading: boolean = false;
   original: any;
+  filter: any;
   temp: any;
   row: any;
 
@@ -252,7 +265,6 @@ export class Table {
   getTheme() {
     let options = {
       view: {
-        truck: 'reports',
         reports: 'reports',
         other: this.dataType
       },
@@ -325,13 +337,13 @@ export class Table {
       {rows: self.original, heading: self.heading};
 
     if (!event)
-      this.tableFilter.nativeElement.value = "";
+      this.filter = "";
     else
       val = event.target.value.toLowerCase();
 
     self.rows = source.rows.filter(row => {
       for (let i = 0, len = (!val ? 1 : source.heading.length); i < len; i++)
-        if (val == '' || (""+row[source.heading[i].prop]).toLowerCase().indexOf(val) !== -1)
+        if (val == '' || ("" + row[source.heading[i].prop]).toLowerCase().indexOf(val) !== -1)
           return true;
       return false;
     });
@@ -343,7 +355,7 @@ export class Table {
         if (this.viewType == 'ereport')
           return;
         this.viewType = 'ereport';
-        this.tableFilter.nativeElement.value = "";
+        this.filter = "";
         this.previousStyle = this.style;
         m.rows = (this.temp = {
           rows: event.selected[0].data.rows,
@@ -354,12 +366,16 @@ export class Table {
       },
       user: (event) => {
         this.viewType = 'edit';
-        this.temp = (event === undefined) ? {firstName: "", lastName: "", email: "", type: "user"} : event.selected[0];
+        this.temp = (event) ? event.selected[0] : {firstName: "", lastName: "", email: "", type: "user"};
         this.temp.original = event ? event.selected[0] : event;
       },
       report: (event) => {
         this.viewType = 'edit';
-        this.temp = (event === undefined) ? {name: "", schedule: "Daily"} : event.selected[0];
+        this.temp = (event) ? event.selected[0] : {name: "", schedule: "Daily"};
+      },
+      truck: (event) => {
+        this.viewType = 'edit';
+        this.temp = (event) ? event.selected[0] : {name: "", compartments: [{name: "", items: [{name: "", type: ""}]}]};
       },
       other: () => {}
     };
@@ -372,10 +388,10 @@ export class Table {
 
   getCheckBox(status) {
     let options = {
-      okay:    'fa-check-square box-okay',
+      okay: 'fa-check-square box-okay',
       missing: 'fa-check-square box-missing',
-      broken:  'fa-check-square box-broken',
-      other:   ''
+      broken: 'fa-check-square box-broken',
+      other: 'fa-minus'
     };
 
     return options[status] || options.other;
