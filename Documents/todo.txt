@@ -1,4 +1,3 @@
-reports
 create/edit forms
 notifications for missing, needs repair, and incomplete forms (admin portal and email)
 inventory

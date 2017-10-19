@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 var cors = require('cors')({origin: true});
+var moment = require('moment-timezone');
 var admin = require('firebase-admin');
 var serviceAccount = require("./admin/oviedofiresd-55a71-firebase-adminsdk-ol8a1-20a377ac5e.json");
 var firebase = require('firebase');
@@ -37,35 +38,40 @@ function getAuth(uid, callback) {
 	});
 }
 
-function getTime() {
-	var offset = -5.0;
-	var serverDate = new Date();
-	var utc = serverDate.getTime() + (serverDate.getTimezoneOffset() * 60000);
-	var easternDate = new Date(utc + (3600000*offset));
-    var yearMonth = easternDate.getFullYear().toString() + pad(easternDate.getMonth() + 1).toString();
-    var today = easternDate.getDay();
-
-    var datestamp = easternDate.getFullYear().toString() + pad(easternDate.getMonth() + 1).toString() + pad(easternDate.getDate()).toString();
-    var weekstamps = [];
-
-    easternDate.setDate(easternDate.getDate() - weekday.indexOf(weekday[today]));
-    var sunday = easternDate.getFullYear().toString() + pad(easternDate.getMonth() + 1).toString() + pad(easternDate.getDate()).toString();
-    weekstamps.push(sunday);
-
-    for(var i = 0; i < 6; i++) {
-        easternDate.setDate(easternDate.getDate() + 1);
-        var day = easternDate.getFullYear().toString() + pad(easternDate.getMonth() + 1).toString() + pad(easternDate.getDate()).toString();
-        weekstamps.push(day);
-    }
-
-	var time = {
-        "yearMonth": yearMonth,
-		"weekday": weekday[today],
-        "datestamp": datestamp,
-		"weekstamps": weekstamps
+function getTime(date) {
+	var retVal = {
+		"yearMonth": null,
+		"weekday": null,
+		"datestamp": null,
+		"weekstamps": null
 	}
 
-	return time;
+	if(date) {
+		var day = new Date(parseInt(date.substring(0,4)), parseInt(date.substring(4,6))-1, parseInt(date.substring(6,8)));
+		var time = moment(day);
+	} else {
+		var time = moment().tz("America/New_York");
+	}
+
+	retVal.yearMonth = time.format("YYYYMM");
+	retVal.weekday = time.format("dddd").toLowerCase();
+	retVal.datestamp = time.format("YYYYMMDD");
+
+	var weekstamps = [];
+	var offset = parseInt(time.format("e"));
+	time.subtract(offset, 'days');
+	var weekstamp = time.format("YYYYMMDD");
+	weekstamps.push(weekstamp);
+
+	for(var i = 0; i < 6; i++) {
+		time.add(1, 'days');
+		weekstamp = time.format("YYYYMMDD");
+		weekstamps.push(weekstamp);
+	}
+
+	retVal.weekstamps = weekstamps;
+
+	return retVal;
 }
 
 function pad(n) {
@@ -1015,7 +1021,7 @@ exports.reports = functions.https.onRequest((req, res) => {
                             var inventory = root.inventory;
                             var users = root.users;
                             var forms = Object.keys(intervals);
-                            var time = getTime();
+                            var time = getTime(req.query.date);
 
                             var retVal = {
                                 "reports": []
@@ -1073,212 +1079,37 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                             }
                                                         }
                                                     } else if(frequency == "Weekly") {
-                                                        if(!time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                                            status = "Incomplete";
-                                                        } else {
-
-                                                        }
-                                                    } else if(frequency == "Monthly") {
-                                                        if(!timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                                            status = "Incomplete";
-                                                        } else {
-
-                                                        }
-                                                    }
-                                                } else {
-                                                    status = "Incomplete";
-                                                }
-
-                                                offset += itemCount;
-                                            }
-                                        }
-
-                                        retVal.reports.push({
-                                            "name": name,
-                                            "schedule": schedule,
-                                            "status": status,
-                                            "id": id,
-                                            "data": data
-                                        });
-
-                                    } else {
-                                        /*var formId = inventory[itemType][itemKey].formId;
-                                        for(var l = 0; l < formId.length; l++) {
-                                            var frequency = intervals[formId[l]].frequency;
-
-                                            var name = templates[formId[l]].title;
-                                            var schedule = frequency;
-                                            var status = "Complete";
-                                            var id = formId[l];
-                                            var data = {
-                                                "rows": []
-                                            };
-
-                                            for(var m = 0; m < templates[formId[l]].inputElements.length; m++) {
-                                                data.rows.push({
-                                                    "compartment": null,
-                                                    "item": templates[formId[l]].inputElements[m].caption,
-                                                    "sunday": null,
-                                                    "monday": null,
-                                                    "tuesday": null,
-                                                    "wednesday": null,
-                                                    "thursday": null,
-                                                    "friday": null,
-                                                    "saturday": null,
-                                                });
-                                            }
-
-                                            if(results && results[formId[l]]) {
-                                                var timestamps = Object.keys(results[formId[l]]);
-
-                                                if(frequency == "Daily") {
-                                                    for(var m = 0; m < time.weekstamps.length; m++) {
-                                                        if(!timestamps.includes(time.weekstamps[m])) {
-                                                            status = "Incomplete";
-                                                        } else {
-
-                                                        }
-                                                    }
-                                                } else if(frequency == "Weekly") {
-                                                    if(!time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                                        status = "Incomplete";
-                                                    } else {
-
-                                                    }
-                                                } else if(frequency == "Monthly") {
-                                                    if(!timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                                        status = "Incomplete";
-                                                    } else {
-
-                                                    }
-                                                }
-                                            } else {
-                                                status = "Incomplete";
-                                            }
-
-                                            retVal.reports.push({
-                                                "name": name,
-                                                "schedule": schedule,
-                                                "status": status,
-                                                "id": id,
-                                                "data": data
-                                            });
-                                        }*/
-                                    }
-                                }
-                            }
-
-                            // send response
-                            cors(req, res, () => {
-                                res.status(200).send(retVal);
-                            });
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' parameter");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-
-exports.reportsTest = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        if(req.query.uid) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0) {
-                        admin.database().ref('/').once('value', function(snap) {
-                            // initialize data variables
-                            var root = snap.val();
-                            var intervals = root.forms.intervals;
-                            var results = root.forms.results;
-                            var templates = root.forms.templates;
-                            var inventory = root.inventory;
-                            var users = root.users;
-                            var forms = Object.keys(intervals);
-                            var time = getTime();
-
-                            var retVal = {
-                                "reports": []
-                            };
-
-                            // run through available forms and add to counters and todo list
-                            for(var i = 0; i < Object.keys(inventory).length; i++) {
-                                var itemType = Object.keys(inventory)[i];
-                                for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
-                                    var itemKey = Object.keys(inventory[itemType])[j];
-                                    if(inventory[itemType][itemKey].compartments) {
-                                        var compartments = inventory[itemType][itemKey].compartments;
-
-                                        var name = inventory[itemType][itemKey].name;
-                                        var schedule;
-                                        var status = "Complete";
-                                        var id = itemKey;
-                                        var data = {
-                                            "rows": []
-                                        };
-                                        var offset = 0;
-
-                                        for(var k = 0; k < Object.keys(compartments).length; k++) {
-                                            var formId = compartments[Object.keys(compartments)[k]].formId;
-                                            for(var l = 0; l < formId.length; l++) {
-                                                var frequency = intervals[formId[l]].frequency;
-                                                var itemCount = templates[formId[l]].inputElements.length;
-                                                schedule = frequency;
-
-                                                for(var m = 0; m < templates[formId[l]].inputElements.length; m++) {
-                                                    data.rows.push({
-                                                        "compartment": templates[formId[l]].title,
-                                                        "item": templates[formId[l]].inputElements[m].caption,
-                                                        "sunday": null,
-                                                        "monday": null,
-                                                        "tuesday": null,
-                                                        "wednesday": null,
-                                                        "thursday": null,
-                                                        "friday": null,
-                                                        "saturday": null,
-                                                    });
-                                                }
-
-                                                if(results && results[formId[l]]) {
-                                                    var timestamps = Object.keys(results[formId[l]]);
-
-                                                    if(frequency == "Daily") {
-                                                        for(var m = 0; m < time.weekstamps.length; m++) {
-                                                            if(!timestamps.includes(time.weekstamps[m])) {
-                                                                status = "Incomplete";
-                                                            } else {
+														var complete = false;
+														for(var m = 0; m < time.weekstamps.length; m++) {
+                                                            if(timestamps.includes(time.weekstamps[m])) {
+																complete = true;
                                                                 for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
                                                                     data.rows[offset+n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
                                                                 }
                                                             }
                                                         }
-                                                    } else if(frequency == "Weekly") {
-                                                        if(!time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                                            status = "Incomplete";
-                                                        } else {
 
-                                                        }
+														if(!complete) {
+															status = "Incomplete";
+														}
                                                     } else if(frequency == "Monthly") {
-                                                        if(!timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                                            status = "Incomplete";
-                                                        } else {
+                                                        for(var m = 0; m < time.weekstamps.length; m++) {
+                                                            if(!timestamps.includes(time.weekstamps[m])) {
+                                                                var complete = false;
+																for(var n = 0; n < timestamps.length; n++) {
+																	if(timestamps[n].substring(0,6) == time.yearMonth) {
+																		complete = true;
+																	}
+																}
 
+																if(!complete) {
+																	status = "Incomplete";
+																}
+                                                            } else {
+																for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
+                                                                    data.rows[offset+n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
+                                                                }
+															}
                                                         }
                                                     }
                                                 } else {
@@ -1313,7 +1144,7 @@ exports.reportsTest = functions.https.onRequest((req, res) => {
                                             if(templates[formId[l]].inputElements) {
                                                 for(var m = 0; m < templates[formId[l]].inputElements.length; m++) {
                                                     data.rows.push({
-                                                        "compartment": null,
+                                                        "compartment": "Main",
                                                         "item": templates[formId[l]].inputElements[m].caption,
                                                         "sunday": null,
                                                         "monday": null,
@@ -1321,46 +1152,131 @@ exports.reportsTest = functions.https.onRequest((req, res) => {
                                                         "wednesday": null,
                                                         "thursday": null,
                                                         "friday": null,
-                                                        "saturday": null,
+                                                        "saturday": null
                                                     });
                                                 }
+
+												if(results && results[formId[l]]) {
+	                                                var timestamps = Object.keys(results[formId[l]]);
+
+	                                                if(frequency == "Daily") {
+	                                                    for(var m = 0; m < time.weekstamps.length; m++) {
+	                                                        if(!timestamps.includes(time.weekstamps[m])) {
+	                                                            status = "Incomplete";
+	                                                        } else {
+																for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
+                                                                    data.rows[n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
+                                                                }
+	                                                        }
+	                                                    }
+	                                                } else if(frequency == "Weekly") {
+														var complete = false;
+	                                                    for(var m = 0; m < time.weekstamps.length; m++) {
+	                                                        if(timestamps.includes(time.weekstamps[m])) {
+																complete = true;
+																for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
+                                                                    data.rows[n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
+                                                                }
+	                                                        }
+	                                                    }
+
+														if(!complete) {
+															status = "Incomplete";
+														}
+	                                                } else if(frequency == "Monthly") {
+														for(var m = 0; m < time.weekstamps.length; m++) {
+	                                                        if(!timestamps.includes(time.weekstamps[m])) {
+	                                                            var complete = false;
+																for(var n = 0; n < timestamps.length; n++) {
+																	if(timestamps[n].substring(0,6) == time.yearMonth) {
+																		complete = true;
+																	}
+																}
+
+																if(!complete) {
+																	status = "Incomplete";
+																}
+	                                                        } else {
+																for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
+                                                                    data.rows[n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
+                                                                }
+	                                                        }
+	                                                    }
+	                                                }
+	                                            } else {
+	                                                status = "Incomplete";
+	                                            }
                                             } else {
+												var offset = 0;
                                                 for(var m = 0; m < templates[formId[l]].subSections.length; m++) {
+													var itemCount = templates[formId[l]].subSections[m].inputElements.length;
                                                     for(var n = 0; n < templates[formId[l]].subSections[m].inputElements.length; n++) {
                                                         data.rows.push({
                                                             "compartment": templates[formId[l]].subSections[m].title,
-                                                            "item": templates[formId[l]].subSections[m].inputElements[n].caption
+                                                            "item": templates[formId[l]].subSections[m].inputElements[n].caption,
+															"sunday": null,
+	                                                        "monday": null,
+	                                                        "tuesday": null,
+	                                                        "wednesday": null,
+	                                                        "thursday": null,
+	                                                        "friday": null,
+	                                                        "saturday": null
                                                         });
                                                     }
+
+													if(results && results[formId[l]]) {
+	                                                    var timestamps = Object.keys(results[formId[l]]);
+
+	                                                    if(frequency == "Daily") {
+	                                                        for(var n = 0; n < time.weekstamps.length; n++) {
+	                                                            if(!timestamps.includes(time.weekstamps[n])) {
+	                                                                status = "Incomplete";
+	                                                            } else {
+	                                                                for(var o = 0; o < results[formId[l]][time.weekstamps[n]].results[m].results.length; o++) {
+	                                                                    data.rows[offset+o][weekday[n]] = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
+	                                                                }
+	                                                            }
+	                                                        }
+	                                                    } else if(frequency == "Weekly") {
+															var complete = false;
+	                                                        for(var n = 0; n < time.weekstamps.length; n++) {
+	                                                            if(timestamps.includes(time.weekstamps[n])) {
+																	complete = true;
+	                                                                for(var o = 0; o < results[formId[l]][time.weekstamps[n]].results[m].results.length; o++) {
+	                                                                    data.rows[offset+o][weekday[n]] = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
+	                                                                }
+	                                                            }
+	                                                        }
+
+															if(!complete) {
+																status = "Incomplete";
+															}
+	                                                    } else if(frequency == "Monthly") {
+															for(var n = 0; n < time.weekstamps.length; n++) {
+	                                                            if(!timestamps.includes(time.weekstamps[n])) {
+	                                                                var complete = false;
+																	for(var o = 0; o < timestamps.length; o++) {
+																		if(timestamps[o].substring(0,6) == time.yearMonth) {
+																			complete = true;
+																		}
+																	}
+
+																	if(!complete) {
+																		status = "Incomplete";
+																	}
+	                                                            } else {
+	                                                                for(var o = 0; o < results[formId[l]][time.weekstamps[n]].results[m].results.length; o++) {
+	                                                                    data.rows[offset+o][weekday[n]] = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
+	                                                                }
+	                                                            }
+	                                                        }
+	                                                    }
+	                                                } else {
+	                                                    status = "Incomplete";
+	                                                }
+
+	                                                offset += itemCount;
                                                 }
-                                            }
-
-                                            if(results && results[formId[l]]) {
-                                                var timestamps = Object.keys(results[formId[l]]);
-
-                                                if(frequency == "Daily") {
-                                                    for(var m = 0; m < time.weekstamps.length; m++) {
-                                                        if(!timestamps.includes(time.weekstamps[m])) {
-                                                            status = "Incomplete";
-                                                        } else {
-
-                                                        }
-                                                    }
-                                                } else if(frequency == "Weekly") {
-                                                    if(!time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                                        status = "Incomplete";
-                                                    } else {
-
-                                                    }
-                                                } else if(frequency == "Monthly") {
-                                                    if(!timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                                        status = "Incomplete";
-                                                    } else {
-
-                                                    }
-                                                }
-                                            } else {
-                                                status = "Incomplete";
                                             }
 
                                             retVal.reports.push({
