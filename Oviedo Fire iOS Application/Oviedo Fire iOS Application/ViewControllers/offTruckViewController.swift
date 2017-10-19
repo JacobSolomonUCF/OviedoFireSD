@@ -32,6 +32,7 @@ class offTruckViewController: UIViewController {
             let nextController = segue.destination as! offTruckListViewController
             nextController.list = offTruckItem
             nextController.type = type
+            nextController.userName = userName
             self.enableButtons()
             stopSpinning(activityView: activityView)
         }
@@ -50,6 +51,8 @@ class offTruckViewController: UIViewController {
     
     //    MARK: UI FUNCTIONS
     func UIFormat() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         stretchers.layer.cornerRadius = 40
         stretchers.clipsToBounds = true
         ladders.layer.cornerRadius = 40

@@ -87,6 +87,40 @@ struct offTruck{
         self.completedBy = completedBy
     }
 }
+struct resultItem {
+    var caption: String
+    var value: String
+    var type: String
+    var comment: String
+    
+    init(caption:String, value:String, type:String, comment:String) {
+        self.caption = caption
+        self.value = value
+        self.type = type
+        self.comment = comment
+    }
+}
+
+struct resultSection{
+    var result: [resultItem]
+    init(result:[resultItem]) {
+        self.result = result
+    }
+}
+
+struct result{
+    var completedBy: String
+    var timeStamp: String
+    var title: String
+    var resultSection: [resultSection]
+    
+    init(completeBy:String,timeStamp:String,title:String,resultSection:[resultSection]) {
+        self.completedBy = completeBy
+        self.timeStamp = timeStamp
+        self.title = title
+        self.resultSection = resultSection
+    }
+}
 //    End Structs
 
 extension UIViewController{
@@ -110,11 +144,11 @@ extension UIViewController{
     func splitFormTitle(formTitle:String) -> [String]{
         var names:[String] = []
         
-        if(formTitle.contains("Check-Off")){
+        if(formTitle.contains("Check-Off") || !formTitle.contains(" - ")){
             names.append("Other")
             names.append(formTitle)
         }else{
-            var split = formTitle.components(separatedBy: "- ")
+            var split = formTitle.components(separatedBy: " - ")
             names.append(split[0])
             names.append(split[1])
         }
@@ -204,6 +238,72 @@ extension UIViewController{
             }
         
         }
+    
+    //    Gets the results:
+    func getResults(userID:String,formId:String,completion : @escaping (result)->()){
+        
+        var resultForm = result.init(completeBy: "Default", timeStamp: "Default", title: "Default", resultSection: [])
+        var sections:[resultSection] = []
+        var item:[resultItem] = []
+        var flag = 0
+        
+        
+        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/results?uid=\(userID)&formId=\(formId)") .responseJSON { (response) in
+            if((response.result.value) != nil){
+                let json = JSON(response.result.value!)
+                resultForm.completedBy = json["completedBy"].string!
+                resultForm.timeStamp = json["datestamp"].string!
+                resultForm.title = json["title"].string!
+                
+                item.append(resultItem.init(caption: resultForm.completedBy , value: resultForm.timeStamp, type: "title", comment: resultForm.title))
+                for(_,subJson) in json["results"]{
+                    if(subJson["results"].exists()){
+                        item.append(resultItem.init(caption: subJson["title"].string!, value: "None", type: "title", comment: "No Comment"))
+                        for(_,subsubJson) in subJson["results"]{
+                            let caption = subsubJson["caption"].string!
+                            let resultValue = subsubJson["result"].string!
+                            let type = subsubJson["type"].string!
+                            var comment:String
+                            if subsubJson["note"].exists(){
+                                comment = subsubJson["note"].string!
+                            }else{
+                                comment = "No Comment"
+                            }
+                            item.append(resultItem.init(caption: caption, value: resultValue, type: type, comment: comment))
+                            
+                        }
+                        sections.append(resultSection.init(result: item))
+                        item.removeAll()
+                        
+                    }else{
+                        flag = 1
+                        let caption = subJson["caption"].string!
+                        let resultValue = subJson["result"].string!
+                        let type = subJson["type"].string!
+                        var comment:String
+                        if subJson["note"].exists(){
+                            comment = subJson["note"].string!
+                        }else{
+                            comment = "No Comment"
+                        }
+                        item.append(resultItem.init(caption: caption, value: resultValue, type: type, comment: comment))
+                    }
+                }
+                if(flag == 1){
+                    sections.append(resultSection.init(result: item))
+                }
+                resultForm.resultSection = sections
+                
+         
+            }else{
+                self.alert(message: "Error connecting to the server")
+            }
+            completion(resultForm)
+        }
+        
+        
+    }
+    
     
     //    Gets the form:
     func getForm(userID:String,formId:String,completion : @escaping (completeForm)->()){

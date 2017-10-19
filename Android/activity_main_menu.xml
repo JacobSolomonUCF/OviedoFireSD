@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/learningandleading"
+    tools:context="comtelekpsi.github.oviedofireandroid.MainMenuActivity">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <RelativeLayout
+            android:id="@+id/topBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0">
+
+            <TextView
+                android:id="@+id/usernameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:text='"username"'
+                android:textAlignment="center"
+                android:textSize="20sp"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="0dp"/>
+
+            <ImageButton
+                android:id="@+id/logoutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@color/FireTruckRed"
+                android:tint="@android:color/white"
+                app:srcCompat="@android:drawable/ic_lock_power_off"/>
+
+        </RelativeLayout>
+
+       <!-- <LinearLayout
+            android:id="@+id/topBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
+
+        </LinearLayout>
+        -->
+        <Button
+            android:id="@+id/activeVehiclesButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:background="@drawable/redbutton"
+            android:onClick="activeVehicle"
+            android:text="Vehicles"/>
+
+        <Button
+            android:id="@+id/offTruckButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="20dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/deepbluebutton"
+            android:onClick="offTruck"
+            android:text="Off Truck"/>
+
+        <Button
+            android:id="@+id/toDoListButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="20dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/greybutton"
+            android:onClick="toDoList"
+            android:text="To-Do List"/>
+
+        <Button
+            android:id="@+id/qrScannerButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:background="@drawable/blackbutton"
+            android:onClick="qrScanner"
+            android:text="QR Scanner"
+            android:textColor="@color/whiteText"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

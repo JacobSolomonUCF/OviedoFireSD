@@ -19,6 +19,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     var formName = ""
     var vehicle = ""
     var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
+    var resultForm = result(completeBy: "Default", timeStamp: "Default", title: "Default", resultSection: [])
     var list: [compartments] = []
     var userName:[String] = []
     let userID = Auth.auth().currentUser!.uid
@@ -30,6 +31,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     
     func setupView(){
         stopSpinning(activityView: activityView)
+        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = vehicle
         self.tableView?.rowHeight = 70.0
     }
@@ -47,6 +49,11 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
             nextController.userName = userName
             self.stopSpinning(activityView: self.activityView)
             tableView.allowsSelection = true
+            
+        }else if (segue.identifier == "toResult"){
+            let nextController = segue.destination as! resultsViewController
+            nextController.resultForm = resultForm
+            nextController.userName = userName
             
         }
     }
@@ -73,10 +80,24 @@ extension CompartmentsViewController{
                 })
                 
             }else{
-                self.alert(message: "Sorry! This form has been completed")
-                self.stopSpinning(activityView: self.activityView)
-                tableView.allowsSelection = true
+
+                
+//                self.alert(message: "This form has already been completed")
+                self.getResults(userID: self.userID, formId: self.list[indexPath.row].formId, completion: { (result) in
+                    self.resultForm = result
+                    self.stopSpinning(activityView: self.activityView)
+                    
+                    let refreshAlert = UIAlertController(title: "Attention", message: "This form has already been completed", preferredStyle: UIAlertControllerStyle.alert)
+                    self.present(refreshAlert, animated: true, completion: nil)
+                    refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                        self.performSegue(withIdentifier: "toResult" , sender: nil)
+                    }))
+                })
+
+
+
             }
+            tableView.allowsSelection = true
         })
 
     }

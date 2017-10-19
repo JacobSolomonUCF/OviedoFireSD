@@ -17,6 +17,8 @@
 		16A90AFC1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AFB1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift */; };
 		16A90B071F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */; };
 		16B4FA411F68A547000929F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16B4FA401F68A547000929F9 /* GoogleService-Info.plist */; };
+		16B829FD1F97CB110071679C /* resultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B829FC1F97CB110071679C /* resultsViewController.swift */; };
+		16B829FF1F97CB2F0071679C /* resultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B829FE1F97CB2F0071679C /* resultsTableViewCell.swift */; };
 		16B947591F72D96A0037FC39 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B947581F72D96A0037FC39 /* Network.swift */; };
 		16CF46911F560CB70063834B /* 50 Shades of Grey.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16CF468C1F560CB70063834B /* 50 Shades of Grey.jpg */; };
 		16CF46921F560CB70063834B /* Hydrogen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16CF468D1F560CB70063834B /* Hydrogen.jpg */; };
@@ -90,6 +92,8 @@
 		16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oviedo_Fire_iOS_ApplicationUITests.swift; sourceTree = "<group>"; };
 		16A90B081F560C7C00F50919 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16B4FA401F68A547000929F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		16B829FC1F97CB110071679C /* resultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resultsViewController.swift; sourceTree = "<group>"; };
+		16B829FE1F97CB2F0071679C /* resultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resultsTableViewCell.swift; sourceTree = "<group>"; };
 		16B947581F72D96A0037FC39 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		16CF468C1F560CB70063834B /* 50 Shades of Grey.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "50 Shades of Grey.jpg"; sourceTree = "<group>"; };
 		16CF468D1F560CB70063834B /* Hydrogen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Hydrogen.jpg; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 				16EDEBE51F8C004C001E50C1 /* toDoViewController.swift */,
 				16EDEBE61F8C004C001E50C1 /* offTruckViewController.swift */,
 				16EDEBE71F8C004C001E50C1 /* FormViewController.swift */,
+				16B829FC1F97CB110071679C /* resultsViewController.swift */,
 				16EDEBE81F8C004C001E50C1 /* HomeViewController.swift */,
 				16EDEBE91F8C004C001E50C1 /* QRScannerViewController.swift */,
 				16EDEBEA1F8C004C001E50C1 /* LoginViewController.swift */,
@@ -243,6 +248,7 @@
 				16EDEBF91F8C0056001E50C1 /* ActiveTableViewCell.swift */,
 				16EDEBFA1F8C0056001E50C1 /* FormTableViewCell.swift */,
 				16F3829D1F8EE79E00635B22 /* TwoItemTableViewCell.swift */,
+				16B829FE1F97CB2F0071679C /* resultsTableViewCell.swift */,
 			);
 			path = TableCells;
 			sourceTree = "<group>";
@@ -607,11 +613,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16B829FD1F97CB110071679C /* resultsViewController.swift in Sources */,
 				16EDEBFC1F8C0057001E50C1 /* ActiveTableViewCell.swift in Sources */,
 				16F3829E1F8EE79E00635B22 /* TwoItemTableViewCell.swift in Sources */,
 				16EDEBF31F8C004C001E50C1 /* QRScannerViewController.swift in Sources */,
 				16EDEBEF1F8C004C001E50C1 /* toDoViewController.swift in Sources */,
 				16EDEBF61F8C004C001E50C1 /* ActiveViewController.swift in Sources */,
+				16B829FF1F97CB2F0071679C /* resultsTableViewCell.swift in Sources */,
 				16EDEBEE1F8C004C001E50C1 /* CompartmentsViewController.swift in Sources */,
 				16EDEBF01F8C004C001E50C1 /* offTruckViewController.swift in Sources */,
 				16EDEBFB1F8C0057001E50C1 /* toDoListTableViewCell.swift in Sources */,
