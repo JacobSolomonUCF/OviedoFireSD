@@ -40,7 +40,7 @@ import {WebService} from "./services/webService";
                   </select>
                 </div>
                 <ng-template [ngIf]="temp.schedule && temp.schedule.length">
-                  <div *ngIf="temp.schedule === 'Daily'" class="pure-u-1">
+                  <div *ngIf="temp.schedule === 'Daily'" class="pure-u-11-24">
                     <label for="type">Truck</label>
                     <select id="type" [(ngModel)]="temp.base">
                       <option value="ATV 46">ATV 46</option>
@@ -49,6 +49,9 @@ import {WebService} from "./services/webService";
                   </div>
                   <div *ngIf="temp.schedule === 'Special'" class="pure-u-1">
                     special
+                  </div>
+                  <div class="pure-u-11-24">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?data=ATV46ATVS&amp;size=100x100" alt="" title="" />
                   </div>
                 </ng-template>
               </div>
