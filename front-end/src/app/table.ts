@@ -155,7 +155,7 @@ import {WebService} from "./services/webService";
                    (click)="toggleExpandGroup(group)">
               <span
                 title="Expand/Collapse Group">
-                <b><i class="fa {{expanded ? 'fa-chevron-down' : 'fa-chevron-right'}}" style="font-size: .7em"></i>&nbsp;{{style.group}}: {{style.report ? group.value[0][style.group].slice(style.report.length + 3) : group.value[0][style.group]}}</b>
+                <b><i class="fa {{expanded ? 'fa-chevron-down' : 'fa-chevron-right'}}" style="font-size: .7em"></i>&nbsp;{{style.group}}: {{group.value[0][style.group]}}</b>
               </span>
               </div>
             </ng-template>
@@ -166,7 +166,7 @@ import {WebService} from "./services/webService";
           <ngx-datatable-column *ngFor="let x of style.days" [name]="x[0]" [prop]="x" [maxWidth]="75" [flexGrow]="1">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                          let-group="group">
-              <i class="fa {{getCheckBox(value)}}"></i>
+              <i class="fa {{getCheckBox(value)}}">{{getCheckBox(value) === '' ? value : ''}}</i>
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column *ngFor="let x of style.props" [name]="x.name" [prop]="(x.prop) ? x.prop : x.name"
@@ -371,12 +371,15 @@ export class Table {
 
   getCheckBox(status) {
     let options = {
-      okay: 'fa-check-square box-okay',
-      missing: 'fa-check-square box-missing',
-      broken: 'fa-check-square box-broken',
+      Present: 'fa-lg fa-check-square box-okay',
+      okay: 'fa-lg fa-check-square box-okay',
+      Missing: 'fa-lg fa-check-square box-missing',
+      missing: 'fa-lg fa-check-square box-missing',
+      "Repairs Needed": 'fa-lg fa-check-square box-broken',
+      broken: 'fa-lg fa-check-square box-broken',
       other: 'fa-minus'
     };
 
-    return options[status] || options.other;
+    return (options[status]) ? options[status] : (status.length) ? '' : options.other;
   }
 }

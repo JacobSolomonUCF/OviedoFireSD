@@ -18,7 +18,6 @@ export class Datepicker {
   @ViewChild("input") input: any;
 
   getDate() {
-    console.log(this.input);
     return this.input.nativeElement.value || '';
   }
 
