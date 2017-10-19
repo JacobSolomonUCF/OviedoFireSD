@@ -24,6 +24,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     
     func setupView(){
         stopSpinning(activityView: activityView)
+        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Active Vehicles"
     }
     

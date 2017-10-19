@@ -251,12 +251,11 @@ extension UIViewController{
         Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/results?uid=\(userID)&formId=\(formId)") .responseJSON { (response) in
             if((response.result.value) != nil){
                 let json = JSON(response.result.value!)
-                
-                print(json["completedBy"].string!)
                 resultForm.completedBy = json["completedBy"].string!
                 resultForm.timeStamp = json["datestamp"].string!
                 resultForm.title = json["title"].string!
                 
+                item.append(resultItem.init(caption: resultForm.completedBy , value: resultForm.timeStamp, type: "title", comment: resultForm.title))
                 for(_,subJson) in json["results"]{
                     if(subJson["results"].exists()){
                         item.append(resultItem.init(caption: subJson["title"].string!, value: "None", type: "title", comment: "No Comment"))

@@ -13,13 +13,16 @@ class resultsTableViewCell: UITableViewCell {
     @IBOutlet weak var caption: UILabel!
     @IBOutlet weak var comments: UILabel!
     @IBOutlet weak var values: UILabel!
+    @IBOutlet weak var truckName: UILabel!
+    @IBOutlet weak var formTitle: UILabel!
+    @IBOutlet weak var personCompleted: UILabel!
     @IBOutlet weak var commentHeight: NSLayoutConstraint!
     
 
     
     func setHeight(choice:Int){
         if(choice == 1){
-            self.commentHeight.constant = 44.0
+            self.commentHeight.constant = 24.0
         }else{
             self.commentHeight.constant = 0.0
         }

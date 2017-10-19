@@ -17,6 +17,8 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupView()
 
         print(formCount())
         // Do any additional setup after loading the view.
@@ -27,6 +29,11 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
+    
+    func setupView(){
+        navigationController?.navigationBar.prefersLargeTitles = false
+    }
+    
     func formCount() -> Int{
         var count = 0
         let subsections = resultForm.resultSection
@@ -35,6 +42,7 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
             for _ in sections{
                 count += 1
             }
+            
         }
         return count
     }
@@ -51,6 +59,7 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
                     item.caption = row.caption
                     item.value = row.value
                     item.type = row.type
+                    item.comment = row.comment
                     return item
                 }
                 count += 1
@@ -70,14 +79,25 @@ extension resultsViewController{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = findItem(index: indexPath.row, form: resultForm)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "results", for: indexPath) as! resultsTableViewCell
-        cell.caption.text = item.caption
-        cell.values.text = item.value
-        if (item.comment != "No Comment"){
-            cell.comments.text = item.comment
-            cell.setHeight(choice: 1)
-        }else{cell.setHeight(choice: 0)}
+        var cell = tableView.dequeueReusableCell(withIdentifier: "results", for: indexPath) as! resultsTableViewCell
         
+        if(item.type == "title"){
+                cell = tableView.dequeueReusableCell(withIdentifier: "formTitle", for: indexPath) as! resultsTableViewCell
+                let titleParts:[String] = splitFormTitle(formTitle: item.comment)
+                cell.truckName.text = titleParts[0]
+                cell.formTitle.text = titleParts[1]
+                cell.personCompleted.text = "Completed by: " + item.caption + " on " + item.value
+                
+            
+        }else{
+            cell.caption.text = item.caption
+            cell.values.text = item.value
+            if (item.comment != "No Comment"){
+                cell.comments.text = "Comment: " + item.comment
+                cell.setHeight(choice: 1)
+            }else{cell.setHeight(choice: 0)}
+            
+        }
         return cell
     }
     

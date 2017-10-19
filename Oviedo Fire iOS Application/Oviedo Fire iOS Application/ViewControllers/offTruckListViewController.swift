@@ -35,6 +35,7 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     func setupView(){
         stopSpinning(activityView: activityView)
         self.tableView?.rowHeight = 70.0
+        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = type
         switch type {
         case "Stretchers":

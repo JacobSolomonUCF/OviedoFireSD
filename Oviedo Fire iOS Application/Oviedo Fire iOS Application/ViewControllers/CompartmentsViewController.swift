@@ -31,6 +31,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     
     func setupView(){
         stopSpinning(activityView: activityView)
+        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = vehicle
         self.tableView?.rowHeight = 70.0
     }
@@ -75,20 +76,27 @@ extension CompartmentsViewController{
                 self.formName = self.list[indexPath.row].formName
                 self.getForm(userID: self.userID, formId: self.list[indexPath.row].formId, completion:{(data) -> Void in
                     self.form = data
-                    self.performSegue(withIdentifier: "toForm1", sender: nil)
+                    self.performSegue(withIdentifier: "toForm", sender: nil)
                 })
                 
             }else{
-                self.alert(message: "This form has already been completed")
+
+                
+//                self.alert(message: "This form has already been completed")
                 self.getResults(userID: self.userID, formId: self.list[indexPath.row].formId, completion: { (result) in
                     self.resultForm = result
-                    self.performSegue(withIdentifier: "toResult" , sender: nil)
-
-
+                    self.stopSpinning(activityView: self.activityView)
+                    
+                    let refreshAlert = UIAlertController(title: "Attention", message: "This form has already been completed", preferredStyle: UIAlertControllerStyle.alert)
+                    self.present(refreshAlert, animated: true, completion: nil)
+                    refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                        self.performSegue(withIdentifier: "toResult" , sender: nil)
+                    }))
                 })
 
+
+
             }
-            self.stopSpinning(activityView: self.activityView)
             tableView.allowsSelection = true
         })
 

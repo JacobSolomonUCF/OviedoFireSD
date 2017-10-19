@@ -51,6 +51,8 @@ class offTruckViewController: UIViewController {
     
     //    MARK: UI FUNCTIONS
     func UIFormat() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         stretchers.layer.cornerRadius = 40
         stretchers.clipsToBounds = true
         ladders.layer.cornerRadius = 40
