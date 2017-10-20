@@ -55,6 +55,21 @@ struct completeForm{
         self.subSection = subSection
     }
 }
+struct userResults{
+    var value:String
+    var note:String
+    var type:String
+    var caption:String
+    
+    init(value:String,note:String,type:String,caption:String) {
+        self.value = value
+        self.note = note
+        self.type = type
+        self.caption = caption
+    }
+    
+    
+}
 
 struct formItem {
     var caption: String
@@ -131,6 +146,18 @@ extension UIViewController{
         alertController.addAction(OKAction)
         self.present(alertController, animated: true, completion: nil)
     }
+    func createResults(form:completeForm)->([userResults]){
+        var list:[userResults] = []
+        let subsections = form.subSection
+        for items in subsections{
+            let sections = items.formItem
+            for entry in sections{
+                list.append(userResults.init(value: "", note: "", type: entry.type, caption: entry.caption))
+            }
+        }
+        return list
+    }
+    
 
     //    Help functions to load/unload activity view
     func startSpinning(activityView: UIActivityIndicatorView){
@@ -155,6 +182,16 @@ extension UIViewController{
         
         return names
     }
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     
     
     //    MARK: NETWORK FUNCTIONS
@@ -258,10 +295,17 @@ extension UIViewController{
                 item.append(resultItem.init(caption: resultForm.completedBy , value: resultForm.timeStamp, type: "title", comment: resultForm.title))
                 for(_,subJson) in json["results"]{
                     if(subJson["results"].exists()){
-                        item.append(resultItem.init(caption: subJson["title"].string!, value: "None", type: "title", comment: "No Comment"))
+                        item.append(resultItem.init(caption: subJson["title"].string!, value: "None", type: "sectionTitle", comment: "No Comment"))
                         for(_,subsubJson) in subJson["results"]{
                             let caption = subsubJson["caption"].string!
-                            let resultValue = subsubJson["result"].string!
+                            var resultValue:String = ""
+                            if (subsubJson["result"].exists()){
+                                resultValue = subsubJson["result"].string!
+                            }else if(subsubJson["status"].exists()){
+                                resultValue = subsubJson["status"].string!
+                            }else{
+                                print("ERROR")
+                            }
                             let type = subsubJson["type"].string!
                             var comment:String
                             if subsubJson["note"].exists(){
@@ -278,9 +322,17 @@ extension UIViewController{
                     }else{
                         flag = 1
                         let caption = subJson["caption"].string!
-                        let resultValue = subJson["result"].string!
                         let type = subJson["type"].string!
                         var comment:String
+                        var resultValue:String = ""
+                        if (subJson["result"].exists()){
+                            resultValue = subJson["result"].string!
+                        }else if(subJson["status"].exists()){
+                            resultValue = subJson["status"].string!
+                        }else{
+                            print("ERROR")
+                        }
+                        
                         if subJson["note"].exists(){
                             comment = subJson["note"].string!
                         }else{

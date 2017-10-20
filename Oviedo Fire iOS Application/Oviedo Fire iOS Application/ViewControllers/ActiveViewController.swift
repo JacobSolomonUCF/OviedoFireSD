@@ -26,6 +26,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
         stopSpinning(activityView: activityView)
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Active Vehicles"
+        
     }
     
     

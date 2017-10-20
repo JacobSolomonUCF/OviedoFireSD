@@ -49,6 +49,7 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     func setupView(){
         stopSpinning(activityView: activityView)
+        self.hideKeyboardWhenTappedAround()
         self.tableView?.rowHeight = 70.0
         navigationItem.title = "ToDo List"
         
@@ -75,6 +76,7 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toForm"{
             let nextController = segue.destination as! EqFormViewController
+            nextController.userEnteredResults = createResults(form: form)
             nextController.form = form
             nextController.formName = formName
             nextController.userName = userName
