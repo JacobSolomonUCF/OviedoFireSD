@@ -30,6 +30,74 @@ import {WebService} from "../../services/webService";
             <button class="close" (click)="itemtable.toggle()()">
               <i class="fa fa-chevron-left"></i> Back
             </button>
+            <div class="right">
+              <input #compartmentName ngModel="" placeholder="Compartment Name..."/>
+              <button class="accept" (click)="itemtable.addCompartment(compartmentName.value)" [disabled]="!compartmentName.value">
+                create
+              </button>
+            </div>
+          </div>
+          <div class="item-table-body-view">
+            <ngx-datatable
+              #myTable
+              class="table material expandable"
+              [rows]="itemtable.rows"
+              [rowHeight]="'auto'"
+              [columns]="itemtable.heading"
+              [columnMode]="'flex'"
+              [selectionType]="'single'">
+            </ngx-datatable>
+          </div>
+          <div class="item-table-body-edit">
+            <ngx-datatable
+              #myTable
+              [rows]="itemtable.temp?.rows"
+              [rowHeight]="'auto'"
+              [groupRowsBy]="'compartment'"
+              [columnMode]="'force'"
+              [scrollbarH]="false"
+              [cssClasses]="[]"
+              [groupExpansionDefault]="true">
+              <ngx-datatable-group-header [rowHeight]="'auto'" #myGroupHeader>
+                <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+                  <div style="padding-left:5px">
+                    <span title="Expand/Collapse Group">
+                      <b style="display: flex; justify-content: space-between; width: 100%">
+                        <span (click)="itemtable.toggleExpandGroup(group, myTable)">
+                          <i class="fa {{expanded ? 'fa-chevron-down' : 'fa-chevron-right'}}" style="font-size: .7em"></i>
+                          &nbsp;{{group.value[0].compartment}}
+                        </span>
+                        <button class="close" (click)="itemtable.addCompartment(group.value[0].compartment)"><i class="fa fa-plus"></i>&nbsp;Add</button>
+                      </b>
+                    </span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-group-header>
+              <ngx-datatable-column [name]="'Name'" [prop]="'name'" [flexGrow]="2">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" class="example-full-width">
+                  <input
+                  (blur)="updateValue($event, 'name', rowIndex)"
+                  type="text"
+                  [value]="value"
+                  />
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column [name]="'Type'" [prop]="'type'" [flexGrow]="1">
+                <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                  <div style="display: flex; justify-content: space-between;">
+                    <select
+                      id="type"
+                      (change)="updateValue($event, 'gender', rowIndex)"
+                      [value]="value">
+                      <option value="pmr">Present/Missing/Repair</option>
+                      <option value="num">Number</option>
+                      <option value="per">Percent</option>
+                    </select>
+                    <button class="close" (click)="itemtable.remove(row)"><i class="fa fa-times"></i></button>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
           </div>
         </item-table>
       </div>
@@ -51,10 +119,16 @@ export class EditTruck {
     {truck: "Rescue 44", compartments: 20, 'Equipment Count': 29, id: '10012'}
   ];
 
+  updateValue(a, b, c) {
+
+  }
+
+  foo(x) {
+    console.log('foo', x);
+  }
+
   constructor(webService: WebService) {
     webService.setState('eTruck');
-
     this.loading = false;
-
   }
 }

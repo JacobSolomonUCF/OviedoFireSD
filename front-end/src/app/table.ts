@@ -64,19 +64,11 @@ import {WebService} from "./services/webService";
       </ng-template>
       <ng-template ngSwitchCase="truck">
         <div [ngSwitch]="viewType">
-          <ngx-datatable
-            #myTable
-            class="table"
-            [rows]="rows"
-            [rowHeight]="'auto'"
-            [columns]="heading"
-            [columnMode]="'flex'"
-            *ngSwitchCase="'view'"
-            [selectionType]="'single'">
-          </ngx-datatable>
-
-          <div *ngSwitchDefault> default</div>
+          <ng-content select=".item-table-body-view" *ngSwitchCase="'view'"></ng-content>
+          <ng-content select=".item-table-body-edit" *ngSwitchCase="'edit'"></ng-content>
+          <ng-content select=".item-table-options-default" *ngSwitchDefault></ng-content>
         </div>
+          
       </ng-template>
       <ng-template ngSwitchCase="user">
         <div [ngSwitch]="viewType">
@@ -148,7 +140,6 @@ import {WebService} from "./services/webService";
           [footerHeight]="0"
           [rowHeight]="'auto'"
           (select)="onclick()($event, myTable)"
-          [cssClasses]="[]"
           [selectionType]="style.selectType"
           [groupExpansionDefault]="true">
           <!-- Group Header Template -->
@@ -190,6 +181,7 @@ export class Table {
   @Input() rows: any[];
   webService: WebService;
   loading: boolean = false;
+  editing = {};
   original: any;
   filter: any;
   date: string;
@@ -365,15 +357,43 @@ export class Table {
       },
       truck: (event) => {
         this.viewType = 'edit';
-        this.temp = (event) ? event.selected[0] : {name: "", compartments: [{name: "", items: [{name: "", type: ""}]}]};
+        // this.temp = (event) ? event.selected[0] : {name: "", compartments: [{name: "", items: [{name: "", type: ""}]}]};
+        this.temp = {
+          rows: [
+            {compartment: 'Cab', name: 'Mileage', type: 'num'},
+            {compartment: 'Cab', name: 'Oil', type: 'per'}
+            ],
+          heading: [
+            {prop: 'name', flexGrow: 1, name: 'Name'},
+            {prop: 'type', flexGrow: 1, name: 'Type'}
+          ]
+        }
       },
-      other: () => {}
+      other: () => {
+      }
     };
     return options[this.dataType] || options.other;
   }
 
-  toggleExpandGroup(group) {
-    this.table.groupHeader.toggleExpandGroup(group);
+  addCompartment(name = undefined) {
+    if (name) {
+      this.temp.rows.push({compartment: name, name: '', type: ''});
+      this.temp.rows = [...this.temp.rows];
+    }
+  }
+
+  remove(row) {
+    for (let i = 0, len = this.temp.rows.length; i < len; i++) {
+      if (this.temp.rows[i] === row) {
+        this.temp.rows.splice(i, 1);
+        this.temp.rows = [...this.temp.rows];
+        return;
+      }
+    }
+  }
+
+  toggleExpandGroup(group, table = this.table) {
+    table.groupHeader.toggleExpandGroup(group);
   }
 
   getCheckBox(status) {

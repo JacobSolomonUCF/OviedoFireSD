@@ -278,6 +278,7 @@ button
     border: 0
     background: transparent
     top: .35em
+    border-radius: 3px
 
   &.accept
     background-color: #337ab7
@@ -354,7 +355,7 @@ ngx-datatable
         font-family: FontAwesome, serif
         justify-content: flex-end
 
-    datatable-scroller, .datatable-header-inner, .datatable-row-center, datatable-body-row
+    datatable-scroller, .datatable-header-inner, .datatable-row-center, datatable-body-row, datatable-row-wrapper
       width: 100% !important
 
     datatable-body-row
@@ -377,6 +378,7 @@ ngx-datatable
         color: #6c0505
 
     .datatable-group-header
+      width: 100% !important
       background: $bg-primary
       border-bottom: solid 2px $btn-primary
       margin-bottom: .25em
