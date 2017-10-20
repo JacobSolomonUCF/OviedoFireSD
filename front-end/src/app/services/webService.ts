@@ -33,8 +33,15 @@ export class WebService {
     this.afAuth.auth.signOut();
   }
 
-  doGet(url) {
-    return this.http.get(this.baseUrl + url + this.token());
+  createQR(key = 'ATV46ATVS') {
+    return this.http.get('https://api.qrserver.com/v1/create-qr-code/?data=ATV46ATVS&amp;size=100x100').subscribe(x => {
+      console.log(x);
+      return x;
+    });
+  }
+
+  doGet(url, extra = '') {
+    return this.http.get(this.baseUrl + url + this.token() + extra);
   }
 
   doPost(url, body) {

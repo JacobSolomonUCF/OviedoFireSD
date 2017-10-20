@@ -16,7 +16,7 @@ import {WebService} from "./services/webService";
             #myTable
             class="table"
             [rows]="rows"
-            [rowHeight]="36"
+            [rowHeight]="'auto'"
             [columns]="heading"
             [columnMode]="'flex'"
             (select)="onclick()($event, table)"
@@ -68,7 +68,7 @@ import {WebService} from "./services/webService";
             #myTable
             class="table"
             [rows]="rows"
-            [rowHeight]="36"
+            [rowHeight]="'auto'"
             [columns]="heading"
             [columnMode]="'flex'"
             *ngSwitchCase="'view'"
@@ -84,7 +84,7 @@ import {WebService} from "./services/webService";
             #myTable
             class="table"
             [rows]="rows"
-            [rowHeight]="36"
+            [rowHeight]="'auto'"
             [columns]="heading"
             [columnMode]="'flex'"
             (select)="onclick()($event, table)"
@@ -146,13 +146,13 @@ import {WebService} from "./services/webService";
           [scrollbarH]="false"
           [headerHeight]="50"
           [footerHeight]="0"
-          [rowHeight]="40"
+          [rowHeight]="'auto'"
           (select)="onclick()($event, myTable)"
           [cssClasses]="[]"
           [selectionType]="style.selectType"
           [groupExpansionDefault]="true">
           <!-- Group Header Template -->
-          <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader>
+          <ngx-datatable-group-header [rowHeight]="'auto'" #myGroupHeader>
             <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
               <div style="padding-left:5px;"
                    (click)="toggleExpandGroup(group)">
@@ -183,6 +183,7 @@ import {WebService} from "./services/webService";
 export class Table {
   @ViewChild('datepicker') datepicker: any;
   @ViewChild('myTable') table: any;
+  title: string = '';
   @Input() dataType: any;
   @Input() viewType: any;
   @Input() heading: any[];
@@ -191,6 +192,7 @@ export class Table {
   loading: boolean = false;
   original: any;
   filter: any;
+  date: string;
   temp: any;
   row: any;
 
@@ -307,6 +309,7 @@ export class Table {
         this.viewType = 'view';
         this.style = (this.previousStyle) ? this.previousStyle : this.style;
         this.table.rows = this.rows;
+        this.title = '';
         delete this.previousStyle;
         delete this.temp;
         this.updateFilter(undefined);
@@ -343,6 +346,7 @@ export class Table {
         this.viewType = 'ereport';
         this.filter = "";
         this.previousStyle = this.style;
+        this.title = event.selected[0].name;
         m.rows = (this.temp = {
           rows: event.selected[0].data.rows,
           heading: event.selected[0].data.heading
@@ -374,11 +378,11 @@ export class Table {
 
   getCheckBox(status) {
     let options = {
-      Present: 'fa-lg fa-check-square box-okay',
+      Present: 'fa-lg fa-check',
       okay: 'fa-lg fa-check-square box-okay',
-      Missing: 'fa-lg fa-check-square box-missing',
+      Missing: 'fa-lg fa-times box-missing',
       missing: 'fa-lg fa-check-square box-missing',
-      "Repairs Needed": 'fa-lg fa-check-square box-broken',
+      "Repairs Needed": 'fa-lg fa-exclamation-triangle box-broken',
       broken: 'fa-lg fa-check-square box-broken',
       other: 'fa-minus'
     };

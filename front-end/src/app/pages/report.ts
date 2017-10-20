@@ -1,10 +1,10 @@
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {WebService} from "../services/webService";
 
 @Component({
   template: `
     <div class="header">
-      <h1>Reports</h1>
+      <h1>Reports{{itemtable && itemtable.title !== '' ? ': ' + itemtable.title : ''}}</h1>
     </div>
 
     <div class="content" [ngSwitch]="loading">
@@ -16,6 +16,9 @@ import {WebService} from "../services/webService";
           <div class="item-table-options-view table-options">
             <div class="left">
               <datepicker #datepicker></datepicker>
+              <button class="close" (click)="getReports(datepicker.input.nativeElement.value)" [disabled]="reloading">
+                <i class="fa fa-refresh {{reloading ? 'fa-spin' : ''}}"></i>
+              </button>
             </div>
             <div class="right">
               <input
@@ -50,7 +53,9 @@ import {WebService} from "../services/webService";
   , styleUrls: ['../menu.sass']
 })
 export class Report {
+  @ViewChild('itemtable') itemtable;
   loading: boolean = true;
+  reloading: boolean = true;
   headingDaily = [
     {prop: 'compartment',   dragable: false, resizeable: false},
     {prop: 'item',  dragable: false, resizeable: false},
@@ -68,8 +73,11 @@ export class Report {
     {prop: 'status', dragable: false, resizeable: false}
   ];
   filter;
+  webService: WebService;
+
   constructor(webService: WebService) {
     let self = this;
+    self.webService = webService;
 
     webService
       .setState('reports')
@@ -83,8 +91,36 @@ export class Report {
           return r;
         });
         self.loading = false;
+        self.reloading = false;
       })
     ;
+  }
+
+  pad(x: string) {
+    return ((x.length === 1) ? '0' : '') + x;
+  }
+
+  getReports(datepicker = this.itemtable.date) {
+    if (datepicker === this.itemtable.date)
+      return;
+    this.itemtable.date = datepicker;
+    let self = this;
+    let dateParts = datepicker.split('/');
+    let date = dateParts[2] + this.pad(dateParts[1]) + this.pad(dateParts [0]);
+    self.reloading = true;
+
+    this.webService
+      .doGet('/reports', '&date=' + date)
+      .subscribe(resp => {
+        self.reports = resp['reports'].map((r) => {
+          if (r.status === 'Daily')
+            r.data.heading = self.headingDaily;
+          else
+            r.data.heading = self.headingWeekly;
+          return r;
+        });
+        self.reloading = false;
+      });
   }
 
   heading: any[] = [
