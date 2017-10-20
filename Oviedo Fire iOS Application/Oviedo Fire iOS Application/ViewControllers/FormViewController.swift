@@ -36,6 +36,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
     var selectedIndex:Int = 0
     var userName:[String] = []
+    var userEnteredResults:[userResults] = []
     
     func setupView(){
         
@@ -43,6 +44,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
             alert(message: form.alert)
         }
         
+        self.hideKeyboardWhenTappedAround()
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.title = ""
         tableView.estimatedRowHeight = 100
@@ -60,6 +62,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         setupView()
         
+        print(userEnteredResults)
     }
     
     override func didReceiveMemoryWarning() {
@@ -98,6 +101,40 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return item
     }
     
+    func checkForm()->(Int){
+        var numberNotCompleted = 0;
+        var commentflag = 0;
+        
+        for items in userEnteredResults{
+            if !(items.type.contains("title") || items.type.contains("formTitle")){
+                if(items.value == ""){
+                    numberNotCompleted += 1
+                }
+                if(items.type == "pmr" && items.note == "" && items.value == "Repairs Needed"){
+                    commentflag = 1
+                }
+            }
+        }
+        
+        if(commentflag == 1){
+            return -1
+        }
+        if(numberNotCompleted == 0){
+            return 1
+        }
+    
+        return 0
+    
+    }
+    
+    func toJson(){
+        //        let value = JSONValue(...) if value != .JInvalid { ... some logic here }
+        for items in userEnteredResults{
+            
+        }
+        
+    }
+
     
     
     //    MARK: Button Actions
@@ -105,7 +142,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @objc func needsRepairbuttonClicked(sender:UIButton) {
         let indexPath = IndexPath(row: sender.tag , section: 0)
         let buttonRow = sender.tag
-        print("Needs Repair \(buttonRow)")
+        userEnteredResults[sender.tag].value = "Repairs Needed"
         
         let entry = findItem(index: buttonRow, form: form)
         if (entry.type == "pmr"){
@@ -127,7 +164,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @objc func missingbuttonClicked(sender:UIButton) {
         let indexPath = IndexPath(row: sender.tag , section: 0)
         let buttonRow = sender.tag
-        print("Missing Repair \(buttonRow)")
+        userEnteredResults[sender.tag].value = "Missing"
         
         let entry = findItem(index: buttonRow, form: form)
         if (entry.type == "pmr"){
@@ -149,7 +186,8 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @objc func presentbuttonClicked(sender:UIButton) {
         let indexPath = IndexPath(row: sender.tag , section: 0)
         let buttonRow = sender.tag
-        print("Present Repair \(buttonRow)")
+        
+        userEnteredResults[sender.tag].value = "Present"
         
         let entry = findItem(index: buttonRow, form: form)
         if (entry.type == "pmr"){
@@ -166,6 +204,36 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.tableView.endUpdates()
             
             
+        }
+    }
+    @objc func numFieldDidChange(sender:UITextField){
+        userEnteredResults[sender.tag].value = sender.text!
+    }
+    @objc func textFieldDidChange(sender:UITextField){
+        userEnteredResults[sender.tag].note = sender.text!
+    }
+    @objc func sliderChanged(sender: UISlider) {
+        userEnteredResults[sender.tag].value = String(round(sender.value*10)/10)
+
+
+    }
+    @objc func switchChanged(sender: UISwitch) {
+        if(sender.isOn){
+            userEnteredResults[sender.tag].value = "Pass"
+        }else{
+            userEnteredResults[sender.tag].value = "Fail"
+        }
+
+        
+    }
+    @IBAction func submitPressed(_ sender: Any) {
+        let check = checkForm()
+        if(check == 0){
+            alert(message: "Please completed the entire form!")
+        }else if(check == -1){
+            alert(message: "Plese enter a comment for the item that needs repairs")
+        }else{
+            alert(message: "ALL GOOD")
         }
     }
     
@@ -196,51 +264,91 @@ extension EqFormViewController{
             return cell
 
         }else{
-            let entry = findItem(index: indexPath.row, form: form)
+            var item = userEnteredResults[indexPath.row]
             
-            if (entry.type == "pmr") {
+            
+            if (item.type == "pmr") {
                 cell = tableView.dequeueReusableCell(withIdentifier: "pmr", for: indexPath) as! FormTableViewCell
-                cell.label.text = entry.caption
+                cell.label.text = item.caption
                 cell.isExpanded = self.expandedRows.contains(indexPath.row)
+                
                 cell.missingButton.addTarget(self, action: #selector(EqFormViewController.missingbuttonClicked(sender:)), for: .touchUpInside)
                 cell.presentButton.addTarget(self, action: #selector(EqFormViewController.presentbuttonClicked(sender:)), for: .touchUpInside)
                 cell.needsRepairButton.addTarget(self, action: #selector(EqFormViewController.needsRepairbuttonClicked(sender:)), for: .touchUpInside)
+                cell.commentsTextField.addTarget(self, action: #selector(EqFormViewController.textFieldDidChange(sender:)), for: .editingChanged)
+                
+                cell.commentsTextField.tag = indexPath.row
                 cell.needsRepairButton.tag = indexPath.row
                 cell.missingButton.tag = indexPath.row
                 cell.presentButton.tag = indexPath.row
-            }else if(entry.type == "num"){
+                
+                if(item.value != ""){
+                    switch (item.value){
+                        case "Present":
+                            cell.presentButton.isSelected = true
+                        case "Missing":
+                            cell.missingButton.isSelected = true
+                        case "Repairs Needed":
+                            cell.needsRepairButton.isSelected = true
+                        default:
+                            item.value = ""
+                        
+                    }
+                    if (item.note != ""){
+                        cell.commentsTextField.text = item.note
+                    }
+                    
+
+                }
+                
+                
+            }else if(item.type == "num"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "num", for: indexPath) as! FormTableViewCell
-                cell.numName.text = entry.caption
-            }else if(entry.type == "per"){
+                cell.numValue.addTarget(self, action: #selector(EqFormViewController.numFieldDidChange(sender:)), for: .editingChanged)
+                cell.numValue.tag = indexPath.row
+                cell.numName.text = item.caption
+                if(item.value != ""){
+                    cell.numValue.text = item.value
+                }
+            }else if(item.type == "per"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "per", for: indexPath) as! FormTableViewCell
-                cell.percentName.text = entry.caption
+                cell.percentSlider.addTarget(self, action: #selector(EqFormViewController.sliderChanged(sender:)), for: .valueChanged)
+                cell.percentSlider.tag = indexPath.row
+                cell.percentName.text = item.caption
                 cell.percentValue.text = ""
-            }else if(entry.type == "pf"){
+                if(item.value != ""){
+                    cell.percentValue.text = item.value
+                    cell.percentSlider.value = Float(item.value)!
+                }
+            }else if(item.type == "pf"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "pf", for: indexPath) as! FormTableViewCell
-                cell.pfName.text = entry.caption
+                cell.pfSwitch.addTarget(self, action: #selector(EqFormViewController.switchChanged(sender:)), for: .valueChanged)
+                cell.pfSwitch.tag = indexPath.row
+                cell.pfName.text = item.caption
                 cell.pfValue.text = "Fail"
                 cell.pfValue.textColor = UIColor.red
-            }else if(entry.type == "title"){
+                cell.pfSwitch.isOn = false
+                if(item.value != ""){
+                    if(item.value == "Pass"){
+                        cell.pfValue.text = "Pass"
+                        cell.pfValue.textColor = UIColor.green
+                        cell.pfSwitch.isOn = true
+                    }else{
+                        cell.pfSwitch.isOn = false
+                    }
+                }
+            }else if(item.type == "title"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "title", for: indexPath) as! FormTableViewCell
-                cell.title.text = entry.caption
-            }else if(entry.type == "formTitle"){
+                cell.title.text = item.caption
+            }else if(item.type == "formTitle"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "formTitle", for: indexPath) as! FormTableViewCell
-                let titleParts:[String] = splitFormTitle(formTitle: entry.caption)
+                let titleParts:[String] = splitFormTitle(formTitle: item.caption)
                 cell.truckName.text = titleParts[0]
                 cell.formTitle.text = titleParts[1]
                 cell.personCompleting.text = "Being completed by: " + userName[0] + " " + userName[1]
                 
             }
-            
-            
             return cell
         }
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
-        
-        
-    }
 }
-

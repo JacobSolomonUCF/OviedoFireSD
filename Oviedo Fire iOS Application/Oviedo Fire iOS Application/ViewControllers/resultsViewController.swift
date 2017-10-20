@@ -89,6 +89,9 @@ extension resultsViewController{
                 cell.personCompleted.text = "Completed by: " + item.caption + " on " + item.value
                 
             
+        }else if(item.type == "sectionTitle"){
+                cell = tableView.dequeueReusableCell(withIdentifier: "title", for: indexPath) as! resultsTableViewCell
+                cell.sectionTitle.text = item.caption
         }else{
             cell.caption.text = item.caption
             cell.values.text = item.value

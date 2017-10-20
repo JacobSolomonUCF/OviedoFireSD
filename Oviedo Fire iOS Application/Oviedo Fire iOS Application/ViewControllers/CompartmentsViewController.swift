@@ -44,6 +44,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toForm"{
             let nextController = segue.destination as! EqFormViewController
+            nextController.userEnteredResults = createResults(form: form)
             nextController.form = form
             nextController.formName = formName
             nextController.userName = userName

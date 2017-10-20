@@ -61,6 +61,7 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
         
         if (segue.identifier == "toForm"){
             let nextController = segue.destination as! EqFormViewController
+            nextController.userEnteredResults = createResults(form: form)
             nextController.formId = singleFormId
             nextController.form = form
             nextController.formName = formName
