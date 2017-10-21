@@ -50,9 +50,9 @@ import {WebService} from "./services/webService";
                   <div *ngIf="temp.schedule === 'Special'" class="pure-u-1">
                     special
                   </div>
-                  <div class="pure-u-11-24">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?data=ATV46ATVS&amp;size=100x100" alt="" title="" />
-                  </div>
+                  <!--<div class="pure-u-11-24">-->
+                    <!--<img src="https://api.qrserver.com/v1/create-qr-code/?data=ATV46ATVS&amp;size=100x100" alt="" title="" />-->
+                  <!--</div>-->
                 </ng-template>
               </div>
               <br/>
@@ -149,7 +149,7 @@ import {WebService} from "./services/webService";
                    (click)="toggleExpandGroup(group)">
               <span
                 title="Expand/Collapse Group">
-                <b><i class="fa {{expanded ? 'fa-chevron-down' : 'fa-chevron-right'}}" style="font-size: .7em"></i>&nbsp;{{style.group}}: {{group.value[0][style.group]}}</b>
+                <b><i class="fa {{expanded ? 'fa-chevron-down' : 'fa-chevron-right'}}" style="font-size: .7em"></i>&nbsp;{{group.value[0][style.group]}}</b>
               </span>
               </div>
             </ng-template>
@@ -181,7 +181,6 @@ export class Table {
   @Input() rows: any[];
   webService: WebService;
   loading: boolean = false;
-  editing = {};
   original: any;
   filter: any;
   date: string;

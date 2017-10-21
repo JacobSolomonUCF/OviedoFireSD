@@ -17,6 +17,11 @@ import {Component, ViewChild} from '@angular/core';
 export class Datepicker {
   @ViewChild("input") input: any;
 
+  ngOnInit() {
+    let date = new Date();
+    this.input.nativeElement.value = date.getDate() +'/'+ date.getMonth() +'/'+ date.getFullYear();
+  }
+
   getDate() {
     return this.input.nativeElement.value || '';
   }

@@ -57,6 +57,7 @@ export class EditReport {
       .subscribe(resp => {
           self.reports = resp['reports'];
         }, () => {
+          self.loading = false;
         }, () => {
           self.loading = false;
         }

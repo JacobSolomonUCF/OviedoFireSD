@@ -90,6 +90,10 @@ export class Report {
             r.data.heading = self.headingWeekly;
           return r;
         });
+      }, error => {
+        self.loading = false;
+        self.reloading = false;
+      }, () => {
         self.loading = false;
         self.reloading = false;
       })
