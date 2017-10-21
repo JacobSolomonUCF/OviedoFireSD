@@ -1,6 +1,17 @@
 const functions = require('firebase-functions');
 var cors = require('cors')({origin: true});
 var moment = require('moment-timezone');
+const nodemailer = require('nodemailer');
+const mailTransport = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+		type: 'OAuth2',
+		user: functions.config().nodemailer.email,
+		clientId: functions.config().nodemailer.clientid,
+		clientSecret: functions.config().nodemailer.clientsecret,
+		refreshToken: functions.config().nodemailer.refreshtoken
+	}
+});
 var admin = require('firebase-admin');
 var serviceAccount = require("./admin/oviedofiresd-55a71-firebase-adminsdk-ol8a1-20a377ac5e.json");
 var firebase = require('firebase');
@@ -1618,4 +1629,71 @@ exports.resetPassword = functions.https.onRequest((req, res) => {
             res.sendStatus(404);
         });
     }
+});
+
+exports.listReports = functions.https.onRequest((req, res) => {
+    if(req.method == "GET") {
+        if(req.query.uid) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0) {
+                        admin.database().ref('/').once('value', function(snap) {
+                            // initialize data variables
+                            var root = snap.val();
+							var templates = root.forms.templates;
+							var intervals = root.forms.intervals;
+
+							var reportsList = {
+								"list": []
+							}
+
+							for(var i = 0; i < Object.keys(templates).length; i++) {
+								reportsList.list.push({
+									"id": Object.keys(templates)[i],
+									"template": templates[Object.keys(templates)[i]],
+									"interval": intervals[Object.keys(templates)[i]]
+								})
+							}
+
+                            // send response
+                            cors(req, res, () => {
+                                res.status(200).send(reportsList);
+                            });
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' parameter");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
+
+exports.sendIncompleteFormsEmail = functions.https.onRequest((req, res) => {
+	var mailOptions = {
+		from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
+		to: 'chris.jaen@gmail.com',
+		subject: 'test subject',
+		text: 'test text'
+	}
+
+	mailTransport.sendMail(mailOptions).then(function() {
+		res.send('Email Sent');
+	}).catch(function(err) {
+		res.send(err)
+	});
 });
