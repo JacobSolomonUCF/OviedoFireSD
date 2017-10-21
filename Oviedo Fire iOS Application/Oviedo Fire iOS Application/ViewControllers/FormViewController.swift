@@ -9,6 +9,7 @@
 import UIKit
 import DLRadioButton
 import Firebase
+import SwiftyJSON
 
 
 struct formSaved {
@@ -127,12 +128,102 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     }
     
-    func toJson(){
-        //        let value = JSONValue(...) if value != .JInvalid { ... some logic here }
+    func toJsonSingle()->([String:Any]){
+
+        var myJSON: [String:Any] = [
+            "uid" : "\(userID)",
+            "formId" : "\(formId)",
+            "results" : []
+        ]
+        for items in userEnteredResults{
+            if(items.type != "formTitle"){
+                if(items.type != "title"){
+                    var item:[String:Any]
+                    if(items.type == "pmr" && items.note != "" && items.value == "Repairs Needed"){
+                        item = ["caption":"\(items.caption)","type":"\(items.type)","result":"\(items.value)","note":"\(items.note)"]
+                    }else{
+                        item = ["caption":"\(items.caption)","type":"\(items.type)","result":"\(items.value)"]
+                    }
+                    // get existing items, or create new array if doesn't exist
+                    var existingItems = myJSON["results"] as? [[String: Any]] ?? [[String: Any]]()
+                    
+                    // append the item
+                    existingItems.append(item)
+                    
+                    // replace back into `data`
+                    myJSON["results"] = existingItems
+                }
+            }
+        }
+        return myJSON
+    }
+    func toJsonMulti()->([String:Any]){
+        
+        var myJSON:[String:Any] = [
+            "uid" : "\(userID)",
+            "formId" : "\(formId)",
+            "results" : []
+        ]
+        var single: [String:Any] = [
+            "title" : "",
+            "results" : []
+        ]
+        var i = 0
+        var title = ""
         for items in userEnteredResults{
             
+            if(items.type != "formTitle"){
+                if(items.type != "title"){
+                    var item:[String:Any]
+                    if(items.type == "pmr" && items.note != "" && items.value == "Repairs Needed"){
+                        item = ["caption":"\(items.caption)","type":"\(items.type)","result":"\(items.value)","note":"\(items.note)"]
+                    }else{
+                        item = ["caption":"\(items.caption)","type":"\(items.type)","result":"\(items.value)"]
+                    }
+                    // get existing items, or create new array if doesn't exist
+                    var existingItems = single["results"] as? [[String: Any]] ?? [[String: Any]]()
+                    
+                    // append the item
+                    existingItems.append(item)
+                    
+                    // replace back into `data`
+                     single["results"] = existingItems
+                    
+                    
+                }else{
+                    if(i > 1){
+                        single["title"] = title
+                        title = ""
+
+                        
+                        var existingItems = myJSON["results"] as? [[String: Any]] ?? [[String: Any]]()
+                        // append the item
+                        existingItems.append(single)
+                        
+                        // replace back into `data`
+                        myJSON["results"] = existingItems
+                        
+                        single = [
+                            "title" : "",
+                            "results" : []
+                        ]
+                    }
+                    title = items.caption
+                }
+            }
+            i += 1
         }
+        single["title"] = title
         
+        var existingItems = myJSON["results"] as? [[String: Any]] ?? [[String: Any]]()
+        // append the item
+        existingItems.append(single)
+        
+        // replace back into `data`
+        myJSON["results"] = existingItems
+        
+//        print(myJSON)
+        return myJSON
     }
 
     
@@ -233,7 +324,24 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }else if(check == -1){
             alert(message: "Plese enter a comment for the item that needs repairs")
         }else{
-            alert(message: "ALL GOOD")
+//            alert(message: "ALL GOOD")
+            var json:[String:Any]
+            let item = userEnteredResults[1]
+            if (item.type == "title"){
+                print("multi")
+                json = toJsonMulti()
+            }else{
+                print("single")
+                json = toJsonSingle()
+            }
+
+
+            
+            sentForm(json: json, completion: { (result) in
+                    self.alert(message: "Form Submitted")
+            })
+            
+            
         }
     }
     

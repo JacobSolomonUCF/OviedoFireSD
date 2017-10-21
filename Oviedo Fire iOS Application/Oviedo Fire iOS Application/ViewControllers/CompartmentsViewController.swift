@@ -23,6 +23,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     var list: [compartments] = []
     var userName:[String] = []
     let userID = Auth.auth().currentUser!.uid
+    var formID:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +49,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
             nextController.form = form
             nextController.formName = formName
             nextController.userName = userName
+            nextController.formId = formID
             self.stopSpinning(activityView: self.activityView)
             tableView.allowsSelection = true
             
@@ -77,6 +79,7 @@ extension CompartmentsViewController{
                 self.formName = self.list[indexPath.row].formName
                 self.getForm(userID: self.userID, formId: self.list[indexPath.row].formId, completion:{(data) -> Void in
                     self.form = data
+                    self.formID = self.list[indexPath.row].formId
                     self.performSegue(withIdentifier: "toForm", sender: nil)
                 })
                 

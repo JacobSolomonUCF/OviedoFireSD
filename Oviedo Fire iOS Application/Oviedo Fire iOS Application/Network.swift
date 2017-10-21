@@ -444,8 +444,21 @@ extension UIViewController{
         }
     }
     
+    //    POST FORM:
+    func sentForm(json:[String:Any],completion : @escaping (Bool)->()){
+        let urlString = "https://us-central1-oviedofiresd-55a71.cloudfunctions.net/form"
+        
+        Alamofire.request(urlString, method: .post, parameters: json, encoding: JSONEncoding.default).response {  response in
+            // What is fileURL...not easy to get
+            print(response)
+        }
+        
+    }
+        
+    
     
     
     
 
 }
+
