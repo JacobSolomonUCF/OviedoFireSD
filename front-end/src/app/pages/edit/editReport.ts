@@ -55,7 +55,13 @@ export class EditReport {
     webService.setState('eReport')
       .doGet('/listReports')
       .subscribe(resp => {
-        self.reports = resp['list'];
+        self.reports = resp['list'].map(report => {
+          if (report.interval.frequency === 'Daily')
+            for (let i = 0, len = report.template.subSections.length; i < len; i++)
+              if (report.template.subSections[i].title.indexOf(report.template.title) !== -1)
+                report.template.subSections[i].title = report.template.subSections[i].title.substring(report.template.title.length + 3);
+          return report
+        });
         //   [
         //     {
         //       "id": "LAD1",
