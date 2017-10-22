@@ -7,7 +7,7 @@ import {Component, ViewChild} from '@angular/core';
   selector: 'datepicker',
   template: `    
     <mat-form-field class="example-full-width">
-      <input #input matInput [matDatepicker]="picker" placeholder="Select a day">
+      <input #input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" placeholder="Select a day">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
@@ -16,6 +16,8 @@ import {Component, ViewChild} from '@angular/core';
 })
 export class Datepicker {
   @ViewChild("input") input: any;
+  minDate = new Date(2017, 10 - 1, 11);
+  maxDate = new Date();
 
   ngOnInit() {
     let date = new Date();
