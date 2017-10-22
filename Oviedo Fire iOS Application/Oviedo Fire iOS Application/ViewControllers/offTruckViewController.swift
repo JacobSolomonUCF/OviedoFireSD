@@ -20,6 +20,7 @@ class offTruckViewController: UIViewController {
     @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     //Variables
+    var offTruckSection:String = ""
     var type:String = ""
     var offTruckItem: [offTruck] = []
     let ID = Auth.auth().currentUser!.uid
@@ -33,6 +34,7 @@ class offTruckViewController: UIViewController {
             nextController.list = offTruckItem
             nextController.type = type
             nextController.userName = userName
+            nextController.offTruckSection = offTruckSection
             self.enableButtons()
             stopSpinning(activityView: activityView)
         }
@@ -81,6 +83,7 @@ class offTruckViewController: UIViewController {
     func offTruckList(Type:String){
         disableButtons()
         startSpinning(activityView: activityView)
+        offTruckSection = Type
         getOffTruck(userID: ID, type: Type, completion: {(items) -> Void in
             self.offTruckItem = items
             self.performSegue(withIdentifier: "toOffTruckList", sender: nil)

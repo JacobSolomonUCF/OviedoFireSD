@@ -52,13 +52,17 @@ class HomeViewController: UIViewController {
             nextController.userName = firstName
             self.enableButtons()
         }
+        if segue.identifier == "toScanner"{
+            let nextController = segue.destination as! QRScannerController
+            nextController.userName = firstName
+            self.enableButtons()
+        }
         
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        stopSpinning(activityView: activityView)
         screenFormat()
         
     }
@@ -70,6 +74,7 @@ class HomeViewController: UIViewController {
 
     //    MARK: UI FUNCTIONS
     func screenFormat(){
+        stopSpinning(activityView: activityView)
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Welcome " + firstName[0]
 //        welcomeUser.text = "Welcome " + firstName

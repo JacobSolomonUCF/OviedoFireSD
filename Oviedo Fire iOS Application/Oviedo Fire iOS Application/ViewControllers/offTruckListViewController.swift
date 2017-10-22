@@ -23,6 +23,7 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     var resultForm = result(completeBy: "Default", timeStamp: "Default", title: "Default", resultSection: [])
     var singleFormId:String = ""
     var type:String = ""
+    var offTruckSection:String = ""
     var formName:String = ""
     var userName:[String] = []
     
@@ -35,7 +36,6 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     func setupView(){
         stopSpinning(activityView: activityView)
         self.tableView?.rowHeight = 70.0
-        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = type
         switch type {
         case "Stretchers":
@@ -57,6 +57,14 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        if let selectionIndexPath = self.tableView.indexPathForSelectedRow {
+            self.tableView.deselectRow(at: selectionIndexPath, animated: animated)
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if (segue.identifier == "toForm"){
@@ -66,6 +74,8 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
             nextController.form = form
             nextController.formName = formName
             nextController.userName = userName
+            nextController.commingFrom.type = "offtruck"
+            nextController.commingFrom.section = offTruckSection
             
         }else if(segue.identifier == "toResult"){
             let nextController = segue.destination as! resultsViewController

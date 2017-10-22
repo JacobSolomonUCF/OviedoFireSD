@@ -136,14 +136,63 @@ struct result{
         self.resultSection = resultSection
     }
 }
+
+struct fromWhere{
+    var type:String
+    var section:String
+    
+    init(type:String,section:String) {
+        self.type = type
+        self.section = section
+    }
+    
+}
 //    End Structs
 
 extension UIViewController{
-
-    func alert(message: String, title: String = "") {
+    
+    func alert(message: String, title: String = ""){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let OKAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(OKAction)
+        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    func sendBackAlert(message: String, title: String = "",completion : @escaping ()->()){
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default){
+            UIAlertAction in
+            completion()
+        }
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    func cancelForm(message: String, title: String = "",completion : @escaping (Bool)->()){
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let submitAction = UIAlertAction(title: "Leave", style: UIAlertActionStyle.default) {
+            UIAlertAction in
+            completion(true)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+            UIAlertAction in
+            completion(false)
+        }
+        alertController.addAction(submitAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+
+    func submitAlert(message: String, title: String = "",completion : @escaping (Bool)->()){
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let submitAction = UIAlertAction(title: "Submit", style: UIAlertActionStyle.default) {
+            UIAlertAction in
+            completion(true)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+            UIAlertAction in
+            completion(false)
+        }
+        alertController.addAction(submitAction)
+        alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
     }
     func createResults(form:completeForm)->([userResults]){
@@ -152,7 +201,11 @@ extension UIViewController{
         for items in subsections{
             let sections = items.formItem
             for entry in sections{
-                list.append(userResults.init(value: "", note: "", type: entry.type, caption: entry.caption))
+                if(entry.type == "pf"){
+                    list.append(userResults.init(value: "Fail", note: "", type: entry.type, caption: entry.caption))
+                }else{
+                    list.append(userResults.init(value: "", note: "", type: entry.type, caption: entry.caption))
+                }
             }
         }
         return list
@@ -252,8 +305,7 @@ extension UIViewController{
             offTruckItem.removeAll()
         }
         
-        print(userID)
-        print(type)
+
         Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/\(type)?uid=\(userID)") .responseJSON { response in
             if let result = response.result.value as? [String:Any],
                 let main = result["list"] as? [[String:String]]{
@@ -365,6 +417,14 @@ extension UIViewController{
         var formItemList:[formItem] = []
         
         Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/form?uid=\(userID)&formId=\(formId)") .responseJSON { (response) in
+            let isCompleted = String(data: response.data!, encoding: .utf8)
+            if (isCompleted?.contains("does not exist") == true){
+                    print("FORM NOT FOUND")
+                    form.title = "No Form Found"
+                    form.alert = "No Form Found"
+                    completion(form)
+                }
+            
             if((response.result.value) != nil){
                 let json = JSON(response.result.value!)
                 if(json["subSections"].exists()){
@@ -447,18 +507,25 @@ extension UIViewController{
     //    POST FORM:
     func sentForm(json:[String:Any],completion : @escaping (Bool)->()){
         let urlString = "https://us-central1-oviedofiresd-55a71.cloudfunctions.net/form"
-        
+        var flag = false
         Alamofire.request(urlString, method: .post, parameters: json, encoding: JSONEncoding.default).response {  response in
-            // What is fileURL...not easy to get
-            print(response)
+            let isSubmitted = String(data: response.data!, encoding: .utf8)
+            if(isSubmitted == "OK"){
+                flag = true
+            }
+            completion(flag)
         }
         
     }
-        
     
-    
-    
-    
-
+}
+extension UIViewController {
+    func performSegueToReturnBack()  {
+        if let nav = self.navigationController {
+            nav.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
 }
 

@@ -27,11 +27,13 @@ struct formSaved {
 
 class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     var expandedRows = Set<Int>()
-    var checkedRows=Set<NSIndexPath>()
     
     let userID = Auth.auth().currentUser!.uid
+    
+    var commingFrom:fromWhere = fromWhere.init(type: "Default", section: "Default")
     var formName = ""
     var formId:String = ""
     var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
@@ -40,7 +42,9 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var userEnteredResults:[userResults] = []
     
     func setupView(){
+        stopSpinning(activityView: activityView)
         
+        //Displaying alert with a give form
         if form.alert != "No Alert" {
             alert(message: form.alert)
         }
@@ -53,22 +57,30 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(self.back(sender:)))
     }
-    
-    
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toHome"{
+            let nextController = segue.destination as! HomeViewController
+            nextController.firstName = userName
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
-        
-        print(userEnteredResults)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    @objc func back(sender: AnyObject) {
+        cancelForm(message: "You will lose all progress if you leave this page, would you still like to leave?") { (result) in
+            if(result == true){
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
     }
     
     func formCount() -> Int{
@@ -225,6 +237,33 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
 //        print(myJSON)
         return myJSON
     }
+    
+    func back(){
+        if self.presentingViewController != nil {
+            self.dismiss(animated: false, completion: {
+                self.navigationController!.popToRootViewController(animated: true)
+            })
+        }
+        else {
+            self.navigationController!.popToRootViewController(animated: true)
+        }
+        
+        /*switch commingFrom.type {
+        case "qr":
+            let qrController = QRScannerController()
+            self.present(qrController, animated: true, completion: nil)
+        case "offtruck":
+            let offtruckController = offTruckListViewController()
+            self.present(offtruckController, animated: true, completion: nil)
+        case "todo":
+            let todoController = toDoViewController()
+            self.present(todoController, animated: true, completion: nil)
+            
+        default:
+            print("Error")
+        }*/
+        
+    }
 
     
     
@@ -318,36 +357,35 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
     }
     @IBAction func submitPressed(_ sender: Any) {
-        let check = checkForm()
-        if(check == 0){
-            alert(message: "Please completed the entire form!")
-        }else if(check == -1){
-            alert(message: "Plese enter a comment for the item that needs repairs")
-        }else{
-//            alert(message: "ALL GOOD")
-            var json:[String:Any]
-            let item = userEnteredResults[1]
-            if (item.type == "title"){
-                print("multi")
-                json = toJsonMulti()
-            }else{
-                print("single")
-                json = toJsonSingle()
+        submitAlert(message: "Are you sure you want to submit?") { (result) in
+            if(result == true){
+                let check = self.checkForm()
+                if(check == 0){
+                    self.alert(message: "Please completed the entire form!")
+                }else if(check == -1){
+                    self.alert(message: "Plese enter a comment for the item that needs repairs")
+                }else{
+                    var json:[String:Any]
+                    let item = self.userEnteredResults[1]
+                    if (item.type == "title"){
+                        json = self.toJsonMulti()
+                    }else{
+                        json = self.toJsonSingle()
+                    }
+                    self.sentForm(json: json, completion: { (result) in
+                        if(result == true){
+                            self.sendBackAlert(message: "Form submitted successfully"){ () in
+                            self.performSegue(withIdentifier: "toHome", sender: nil)
+                            }
+                        }else{
+                            self.sendBackAlert(message: "Error submitting form"){ () in
+                            }
+                        }
+                    })
+                }
             }
-
-
-            
-            sentForm(json: json, completion: { (result) in
-                    self.alert(message: "Form Submitted")
-            })
-            
-            
         }
     }
-    
-    
-    
-    
 }
 
 

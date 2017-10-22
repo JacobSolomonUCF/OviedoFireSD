@@ -24,6 +24,15 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
     var userName:[String] = []
     let userID = Auth.auth().currentUser!.uid
     var formID:String = ""
+    var truckNumber:String = ""
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        if let selectionIndexPath = self.tableView.indexPathForSelectedRow {
+            self.tableView.deselectRow(at: selectionIndexPath, animated: animated)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +59,10 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
             nextController.formName = formName
             nextController.userName = userName
             nextController.formId = formID
+            nextController.commingFrom.type = "compartment"
+            nextController.commingFrom.section = truckNumber
+            
+            
             self.stopSpinning(activityView: self.activityView)
             tableView.allowsSelection = true
             

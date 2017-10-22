@@ -20,7 +20,6 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         setupView()
 
-        print(formCount())
         // Do any additional setup after loading the view.
     }
 
