@@ -1,6 +1,24 @@
+// OviedoFireSD Project
+
+// ----------------------BEGIN: Global API Variables----------------------------
+// setup firebase
 const functions = require('firebase-functions');
-var cors = require('cors')({origin: true});
-var moment = require('moment-timezone');
+const firebase = require('firebase');
+const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firebase);
+firebase.initializeApp({
+    apiKey: functions.config().sdk.apikey,
+    authDomain: functions.config().sdk.authdomain,
+    databaseURL: functions.config().sdk.databaseurl,
+    projectId: functions.config().sdk.projectid,
+    storageBucket: functions.config().sdk.storagebucket,
+    messagingSenderId: functions.config().sdk.messagesenderid
+});
+const ref = admin.database().ref();
+
+// setup external dependencies
+const cors = require('cors')({origin: true});
+const moment = require('moment-timezone');
 const nodemailer = require('nodemailer');
 const mailTransport = nodemailer.createTransport({
 	service: 'gmail',
@@ -12,33 +30,20 @@ const mailTransport = nodemailer.createTransport({
 		refreshToken: functions.config().nodemailer.refreshtoken
 	}
 });
-var admin = require('firebase-admin');
-var serviceAccount = require("./admin/oviedofiresd-55a71-firebase-adminsdk-ol8a1-20a377ac5e.json");
-var firebase = require('firebase');
 
-firebase.initializeApp({
-    apiKey: "AIzaSyDiF2EZj3ljA0Jrwafuq67de4ptk1r_usE",
-    authDomain: "oviedofiresd-55a71.firebaseapp.com",
-    databaseURL: "https://oviedofiresd-55a71.firebaseio.com",
-    projectId: "oviedofiresd-55a71",
-    storageBucket: "oviedofiresd-55a71.appspot.com",
-    messagingSenderId: "514772607400"
-});
+// setup variables
+const weekday = new Array(7);
+weekday[0] = 'sunday';
+weekday[1] = 'monday';
+weekday[2] = 'tuesday';
+weekday[3] = 'wednesday';
+weekday[4] = 'thursday';
+weekday[5] = 'friday';
+weekday[6] = 'saturday';
+// ------------------------END: Global API Variables----------------------------
 
-admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount),
-	databaseURL: "https://oviedofiresd-55a71.firebaseio.com"
-});
-
-var weekday = new Array(7);
-weekday[0] = "sunday";
-weekday[1] = "monday";
-weekday[2] = "tuesday";
-weekday[3] = "wednesday";
-weekday[4] = "thursday";
-weekday[5] = "friday";
-weekday[6] = "saturday";
-
+// -------------------------BEGIN: Global API Functions-------------------------
+// returns user's authentication level
 function getAuth(uid, callback) {
 	admin.database().ref('/users/' + uid + '/authentication').once('value', function(snap) {
 		if(snap.val() || snap.val() == 0) {
@@ -49,12 +54,14 @@ function getAuth(uid, callback) {
 	});
 }
 
+// return information related to time
 function getTime(date) {
 	var retVal = {
 		"yearMonth": null,
 		"weekday": null,
 		"datestamp": null,
-		"weekstamps": null
+		"weekstamps": null,
+		"formattedDate": null
 	}
 
 	if(date) {
@@ -67,6 +74,7 @@ function getTime(date) {
 	retVal.yearMonth = time.format("YYYYMM");
 	retVal.weekday = time.format("dddd").toLowerCase();
 	retVal.datestamp = time.format("YYYYMMDD");
+	retVal.formattedDate = time.format("MM/DD/YYYY");
 
 	var weekstamps = [];
 	var offset = parseInt(time.format("e"));
@@ -84,59 +92,56 @@ function getTime(date) {
 
 	return retVal;
 }
+// ---------------------------END: Global API Functions-------------------------
 
-function pad(n) {
-	return (n < 10) ? ("0" + n) : n;
-}
+// -----------------------------BEGIN: API Functions----------------------------
+exports.activeVehiclesTest = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+		case 'GET':
+	        if(req.query.uid) {
+				ref.child('users').once('value').then(users => {
+					if(users.hasChild(req.query.uid)) {
+						const auth = users.child(req.query.uid).child('authentication').val();
+	                    if(auth == 0 || auth == 1) {
+							var retVal = { list: [] };
 
-exports.activeVehicles = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        if(req.query.uid) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0 || auth == 1) {
-                        admin.database().ref('/').once('value', function(snap) {
-                            var root = snap.val();
-                            var vehicles = root.inventory.vehicles;
+							ref.child('inventory/vehicles').once('value').then(vehicles => {
+								vehicles.forEach(vehicle => {
+									retVal.list.push({
+										id: vehicle.key,
+										name: vehicle.child('name').val()
+									});
+								});
 
-                            var activeVehicles = {
-                                "list": []
-                            };
-
-                            for(var i = 0; i < Object.keys(vehicles).length; i++) {
-                                activeVehicles.list.push({
-                                    "name": vehicles[Object.keys(vehicles)[i]].name,
-                                    "id": Object.keys(vehicles)[i]
-                                });
-                            }
-
-                            // send response
-                            cors(req, res, () => {
-                                res.status(200).send(activeVehicles);
-                            });
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' parameter");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
+								cors(req, res, () => {
+					                res.status(200).send(retVal);
+					            });
+							});
+	                    } else {
+	                        cors(req, res, () => {
+	                            res.status(403).send("The request violates the user's permission level");
+	                        });
+	                    }
+	                } else {
+	                    cors(req, res, () => {
+	                        res.status(401).send("The user is not authorized for access");
+	                    });
+	                }
+				});
+	        } else {
+	            cors(req, res, () => {
+	                res.status(400).send("Missing parameter(s): uid");
+	            });
+	        }
+			break;
+		default:
+			cors(req, res, () => {
+	            res.sendStatus(404);
+	        });
+			break;
     }
 });
+// -------------------------------END: API Functions----------------------------
 
 exports.vehicleCompartments = functions.https.onRequest((req, res) => {
     if(req.method == "GET") {
@@ -1355,7 +1360,8 @@ exports.users = functions.https.onRequest((req, res) => {
                                     "firstName": users[Object.keys(users)[i]].firstName,
                                     "lastName": users[Object.keys(users)[i]].lastName,
                                     "email": users[Object.keys(users)[i]].email,
-                                    "type": type
+                                    "type": type,
+									"alert": users[Object.keys(users)[i]].alert
                                 });
                             }
 
@@ -1399,7 +1405,8 @@ exports.users = functions.https.onRequest((req, res) => {
                                     "email": user.email,
                                     "firstName": body.user.firstName,
                                     "lastName": body.user.lastName,
-                                    "authentication": authentication
+                                    "authentication": authentication,
+									"alert": body.user.alert
                                 });
 
                                 cors(req, res, () => {
@@ -1425,7 +1432,8 @@ exports.users = functions.https.onRequest((req, res) => {
                                         "email": user.email,
                                         "firstName": body.user.firstName,
                                         "lastName": body.user.lastName,
-                                        "authentication": authentication
+                                        "authentication": authentication,
+										"alert": body.user.alert
                                     });
 
                                     firebase.auth().sendPasswordResetEmail(user.email).then(function() {
@@ -1642,17 +1650,49 @@ exports.listReports = functions.https.onRequest((req, res) => {
                             var root = snap.val();
 							var templates = root.forms.templates;
 							var intervals = root.forms.intervals;
+							var inventory = root.inventory;
 
 							var reportsList = {
 								"list": []
 							}
 
-							for(var i = 0; i < Object.keys(templates).length; i++) {
-								reportsList.list.push({
-									"id": Object.keys(templates)[i],
-									"template": templates[Object.keys(templates)[i]],
-									"interval": intervals[Object.keys(templates)[i]]
-								})
+							for(var i = 0; i < Object.keys(inventory).length; i++) {
+								var itemType = Object.keys(inventory)[i];
+								for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
+									var itemKey = Object.keys(inventory[itemType])[j];
+
+									if(inventory[itemType][itemKey].compartments) {
+										var listItem = {
+											"id": itemKey,
+											"interval": intervals[itemKey],
+											"template": {
+												"title": inventory[itemType][itemKey].name,
+												"subSections": []
+											}
+										};
+
+										for(var k = 0; k < Object.keys(inventory[itemType][itemKey].compartments).length; k++) {
+											var compartmentKey = Object.keys(inventory[itemType][itemKey].compartments)[k];
+											for(var l = 0; l < inventory[itemType][itemKey].compartments[compartmentKey].formId.length; l++) {
+												var formId = inventory[itemType][itemKey].compartments[compartmentKey].formId[l];
+												templates[formId].id = formId;
+												listItem.template.subSections.push(templates[formId]);
+											}
+										}
+
+										reportsList.list.push(listItem);
+									} else {
+										for(var k = 0; k < inventory[itemType][itemKey].formId.length; k++) {
+											var formId = inventory[itemType][itemKey].formId[k];
+
+											reportsList.list.push({
+												"id": formId,
+												"interval": intervals[formId],
+												"template": templates[formId]
+											});
+										}
+									}
+								}
 							}
 
                             // send response
@@ -1684,16 +1724,125 @@ exports.listReports = functions.https.onRequest((req, res) => {
 });
 
 exports.sendIncompleteFormsEmail = functions.https.onRequest((req, res) => {
-	var mailOptions = {
-		from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
-		to: 'chris.jaen@gmail.com',
-		subject: 'test subject',
-		text: 'test text'
-	}
+	if(req.method == "GET") {
+        admin.database().ref('/').once('value', function(snap) {
+			var root = snap.val();
+			var emails = [];
+			var time = getTime();
+			var inventory = root.inventory;
+			var results = root.forms.results;
+			var intervals = root.forms.intervals;
+			var templates = root.forms.templates;
+			var toDoList = [];
 
-	mailTransport.sendMail(mailOptions).then(function() {
-		res.send('Email Sent');
-	}).catch(function(err) {
-		res.send(err)
-	});
+			for(var i = 0; i < Object.keys(root.users).length; i++) {
+				var user = Object.keys(root.users)[i];
+
+				if(root.users[user].alert) {
+					emails.push(root.users[user].email);
+				}
+			}
+
+			for(var i = 0; i < Object.keys(inventory).length; i++) {
+                var itemType = Object.keys(inventory)[i];
+                for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
+                    var itemKey = Object.keys(inventory[itemType])[j];
+                    if(inventory[itemType][itemKey].compartments) {
+                        var compartments = inventory[itemType][itemKey].compartments;
+                        var push = false;
+                        var complete = true;
+
+                        for(var k = 0; k < Object.keys(compartments).length; k++) {
+                            var formId = compartments[Object.keys(compartments)[k]].formId;
+                            for(var l = 0; l < formId.length; l++) {
+                                if(intervals[formId[l]].days[time.weekday]) {
+                                    push = true;
+
+                                    if(results && results[formId[l]]) {
+                                        var frequency = intervals[formId[l]].frequency;
+                                        var timestamps = Object.keys(results[formId[l]]);
+
+                                        if(frequency == "Daily" && !timestamps.includes(time.datestamp)) {
+                                            complete = false;
+                                            break;
+                                        } else if(frequency == "Weekly" && !time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                            complete = false;
+                                            break;
+                                        } else if(frequency == "Monthly" && !timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                            complete = false;
+                                            break;
+                                        }
+                                    } else {
+                                        complete = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if(!complete) {
+                                break;
+                            }
+                        }
+
+                        if(push) {
+                            toDoList.push({
+                                "title": inventory[itemType][itemKey].name,
+                                "complete": complete
+                            });
+                        }
+                    } else {
+                        var formId = inventory[itemType][itemKey].formId;
+                        for(var l = 0; l < formId.length; l++) {
+                            if(intervals[formId[l]].days[time.weekday]) {
+                                var complete = false;
+
+                                if(results && results[formId[l]]) {
+                                    var frequency = intervals[formId[l]].frequency;
+                                    var timestamps = Object.keys(results[formId[l]]);
+
+                                    if(frequency == "Daily" && timestamps.includes(time.datestamp)) {
+                                        complete = true;
+                                    } else if(frequency == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
+                                        complete = true;
+                                    } else if(frequency == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
+                                        complete = true;
+                                    }
+                                }
+
+                                toDoList.push({
+                                    "title": templates[formId[l]].title,
+                                    "complete": complete
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+
+            var mailOptions = {
+				from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
+				bcc: emails.join(),
+				subject: time.formattedDate + ': Incomplete Forms',
+				text: 'The following form(s) are incomplete for ' + time.formattedDate + ':\n'
+			}
+
+			for(var i = 0; i < toDoList.length; i++) {
+				if(!toDoList[i].complete) {
+					mailOptions.text += "\n\t" + toDoList[i].title;
+				}
+			}
+
+			mailOptions.text += "\n\nThanks,\n\nYour OviedoFireSD team";
+
+			mailTransport.sendMail(mailOptions).then(function() {
+				cors(req, res, () => {
+                    res.sendStatus(200);
+                });
+			}).catch(function(err) {
+				cors(req, res, () => {
+                    res.status(400).send(err);
+                });
+			});
+        });
+	}
 });

@@ -1,4 +1,4 @@
 create/edit forms
-notifications for missing, needs repair, and incomplete forms (admin portal and email)
+notifications for missing and needs repair (admin portal and email)
 inventory
 excel dump
