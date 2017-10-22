@@ -168,7 +168,6 @@ ul
         height: 20px
     ul
       border: none
-      border-top: 1px solid #333
     li a
       padding: 1em
       &:hover, &:focus
@@ -280,6 +279,9 @@ button
     top: .35em
     border-radius: 3px
 
+    &:disabled
+      background: transparent
+
   &.accept
     background-color: #337ab7
     border: none
@@ -328,11 +330,13 @@ ngx-datatable
   border-radius: 1%
   // width: calc(100% - 30px - 1em)
   background-color: white
-  padding: 1em .5em 0 .5em
   // height: calc(85vh - 150px)
   height: calc(100vh - 16em)
-  overflow: scroll !important
-  border: 1px solid lightgray
+  //overflow: scroll !important
+  overflow: overlay !important
+  &.table
+    border: 1px solid lightgray
+    padding: 1em .5em 0 .5em
   div
     width: 100%
     text-align: left
@@ -357,6 +361,8 @@ ngx-datatable
 
     datatable-scroller, .datatable-header-inner, .datatable-row-center, datatable-body-row, datatable-row-wrapper
       width: 100% !important
+      &.active
+        background: $bg-primary
 
     datatable-body-row
       cursor: pointer

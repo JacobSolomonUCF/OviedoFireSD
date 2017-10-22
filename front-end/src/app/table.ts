@@ -12,54 +12,108 @@ import {WebService} from "./services/webService";
     <div [ngSwitch]="dataType">
       <ng-template ngSwitchCase="report">
         <div [ngSwitch]="viewType">
-          <ngx-datatable
-            #myTable
-            class="table"
-            [rows]="rows"
-            [rowHeight]="'auto'"
-            [columns]="heading"
-            [columnMode]="'flex'"
-            (select)="onclick()($event, table)"
-            *ngSwitchCase="'view'"
-            [selectionType]="'single'">
-          </ngx-datatable>
-          <div *ngSwitchCase="'edit'" class="tile pure-form pure-form-stacked editing">
-            <fieldset>
-              <div class="pure-g" style="letter-spacing: 0">
-                <div class="pure-u-11-24 pure-u-sm-1">
-                  <label for="title">Title</label>
-                  <input #title id="title" type="text" [ngModel]="temp.name" (keyup)="keyup('title', title.value)">
-                </div>
-
-                <div class="pure-u-11-24 pure-u-sm-1">
-                  <label for="type">Schedule</label>
-                  <select #schedule id="type" [(ngModel)]="temp.schedule"
-                          (change)="console.log(schedule); temp.schedule = schedule.state">
-                    <option value="Daily">Daily</option>
-                    <option value="Special">Special</option>
-                  </select>
-                </div>
-                <ng-template [ngIf]="temp.schedule && temp.schedule.length">
-                  <div *ngIf="temp.schedule === 'Daily'" class="pure-u-11-24">
-                    <label for="type">Truck</label>
-                    <select id="type" [(ngModel)]="temp.base">
-                      <option value="ATV 46">ATV 46</option>
-                      <option value="Rescue 44">Rescue 44</option>
-                    </select>
-                  </div>
-                  <div *ngIf="temp.schedule === 'Special'" class="pure-u-1">
-                    special
-                  </div>
+          <div *ngSwitchCase="'view'">
+            <ngx-datatable
+              #myTable
+              class="table"
+              (select)="onclick()($event, myTable)"
+              [selectionType]="'single'"
+              [columnMode]="'flex'"
+              [rowHeight]="'auto'"
+              [rows]="rows">
+              <ngx-datatable-column [name]="'Report'" [prop]="'template.title'" [flexGrow]="2"></ngx-datatable-column>
+              <ngx-datatable-column [name]="'Frequency'" [prop]="'interval.frequency'"
+                                    [flexGrow]="1"></ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+          <div *ngSwitchCase="'edit'">
+            <div class="tile pure-form pure-form-stacked editing">
+              <div class="pure-u-11-24 pure-u-sm-1" *ngIf="temp.template">
+                <label for="text">Title</label>
+                <input #text type="text" [(ngModel)]="temp.template.title"/>
+              </div>
+              <div class="pure-u-5-24 pure-u-sm-1" *ngIf="temp.interval">
+                <label for="type">Schedule</label>
+                <select #schedule id="type" [(ngModel)]="temp.interval.frequency"
+                        (change)="temp.schedule = schedule.state">
+                  <option value="Daily">Daily</option>
+                  <option value="Weekly">Weekly</option>
+                  <option value="Monthly">Monthly</option>
+                </select>
+              </div>
+              <div class="pure-u-1" *ngIf="temp.template">
+                <ngx-datatable
+                  style="max-height: 25vh; padding-right: 1em"
+                  #myTable
+                  [rows]="temp.template.subSections"
+                  [rowHeight]="'auto'"
+                  [selectionType]="'single'"
+                  [selected]="selected"
+                  (select)="onclick()($event, myTable)"
+                  [columnMode]="'flex'">
+                  <ngx-datatable-column [name]="'Section'" [prop]="'title'" [flexGrow]="1">
+                    <ng-template ngx-datatable-header-template>
+                      <div style="display: flex; justify-content: space-between;">
+                        <span>Section</span>
+                        <span>
+                          <button class="close" (click)="addSection()">
+                            <i class="fa fa-plus"></i>&nbsp;add&nbsp;&nbsp;
+                          </button>
+                        </span>
+                      </div>
+                    </ng-template>
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                      <input (blur)="updateValue($event, 'title', rowIndex)" type="text" [value]="value"
+                             style="padding-right: 1em" [(ngModel)]="row.title"/>
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+                <ngx-datatable
+                  #otherTable
+                  style="max-height: 25vh; padding-right: 1em"
+                  *ngIf="selected[0]"
+                  [rows]="selected[0].inputElements"
+                  [rowHeight]="'auto'"
+                  [selectionType]="'single'"
+                  [columnMode]="'flex'">
+                  <ngx-datatable-column [name]="'Caption'" [prop]="'caption'" [flexGrow]="2">
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                      <input (blur)="updateValue($event, 'caption', rowIndex)" type="text" [value]="value"
+                             style="padding-right: 1em" [(ngModel)]="row.caption"/>
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <ngx-datatable-column [prop]="'type'" [flexGrow]="1">
+                    <ng-template ngx-datatable-header-template>
+                      <div style="display: flex; justify-content: space-between">
+                        <span>type</span>
+                        <span>
+                          <button class="close" (click)="add()">
+                            <i class="fa fa-plus"></i>&nbsp;add&nbsp;&nbsp;
+                          </button>
+                        </span>
+                      </div>
+                    </ng-template>
+                    <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+                      <div style="display: flex; justify-content: space-between;">
+                        <select id="type" (change)="updateValue($event, 'type', rowIndex)" [value]="value"
+                                [(ngModel)]="row.type">
+                          <option value="pmr">Present/Missing/Repair</option>
+                          <option value="pf">Pass/Fail</option>
+                          <option value="num">Number</option>
+                          <option value="per">Percent</option>
+                        </select>
+                        <button class="close" (click)="remove(rowIndex)"><i class="fa fa-times"></i></button>
+                      </div>
+                    </ng-template>
+                  </ngx-datatable-column>
+                </ngx-datatable>
+              </div>
+            </div>
+          </div>
+          <ng-content select=".item-table-options-default" *ngSwitchDefault></ng-content>
                   <!--<div class="pure-u-11-24">-->
                     <!--<img src="https://api.qrserver.com/v1/create-qr-code/?data=ATV46ATVS&amp;size=100x100" alt="" title="" />-->
                   <!--</div>-->
-                </ng-template>
-              </div>
-              <br/>
-              <button type="submit" class="accept" [disabled]="true">Submit</button>
-            </fieldset>
-          </div>
-          <div *ngSwitchDefault> default</div>
         </div>
       </ng-template>
       <ng-template ngSwitchCase="truck">
@@ -131,12 +185,11 @@ import {WebService} from "./services/webService";
         <ngx-datatable
           #myTable
           *ngIf="!row"
-          class='material expandable'
+          class='table'
           [rows]="rows"
           [groupRowsBy]="style.group"
           [columnMode]="'force'"
           [scrollbarH]="false"
-          [headerHeight]="50"
           [footerHeight]="0"
           [rowHeight]="'auto'"
           (select)="onclick()($event, myTable)"
@@ -181,10 +234,11 @@ export class Table {
   @Input() rows: any[];
   webService: WebService;
   loading: boolean = false;
+  selected = [];
   original: any;
   filter: any;
   date: string;
-  temp: any;
+  temp: any = {};
   row: any;
 
   styles = {
@@ -251,6 +305,10 @@ export class Table {
     };
 
     return options[this.viewType] && options[this.viewType][this.dataType] || options.other;
+  }
+
+  updateValue(a, b, c) {
+
   }
 
   keyup(index, value) {
@@ -351,8 +409,13 @@ export class Table {
         this.temp.original = event ? event.selected[0] : event;
       },
       report: (event) => {
-        this.viewType = 'edit';
-        this.temp = (event) ? event.selected[0] : {name: "", schedule: "Daily"};
+        if (this.viewType === 'view') {
+          this.viewType = 'edit';
+          this.temp = (event) ? event.selected[0] : {template: {subSections: []}, interval: {frequency: ""}};
+          this.selected = (this.temp.template.subSections[0]) ? [this.temp.template.subSections[0]] : [];
+        } else if (this.viewType === 'edit') {
+          this.selected = event.selected;
+        }
       },
       truck: (event) => {
         this.viewType = 'edit';
@@ -381,14 +444,27 @@ export class Table {
     }
   }
 
+  addSection() {
+    this.temp.template.subSections.push({title: "", inputElements: []})
+  }
+
+  add() {
+    this.selected[0].inputElements.push({caption: "", type: ""},);
+    // this.selected[0].inputElements = [...this.selected[0].inputElements];
+  }
+
   remove(row) {
-    for (let i = 0, len = this.temp.rows.length; i < len; i++) {
-      if (this.temp.rows[i] === row) {
-        this.temp.rows.splice(i, 1);
-        this.temp.rows = [...this.temp.rows];
-        return;
+    if (this.dataType === 'report') {
+      this.selected[0].inputElements.splice(row, 1);
+      // this.selected[0] = [...this.selected[0]];
+    } else
+      for (let i = 0, len = this.temp.rows.length; i < len; i++) {
+        if (this.temp.rows[i] === row) {
+          this.temp.rows.splice(i, 1);
+          this.temp.rows = [...this.temp.rows];
+          return;
+        }
       }
-    }
   }
 
   toggleExpandGroup(group, table = this.table) {

@@ -67,7 +67,8 @@ import {WebService} from "../../services/webService";
                           <i class="fa {{expanded ? 'fa-chevron-down' : 'fa-chevron-right'}}" style="font-size: .7em"></i>
                           &nbsp;{{group.value[0].compartment}}
                         </span>
-                        <button class="close" (click)="itemtable.addCompartment(group.value[0].compartment)"><i class="fa fa-plus"></i>&nbsp;Add</button>
+                        <button class="close" (click)="itemtable.addCompartment(group.value[0].compartment)"><i
+                          class="fa fa-plus"></i>&nbsp;Add&nbsp;&nbsp;</button>
                       </b>
                     </span>
                   </div>
@@ -75,20 +76,13 @@ import {WebService} from "../../services/webService";
               </ngx-datatable-group-header>
               <ngx-datatable-column [name]="'Name'" [prop]="'name'" [flexGrow]="2">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row" class="example-full-width">
-                  <input
-                  (blur)="updateValue($event, 'name', rowIndex)"
-                  type="text"
-                  [value]="value"
-                  />
+                  <input (blur)="itemtable.updateValue($event, 'name', rowIndex)" type="text" [value]="value"/>
                   </ng-template>
               </ngx-datatable-column>
               <ngx-datatable-column [name]="'Type'" [prop]="'type'" [flexGrow]="1">
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
                   <div style="display: flex; justify-content: space-between;">
-                    <select
-                      id="type"
-                      (change)="updateValue($event, 'gender', rowIndex)"
-                      [value]="value">
+                    <select id="type" (change)="updateValue($event, 'gender', rowIndex)" [value]="value">
                       <option value="pmr">Present/Missing/Repair</option>
                       <option value="num">Number</option>
                       <option value="per">Percent</option>
@@ -118,14 +112,6 @@ export class EditTruck {
     {truck: "ATV 44", compartments: 2, 'Equipment Count': 6, id: '10015'},
     {truck: "Rescue 44", compartments: 20, 'Equipment Count': 29, id: '10012'}
   ];
-
-  updateValue(a, b, c) {
-
-  }
-
-  foo(x) {
-    console.log('foo', x);
-  }
 
   constructor(webService: WebService) {
     webService.setState('eTruck');
