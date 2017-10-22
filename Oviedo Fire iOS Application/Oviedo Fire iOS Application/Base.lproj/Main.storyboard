@@ -226,6 +226,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="activeButton" destination="nfB-Qj-hDE" id="VjE-p3-WTK"/>
                         <outlet property="activityView" destination="ReZ-ne-nEs" id="aov-8q-KSa"/>
@@ -423,7 +424,7 @@
                                 </connections>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="M89-CV-FaC">
-                                <rect key="frame" x="189" y="350" width="37" height="37"/>
+                                <rect key="frame" x="189" y="349.66666666666669" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
@@ -525,7 +526,7 @@
                                 </connections>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="cXn-NV-nGX">
-                                <rect key="frame" x="189" y="350" width="37" height="37"/>
+                                <rect key="frame" x="189" y="349.66666666666669" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
@@ -566,11 +567,11 @@
                                     <constraint firstAttribute="height" constant="55" id="Wu7-eT-XjP"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No QR code is detected" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CiR-nw-lNF">
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.60000002384185791" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No QR code is detected" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CiR-nw-lNF">
                                 <rect key="frame" x="0.0" y="696" width="414" height="40"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="q1G-9X-lIs"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="q1G-9X-lIs"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -591,7 +592,7 @@
                         <outlet property="messageLabel" destination="CiR-nw-lNF" id="Ihg-ka-p94"/>
                         <outlet property="topbar" destination="Kq1-6S-B5Y" id="HaL-U0-f0N"/>
                         <segue destination="xui-d9-4GZ" kind="show" identifier="toForm" id="5ke-Tr-8rg"/>
-                        <segue destination="9hw-0z-Mq7" kind="show" identifier="toResults" id="Mkq-hP-Gbh"/>
+                        <segue destination="9hw-0z-Mq7" kind="show" identifier="toResult" id="Mkq-hP-Gbh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="smf-3H-DRq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -972,17 +973,25 @@
                                     <outlet property="delegate" destination="xui-d9-4GZ" id="IHo-Tf-EzY"/>
                                 </connections>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="1L7-ix-8Da">
+                                <rect key="frame" x="197" y="358" width="20" height="20"/>
+                                <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Dnc-Jf-rQD" firstAttribute="leading" secondItem="0na-6C-ls1" secondAttribute="leading" id="8WX-V3-9u5"/>
+                            <constraint firstItem="1L7-ix-8Da" firstAttribute="centerX" secondItem="0na-6C-ls1" secondAttribute="centerX" id="CRv-LA-4Fa"/>
                             <constraint firstAttribute="trailing" secondItem="Dnc-Jf-rQD" secondAttribute="trailing" id="LSQ-YV-SmK"/>
+                            <constraint firstItem="1L7-ix-8Da" firstAttribute="centerY" secondItem="0na-6C-ls1" secondAttribute="centerY" id="ccf-Td-IZt"/>
                             <constraint firstItem="Tsh-St-5Hh" firstAttribute="top" secondItem="Dnc-Jf-rQD" secondAttribute="bottom" id="dr4-0b-Ux5"/>
                             <constraint firstItem="Dnc-Jf-rQD" firstAttribute="top" secondItem="3gt-HW-Sjr" secondAttribute="bottom" id="xfI-N1-BME"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityView" destination="1L7-ix-8Da" id="8ij-JU-eQ9"/>
                         <outlet property="tableView" destination="Dnc-Jf-rQD" id="8ky-fP-BLj"/>
+                        <segue destination="PNN-47-jNF" kind="show" identifier="toHome" id="pse-4N-dt2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cvu-TV-ABH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1211,7 +1220,7 @@
                                 </connections>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="utI-RB-5Nr">
-                                <rect key="frame" x="189" y="350" width="37" height="37"/>
+                                <rect key="frame" x="189" y="349.66666666666669" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
@@ -1302,7 +1311,7 @@
                                 </connections>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="mlK-Wh-6om">
-                                <rect key="frame" x="189" y="350" width="37" height="37"/>
+                                <rect key="frame" x="189" y="349.66666666666669" width="37" height="37"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
@@ -1341,7 +1350,8 @@
         <image name="YouTube.jpg" width="1280" height="800"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zjF-4K-ITb"/>
-        <segue reference="Ca1-Q1-epV"/>
+        <segue reference="Mkq-hP-Gbh"/>
+        <segue reference="5ke-Tr-8rg"/>
+        <segue reference="pse-4N-dt2"/>
     </inferredMetricsTieBreakers>
 </document>

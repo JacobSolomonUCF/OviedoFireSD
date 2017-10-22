@@ -30,6 +30,14 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
     var singleFormId:String = ""
     let searchController = UISearchController(searchResultsController: nil)
     var userName:[String] = []
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        if let selectionIndexPath = self.tableView.indexPathForSelectedRow {
+            self.tableView.deselectRow(at: selectionIndexPath, animated: animated)
+        }
+    }
     
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
@@ -81,6 +89,8 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
             nextController.formName = formName
             nextController.userName = userName
             nextController.formId = singleFormId
+            nextController.commingFrom.type = "todo"
+            nextController.commingFrom.section = ""
             
         }
         self.stopSpinning(activityView: self.activityView)
@@ -96,8 +106,8 @@ extension toDoViewController{
     //    List item is tapped:
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         startSpinning(activityView: activityView)
-        singleFormId = list[indexPath.row].formId
-        let fullName = list[indexPath.row].name
+        singleFormId = filterdList[indexPath.row].formId
+        let fullName = filterdList[indexPath.row].name
         if(fullName.contains("Check-Off")){
             formName = fullName
         }else{

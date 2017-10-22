@@ -21,6 +21,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     var list: [active] = []
     var truckCompartments: [compartments] = []
     var userName:[String] = []
+    var truckNumber:String = ""
     
     func setupView(){
         stopSpinning(activityView: activityView)
@@ -59,6 +60,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
             nextController.list = truckCompartments
             nextController.vehicle = truckName
             nextController.userName = userName
+            nextController.truckNumber = truckNumber
             
         }
     }
@@ -80,6 +82,8 @@ extension ActiveViewController{
         var split = list[indexPath.row].name.components(separatedBy: "/")
         truckName = split[0]
         
+        
+        truckNumber = list[indexPath.row].number
         getCompartments(singleSelection: list[indexPath.row].number, completion:{(list) -> Void in
             self.truckCompartments = list
             self.performSegue(withIdentifier: "toCompartments", sender: (Any).self)

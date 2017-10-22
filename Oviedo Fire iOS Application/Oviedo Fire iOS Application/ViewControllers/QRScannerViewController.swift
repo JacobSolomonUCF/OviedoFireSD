@@ -7,6 +7,7 @@
 //
 import AVFoundation
 import UIKit
+import Firebase
 
 class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     
@@ -18,7 +19,17 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
     var videoPreviewLayer:AVCaptureVideoPreviewLayer?
     var captureSession:AVCaptureSession?
     var userName:[String] = []
+    var form:completeForm = completeForm.init(title: "Default", alert: "Default", subSection: [])
+    var resultForm = result(completeBy: "Default", timeStamp: "Default", title: "Default", resultSection: [])
+    let userID = Auth.auth().currentUser!.uid
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        captureSession?.startRunning()
+        codeFrame.frame = CGRect.zero
+        codeLabel.text = "Please scan a QR Code"
+    }
  
     
     override func viewDidLoad() {
@@ -102,44 +113,65 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
         
         guard let barcodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObject) else { return }
         codeFrame.frame = barcodeObject.bounds
-        codeLabel.text = stringCodeValue
         
         // Play system sound with custom mp3 file
-        if let customSoundUrl = Bundle.main.url(forResource: "beep-07", withExtension: "mp3") {
-            var customSoundId: SystemSoundID = 0
-            AudioServicesCreateSystemSoundID(customSoundUrl as CFURL, &customSoundId)
-            //let systemSoundId: SystemSoundID = 1016  // to play apple's built in sound, no need for upper 3 lines
-            
-            AudioServicesAddSystemSoundCompletion(customSoundId, nil, nil, { (customSoundId, _) -> Void in
-                AudioServicesDisposeSystemSoundID(customSoundId)
-            }, nil)
-            
-            AudioServicesPlaySystemSound(customSoundId)
-        }
+
         
         // Stop capturing and hence stop executing metadataOutput function over and over again
         message = stringCodeValue
         captureSession?.stopRunning()
         
-        // Call the function which performs navigation and pass the code string value we just detected
-        performSegue(withIdentifier: "toForm", sender: (Any).self)
-        //displayDetailsViewController(scannedCode: stringCodeValue)
+        getForm(userID: userID, formId: message) { (item) in
+            self.form = item
+            if (item.alert == "No Form Found" && item.title == "No Form Found"){
+                self.codeLabel.text = "No Form Found"
+                let alert = UIAlertController(title: "", message: "Invalid Form", preferredStyle: UIAlertControllerStyle.alert)
+                self.present(alert, animated: true, completion: nil)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                    self.captureSession?.startRunning()
+                    self.codeFrame.frame = CGRect.zero
+                }))
+            }else{
+                let title = self.splitFormTitle(formTitle: self.form.subSection[0].formItem[0].caption)
+                self.codeLabel.text = title[1]
+                self.checkCompletion(userID: self.userID, formId: self.message, completion: { (isCompleted) in
+                    if(isCompleted == "true"){
+                        
+                        self.getResults(userID: self.userID, formId: self.message, completion: { (result) in
+                            self.resultForm = result
+                            
+                            let refreshAlert = UIAlertController(title: "Attention", message: "This form has already been completed", preferredStyle: UIAlertControllerStyle.alert)
+                            self.present(refreshAlert, animated: true, completion: nil)
+                            refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                                self.performSegue(withIdentifier: "toResult" , sender: nil)
+                                
+                            }))
+                        })
+                        
+                    }else{
+                        self.performSegue(withIdentifier: "toForm", sender: nil)
+                    }
+                })
+            }
+        }
         
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toForm"{
             let nextController = segue.destination as! EqFormViewController
+            nextController.userEnteredResults = createResults(form: form)
+            nextController.form = form
+            nextController.formName = form.title
+            nextController.userName = userName
             nextController.formId = message
-            
+            nextController.commingFrom.type = "qr"
+            nextController.commingFrom.section = ""
+        }else if segue.identifier == "toResult"{
+            let nextController = segue.destination as! resultsViewController
+            nextController.resultForm = resultForm
+            nextController.userName = userName
         }
-    }
-    
-    func displayDetailsViewController(scannedCode: String) {
-        //let detailsViewController = EqFormViewController()
-        //detailsViewController.string = scannedCode.te
-        //navigationController?.pushViewController(detailsViewController, animated: true)
-        //present(detailsViewController, animated: true, completion: nil)
     }
     
 }
