@@ -58,11 +58,11 @@
                   </div>
                 </ng-template>
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                  <div (dblclick)="editing[rowIndex] = !editing[rowIndex]">
-                    <span *ngIf="editing[rowIndex]">
-                      <input [(ngModel)]="row.title"/>
+                  <div (dblclick)="editing = editing === rowIndex ? -1 : rowIndex">
+                    <span *ngIf="editing === rowIndex">
+                      <input class="mock-mat" [(ngModel)]="row.title" placeholder="Add a name"/>
                     </span>
-                    <span *ngIf="!editing[rowIndex]">
+                    <span *ngIf="editing !== rowIndex">
                       {{value}}
                     </span>
                   </div>

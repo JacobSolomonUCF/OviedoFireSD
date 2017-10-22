@@ -15,7 +15,7 @@ export class Table {
   @Input() rows: any[];
   webService: WebService;
   loading: boolean = false;
-  editing = [];
+  editing = -1;
   selected = [];
   original: any;
   filter: any;
@@ -227,7 +227,17 @@ export class Table {
   }
 
   addSection() {
-    this.temp.template.subSections.push({title: "", inputElements: []})
+    let emptySection = {title: "", inputElements: []};
+    let len = this.temp.template.subSections.length
+    for (let i = 0; i < len; i++) {
+      if (this.temp.template.subSections[i].title === emptySection.title) {
+        this.editing = i;
+        return;
+      }
+    }
+    this.editing = 0;
+    this.selected = [emptySection];
+    this.temp.template.subSections.unshift(emptySection);
   }
 
   add() {
