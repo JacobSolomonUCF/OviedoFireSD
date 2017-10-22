@@ -37,7 +37,7 @@
           </div>
           <div class="pure-u-1" *ngIf="temp.template">
             <ngx-datatable
-              style="max-height: 25vh; padding-right: 1em"
+              style="max-height: 25vh"
               #myTable
               *ngIf="temp.template.subSections"
               [rows]="temp.template.subSections"
@@ -73,7 +73,7 @@
             </ngx-datatable>
             <ngx-datatable
               #otherTable
-              style="max-height: 25vh; padding-right: 1em"
+              style="max-height: 25vh"
               *ngIf="selected[0]"
               [rows]="selected[0].inputElements"
               [rowHeight]="'auto'"
