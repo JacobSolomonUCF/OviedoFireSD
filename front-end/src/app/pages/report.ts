@@ -16,7 +16,8 @@ import {WebService} from "../services/webService";
           <div class="item-table-options-view table-options">
             <div class="left">
               <datepicker #datepicker></datepicker>
-              <button class="close" (click)="getReports(datepicker.input.nativeElement.value)" [disabled]="reloading">
+              <button class="close" (click)="getReports(datepicker.input.nativeElement.value)"
+                      [disabled]="reloading || datepicker.input.nativeElement.value === itemtable.date">
                 <i class="fa fa-refresh {{reloading ? 'fa-spin' : ''}}"></i>
               </button>
             </div>
@@ -110,7 +111,7 @@ export class Report {
     this.itemtable.date = datepicker;
     let self = this;
     let dateParts = datepicker.split('/');
-    let date = dateParts[2] + this.pad(dateParts[1]) + this.pad(dateParts [0]);
+    let date = dateParts[2] + this.pad(dateParts[0]) + this.pad(dateParts [1]);
     self.reloading = true;
 
     this.webService
