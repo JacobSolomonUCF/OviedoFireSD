@@ -6,7 +6,6 @@ import {WebService} from "./services/webService";
   templateUrl: 'table.html'
 })
 export class Table {
-  @ViewChild('datepicker') datepicker: any;
   @ViewChild('myTable') table: any;
   title: string = '';
   @Input() dataType: any;
@@ -71,10 +70,8 @@ export class Table {
   ngOnInit() {
     this.style = this.styles[this.viewType];
     this.original = this.rows;
-  }
-
-  getDate() {
-    return (this.datepicker) ? this.datepicker.getDate() : '';
+    let date = new Date();
+    this.date = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear()
   }
 
   getTheme() {
@@ -228,7 +225,7 @@ export class Table {
 
   addSection() {
     let emptySection = {title: "", inputElements: []};
-    let len = this.temp.template.subSections.length
+    let len = this.temp.template.subSections.length;
     for (let i = 0; i < len; i++) {
       if (this.temp.template.subSections[i].title === emptySection.title) {
         this.editing = i;
