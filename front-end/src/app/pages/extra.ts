@@ -8,6 +8,7 @@ import {WebService} from "../services/webService";
     </div>
 
     <div class="content">
+      
     </div>
   `
   , styleUrls: ['../menu.sass']
