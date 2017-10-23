@@ -29,9 +29,14 @@ import {WebService} from "../../services/webService";
             </div>
           </div>
           <div class="item-table-options-edit table-options">
-            <button class="close" (click)="itemtable.toggle()()">
-              <i class="fa fa-chevron-left"></i> Back
-            </button>
+            <div class="left">
+              <button class="close" (click)="itemtable.toggle()()">
+                <i class="fa fa-chevron-left"></i> Back
+              </button>
+            </div>
+            <div class="right">
+              <button class="accept short" (click)="itemtable.submitReport()">Submit</button>
+            </div>
           </div>
         </item-table>
       </div>

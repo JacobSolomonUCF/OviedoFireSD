@@ -63,6 +63,19 @@ export class Table {
   style: any;
   previousStyle: any;
 
+  submitReport() {
+    console.log('Posting body:', this.temp);
+    this.loading = true;
+    this.webService.doPost('/listReports', {report: this.temp})
+      .subscribe(() => {
+        this.toggle();
+      }, error => {
+        console.log(error);
+      }, () => {
+        this.loading = false;
+      });
+  }
+
   constructor(webService: WebService) {
     this.webService = webService;
   }
@@ -190,7 +203,21 @@ export class Table {
       report: (event) => {
         if (this.viewType === 'view') {
           this.viewType = 'edit';
-          this.temp = (event) ? event.selected[0] : {template: {subSections: []}, interval: {frequency: ""}};
+          this.temp = (event) ? event.selected[0] : {
+            template: {subSections: []},
+            interval: {
+              frequency: "",
+              days: {
+                sunday: false,
+                monday: false,
+                tuesday: false,
+                wednesday: false,
+                thursday: false,
+                friday: false,
+                saturday: false
+              }
+            }
+          };
           this.selected = (this.temp.template.subSections) ? [this.temp.template.subSections[0]] : [this.temp.template];
         } else if (this.viewType === 'edit') {
           this.selected = event.selected;
@@ -235,6 +262,12 @@ export class Table {
     this.editing = 0;
     this.selected = [emptySection];
     this.temp.template.subSections.unshift(emptySection);
+  }
+
+  removeSection(index) {
+    if (this.temp.template.subSections[index] === this.selected[0]) this.selected = [];
+    this.temp.template.subSections.splice(index, 1);
+    this.temp.template.subSections = [...this.temp.template.subSections];
   }
 
   add() {

@@ -6,6 +6,7 @@
 <div [ngSwitch]="dataType">
   <ng-template ngSwitchCase="report">
     <div [ngSwitch]="viewType">
+      <!-- TODO: Download QR -->
       <div *ngSwitchCase="'view'">
         <ngx-datatable
           #myTable
@@ -21,6 +22,7 @@
         </ngx-datatable>
       </div>
       <div *ngSwitchCase="'edit'">
+        <!-- TODO: At submit functionality to edit reports. -->
         <div class="tile pure-form pure-form-stacked editing">
           <span style="display: flex; flex-wrap: wrap">
             <div style="flex-grow: 3" *ngIf="temp.template">
@@ -36,7 +38,7 @@
                 <option value="Monthly">Monthly</option>
               </select>
             </div>
-            <div style="flex-grow: 2" *ngIf="temp.interval">
+            <div style="flex-grow: 2" *ngIf="temp.interval && temp.interval.frequency !== 'Daily'">
             <table>
               <tr>
                 <th *ngFor="let h of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">{{h}}</th>
@@ -73,12 +75,13 @@
                   </div>
                 </ng-template>
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-                  <div (dblclick)="editing = editing === rowIndex ? -1 : rowIndex">
-                    <span *ngIf="editing === rowIndex">
-                      <input class="mock-mat" [(ngModel)]="row.title" placeholder="Add a name"/>
-                    </span>
-                    <span *ngIf="editing !== rowIndex">
-                      {{value}}
+                  <div (dblclick)="editing = editing === rowIndex ? -1 : rowIndex"
+                       style="display: flex; justify-content: space-between;">
+                    <input class="mock-mat" style="flex-grow: 99" [(ngModel)]="row.title" placeholder="Add a name"/>
+                    <span style="flex-grow: 1">
+                      <button class="close" (click)="removeSection(rowIndex)">
+                        <i class="fa fa-times"></i>
+                      </button>
                     </span>
                   </div>
                   <!--<input (blur)="updateValue($event, 'title', rowIndex)" type="text" [value]="value"-->
@@ -105,10 +108,10 @@
                   <div style="display: flex; justify-content: space-between">
                     <span>type</span>
                     <span>
-                          <button class="close" (click)="add()">
-                            <i class="fa fa-plus"></i>&nbsp;add&nbsp;&nbsp;
-                          </button>
-                        </span>
+                      <button class="close" (click)="add()">
+                        <i class="fa fa-plus"></i>&nbsp;add&nbsp;&nbsp;
+                      </button>
+                    </span>
                   </div>
                 </ng-template>
                 <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
@@ -207,6 +210,9 @@
     <div *ngSwitchDefault> default</div>
   </ng-template>
   <ng-template ngSwitchDefault>
+    <!-- reports -->
+    <!-- TODO: Download report (csv). -->
+    <!-- TODO: Look into tooltip comments. -->
     <ngx-datatable
       #myTable
       *ngIf="!row"
