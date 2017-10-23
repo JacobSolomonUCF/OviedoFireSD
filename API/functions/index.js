@@ -95,21 +95,21 @@ function getTime(date) {
 // ---------------------------END: Global API Functions-------------------------
 
 // -----------------------------BEGIN: API Functions----------------------------
-exports.activeVehiclesTest = functions.https.onRequest((req, res) => {
+exports.activeVehicles = functions.https.onRequest((req, res) => {
     switch(req.method) {
 		case 'GET':
 	        if(req.query.uid) {
-				ref.child('users').once('value').then(users => {
-					if(users.hasChild(req.query.uid)) {
-						const auth = users.child(req.query.uid).child('authentication').val();
+				ref.child('users').child(req.query.uid).child('authentication').once('value').then(authSnap => {
+					const auth = authSnap.val();
+					if(auth !== null) {
 	                    if(auth == 0 || auth == 1) {
 							var retVal = { list: [] };
 
-							ref.child('inventory/vehicles').once('value').then(vehicles => {
-								vehicles.forEach(vehicle => {
+							ref.child('inventory/vehicles').once('value').then(vehiclesSnap => {
+								vehiclesSnap.forEach(vehicleSnap => {
 									retVal.list.push({
-										id: vehicle.key,
-										name: vehicle.child('name').val()
+										id: vehicleSnap.key,
+										name: vehicleSnap.child('name').val()
 									});
 								});
 
@@ -141,95 +141,95 @@ exports.activeVehiclesTest = functions.https.onRequest((req, res) => {
 			break;
     }
 });
-// -------------------------------END: API Functions----------------------------
 
 exports.vehicleCompartments = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        if(req.query.vehicleId && req.query.uid) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0 || auth == 1) {
-                        admin.database().ref('/').once('value', function(snap) {
-                            var root = snap.val();
-                            var vehicles = root.inventory.vehicles;
-                            var results = root.forms.results;
-                            var intervals = root.forms.intervals;
-                            var compartments = vehicles[req.query.vehicleId].compartments;
-                            var time = getTime();
+    switch(req.method) {
+		case 'GET':
+	        if(req.query.uid && req.query.vehicleId) {
+				ref.child('users').child(req.query.uid).child('authentication').once('value').then(authSnap => {
+					const auth = authSnap.val();
+					if(auth !== null) {
+	                    if(auth == 0 || auth == 1) {
+							var time = getTime();
+							var retVal = { list: [] };
 
-                            if(compartments) {
-                                var vehicleCompartments = {
-                                    "list": []
-                                };
+							ref.child('inventory/vehicles').child(req.query.vehicleId).child('compartments').once('value').then(compartmentsSnap => {
+								const compartments = compartmentsSnap.val();
 
-                                for(var i = 0; i < Object.keys(compartments).length; i++) {
-                                    for(var j = 0; j < compartments[Object.keys(compartments)[i]].formId.length; j++) {
-                                        var interval = intervals[compartments[Object.keys(compartments)[i]].formId[j]];
-                                        var completedBy = "nobody";
+								if(compartments) {
+									ref.child('forms/intervals').once('value').then(intervalsSnap => {
+										const intervals = intervalsSnap.val();
 
-                                        if(interval) {
-                                            var schedule = interval.frequency;
+										ref.child('forms/results').once('value').then(resultsSnap => {
+											const results = resultsSnap.val();
 
-                                            if(results && results[compartments[Object.keys(compartments)[i]].formId[j]]) {
-                                                var timestamps = Object.keys(results[compartments[Object.keys(compartments)[i]].formId[j]]);
-                                                if(schedule == "Daily" && timestamps.includes(time.datestamp)) {
-                                                    completedBy = results[compartments[Object.keys(compartments)[i]].formId[j]][time.datestamp].completedBy;
-                                                } else if(schedule == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                                    completedBy = results[compartments[Object.keys(compartments)[i]].formId[j]][timestamps[timestamps.length - 1]].completedBy;
-                                                } else if(schedule == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                                    completedBy = results[compartments[Object.keys(compartments)[i]].formId[j]][timestamps[timestamps.length - 1]].completedBy;
-                                                }
-                                            }
-                                        }
+											Object.keys(compartments).forEach(compartmentKey => {
+												var completedBy = 'nobody';
+												const formId = compartments[compartmentKey].formId[0];
 
-                                        vehicleCompartments.list.push({
-                                            "name": compartments[Object.keys(compartments)[i]].name,
-                                            "formId": compartments[Object.keys(compartments)[i]].formId[j],
-                                            "completedBy": completedBy
-                                        });
-                                    }
-                                }
+												if(results && results[formId]) {
+													const frequency = intervals[req.query.vehicleId].frequency;
 
-                                // send response
-                                cors(req, res, () => {
-                                    res.status(200).send(vehicleCompartments);
-                                });
-                            } else {
-                                cors(req, res, () => {
-                                    res.status(400).send('Compartments for ' + req.query.vehicleId + ' do not exist');
-                                });
-                            }
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else if(!req.query.vehicleId && req.query.uid) {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'vehicleId' parameter");
-            });
-        } else if(req.query.vehicleId && !req.query.uid) {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' parameter");
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'vehicleId' and 'uid' parameters");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
+													if(frequency == "Daily" && results[formId][time.datestamp]) {
+														completedBy = results[formId][time.datestamp].completedBy;
+													} else if(frequency == "Weekly") {
+														const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+														if(time.weekstamps.includes(lastTimeStamp)) {
+															completedBy = results[formId][lastTimestamp].completedBy;
+														}
+													} else if(frequency == "Monthly") {
+														const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+														if(lastTimestamp.substring(0,6) == time.yearMonth) {
+															completedBy = results[formId][lastTimestamp].completedBy;
+														}
+													}
+												}
+
+												retVal.list.push({
+													name: compartments[compartmentKey].name,
+													formId: formId,
+													completedBy: completedBy
+												});
+											});
+
+											cors(req, res, () => {
+												res.status(200).send(retVal);
+											});
+										});
+									});
+								} else {
+									cors(req, res, () => {
+						                res.status(400).send(`Compartments for ${req.query.vehicleId} do not exist`);
+						            });
+								}
+							});
+	                    } else {
+	                        cors(req, res, () => {
+	                            res.status(403).send("The request violates the user's permission level");
+	                        });
+	                    }
+	                } else {
+	                    cors(req, res, () => {
+	                        res.status(401).send("The user is not authorized for access");
+	                    });
+	                }
+				});
+	        } else {
+	            cors(req, res, () => {
+	                res.status(400).send("Missing parameter(s): uid, vehicleId");
+	            });
+	        }
+			break;
+		default:
+			cors(req, res, () => {
+	            res.sendStatus(404);
+	        });
+			break;
     }
 });
+// -------------------------------END: API Functions----------------------------
 
 exports.form = functions.https.onRequest((req, res) => {
     if(req.method == "GET") {
