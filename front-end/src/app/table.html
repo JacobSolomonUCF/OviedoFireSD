@@ -22,19 +22,34 @@
       </div>
       <div *ngSwitchCase="'edit'">
         <div class="tile pure-form pure-form-stacked editing">
-          <div class="pure-u-11-24 pure-u-sm-1" *ngIf="temp.template">
-            <label for="text">Title</label>
-            <input #text id="text" type="text" [(ngModel)]="temp.template.title"/>
+          <span style="display: flex; flex-wrap: wrap">
+            <div style="flex-grow: 3" *ngIf="temp.template">
+              <label for="text">Title</label>
+              <input #text id="text" type="text" [(ngModel)]="temp.template.title"/>
+            </div>
+            <div style="flex-grow: 1" *ngIf="temp.interval">
+              <label for="type">Schedule</label>
+              <select #schedule id="type" [(ngModel)]="temp.interval.frequency"
+                      (change)="temp.schedule = schedule.state">
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+              </select>
+            </div>
+            <div style="flex-grow: 2" *ngIf="temp.interval">
+            <table>
+              <tr>
+                <th *ngFor="let h of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">{{h}}</th>
+              </tr>
+                <tr>
+                  <td
+                    *ngFor="let d of ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']"><input
+                    type="checkbox" [(ngModel)]="temp.interval.days[d]"></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="pure-u-5-24 pure-u-sm-1" *ngIf="temp.interval">
-            <label for="type">Schedule</label>
-            <select #schedule id="type" [(ngModel)]="temp.interval.frequency"
-                    (change)="temp.schedule = schedule.state">
-              <option value="Daily">Daily</option>
-              <option value="Weekly">Weekly</option>
-              <option value="Monthly">Monthly</option>
-            </select>
-          </div>
+          </span>
           <div class="pure-u-1" *ngIf="temp.template">
             <ngx-datatable
               style="max-height: 25vh"
