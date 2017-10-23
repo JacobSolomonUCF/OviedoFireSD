@@ -282,6 +282,9 @@ button
     &:disabled
       background: transparent
 
+  &.short
+    padding: 0 .5em !important
+
   &.accept
     background-color: #337ab7
     border: none
@@ -312,8 +315,8 @@ button
     border-radius: 3px
 
 button:disabled
-  background-color: lightgray
-  cursor: not-allowed
+  opacity: .5
+  cursor: not-allowed !important
 
 /* -- Table --------------------------------------------------------------------
 
@@ -332,8 +335,7 @@ ngx-datatable
   background-color: white
   // height: calc(85vh - 150px)
   height: calc(100vh - 16em)
-  //overflow: scroll !important
-  overflow: overlay !important
+  overflow: auto !important
   &.table
     border: 1px solid lightgray
     padding: 1em .5em 0 .5em
@@ -395,3 +397,11 @@ ngx-datatable
 input
   .box-ok
     color: $btn-primary
+  &.mock-mat
+    border: none !important
+    box-shadow: none !important
+    border-bottom: 1px solid $blue-light !important
+    border-radius: 0 !important
+    background-color: transparent !important
+  &:focus
+    outline: none !important

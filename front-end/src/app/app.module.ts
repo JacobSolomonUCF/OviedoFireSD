@@ -1,7 +1,7 @@
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {MatDatepickerModule, MatNativeDateModule, MatInputModule} from '@angular/material';
+import {MatDatepickerModule, MatInputModule, MatNativeDateModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 // login functionality
 import {AngularFireModule} from 'angularfire2';
@@ -21,8 +21,8 @@ import {Report} from "./pages/report";
 import {Statistic} from "./pages/statistic";
 import {EditUser} from './pages/edit/editUser';
 import {EditReport} from './pages/edit/editReport';
-import {EditTruck} from './pages/edit/editTruck';
-import {EditEquipment} from './pages/edit/editEquipment';
+// import {EditTruck} from './pages/edit/editTruck';
+// import {EditEquipment} from './pages/edit/editEquipment';
 import {Extra} from "./pages/extra";
 // charts
 import {ChartsModule} from "ng2-charts/ng2-charts";
@@ -45,9 +45,9 @@ export const firebaseConfig = {
 let states = [
   {name: 'home', url: '', component: Home}
   , {name: 'report', url: '/reports', component: Report}
-  , {name: 'eEquipment', url: '/equipment', component: EditEquipment}
+  // , {name: 'eEquipment', url: '/equipment', component: EditEquipment}
   , {name: 'eReport', url: '/report', component: EditReport}
-  , {name: 'eTruck', url: '/truck', component: EditTruck}
+  // , {name: 'eTruck', url: '/truck', component: EditTruck}
   , {name: 'eUser', url: '/users', component: EditUser}
   , {name: 'statistic', url: '/statistics', component: Statistic}
   , {name: 'extra', url: '/extras', component: Extra}
@@ -65,7 +65,7 @@ let states = [
 export class PlunkerMaterialModule {}
 
 @NgModule({
-  declarations: [AppComponent, Home, Report, EditEquipment, EditReport, EditTruck, EditUser, Statistic, Extra, Table, Datepicker],
+  declarations: [AppComponent, Home, Report, /*EditEquipment,*/ EditReport, /*EditTruck,*/ EditUser, Statistic, Extra, Table, Datepicker],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

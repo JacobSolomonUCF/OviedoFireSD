@@ -41,10 +41,11 @@ import {WebService} from "../../services/webService";
 export class EditUser {
   loading: any = true;
   heading: any[] = [
-    {prop: 'firstName', flexGrow: 1, dragable: false, resizeable: false, style: 'text'},
-    {prop: 'lastName', flexGrow: 1, dragable: false, resizeable: false, style: 'text'},
-    {prop: 'email', flexGrow: 1, dragable: false, resizeable: false, style: 'text'},
-    {prop: 'type', flexGrow: 1, dragable: false, resizable: false, style: 'dropdown'}
+    {prop: 'firstName', flexGrow: 3, dragable: false, resizeable: false, style: 'text'},
+    {prop: 'lastName', flexGrow: 3, dragable: false, resizeable: false, style: 'text'},
+    {prop: 'email', flexGrow: 3, dragable: false, resizeable: false, style: 'text'},
+    {prop: 'type', flexGrow: 2, dragable: false, resizable: false, style: 'dropdown'},
+    {prop: 'alert', flexGrow: 1, dragable: false, resizable: false, style: 'check'}
     // {prop: 'ID', flexGrow: 1, dragable: false, resizeable: false}
   ];
   users: any[];

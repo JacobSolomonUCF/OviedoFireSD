@@ -34,6 +34,7 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
     <i class="fa fa-fire-extinguisher" style="border: 2px solid #EAEAEA;padding: 7px 8px;border-radius: 50%"></i><span>&nbsp;Oviedo Fire</span>
   </div>
   <!--<div class="pure-u-1" style="height: 20vh; text-align: center; background-color: #6c0505; color: white"><h1><i class="fa fa-fire-extinguisher"></i>Oviedo Fire</h1></div>-->
+  <!-- TODO: Alert { badCredintials: "Error the credentials are incorrect", notAdmin: "Hi user, you do not appear to be an admin. Try the app instead." }  -->
   <form class="pure-form pure-form-aligned" style="text-align: center; padding-top: 5vh">
     <fieldset>
       <div class="pure-control-group">
@@ -139,7 +140,20 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
     </div>
 
     <div id="main">
-      <ui-view></ui-view>
+      <ui-view *ngIf="this.webService.getUID()"></ui-view>
+      <div *ngIf="!this.webService.getUID()">
+        <div class="header">
+          <h1>Unauthorized!</h1>
+        </div>
+
+        <div class="content">
+          <div class="tile centered">
+            It appears you are not an Oviedo Fire Administrator.
+            <br/>
+            If you believe this is an error please contact the Administrator.
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
