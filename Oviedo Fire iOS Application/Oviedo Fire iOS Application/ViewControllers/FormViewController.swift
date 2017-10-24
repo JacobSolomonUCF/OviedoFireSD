@@ -472,12 +472,12 @@ extension EqFormViewController{
                 cell.pfSwitch.tag = indexPath.row
                 cell.pfName.text = item.caption
                 cell.pfValue.text = "Fail"
-                cell.pfValue.textColor = UIColor.red
+                cell.pfValue.textColor = hexStringToUIColor(hex: "a00606")
                 cell.pfSwitch.isOn = false
                 if(item.value != ""){
                     if(item.value == "Pass"){
                         cell.pfValue.text = "Pass"
-                        cell.pfValue.textColor = UIColor.green
+                        cell.pfValue.textColor = hexStringToUIColor(hex: "12b481")
                         cell.pfSwitch.isOn = true
                     }else{
                         cell.pfSwitch.isOn = false

@@ -24,6 +24,7 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
     var truckNumber:String = ""
     
     func setupView(){
+        self.navigationController?.isNavigationBarHidden = false
         stopSpinning(activityView: activityView)
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Active Vehicles"

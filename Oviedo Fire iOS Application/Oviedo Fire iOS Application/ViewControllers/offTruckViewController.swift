@@ -26,6 +26,12 @@ class offTruckViewController: UIViewController {
     let ID = Auth.auth().currentUser!.uid
     var userName:[String] = []
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = false
+        
+    }
+    
     //Prepare for Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
@@ -55,13 +61,13 @@ class offTruckViewController: UIViewController {
     func UIFormat() {
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        stretchers.layer.cornerRadius = 40
+        stretchers.layer.cornerRadius = stretchers.layer.frame.height/4
         stretchers.clipsToBounds = true
-        ladders.layer.cornerRadius = 40
+        ladders.layer.cornerRadius = ladders.layer.frame.height/4
         ladders.clipsToBounds = true
-        scba.layer.cornerRadius = 40
+        scba.layer.cornerRadius = scba.layer.frame.height/4
         scba.clipsToBounds = true
-        misc.layer.cornerRadius = 40
+        misc.layer.cornerRadius = misc.layer.frame.height/4
         misc.clipsToBounds = true
     }
     

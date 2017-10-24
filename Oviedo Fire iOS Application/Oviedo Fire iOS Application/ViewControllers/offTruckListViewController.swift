@@ -39,13 +39,13 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
         navigationItem.title = type
         switch type {
         case "Stretchers":
-            backgroundImage.image = UIImage(named: "Learning and Leading.jpg")
+            backgroundImage.backgroundColor = hexStringToUIColor(hex: "0b6e4f")
         case "Ladders":
-            backgroundImage.image = UIImage(named: "Lush.jpg")
+            backgroundImage.backgroundColor = hexStringToUIColor(hex: "db7c26")
         case "Misc.":
-            backgroundImage.image = UIImage(named: "Amethyst.jpg")
+            backgroundImage.backgroundColor = hexStringToUIColor(hex: "624c2b")
         case "Scbas":
-            backgroundImage.image = UIImage(named: "YouTube.jpg")
+            backgroundImage.backgroundColor = hexStringToUIColor(hex: "2b4162")
         default:
             print("NO IMAGE")
         }
@@ -59,6 +59,7 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.prefersLargeTitles = true
         if let selectionIndexPath = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRow(at: selectionIndexPath, animated: animated)
