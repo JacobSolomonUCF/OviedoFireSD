@@ -55,9 +55,8 @@ import {WebService} from "../services/webService";
             <ul class="to-do">
               <li *ngFor="let todo of toDoList; let i = index">
                 <div>
-                  <label class="pure-checkbox" [ngSwitch]="todo.complete">
-                    <input type="checkbox" *ngSwitchCase="true" checked/>
-                    <input type="checkbox" *ngSwitchDefault/>
+                  <label class="pure-checkbox">
+                    <i class="fa fa-lg fa-square-o" style="background-color: white"></i>
                     {{todo.title}}
                   </label>
                 </div>
@@ -66,9 +65,10 @@ import {WebService} from "../services/webService";
           </div>
           <div class="pure-u-2-5 tile">
             <div class="tile-head">
-              <h3 class="pure-u-4-5">Settings</h3>
+              <h3 class="pure-u-4-5">Completed List</h3>
               <ul class="pure-u-1-5 options" hidden>
-                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
                     class="fa fa-wrench"></i></a>
@@ -79,11 +79,19 @@ import {WebService} from "../services/webService";
                 </li>
               </ul>
             </div>
-            <ul class="quick-list">
-              <li><i class="pure-u-1-8 fa fa-table"></i><a uiSref="report">Reports</a></li>
-              <li><i class="pure-u-1-8 fa fa-bar-chart"></i><a uiSref="statistic">Statistics</a></li>
-              <li><i class="pure-u-1-8 fa fa-list-alt"></i><a uiSref="eReport">Edit Reports</a></li>
-              <li><i class="pure-u-1-8 fa fa-user"></i><a uiSref="eUser">Edit Users</a></li>
+            <div class="centered" *ngIf="loading">
+              <br/>
+              <i class="fa fa-5x fa-spinner fa-pulse"></i>
+            </div>
+            <ul class="to-do">
+              <li *ngFor="let todo of completeList; let i = index">
+                <div>
+                  <label class="pure-checkbox">
+                    <input type="checkbox" checked (click)="nada()"/>
+                    {{todo.title}}
+                  </label>
+                </div>
+              </li>
             </ul>
           </div>
         </div>
@@ -93,10 +101,11 @@ import {WebService} from "../services/webService";
 })
 export class Home {
   loading: boolean = true;
-  toDoList: any[];
+  toDoList: any[] = [];
   equipment: number;
   totalUsers: number;
   reportsToDo: number;
+  completeList: any[] = [];
   totalReports: number;
 
   constructor(public webService: WebService) {
@@ -104,15 +113,18 @@ export class Home {
     webService.setState('home')
       .getHome()
       .subscribe(resp => {
-          self.toDoList = resp['toDoList'];
-          self.equipment = resp['equipment'];
-          self.totalUsers = resp['totalUsers'];
-          self.reportsToDo = resp['reportsToDo'];
-          self.totalReports = resp['totalReports'];
-        }, error => {
+          resp['toDoList'].map(toDo => {(toDo.complete ? this.completeList : this.toDoList).push(toDo);});
+          this.equipment = resp['equipment'];
+          this.totalUsers = resp['totalUsers'];
+          this.reportsToDo = resp['reportsToDo'];
+          this.totalReports = resp['totalReports'];
+        }, () => {
         },
         () => {
           this.loading = false;
         });
+  }
+  nada() {
+
   }
 }
