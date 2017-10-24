@@ -16,6 +16,8 @@
 		16A90AF11F560C7C00F50919 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A90AEF1F560C7C00F50919 /* LaunchScreen.storyboard */; };
 		16A90AFC1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AFB1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift */; };
 		16A90B071F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */; };
+		16AF74DD1F9E8CC400388111 /* Login.png in Resources */ = {isa = PBXBuildFile; fileRef = 16AF74DC1F9E8CC300388111 /* Login.png */; };
+		16AF74E11F9E8EA800388111 /* LogoTransparent.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16AF74E01F9E8EA800388111 /* LogoTransparent.jpg */; };
 		16B4FA411F68A547000929F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16B4FA401F68A547000929F9 /* GoogleService-Info.plist */; };
 		16B829FD1F97CB110071679C /* resultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B829FC1F97CB110071679C /* resultsViewController.swift */; };
 		16B829FF1F97CB2F0071679C /* resultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B829FE1F97CB2F0071679C /* resultsTableViewCell.swift */; };
@@ -91,6 +93,8 @@
 		16A90B021F560C7C00F50919 /* Oviedo Fire iOS ApplicationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Oviedo Fire iOS ApplicationUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oviedo_Fire_iOS_ApplicationUITests.swift; sourceTree = "<group>"; };
 		16A90B081F560C7C00F50919 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16AF74DC1F9E8CC300388111 /* Login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Login.png; sourceTree = "<group>"; };
+		16AF74E01F9E8EA800388111 /* LogoTransparent.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LogoTransparent.jpg; sourceTree = "<group>"; };
 		16B4FA401F68A547000929F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16B829FC1F97CB110071679C /* resultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resultsViewController.swift; sourceTree = "<group>"; };
 		16B829FE1F97CB2F0071679C /* resultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resultsTableViewCell.swift; sourceTree = "<group>"; };
@@ -213,6 +217,7 @@
 		16CF468B1F560CB70063834B /* BG */ = {
 			isa = PBXGroup;
 			children = (
+				16AF74E01F9E8EA800388111 /* LogoTransparent.jpg */,
 				16CF468C1F560CB70063834B /* 50 Shades of Grey.jpg */,
 				165023A61F56130300FF3DD4 /* Deep Space.jpg */,
 				16CF468D1F560CB70063834B /* Hydrogen.jpg */,
@@ -220,6 +225,7 @@
 				16F3829B1F8EDD7300635B22 /* Amethyst.jpg */,
 				16CF468F1F560CB70063834B /* Lush.jpg */,
 				16CF46901F560CB70063834B /* YouTube.jpg */,
+				16AF74DC1F9E8CC300388111 /* Login.png */,
 			);
 			path = BG;
 			sourceTree = "<group>";
@@ -400,6 +406,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16CF46931F560CB70063834B /* Learning and Leading.jpg in Resources */,
+				16AF74DD1F9E8CC400388111 /* Login.png in Resources */,
 				16CF46941F560CB70063834B /* Lush.jpg in Resources */,
 				16CF46921F560CB70063834B /* Hydrogen.jpg in Resources */,
 				165023A71F56130300FF3DD4 /* Deep Space.jpg in Resources */,
@@ -409,6 +416,7 @@
 				161EE5151F68A83900FFEC0B /* Podfile in Resources */,
 				16CF46911F560CB70063834B /* 50 Shades of Grey.jpg in Resources */,
 				16A90AEE1F560C7C00F50919 /* Assets.xcassets in Resources */,
+				16AF74E11F9E8EA800388111 /* LogoTransparent.jpg in Resources */,
 				16A90AEC1F560C7C00F50919 /* Main.storyboard in Resources */,
 				16CF46951F560CB70063834B /* YouTube.jpg in Resources */,
 			);

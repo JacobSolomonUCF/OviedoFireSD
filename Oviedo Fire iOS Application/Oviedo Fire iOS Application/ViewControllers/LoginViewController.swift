@@ -48,15 +48,15 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     
     func UILayout   (){
         
-        loginButton.layer.cornerRadius = 20
+        loginButton.layer.cornerRadius = loginButton.layer.frame.height/4
         loginButton.clipsToBounds = true
         
-        emailField.layer.cornerRadius = 20
+        emailField.layer.cornerRadius = emailField.layer.frame.height/4
         emailField.clipsToBounds = true
         emailField.delegate = self
         emailField.tag = 0
         
-        passwordField.layer.cornerRadius = 20
+        passwordField.layer.cornerRadius = passwordField.layer.frame.height/4
         passwordField.clipsToBounds = true
         passwordField.delegate = self
         passwordField.tag = 1

@@ -60,6 +60,11 @@ class HomeViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = false
+
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,16 +80,15 @@ class HomeViewController: UIViewController {
     //    MARK: UI FUNCTIONS
     func screenFormat(){
         stopSpinning(activityView: activityView)
-        navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "Welcome " + firstName[0]
 //        welcomeUser.text = "Welcome " + firstName
-        activeButton.layer.cornerRadius = 40
+        activeButton.layer.cornerRadius = activeButton.layer.frame.height/4
         activeButton.clipsToBounds = true
-        offTruck.layer.cornerRadius = 40
+        offTruck.layer.cornerRadius = offTruck.layer.frame.height/4
         offTruck.clipsToBounds = true
-        todoList.layer.cornerRadius = 40
+        todoList.layer.cornerRadius = todoList.layer.frame.height/4
         todoList.clipsToBounds = true
-        qrCode.layer.cornerRadius = 40
+        qrCode.layer.cornerRadius = qrCode.layer.frame.height/4
         qrCode.clipsToBounds = true
     }
     
