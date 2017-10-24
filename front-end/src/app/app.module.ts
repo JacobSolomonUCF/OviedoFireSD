@@ -13,7 +13,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {UIRouterModule} from '@uirouter/angular';
 import {AppComponent} from './app.component';
 // custom directives
-import {Table} from './table';
+// import {Table} from './table';
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 // pages
 import {Home} from "./pages/home";
@@ -51,7 +51,7 @@ let states = [
   , {name: 'eUser', url: '/users', component: EditUser}
   , {name: 'statistic', url: '/statistics', component: Statistic}
   , {name: 'extra', url: '/extras', component: Extra}
-  , {name: 'table', url: '', component: Table}
+  // , {name: 'table', url: '', component: Table}
 ];
 
 
@@ -65,7 +65,7 @@ let states = [
 export class PlunkerMaterialModule {}
 
 @NgModule({
-  declarations: [AppComponent, Home, Report, /*EditEquipment,*/ EditReport, /*EditTruck,*/ EditUser, Statistic, Extra, Table, Datepicker],
+  declarations: [AppComponent, Home, Report, /*EditEquipment,*/ EditReport, /*EditTruck,*/ EditUser, Statistic, Extra, /*Table,*/ Datepicker],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
