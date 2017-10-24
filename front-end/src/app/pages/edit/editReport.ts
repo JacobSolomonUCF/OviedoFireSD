@@ -228,6 +228,18 @@ export class EditReport {
     }
   }
 
+  submitReport() {
+    console.log('Posting body:', this.temp);
+    this.loading = true;
+    this.webService.doPost('/listReports', {report: this.temp})
+      .subscribe(() => {
+        this.toggle();
+      }, error => {
+        console.log(error);
+      }, () => {
+        this.loading = false;
+      });
+  }
 
   addSection() {
     let emptySection = {title: "", inputElements: []};
