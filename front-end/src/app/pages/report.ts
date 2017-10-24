@@ -58,7 +58,7 @@ import {WebService} from "../services/webService";
             class='table'
             [rows]="reports"
             [groupRowsBy]="style.group"
-            [columnMode]="'force'"
+            [columnMode]="'flex'"
             [scrollbarH]="false"
             [footerHeight]="0"
             [rowHeight]="'auto'"
@@ -80,7 +80,7 @@ import {WebService} from "../services/webService";
             <ngx-datatable-column [name]="style.thing"
                                   [prop]="(style.thingProp) ? style.thingProp : style.thing"
                                   [flexGrow]="3"></ngx-datatable-column>
-            <ngx-datatable-column *ngFor="let x of style.days" [name]="x[0]" [prop]="x" [maxWidth]="75" [flexGrow]="1">
+            <ngx-datatable-column *ngFor="let x of style.days" [name]="x[0]" [prop]="x" [flexGrow]="1">
               <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                            let-group="group">
                 <div class="hasTooltip">
@@ -230,11 +230,10 @@ export class Report {
   getCheckBox(status) {
     let options = {
       Present: 'fa-lg fa-check',
-      okay: 'fa-lg fa-check-square box-okay',
-      Missing: 'fa-lg fa-times box-missing',
-      missing: 'fa-lg fa-check-square box-missing',
-      "Repairs Needed": 'fa-lg fa-exclamation-triangle box-broken',
-      broken: 'fa-lg fa-check-square box-broken',
+      Pass: 'fa-lg fa-check-square',
+      Missing: 'fa-lg fa-question box-missing',
+      Fail: 'fa-lg fa-close box-broken',
+      "Repairs Needed": 'fa-lg fa-close box-broken',
       other: 'fa-minus'
     };
     return (options[status]) ? options[status] : (status.length) ? '' : options.other;
