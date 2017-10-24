@@ -14,12 +14,15 @@ import {WebService} from "../services/webService";
       <div *ngSwitchCase="false">
         <div [ngSwitch]="viewType">
           <div class="table-options" *ngSwitchCase="'view'">
-            <div class="left">
+            <div class="left hoverable">
               <datepicker #datepicker></datepicker>
               <button class="close" (click)="getReports(datepicker.input.nativeElement.value)"
                       [disabled]="reloading || datepicker.input.nativeElement.value === date">
                 <i class="fa fa-refresh {{reloading ? 'fa-spin' : ''}}"></i>
               </button>
+              <span class="tooltip-text">
+                test
+              </span>
             </div>
             <div class="right">
               <input
@@ -83,7 +86,11 @@ import {WebService} from "../services/webService";
             <ngx-datatable-column *ngFor="let x of style.days" [name]="x[0]" [prop]="x" [maxWidth]="75" [flexGrow]="1">
               <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                            let-group="group">
-                <i class="fa {{getCheckBox(value)}}">{{getCheckBox(value) === '' ? value : ''}}</i>
+                <div class="hasTooltip">
+                  <i class="fa {{getCheckBox(value)}}">{{getCheckBox(value) === '' ? value : ''}}</i>
+                  <span *ngIf="row.comment"
+                        class="tooltip-text">{{row.comment ? (row.comment + ":" ) : ""}}{{row.reporter}}</span>
+                </div>
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column *ngFor="let x of style.props" [name]="x.name" [prop]="(x.prop) ? x.prop : x.name"
@@ -160,7 +167,7 @@ export class Report {
         'friday',
         'saturday'],
       thing: 'item',
-      props: [{name: 'Comment'}],
+      props: [],
       select: () => {
       },
       selectType: 'single'
@@ -170,8 +177,7 @@ export class Report {
   previousStyle: any;
 
   constructor(webService: WebService) {
-    let self = this;
-    self.webService = webService;
+    this.webService = webService;
 
     webService.setState('reports');
     this.doGet();
@@ -188,22 +194,19 @@ export class Report {
   }
 
   updateFilter(event) {
-    let val = "";
-    const self = this;
-    const source = self.temp ? self.temp :
-      {rows: self.original, heading: self.heading};
+    let val = (!event) ? '' : event.target.value.toLowerCase();
+    const source = this.temp ? this.temp :
+      {rows: this.original, heading: this.heading};
 
-    if (!event)
-      this.filter = "";
-    else
-      val = event.target.value.toLowerCase();
+    if (!event) this.filter = "";
 
-    self.reports = source.rows.filter(row => {
-      for (let i = 0, len = (!val ? 1 : source.heading.length); i < len; i++)
-        if (val == '' || ("" + row[source.heading[i].prop]).toLowerCase().indexOf(val) !== -1)
-          return true;
-      return false;
-    });
+    this.reports = (!event) ?
+      this.original : source.rows.filter(row => {
+        for (let i = 0, len = (!val ? 1 : source.heading.length); i < len; i++)
+          if (val == '' || ("" + row[source.heading[i].prop]).toLowerCase().indexOf(val) !== -1)
+            return true;
+        return false;
+      });
   }
 
   onclick(event, m) {
@@ -225,7 +228,6 @@ export class Report {
     this.style = this.styles['view'];
     let date = new Date();
     this.date = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
-    console.log(this.date);
   }
 
   getCheckBox(status) {
@@ -241,9 +243,9 @@ export class Report {
     return (options[status]) ? options[status] : (status.length) ? '' : options.other;
   };
 
-  doGet() {
+  doGet(date = undefined) {
     this.webService
-      .doGet('/reports')
+      .doGet('/reports', (date) ? '&date=' + date : '')
       .subscribe((resp) => {
         this.original = this.reports = resp['reports'].map((r) => {
           if (r.status === 'Daily')
@@ -278,9 +280,8 @@ export class Report {
     let date = dateParts[2] + this.pad(dateParts[0]) + this.pad(dateParts [1]);
     self.reloading = true;
 
-    this.doGet();
+    this.doGet(date);
   }
-
 
   pad(x: string) {
     return ((x.length === 1) ? '0' : '') + x;
