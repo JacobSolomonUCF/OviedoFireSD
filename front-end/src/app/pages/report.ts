@@ -230,7 +230,7 @@ export class Report {
   getCheckBox(status) {
     let options = {
       Present: 'fa-lg fa-check',
-      Pass: 'fa-lg fa-check-square',
+      Pass: 'fa-lg fa-check',
       Missing: 'fa-lg fa-question box-missing',
       Fail: 'fa-lg fa-close box-broken',
       "Repairs Needed": 'fa-lg fa-close box-broken',
