@@ -147,13 +147,12 @@ export class EditUser {
 
     if (!event)
       this.filter = "";
-    else
-      this.users = (!event) ?
-        this.original : source.rows.filter(row => {
-          for (let i = 0, len = (!val ? 1 : source.heading.length); i < len; i++)
-            if (val == '' || ("" + row[source.heading[i].prop]).toLowerCase().indexOf(val) !== -1)
-              return true;
-          return false;
-        });
+    this.users = (!event) ?
+      this.original : source.rows.filter(row => {
+        for (let i = 0, len = (!val ? 1 : source.heading.length); i < len; i++)
+          if (val == '' || ("" + row[source.heading[i].prop]).toLowerCase().indexOf(val) !== -1)
+            return true;
+        return false;
+      });
   }
 }

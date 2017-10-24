@@ -14,15 +14,12 @@ import {WebService} from "../services/webService";
       <div *ngSwitchCase="false">
         <div [ngSwitch]="viewType">
           <div class="table-options" *ngSwitchCase="'view'">
-            <div class="left hoverable">
+            <div class="left">
               <datepicker #datepicker></datepicker>
               <button class="close" (click)="getReports(datepicker.input.nativeElement.value)"
                       [disabled]="reloading || datepicker.input.nativeElement.value === date">
                 <i class="fa fa-refresh {{reloading ? 'fa-spin' : ''}}"></i>
               </button>
-              <span class="tooltip-text">
-                test
-              </span>
             </div>
             <div class="right">
               <input

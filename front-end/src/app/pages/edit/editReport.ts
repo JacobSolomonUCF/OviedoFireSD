@@ -267,20 +267,19 @@ export class EditReport {
   updateFilter(event) {
     // TODO: edit reports filter
     const val = (!event) ? '' : event.target.value.toLowerCase();
-    const source = this.temp ? this.temp :
-      {rows: this.original, heading: this.heading};
+    // const source = this.temp ? this.temp :
+    //   {rows: this.original, heading: this.heading};
 
     console.log(this.original, this.temp, this.heading);
 
     if (!event)
       this.filter = "";
-    else
-      this.reports = (!event) ?
-        this.original : source.rows.filter(row => {
-          for (let i = 0, len = (!val ? 1 : source.heading.length); i < len; i++)
-            if (val == '' || ("" + row[source.heading[i].prop]).toLowerCase().indexOf(val) !== -1)
-              return true;
-          return false;
-        });
+
+    this.reports = this.original.filter(row => {
+      if (row.template.title.toLowerCase().indexOf(val) !== -1)
+        return true;
+      return row.interval.frequency.toLowerCase().indexOf(val) !== -1;
+
+    });
   }
 }
