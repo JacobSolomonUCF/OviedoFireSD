@@ -25,9 +25,8 @@ export class WebService {
     let self = this;
     this.afAuth.auth.signInWithEmailAndPassword(email, password).then(resp => {
       localStorage.setItem('uid', self.uid = resp.uid);
-      return this.doGet('/home').subscribe(x => {
-        console.log('resp', x);
-      }, error => {
+      return this.doGet('/home').subscribe(() => {
+      }, () => {
         localStorage.clear();
         delete this.uid;
         this.setState('home');
@@ -43,7 +42,6 @@ export class WebService {
 
   createQR(key = 'ATV46ATVS') {
     return this.http.get('https://api.qrserver.com/v1/create-qr-code/?data=ATV46ATVS&amp;size=100x100').subscribe(x => {
-      console.log(x);
       return x;
     });
   }
