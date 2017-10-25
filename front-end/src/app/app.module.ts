@@ -32,60 +32,62 @@ import {Datepicker} from "./datepicker";
 
 // Initialize Firebase
 export const firebaseConfig = {
-  apiKey: "AIzaSyDiF2EZj3ljA0Jrwafuq67de4ptk1r_usE",
-  authDomain: "oviedofiresd-55a71.firebaseapp.com",
-  databaseURL: "https://oviedofiresd-55a71.firebaseio.com",
-  //projectId: "oviedofiresd-55a71",
-  storageBucket: "oviedofiresd-55a71.appspot.com",
-  messagingSenderId: "514772607400"
+	apiKey: "AIzaSyDiF2EZj3ljA0Jrwafuq67de4ptk1r_usE",
+	authDomain: "oviedofiresd-55a71.firebaseapp.com",
+	databaseURL: "https://oviedofiresd-55a71.firebaseio.com",
+	//projectId: "oviedofiresd-55a71",
+	storageBucket: "oviedofiresd-55a71.appspot.com",
+	messagingSenderId: "514772607400"
 };
 
 /** States */
 
 let states = [
-  {name: 'home', url: '', component: Home}
-  , {name: 'report', url: '/reports', component: Report}
-  // , {name: 'eEquipment', url: '/equipment', component: EditEquipment}
-  , {name: 'eReport', url: '/report', component: EditReport}
-  // , {name: 'eTruck', url: '/truck', component: EditTruck}
-  , {name: 'eUser', url: '/users', component: EditUser}
-  , {name: 'statistic', url: '/statistics', component: Statistic}
-  , {name: 'extra', url: '/extras', component: Extra}
-  // , {name: 'table', url: '', component: Table}
+	{name: 'home', url: '', component: Home}
+	, {name: 'report', url: '/reports', component: Report}
+	// , {name: 'eEquipment', url: '/equipment', component: EditEquipment}
+	, {name: 'eReport', url: '/report', component: EditReport}
+	// , {name: 'eTruck', url: '/truck', component: EditTruck}
+	, {name: 'eUser', url: '/users', component: EditUser}
+	, {name: 'statistic', url: '/statistics', component: Statistic}
+	, {name: 'extra', url: '/extras', component: Extra}
+	// , {name: 'table', url: '', component: Table}
 ];
 
 
 @NgModule({
-  exports: [
-    MatDatepickerModule,
-    MatInputModule,
-    MatNativeDateModule
-  ]
+	exports: [
+		MatDatepickerModule,
+		MatInputModule,
+		MatNativeDateModule
+	]
 })
-export class PlunkerMaterialModule {}
+export class PlunkerMaterialModule {
+}
 
 @NgModule({
-  declarations: [AppComponent, Home, Report, /*EditEquipment,*/ EditReport, /*EditTruck,*/ EditUser, Statistic, Extra, /*Table,*/ Datepicker],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    UIRouterModule.forRoot({states: states, useHash: true}),
-    FormsModule,
-    ChartsModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule,
-    AngularFireAuthModule,
-    HttpClientModule,
-    NgxDatatableModule,
-    MatDatepickerModule,
-    BrowserModule,
-    HttpModule,
-    PlunkerMaterialModule
-  ],
-  providers: [WebService],
-  bootstrap: [AppComponent],
-  entryComponents: [],
-  exports: []
+	declarations: [AppComponent, Home, Report, /*EditEquipment,*/ EditReport, /*EditTruck,*/ EditUser, Statistic, Extra, /*Table,*/ Datepicker],
+	imports: [
+		BrowserModule,
+		BrowserAnimationsModule,
+		UIRouterModule.forRoot({states: states, useHash: true}),
+		FormsModule,
+		ChartsModule,
+		AngularFireModule.initializeApp(firebaseConfig),
+		AngularFireDatabaseModule,
+		AngularFireAuthModule,
+		HttpClientModule,
+		NgxDatatableModule,
+		MatDatepickerModule,
+		BrowserModule,
+		HttpModule,
+		PlunkerMaterialModule
+	],
+	providers: [WebService],
+	bootstrap: [AppComponent],
+	entryComponents: [],
+	exports: []
 })
-export class AppModule { }
+export class AppModule {
+}
 

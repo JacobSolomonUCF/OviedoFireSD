@@ -1,492 +1,497 @@
 @import "utils/variables"
 
 html, body
-  height: 100%
-  color: #777
-  background: #f7f7f7
+	height: 100%
+	color: #777
+	background: #f7f7f7
 
-  .mat-dialog-container
-    padding: 0
-    background: black
+	.mat-dialog-container
+		padding: 0
+		background: black
 
 .pure-img-responsive
-  max-width: 100%
-  height: auto
+	max-width: 100%
+	height: auto
 
 /*
  *Add transition to containers so they can push in and out.
 
 ul
-  &.quick-list
-    li
-      i
-        vertical-align: baseline
-      a
-        font-weight: bold
-        color: unset
-        text-decoration: none
+	&.quick-list
+		li
+			i
+				vertical-align: baseline
+			a
+				font-weight: bold
+				color: unset
+				text-decoration: none
 
 #layout, #menu, .menu-link
-  -webkit-transition: all 0.2s ease-out
-  -moz-transition: all 0.2s ease-out
-  -o-transition: all 0.2s ease-out
-  transition: all 0.2s ease-out
+	-webkit-transition: all 0.2s ease-out
+	-moz-transition: all 0.2s ease-out
+	-o-transition: all 0.2s ease-out
+	transition: all 0.2s ease-out
 
 /*
  *This is the parent `<div>` that contains the menu and the content area.
 
 #layout
-  min-height: 100%
-  margin-bottom: -100px
-  position: relative
-  background: inherit
-  left: 0
-  padding-left: 0
-  &.active
-    #menu
-      left: 170px
-      width: 170px
-    .menu-link
-      left: 170px
+	min-height: 100%
+	margin-bottom: -100px
+	position: relative
+	background: inherit
+	left: 0
+	padding-left: 0
+	&.active
+		#menu
+			left: 170px
+			width: 170px
+		.menu-link
+			left: 170px
 
 /*
  *The content `<div>` is where all your content goes.
 
 .content
-  padding: 2.5em 2em .5em 2em
-  width: calc(100% - 30px - 3em)
-  margin: 0
-  line-height: 1.6em
+	padding: 2.5em 2em .5em 2em
+	width: calc(100% - 30px - 3em)
+	margin: 0
+	line-height: 1.6em
 
-  .row
-    display: flex
-    justify-content: space-around
+	.row
+		display: flex
+		justify-content: space-around
 
-  .count
-    font-size: 2em
-    border-right: 2px solid darkgray
+	.count
+		font-size: 2em
+		border-right: 2px solid darkgray
 
-  .tile
-    overflow: hidden
-    &.white
-      background: white
-    border-radius: 1%
-    margin: 0.2em 0
-    padding: .5em 1em .5em 1em
-    border: 1px solid $border-accent
-    .tile-head
-      display: flex
-      border-bottom: 2px solid $border-accent
-      .options
-        display: inline-flex
-        justify-content: space-around
+	.tile
+		overflow: hidden
+		&.white
+			background: white
+		border-radius: 1%
+		margin: 0.2em 0
+		padding: .5em 1em .5em 1em
+		border: 1px solid $border-accent
+		.tile-head
+			display: flex
+			border-bottom: 2px solid $border-accent
+			.options
+				display: inline-flex
+				justify-content: space-around
 
-    .right
-      display: inline-block
+		.right
+			display: inline-block
 
-    .to-do
-      max-height: 250px
-      overflow-y: scroll
-      li
-        padding: .1em
-        width: inherit
+		.to-do
+			max-height: 250px
+			overflow-y: scroll
+			li
+				padding: .1em
+				width: inherit
 
-        div.white
-          padding: .5em
-          background-color: $bg-primary
+				div.white
+					padding: .5em
+					background-color: $bg-primary
 
-    ul
-      list-style-type: none
-      padding: 0
+		ul
+			list-style-type: none
+			padding: 0
 
-    &.editing
-      letter-spacing: 0
-      div
-        justify-content: space-between
-        input
-          width: 100%
+		&.editing
+			letter-spacing: 0
+			div
+				justify-content: space-between
+				input
+					width: 100%
 
-  .pure-g
-    .pure-u-1-5
-      div
-        padding-top: .5em
-        font-size: 2em
-    .pure-u-1-2, .pure-u-7-24
-      border: 1px solid $border-accent
+	.pure-g
+		.pure-u-1-5
+			div
+				padding-top: .5em
+				font-size: 2em
+		.pure-u-1-2, .pure-u-7-24
+			border: 1px solid $border-accent
 
 .header
-  margin: 0
-  color: #333
-  text-align: center
-  padding: 2.5em 2em 0
-  h1
-    background: white
-    margin: 0.2em 0
-    font-size: 3em
-    font-weight: 300
-    width: calc(100% - 30px)
-    padding: .2em
-    border: 1px solid $border-accent
+	margin: 0
+	color: #333
+	text-align: center
+	padding: 2.5em 2em 0
+	h1
+		background: white
+		margin: 0.2em 0
+		font-size: 3em
+		font-weight: 300
+		width: calc(100% - 30px)
+		padding: .2em
+		border: 1px solid $border-accent
 
 .content-subhead
-  margin: 50px 0 20px 0
-  font-weight: 300
-  color: #888
+	margin: 50px 0 20px 0
+	font-weight: 300
+	color: #888
 
 /*
  *The `#menu` `<div>` is the parent `<div>` that contains the `.pure-menu` that
  *appears on the left side of the page.
 
 #menu
-  margin-left: -150px
-  /* "#menu" width
-  width: 150px
-  position: fixed
-  top: 0
-  left: 0
-  bottom: 0
-  z-index: 1000
-  /* so the menu or its navicon stays above all content
-  background: $bg-menu
-  overflow-y: auto
-  -webkit-overflow-scrolling: auto
-  a
-    color: white
-    border: none
-    padding: 0.6em 0 0.6em 0.6em
-  .pure-menu
-    border: none
+	margin-left: -150px
+	/* "#menu" width
+	width: 150px
+	position: fixed
+	top: 0
+	left: 0
+	bottom: 0
+	z-index: 1000
+	/* so the menu or its navicon stays above all content
+	background: $bg-menu
+	overflow-y: auto
+	-webkit-overflow-scrolling: auto
+	a
+		color: white
+		border: none
+		padding: 0.6em 0 0.6em 0.6em
+	.pure-menu
+		border: none
 
-    .pure-menu-item
-      &.active
-        background: $hover
+		.pure-menu-item
+			&.active
+				background: $hover
 
-    .fa-ul
-      margin-left: 1.25em
-    .pure-menu-sublist
-      height: 20px
-      &:hover, &:focus
-        height: 20px
-    ul
-      border: none
-    li a
-      padding: 1em
-      &:hover, &:focus
-        background: $hover
+		.fa-ul
+			margin-left: 1.25em
+		.pure-menu-sublist
+			height: 20px
+			&:hover, &:focus
+				height: 20px
+		ul
+			border: none
+		li a
+			padding: 1em
+			&:hover, &:focus
+				background: $hover
 
-      i.small
-        font-size: .5em
+			i.small
+				font-size: .5em
 
-  .pure-menu-selected
-    background: $hover
-    height: 30px
-    i
-      border: 1px solid $border-accent
-      padding: 5px 6px
-      border-radius: 50%
+	.pure-menu-selected
+		background: $hover
+		height: 30px
+		i
+			border: 1px solid $border-accent
+			padding: 5px 6px
+			border-radius: 50%
 
-  .pure-menu-heading
-    background: $header
-    height: 30px
-    i
-      border: 1px solid $border-accent
-      padding: 5px 6px
-      border-radius: 50%
+	.pure-menu-heading
+		background: $header
+		height: 30px
+		i
+			border: 1px solid $border-accent
+			padding: 5px 6px
+			border-radius: 50%
 
-  .pure-menu-selected a
-    color: white
-  .pure-menu-heading
-    font-size: 110%
-    border-bottom: solid 3px $btn-primary
-    text-transform: capitalize
-    color: white
-    margin: 0
+	.pure-menu-selected a
+		color: white
+	.pure-menu-heading
+		font-size: 110%
+		border-bottom: solid 3px $btn-primary
+		text-transform: capitalize
+		color: white
+		margin: 0
 
 .menu-link
-  position: fixed
-  display: block
-  /* show this only on small screens
-  top: 0
-  left: 0
-  /* "#menu width"
-  font-size: 10px
-  /* change this value to increase/decrease button size
-  z-index: 10
-  width: 2em
-  height: auto
-  padding: 2.1em 1.6em
-  span
-    position: relative
-    display: block
-    width: 100%
-    height: 0.2em
-    &:before, &:after
-      width: 100%
-      height: 0.2em
-    &:before
-      position: absolute
-      margin-top: -0.6em
-      content: " "
-    &:after
-      position: absolute
-      content: " "
-      margin-top: 0.6em
-  a
-    height: 50%
+	position: fixed
+	display: block
+	/* show this only on small screens
+	top: 0
+	left: 0
+	/* "#menu width"
+	font-size: 10px
+	/* change this value to increase/decrease button size
+	z-index: 10
+	width: 2em
+	height: auto
+	padding: 2.1em 1.6em
+	span
+		position: relative
+		display: block
+		width: 100%
+		height: 0.2em
+		&:before, &:after
+			width: 100%
+			height: 0.2em
+		&:before
+			position: absolute
+			margin-top: -0.6em
+			content: " "
+		&:after
+			position: absolute
+			content: " "
+			margin-top: 0.6em
+	a
+		height: 50%
 
 .centered
-  text-align: center
-  width: 100%
+	text-align: center
+	width: 100%
 
 /* -- Responsive Styles (Media Queries) -------------------------------------
 
 /*
  *Hides the menu at `48em`, but modify this based on your app's needs.
-@media (min-width: 0) // was 48em
-  .header, .content
-    padding-left: 2em
-    padding-right: 2em
-  #layout
-    padding-left: 150px
-    /* left col width "#menu"
-    left: 0
-  #menu
-    left: 150px
-    .edit-tab, .logout-tab
-      cursor: pointer
-  .menu-link
-    position: fixed
-    left: 150px
-    display: none
-  #layout.active .menu-link
-    left: 150px
+@media (min-width: 0)
+// was 48em
+ .header, .content
+	 padding-left: 2em
+	 padding-right: 2em
+ #layout
+	 padding-left: 150px
+	 /* left col width "#menu"
+	 left: 0
+ #menu
+	 left: 150px
+	 .edit-tab, .logout-tab
+		 cursor: pointer
+ .menu-link
+	 position: fixed
+	 left: 150px
+	 display: none
+ #layout.active .menu-link
+	 left: 150px
 
-@media (max-width: 0) // was 48em
-  /* Only apply this when the window is small. Otherwise, the following
-   *case results in extras padding on the left:
-   *    * Make the window small.
-   *    * Tap the menu to trigger the active state.
-   *    * Make the window large again.
-  #layout.active
-    position: relative
-    left: 150px
+@media (max-width: 0)
+// was 48em
+ /* Only apply this when the window is small. Otherwise, the following
+	*case results in extras padding on the left:
+	*    * Make the window small.
+	*    * Tap the menu to trigger the active state.
+	*    * Make the window large again.
+ #layout.active
+	 position: relative
+	 left: 150px
 
 /* -- Buttons ------------------------------------------------------------------
 button
-  &.close, &.add
-    right: .35em
-    border: 0
-    background: transparent
-    top: .35em
-    border-radius: 3px
+	&.close, &.add
+		right: .35em
+		border: 0
+		background: transparent
+		top: .35em
+		border-radius: 3px
 
-    &:disabled
-      background: transparent
+		&:disabled
+			background: transparent
 
-  &.short
-    padding: 0 .5em !important
-    margin: 0
+	&.short
+		padding: 0 .5em !important
+		margin: 0
 
-  &.accept
-    background-color: #337ab7
-    border: none
-    color: white
-    padding: .5em
-    text-align: center
-    text-decoration: none
-    display: inline-block
-    font-size: 1em
-    border-radius: 3px
+	&.accept
+		background-color: #337ab7
+		border: none
+		color: white
+		padding: .5em
+		text-align: center
+		text-decoration: none
+		display: inline-block
+		font-size: 1em
+		border-radius: 3px
 
-    &.small
-      padding: .1em .5em
-      right: .35em
-      border: 0
-      top: .35em
-      margin: 0
+		&.small
+			padding: .1em .5em
+			right: .35em
+			border: 0
+			top: .35em
+			margin: 0
 
-  &.default
-    right: .35em
-    background: transparent
-    border: 0
-    padding: .25em .5em
-    text-align: center
-    text-decoration: none
-    display: inline-block
-    font-size: 1em
-    border-radius: 3px
+	&.default
+		right: .35em
+		background: transparent
+		border: 0
+		padding: .25em .5em
+		text-align: center
+		text-decoration: none
+		display: inline-block
+		font-size: 1em
+		border-radius: 3px
 
 button:disabled
-  opacity: .5
-  cursor: not-allowed !important
+	opacity: .5
+	cursor: not-allowed !important
 
 /* -- Table --------------------------------------------------------------------
 
 div.table-options
-  max-height: 3em
-  display: flex
-  width: 100%
-  justify-content: space-between
-  align-items: center
-  div.right
-    input.filter
-      padding: .25em
+	max-height: 3em
+	display: flex
+	width: 100%
+	justify-content: space-between
+	align-items: center
+	div.right
+		input.filter
+			padding: .25em
 
 ngx-datatable
-  border-radius: 1%
-  // width: calc(100% - 30px - 1em)
-  background-color: white
-  // height: calc(85vh - 150px)
-  height: calc(100vh - 16em)
-  overflow: auto !important
-  &.table
-    border: 1px solid lightgray
-    padding: 1em .5em 0 .5em
-  div
-    width: 100%
-    text-align: left
-    .Broken
-      background-color: $primary-red
-      padding: .5em
-      color: white
-    datatable-header
-      font-weight: bold
-      border-bottom: 3px solid lightgray
-      display: flex
-      justify-content: flex-start
-      text-transform: capitalize
-      .datatable-icon-up:after
-        content: $uparrow
-        font-family: FontAwesome, serif
-        justify-content: flex-end
-      .datatable-icon-down:after
-        content: $downarrow
-        font-family: FontAwesome, serif
-        justify-content: flex-end
+	border-radius: 1%
+	// width: calc(100% - 30px - 1em)
+	background-color: white
+	// height: calc(85vh - 150px)
+	height: calc(100vh - 16em)
+	overflow: auto !important
+	&.table
+		border: 1px solid lightgray
+		padding: 1em .5em 0 .5em
+	div
+		width: 100%
+		text-align: left
+		.Broken
+			background-color: $primary-red
+			padding: .5em
+			color: white
+		datatable-header
+			font-weight: bold
+			border-bottom: 3px solid lightgray
+			display: flex
+			justify-content: flex-start
+			text-transform: capitalize
+			.datatable-icon-up:after
+				content: $uparrow
+				font-family: FontAwesome, serif
+				justify-content: flex-end
+			.datatable-icon-down:after
+				content: $downarrow
+				font-family: FontAwesome, serif
+				justify-content: flex-end
 
-    datatable-scroller, .datatable-header-inner, .datatable-row-center, datatable-body-row, datatable-row-wrapper
-      width: 100% !important
-      &.active
-        background: $bg-primary
+		datatable-scroller, .datatable-header-inner, .datatable-row-center, datatable-body-row, datatable-row-wrapper
+			width: 100% !important
+			&.active
+				background: $bg-primary
 
-    datatable-body-row
-      cursor: pointer
+		datatable-body-row
+			cursor: pointer
 
-    datatable-body-row:hover
-      background-color: darken($bg-primary, 10%)
+		datatable-body-row:hover
+			background-color: darken($bg-primary, 10%)
 
-    .datatable-body-cell-label
-      input[type="checkbox"]:checked + label::after
-        border: 3px solid $primary-red
-        color: #6c0505
+		.datatable-body-cell-label
+			input[type="checkbox"]:checked + label::after
+				border: 3px solid $primary-red
+				color: #6c0505
 
-    .datatable-group-header
-      width: 100% !important
-      background: $bg-primary
-      border-bottom: solid 2px $btn-primary
-      margin-bottom: .25em
+		.datatable-group-header
+			width: 100% !important
+			background: $bg-primary
+			border-bottom: solid 2px $btn-primary
+			margin-bottom: .25em
 
 .expandable.ngx-datatable.selectable.single-selection
-  width: 100%
+	width: 100%
 
 input
-  .box-ok
-    color: $btn-primary
-  &.mock-mat
-    border: none !important
-    box-shadow: none !important
-    border-bottom: 1px solid $blue-light !important
-    border-radius: 0 !important
-    background-color: transparent !important
-  &:focus
-    outline: none !important
+	.box-ok
+		color: $btn-primary
+	&.mock-mat
+		border: none !important
+		box-shadow: none !important
+		border-bottom: 1px solid $blue-light !important
+		border-radius: 0 !important
+		background-color: transparent !important
+	&:focus
+		outline: none !important
 
 .hasTooltip
-  span
-    display: none
-    color: #000
-    text-decoration: none
-    padding: 3px
-    z-index: 1
+	span
+		display: none
+		color: #000
+		text-decoration: none
+		padding: 3px
+		z-index: 1
 
 .hasTooltip:hover
-  span
-    display: block
-    position: absolute
-    background-color: #FFF
-    border: 1px solid #CCC
-    margin: 2px 10px
+	span
+		display: block
+		position: absolute
+		background-color: #FFF
+		border: 1px solid #CCC
+		margin: 2px 10px
 
 i.box-okay
-  color: $okay
+	color: $okay
+
 i.box-repair
-  color: $repair
+	color: $repair
+
 i.box-broken
-  color: $broken
+	color: $broken
+
 i.box-missing
-  color: $missing
+	color: $missing
 
 .alert
-  padding: 1em
-  margin-bottom: 1em
-  border: 1px solid transparent
-  border-radius: 5px
+	padding: 1em
+	margin-bottom: 1em
+	border: 1px solid transparent
+	border-radius: 5px
 
-  &.tile
-    padding: 0
-    margin: 0
+	&.tile
+		padding: 0
+		margin: 0
 
-  .alert-heading
-    color: inherit
+	.alert-heading
+		color: inherit
 
-  .alert-link
-    font-weight: bold
+	.alert-link
+		font-weight: bold
 
-  &.alert-success
-    background-color: #dff0d8
-    border-color: #d0e9c6
-    color: #3c763d
-    hr
-      border-top-color: #c1e2b3
-    .alert-link
-      color: #2b542c
+	&.alert-success
+		background-color: #dff0d8
+		border-color: #d0e9c6
+		color: #3c763d
+		hr
+			border-top-color: #c1e2b3
+		.alert-link
+			color: #2b542c
 
-  &.alert-info
-    background-color: #d9edf7
-    border-color: #bcdff1
-    color: #31708f
-    hr
-      border-top-color: #a6d5ec
-    .alert-link
-      color: #245269
+	&.alert-info
+		background-color: #d9edf7
+		border-color: #bcdff1
+		color: #31708f
+		hr
+			border-top-color: #a6d5ec
+		.alert-link
+			color: #245269
 
-  &.alert-warning
-    background-color: #fcf8e3
-    border-color: #faf2cc
-    color: #8a6d3b
-    hr
-      border-top-color: #f7ecb5
-    .alert-link
-      color: #66512c
+	&.alert-warning
+		background-color: #fcf8e3
+		border-color: #faf2cc
+		color: #8a6d3b
+		hr
+			border-top-color: #f7ecb5
+		.alert-link
+			color: #66512c
 
-  &.alert-danger
-    background-color: #f2dede
-    border-color: #ebcccc
-    color: #a94442
-    hr
-      border-top-color: #e4b9b9
-    .alert-link
-      color: #843534
+	&.alert-danger
+		background-color: #f2dede
+		border-color: #ebcccc
+		color: #a94442
+		hr
+			border-top-color: #e4b9b9
+		.alert-link
+			color: #843534
 
 /** flex
 div.flex, span.flex
-  display: flex
-  justify-content: space-between
-  &.wrap
-    flex-wrap: wrap
-  &.align
-    align-items: center
-  div.flexgrow
-    flex-grow: 1
-    &.max2
-      min-width: 30vw
+	display: flex
+	justify-content: space-between
+	&.wrap
+		flex-wrap: wrap
+	&.align
+		align-items: center
+	div.flexgrow
+		flex-grow: 1
+		&.max2
+			min-width: 30vw

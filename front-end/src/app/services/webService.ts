@@ -6,72 +6,72 @@ import {AngularFireAuth} from "angularfire2/auth";
 @Injectable()
 export class WebService {
 
-  uid: string;
-  baseUrl = 'https://us-central1-oviedofiresd-55a71.cloudfunctions.net';
-  state: string;
+	uid: string;
+	baseUrl = 'https://us-central1-oviedofiresd-55a71.cloudfunctions.net';
+	state: string;
 
-  constructor(public afAuth: AngularFireAuth, public http: HttpClient) {
-  }
+	constructor(public afAuth: AngularFireAuth, public http: HttpClient) {
+	}
 
-  token() {
-    return '?uid=' + this.getUID();
-  }
+	token() {
+		return '?uid=' + this.getUID();
+	}
 
-  getUID() {
-    return (this.uid === undefined) ? localStorage.getItem('uid') : this.uid;
-  }
+	getUID() {
+		return (this.uid === undefined) ? localStorage.getItem('uid') : this.uid;
+	}
 
-  login(email, password) {
-    let self = this;
-    this.afAuth.auth.signInWithEmailAndPassword(email, password).then(resp => {
-      localStorage.setItem('uid', self.uid = resp.uid);
-      return this.doGet('/home').subscribe(() => {
-      }, () => {
-        localStorage.clear();
-        delete this.uid;
-        this.setState('home');
-      }, () => {
-      });
-      // return resp.uid;
-    });
-  }
+	login(email, password) {
+		let self = this;
+		this.afAuth.auth.signInWithEmailAndPassword(email, password).then(resp => {
+			localStorage.setItem('uid', self.uid = resp.uid);
+			return this.doGet('/home').subscribe(() => {
+			}, () => {
+				localStorage.clear();
+				delete this.uid;
+				this.setState('home');
+			}, () => {
+			});
+			// return resp.uid;
+		});
+	}
 
-  logout() {
-    this.afAuth.auth.signOut();
-  }
+	logout() {
+		this.afAuth.auth.signOut();
+	}
 
-  createQR(key = 'ATV46ATVS') {
-    return this.http.get('https://api.qrserver.com/v1/create-qr-code/?data=ATV46ATVS&amp;size=100x100').subscribe(x => {
-      return x;
-    });
-  }
+	createQR(key = 'ATV46ATVS') {
+		return this.http.get('https://api.qrserver.com/v1/create-qr-code/?data=ATV46ATVS&amp;size=100x100').subscribe(x => {
+			return x;
+		});
+	}
 
-  doGet(url, extra = '') {
-    return this.http.get(this.baseUrl + url + this.token() + extra);
-  }
+	doGet(url, extra = '') {
+		return this.http.get(this.baseUrl + url + this.token() + extra);
+	}
 
-  doPost(url, body) {
-    body.uid = this.getUID();
-    return this.http.post(this.baseUrl + url, body, {responseType: 'text'});
-  }
+	doPost(url, body) {
+		body.uid = this.getUID();
+		return this.http.post(this.baseUrl + url, body, {responseType: 'text'});
+	}
 
-  doDelete(url, body) {
-    body.uid = this.getUID();
-    body = {body: body, responseType: 'text'};
-    return this.http.delete(this.baseUrl + url, body);
-  }
+	doDelete(url, body) {
+		body.uid = this.getUID();
+		body = {body: body, responseType: 'text'};
+		return this.http.delete(this.baseUrl + url, body);
+	}
 
-  getHome() {
-    return this.http.get(this.baseUrl + '/home' + this.token());
-  }
+	getHome() {
+		return this.http.get(this.baseUrl + '/home' + this.token());
+	}
 
-  // TODO: remove this from webservices because it really isnt a web service
-  setState(state: string) {
-    this.state = state;
-    return this;
-  }
+	// TODO: remove this from webservices because it really isnt a web service
+	setState(state: string) {
+		this.state = state;
+		return this;
+	}
 
-  checkState() {
-    return this.state;
-  }
+	checkState() {
+		return this.state;
+	}
 }

@@ -6,27 +6,27 @@ import * as firebase from 'firebase/app';
 import {WebService} from "./services/webService";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./menu.sass'],
-  encapsulation: ViewEncapsulation.None
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./menu.sass'],
+	encapsulation: ViewEncapsulation.None
 })
 export class AppComponent {
-  user: Observable<firebase.User>;
+	user: Observable<firebase.User>;
 
-  constructor(public afAuth: AngularFireAuth, public webService: WebService) {
-    this.user = this.afAuth.authState;
-  }
+	constructor(public afAuth: AngularFireAuth, public webService: WebService) {
+		this.user = this.afAuth.authState;
+	}
 
-  checkState() {
-    return this.webService.checkState();
-  }
+	checkState() {
+		return this.webService.checkState();
+	}
 
-  login(email, password) {
-    this.webService.login(email, password);
-  }
+	login(email, password) {
+		this.webService.login(email, password);
+	}
 
-  logout() {
-    this.webService.logout();
-  }
+	logout() {
+		this.webService.logout();
+	}
 }
