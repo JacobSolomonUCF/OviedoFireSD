@@ -32,7 +32,8 @@ import {WebService} from "../services/webService";
 				<br>
 
 				<div class="row flex">
-					<div class="alert alert-danger tile flexgrow" *ngIf="alerts && alerts.repairItems">
+					<div class="alert alert-danger tile flexgrow"
+							 *ngIf="alerts && alerts.repairItems && alerts.repairItems.count">
 						<div class="tile-head">
 							<h3 class="pure-u-4-5">Repairs Needed</h3>
 						</div>
@@ -43,7 +44,7 @@ import {WebService} from "../services/webService";
 						<ul class="to-do">
 							<li *ngFor="let x of alerts.repairItems.properties">
 								<div>
-									<label class="pure-checkbox">
+									<label class="pure-checkbox" *ngIf="alerts.repairItems[x]">
 										<i class="fa fa-lg fa-close" (click)="dismiss('repairItems', x)"></i>
 										{{alerts.repairItems[x]}}
 									</label>
@@ -53,7 +54,8 @@ import {WebService} from "../services/webService";
 					</div>
 				</div>
 				<div class="row flex wrap">
-					<div class="alert alert-info tile flexgrow max2" *ngIf="alerts && alerts.missingItems">
+					<div class="alert alert-info tile flexgrow max2"
+							 *ngIf="alerts && alerts.missingItems && alerts.missingItems.count">
 						<div class="tile-head">
 							<h3 class="pure-u-4-5">Missing Equipment</h3>
 						</div>
@@ -64,7 +66,7 @@ import {WebService} from "../services/webService";
 						<ul class="to-do">
 							<li *ngFor="let x of alerts.missingItems.properties">
 								<div>
-									<label class="pure-checkbox">
+									<label class="pure-checkbox" *ngIf="alerts.missingItems[x]">
 										<i class="fa fa-lg fa-close" (click)="dismiss('missingItems', x)"></i>
 										{{alerts.missingItems[x]}}
 									</label>
@@ -72,7 +74,8 @@ import {WebService} from "../services/webService";
 							</li>
 						</ul>
 					</div>
-					<div class="alert alert-warning tile flexgrow max2" *ngIf="alerts && alerts.incompleteForms">
+					<div class="alert alert-warning tile flexgrow max2"
+							 *ngIf="alerts && alerts.incompleteForms && alerts.incompleteForms.count">
 						<div class="tile-head">
 							<h3 class="pure-u-4-5">Forgotten Reports</h3>
 						</div>
@@ -83,7 +86,7 @@ import {WebService} from "../services/webService";
 						<ul class="to-do">
 							<li *ngFor="let x of alerts.incompleteForms.properties">
 								<div>
-									<label class="pure-checkbox">
+									<label class="pure-checkbox" *ngIf="alerts.incompleteForms[x]">
 										<i class="fa fa-lg fa-close" (click)="dismiss('incompleteForms', x)"></i>
 										{{alerts.incompleteForms[x]}}
 									</label>
@@ -143,9 +146,13 @@ export class Home {
 			.getHome()
 			.subscribe(resp => {
 					this.alerts = resp['alerts'];
-					if (this.alerts.incompleteForms) this.alerts.incompleteForms.properties = Object.keys(this.alerts.incompleteForms);
-					if (this.alerts.missingItems) this.alerts.missingItems.properties = Object.keys(this.alerts.missingItems);
-					if (this.alerts.repairItems) this.alerts.repairItems.properties = Object.keys(this.alerts.repairItems);
+					['incompleteForms', 'missingItems', 'repairItems'].map(prop => {
+						if (this.alerts[prop]) {
+							let keys = Object.keys(this.alerts[prop]);
+							this.alerts[prop].properties = keys;
+							this.alerts[prop].count = keys.length;
+						}
+					});
 					resp['toDoList'].map(toDo => {
 						(toDo.complete ? this.completeList : this.toDoList).push(toDo);
 					});
@@ -165,7 +172,9 @@ export class Home {
 			type: type,
 			key: index
 		}).subscribe(() => {
-			this.alerts[type].splice(index, 1);
+			this.alerts[type].count--;
+			if (!this.alerts[type].count) delete this.alerts[type];
+			else delete this.alerts[type][index];
 		});
 	}
 }
