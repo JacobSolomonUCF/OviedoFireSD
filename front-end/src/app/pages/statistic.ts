@@ -37,5 +37,9 @@ export class Statistic {
 
   constructor(webService: WebService) {
     webService.setState('statistics');
+      //   .doGet('/statistics').subscribe(resp => {
+      //     console.log(resp);
+      // })
+      // ;
   }
 }
