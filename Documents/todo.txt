@@ -1,4 +1,2 @@
-create/edit forms
-notifications for missing and needs repair (admin portal and email)
-inventory
+delete compartments from vehicles form
 excel dump

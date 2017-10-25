@@ -61,7 +61,8 @@ function getTime(date) {
 		"weekday": null,
 		"datestamp": null,
 		"weekstamps": null,
-		"formattedDate": null
+		"formattedDate": null,
+		"year": null
 	}
 
 	if(date) {
@@ -75,6 +76,7 @@ function getTime(date) {
 	retVal.weekday = time.format("dddd").toLowerCase();
 	retVal.datestamp = time.format("YYYYMMDD");
 	retVal.formattedDate = time.format("MM/DD/YYYY");
+	retVal.year = time.format("YYYY");
 
 	var weekstamps = [];
 	var offset = parseInt(time.format("e"));
@@ -276,13 +278,39 @@ exports.form = functions.https.onRequest((req, res) => {
 	                    if(auth == 0 || auth == 1) {
 							const time = getTime();
 
-							ref.child(`users/${req.body.uid}`).once('value').then(userSnap => {
-								const user = userSnap.val();
+							const userPr = ref.child(`users/${req.body.uid}`).once('value');
+							const templatesPr = ref.child(`forms/templates`).once('value');
+
+							Promise.all([userPr, templatesPr]).then(response => {
+								const user = response[0].val();
+								const templates = response[1].val();
 
 								ref.child(`forms/results/${req.body.formId}/${time.datestamp}`).set({
 									completedBy: `${user.firstName} ${user.lastName}`,
 									results: req.body.results
 								}).then(() => {
+									for(var i = 0; i < req.body.results.length; i++) {
+										if(req.body.results[i].result) {
+											if(req.body.results[i].result == "Repairs Needed") {
+												ref.child(`statistics/${time.yearMonth}/repairsNeeded`).push().set(0);
+												ref.child(`alerts/repairItems`).push().set(`${time.formattedDate}: '${req.body.results[i].caption}' from '${templates[req.body.formId].title}'`);
+											} else if(req.body.results[i].result == "Missing") {
+												ref.child(`statistics/${time.yearMonth}/missing`).push().set(0);
+												ref.child(`alerts/missingItems`).push().set(`${time.formattedDate}: '${req.body.results[i].caption}' from '${templates[req.body.formId].title}'`);
+											}
+										} else {
+											for(var j = 0; j < req.body.results[i].results.length; j++) {
+												if(req.body.results[i].results[j].result == "Repairs Needed") {
+													ref.child(`statistics/${time.yearMonth}/repairsNeeded`).push().set(0);
+													ref.child(`alerts/repairItems`).push().set(`${time.formattedDate}: '${req.body.results[i].results[j].caption}' from '${templates[req.body.formId].title}'`);
+												} else if(req.body.results[i].results[j].result == "Missing") {
+													ref.child(`statistics/${time.yearMonth}/missing`).push().set(0);
+													ref.child(`alerts/missingItems`).push().set(`${time.formattedDate}: '${req.body.results[i].results[j].caption}' from '${templates[req.body.formId].title}'`);
+												}
+											}
+										}
+									}
+
 									cors(req, res, () => {
 			                            res.sendStatus(200);
 			                        });
@@ -634,7 +662,7 @@ exports.toDoList = functions.https.onRequest((req, res) => {
                             var templates = root.forms.templates;
                             var inventory = root.inventory;
                             var users = root.users
-                            var forms = Object.keys(intervals);
+                            var forms = Object.keys(templates);
                             var time = getTime();
 
                             // initialize return variables
@@ -1751,6 +1779,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
 									if(inventory[itemType][itemKey].compartments) {
 										var listItem = {
 											"id": itemKey,
+											"itemCategory": itemType,
 											"interval": intervals[itemKey],
 											"template": {
 												"title": inventory[itemType][itemKey].name,
@@ -1774,6 +1803,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
 
 											reportsList.list.push({
 												"id": formId,
+												"itemCategory": itemType,
 												"interval": intervals[formId],
 												"template": templates[formId]
 											});
@@ -1803,47 +1833,223 @@ exports.listReports = functions.https.onRequest((req, res) => {
                 res.status(400).send("Missing 'uid' parameter");
             });
         }
-    } else if(req.method == "POST") {
+	} else if(req.method == "POST") {
 		if(req.body) {
-			var body = req.body;
-			if(body.uid && body.formId && body.results) {
-	            getAuth(body.uid, function(auth) {
-	                if(auth != 401) {
-	                    if(auth == 0 || auth == 1) {
-							admin.database().ref('/users/' + body.uid).once('value', function(snap) {
-								var user = snap.val();
-								var time = getTime();
+            var body = req.body;
+            if(body.uid && body.report) {
+                getAuth(body.uid, function(auth) {
+                    if(auth != 401) {
+                        if(auth == 0) {
+							const report = body.report;
 
-								admin.database().ref('/forms/results/' + body.formId + '/' + time.datestamp).set({
-									"completedBy": user.firstName + ' ' + user.lastName,
-									"results": body.results
-								});
+							if(report.template.inputElements) {
+								if(report.id) {
+									admin.database().ref(`forms/intervals/${report.id}`).set(report.interval).then(() => {
+										admin.database().ref(`forms/templates/${report.id}`).set(report.template).then(() => {
+											cors(req, res, () => {
+									            res.sendStatus(200);
+									        });
+										}).catch(err => {
+											cors(req, res, () => {
+									            res.status(400).send(err);
+									        });
+										});
+									}).catch(err => {
+										cors(req, res, () => {
+								            res.status(400).send(err);
+								        });
+									});
+								}
+							} else if(report.itemCategory == "vehicles") {
+								if(report.id) {
+									admin.database().ref(`forms/intervals/${report.id}`).set(report.interval).then(() => {
+										for(var i = 0; i < report.template.subSections.length; i++) {
+											if(report.template.subSections[i].id) {
+												admin.database().ref(`forms/intervals/${report.template.subSections[i].id}`).set(report.interval);
+												admin.database().ref(`forms/templates/${report.template.subSections[i].id}`).set({
+													inputElements: report.template.subSections[i].inputElements,
+													title: `${report.template.title} - ${report.template.subSections[i].title}`
+												});
+											} else {
+												var newKey = admin.database().ref(`forms/intervals`).push().key;
 
-								cors(req, res, () => {
-		                            res.sendStatus(200);
-		                        });
-							});
-						} else {
-	                        cors(req, res, () => {
-	                            res.status(403).send("The request violates the user's permission level");
-	                        });
-	                    }
-					} else {
-	                    cors(req, res, () => {
-	                        res.status(401).send('The user is not authorized for access');
-	                    });
-	                }
-				});
-			} else {
-				cors(req, res, () => {
-	                res.status(400).send("Missing 'uid', 'formId' and 'results' parameter");
-	            });
-			}
-		} else {
-			cors(req, res, () => {
+												if(newKey) {
+													admin.database().ref(`forms/intervals/${newKey}`).set(report.interval);
+													admin.database().ref(`forms/templates/${newKey}`).set({
+														inputElements: report.template.subSections[i].inputElements,
+														title: `${report.template.title} - ${report.template.subSections[i].title}`
+													});
+													admin.database().ref(`inventory/vehicles/${report.id}/compartments/${newKey}`).set({
+														formId: [newKey],
+														name: report.template.subSections[i].title
+													});
+												}
+											}
+										}
+
+										cors(req, res, () => {
+								            res.sendStatus(200);
+								        });
+									}).catch(err => {
+										cors(req, res, () => {
+								            res.status(400).send(err);
+								        });
+									});
+								} else {
+									var newVehicleKey = admin.database().ref('inventory/vehicles').push().key;
+
+									if(newVehicleKey) {
+										admin.database().ref(`inventory/vehicles/${newVehicleKey}`).set({
+											name: report.template.title
+										}).then(() => {
+											admin.database().ref(`forms/intervals/${newVehicleKey}`).set(report.interval).then(() => {
+												for(var i = 0; i < report.template.subSections.length; i++) {
+													var newKey = admin.database().ref(`inventory/vehicles/${newVehicleKey}`).push().key;
+
+													if(newKey) {
+														admin.database().ref(`inventory/vehicles/${newVehicleKey}/compartments/${newKey}`).set({
+															formId: [newKey],
+															name: report.template.subSections[i].title
+														});
+														admin.database().ref(`forms/intervals/${newKey}`).set(report.interval);
+														admin.database().ref(`forms/templates/${newKey}`).set({
+															inputElements: report.template.subSections[i].inputElements,
+															title: `${report.template.title} - ${report.template.subSections[i].title}`
+														});
+													}
+												}
+
+												cors(req, res, () => {
+										            res.sendStatus(200);
+										        });
+											});
+										});
+									}
+								}
+							} else {
+								if(report.id) {
+									admin.database().ref(`forms/intervals/${report.id}`).set(report.interval).then(() => {
+										admin.database().ref(`forms/templates/${report.id}`).set(report.template).then(() => {
+											cors(req, res, () => {
+									            res.sendStatus(200);
+									        });
+										}).catch(err => {
+											cors(req, res, () => {
+									            res.status(400).send(err);
+									        });
+										});
+									}).catch(err => {
+										cors(req, res, () => {
+								            res.status(400).send(err);
+								        });
+									});
+								} else {
+									var newKey = admin.database().ref('forms/intervals').push().key;
+
+									if(newKey) {
+										admin.database().ref(`forms/intervals/${newKey}`).set(report.interval).then(() => {
+											admin.database().ref(`forms/templates/${newKey}`).set(report.template).then(() => {
+												admin.database().ref(`inventory/${report.itemCategory}/${newKey}`).set({
+													formId: [newKey],
+													name: report.template.title
+												}).then(() => {
+													cors(req, res, () => {
+											            res.sendStatus(200);
+											        });
+												}).catch(err => {
+													cors(req, res, () => {
+											            res.status(400).send(err);
+											        });
+												});
+											}).catch(err => {
+												cors(req, res, () => {
+										            res.status(400).send(err);
+										        });
+											});
+										}).catch(err => {
+											cors(req, res, () => {
+									            res.status(400).send(err);
+									        });
+										});
+									}
+								}
+							}
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send('The user is not authorized for access');
+                        });
+                    }
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid, report");
+                });
+            }
+        } else {
+            cors(req, res, () => {
                 res.status(400).send("Missing request body");
             });
-		}
+        }
+	} else if(req.method == "DELETE") {
+		if(req.body) {
+            var body = req.body;
+            if(body.uid && body.id && body.itemCategory) {
+                getAuth(body.uid, function(auth) {
+                    if(auth != 401) {
+                        if(auth == 0) {
+							if(body.itemCategory == "vehicles") {
+								admin.database().ref(`inventory/vehicles/${body.id}/compartments`).once('value').then(compartmentsSnap => {
+									var compartments = compartmentsSnap.val();
+
+									for(var i = 0; i < Object.keys(compartments).length; i++) {
+										var formId = compartments[Object.keys(compartments)[i]].formId[0];
+
+										admin.database().ref(`forms/intervals/${formId}`).set(null);
+										admin.database().ref(`forms/templates/${formId}`).set(null);
+									}
+
+									admin.database().ref(`forms/intervals/${body.id}`).set(null);
+									admin.database().ref(`inventory/vehicles/${body.id}`).set(null);
+
+									cors(req, res, () => {
+							            res.sendStatus(200);
+							        });
+								});
+							} else {
+								admin.database().ref(`inventory/${body.itemCategory}/${body.id}`).set(null);
+								admin.database().ref(`forms/intervals/${body.id}`).set(null);
+								admin.database().ref(`forms/templates/${body.id}`).set(null);
+
+								cors(req, res, () => {
+						            res.sendStatus(200);
+						        });
+							}
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send('The user is not authorized for access');
+                        });
+                    }
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid, id, itemCategory");
+                });
+            }
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing request body");
+            });
+        }
 	} else {
         cors(req, res, () => {
             res.sendStatus(404);
@@ -1947,30 +2153,283 @@ exports.sendIncompleteFormsEmail = functions.https.onRequest((req, res) => {
                 }
             }
 
-            var mailOptions = {
-				from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
-				bcc: emails.join(),
-				subject: time.formattedDate + ': Incomplete Forms',
-				text: 'The following form(s) are incomplete for ' + time.formattedDate + ':\n'
-			}
-
-			for(var i = 0; i < toDoList.length; i++) {
-				if(!toDoList[i].complete) {
-					mailOptions.text += "\n\t" + toDoList[i].title;
+			if(toDoList.length > 0) {
+	            var mailOptions = {
+					from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
+					bcc: emails.join(),
+					subject: time.formattedDate + ': Incomplete Forms',
+					text: 'The following form(s) are incomplete for ' + time.formattedDate + ':\n'
 				}
-			}
 
-			mailOptions.text += "\n\nThanks,\n\nYour OviedoFireSD team";
+				for(var i = 0; i < toDoList.length; i++) {
+					if(!toDoList[i].complete) {
+						mailOptions.text += "\n\t" + toDoList[i].title;
+					}
+				}
 
-			mailTransport.sendMail(mailOptions).then(function() {
+				admin.database().ref(`alerts/incompleteForms`).push().set(mailOptions.text);
+
+				mailOptions.text += "\n\nThanks,\n\nYour OviedoFireSD team";
+
+				mailTransport.sendMail(mailOptions).then(function() {
+					cors(req, res, () => {
+	                    res.sendStatus(200);
+	                });
+				}).catch(function(err) {
+					cors(req, res, () => {
+	                    res.status(400).send(err);
+	                });
+				});
+			} else {
 				cors(req, res, () => {
                     res.sendStatus(200);
                 });
-			}).catch(function(err) {
-				cors(req, res, () => {
-                    res.status(400).send(err);
-                });
+			}
+        });
+	}
+});
+
+exports.sendRepairItemsEmail = functions.https.onRequest((req, res) => {
+	if(req.method == "GET") {
+        admin.database().ref('/alerts/repairItems').once('value', function(snap) {
+			admin.database().ref('/users').once('value').then(usersSnap => {
+				const users = usersSnap.val();
+				const repairItems = snap.val();
+				var emails = [];
+				var time = getTime();
+
+				Object.keys(users).forEach(userKey => {
+					if(users[userKey].alert) {
+						emails.push(users[userKey].email);
+					}
+				});
+
+				if(repairItems) {
+					var mailOptions = {
+						from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
+						bcc: emails.join(),
+						subject: time.formattedDate + ': Repair Items',
+						text: 'The following item(s) need repair:\n'
+					}
+
+					Object.keys(repairItems).forEach(itemKey => {
+						mailOptions.text += `\n${repairItems[itemKey]}`
+					});
+
+					mailOptions.text += "\n\nThanks,\n\nYour OviedoFireSD team";
+
+					mailTransport.sendMail(mailOptions).then(function() {
+						cors(req, res, () => {
+		                    res.sendStatus(200);
+		                });
+					}).catch(function(err) {
+						cors(req, res, () => {
+		                    res.status(400).send(err);
+		                });
+					});
+				} else {
+					cors(req, res, () => {
+	                    res.sendStatus(200);
+	                });
+				}
 			});
         });
 	}
+});
+
+exports.sendMissingItemsEmail = functions.https.onRequest((req, res) => {
+	if(req.method == "GET") {
+        admin.database().ref('/alerts/missingItems').once('value', function(snap) {
+			admin.database().ref('/users').once('value').then(usersSnap => {
+				const users = usersSnap.val();
+				const missingItems = snap.val();
+				var emails = [];
+				var time = getTime();
+
+				Object.keys(users).forEach(userKey => {
+					if(users[userKey].alert) {
+						emails.push(users[userKey].email);
+					}
+				});
+
+				if(missingItems) {
+					var mailOptions = {
+						from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
+						bcc: emails.join(),
+						subject: time.formattedDate + ': Missing Items',
+						text: 'The following item(s) are missing:\n'
+					}
+
+					Object.keys(missingItems).forEach(itemKey => {
+						mailOptions.text += `\n${missingItems[itemKey]}`
+					});
+
+					mailOptions.text += "\n\nThanks,\n\nYour OviedoFireSD team";
+
+					mailTransport.sendMail(mailOptions).then(function() {
+						cors(req, res, () => {
+		                    res.sendStatus(200);
+		                });
+					}).catch(function(err) {
+						cors(req, res, () => {
+		                    res.status(400).send(err);
+		                });
+					});
+				} else {
+					cors(req, res, () => {
+	                    res.sendStatus(200);
+	                });
+				}
+			});
+        });
+	}
+});
+
+exports.statistics = functions.https.onRequest((req, res) => {
+	function pad(num, size) {
+	    var s = num+"";
+	    while (s.length < size) s = "0" + s;
+	    return s;
+	}
+
+    if(req.method == "GET") {
+        if(req.query.uid) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0) {
+						var time = getTime();
+
+						admin.database().ref('/statistics').once('value').then(statisticsSnap => {
+							var statistics = statisticsSnap.val();
+							var retVal = {
+								January: {
+									repairsNeeded: 0,
+									missing: 0
+								},
+								February: {
+									repairsNeeded: 0,
+									missing: 0
+								},
+								March: {
+									repairsNeeded: 0,
+									missing: 0
+								},
+								April: {
+									repairsNeeded: 0,
+									missing: 0
+								},
+								May: {
+									repairsNeeded: 0,
+									missing: 0
+								},
+								June: {
+									repairsNeeded: 0,
+									missing: 0
+								},
+								July: {
+									repairsNeeded: 0,
+									missing: 0
+								},
+								August: {
+									repairsNeeded: 0,
+									missing: 0
+								},
+								September: {
+									repairsNeeded: 0,
+									missing: 0
+								},
+								October: {
+									repairsNeeded: 0,
+									missing: 0
+								},
+								November: {
+									repairsNeeded: 0,
+									missing: 0
+								},
+								December: {
+									repairsNeeded: 0,
+									missing: 0
+								}
+							};
+
+							if(statistics) {
+								for(var i = 0; i < 12; i++) {
+									var month = pad(i+1, 2);
+									var yearMonth = time.year + month;
+
+									if(statistics[yearMonth]) {
+										if(statistics[yearMonth].repairsNeeded) {
+											retVal[Object.keys(retVal)[i]].repairsNeeded = Object.keys(statistics[yearMonth].repairsNeeded).length;
+										}
+
+										if(statistics[yearMonth].missing) {
+											retVal[Object.keys(retVal)[i]].missing = Object.keys(statistics[yearMonth].missing).length;
+										}
+									}
+								}
+							}
+
+							cors(req, res, () => {
+								res.status(200).send(retVal);
+                        	});
+						});
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' parameter");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
+
+exports.dismissAlert = functions.https.onRequest((req, res) => {
+    if(req.method == "POST") {
+        if(req.query.uid && req.query.type && req.query.key) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0) {
+						admin.database().ref(`alerts/${req.query.type}/${req.query.key}`).set(null).then(() => {
+							cors(req, res, () => {
+					            res.sendStatus(200);
+					        });
+						}).catch(err => {
+							cors(req, res, () => {
+					            res.status(400).send(err);
+					        });
+						});
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing parameter(s): uid, type, key");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
 });
