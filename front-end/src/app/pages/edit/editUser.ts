@@ -47,7 +47,7 @@ import {WebService} from "../../services/webService";
 								<i class="fa fa-chevron-left"></i> Back
 							</button>
 						</div>
-						<div class="tile pure-form pure-form-stacked editing" style="height: calc(100vh - 250px)">
+						<div class="tile white pure-form pure-form-stacked editing" style="height: calc(100vh - 250px)">
 							<fieldset>
 								<div class="pure-g" style="letter-spacing: 0">
 									<div class="pure-u-11-24 pure-u-sm-1">
@@ -94,6 +94,11 @@ import {WebService} from "../../services/webService";
 												[disabled]="loading">
 									<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
 									Delete
+								</button>
+								<button type="submit" class="accept" (click)="resetPassword()" *ngIf="temp.original"
+												[disabled]="loading">
+									<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+									Reset Password
 								</button>
 							</fieldset>
 						</div>
@@ -167,6 +172,16 @@ export class EditUser {
 			}, () => {
 				this.loading = false;
 			});
+	}
+
+	resetPassword() {
+		this.loading = true;
+		this.webService.doPost('/resetPassword', {user: {email: this.temp.email}}).subscribe(() => {
+			this.toggle();
+		}, () => {
+		}, () => {
+			this.loading = false;
+		});
 	}
 
 	toggle() {
