@@ -34,8 +34,12 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
 		<i class="fa fa-fire-extinguisher"
 			 style="border: 2px solid #EAEAEA;padding: 7px 8px;border-radius: 50%"></i><span>&nbsp;Oviedo Fire</span>
 	</div>
-	<!--<div class="pure-u-1" style="height: 20vh; text-align: center; background-color: #6c0505; color: white"><h1><i class="fa fa-fire-extinguisher"></i>Oviedo Fire</h1></div>-->
-	<!-- TODO: Alert { badCredintials: "Error the credentials are incorrect", notAdmin: "Hi user, you do not appear to be an admin. Try the app instead." }  -->
+	<div class="alert alert-warning login centered" *ngIf="checkState() === '401'">The password is invalid or the user
+		does not have a password.
+	</div>
+	<div class="alert alert-danger login centered" *ngIf="checkState() === '403'">Sorry but your account is not authorized
+		to access the administrator's portal.
+	</div>
 	<form class="pure-form pure-form-aligned" style="text-align: center; padding-top: 5vh">
 		<fieldset>
 			<div class="pure-control-group">

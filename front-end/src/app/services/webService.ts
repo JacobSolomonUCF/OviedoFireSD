@@ -25,14 +25,19 @@ export class WebService {
 		let self = this;
 		this.afAuth.auth.signInWithEmailAndPassword(email, password).then(resp => {
 			localStorage.setItem('uid', self.uid = resp.uid);
-			return this.doGet('/home').subscribe(() => {
+			this.doGet('/home').subscribe(() => {
 			}, () => {
 				localStorage.clear();
 				delete this.uid;
-				this.setState('home');
+				this.afAuth.auth.signOut();
+				console.log('look', this.getUID());
+				this.setState('403');
 			}, () => {
 			});
 			// return resp.uid;
+		}, error => {
+			console.log(error);
+			this.setState('401');
 		});
 	}
 

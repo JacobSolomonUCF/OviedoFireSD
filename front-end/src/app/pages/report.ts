@@ -53,7 +53,6 @@ import {WebService} from "../services/webService";
 				<div>
 					<!-- reports -->
 					<!-- TODO: Download report (csv). -->
-					<!-- TODO: Look into tooltip comments. -->
 					<ngx-datatable
 						#myTable
 						*ngIf="!row"

@@ -241,9 +241,9 @@ ul
 /* -- Responsive Styles (Media Queries) -------------------------------------
 
 /*
- *Hides the menu at `48em`, but modify this based on your app's needs.
+ //*Hides the menu at `48em`, but modify this based on your app's needs.
 @media (min-width: 0)
-// was 48em
+	// was 48em
  .header, .content
 	 padding-left: 2em
 	 padding-right: 2em
@@ -263,12 +263,12 @@ ul
 	 left: 150px
 
 @media (max-width: 0)
-// was 48em
- /* Only apply this when the window is small. Otherwise, the following
-	*case results in extras padding on the left:
-	*    * Make the window small.
-	*    * Tap the menu to trigger the active state.
-	*    * Make the window large again.
+	// was 48em
+	///* Only apply this when the window is small. Otherwise, the following
+	//*case results in extras padding on the left:
+	//*    * Make the window small.
+	//*    * Tap the menu to trigger the active state.
+	//*    * Make the window large again.
  #layout.active
 	 position: relative
 	 left: 150px
@@ -437,6 +437,10 @@ i.box-missing
 	border: 1px solid transparent
 	border-radius: 5px
 
+	&.login
+		padding: 1em 0
+		border: none
+
 	&.tile
 		padding: 0
 		margin: 0
@@ -495,3 +499,6 @@ div.flex, span.flex
 		flex-grow: 1
 		&.max2
 			min-width: 30vw
+
+i.fa-android
+	color: $green

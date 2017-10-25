@@ -60,7 +60,6 @@ import {WebService} from "../../services/webService";
 								<button class="accept short" (click)="submitReport()">Submit</button>
 							</div>
 						</div>
-						<!-- TODO: Have submit functionality tested. -->
 						<div class="tile white pure-form pure-form-stacked editing">
               <span class="flex wrap align">
                 <div style="flex-grow: 3" *ngIf="temp.template">

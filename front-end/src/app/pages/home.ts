@@ -143,7 +143,7 @@ export class Home {
 		webService.setState('home')
 			.getHome()
 			.subscribe(resp => {
-					this.alerts = {};//resp['alerts'];
+					this.alerts = resp['alerts'];
 					resp['toDoList'].map(toDo => {
 						(toDo.complete ? this.completeList : this.toDoList).push(toDo);
 					});
