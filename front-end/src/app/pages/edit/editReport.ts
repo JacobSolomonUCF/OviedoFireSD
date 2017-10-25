@@ -248,7 +248,7 @@ export class EditReport {
 
 	submitReport() {
 		console.log('Posting body:', this.temp);
-		if (this.temp.title && this.temp.interval.frequency && (!this.temp.fresh || this.temp.itemCategory) && this.temp.template.subSections && this.temp.template.subSections[0].inputElements) {
+		if (this.temp.template.title && this.temp.interval.frequency && (!this.temp.fresh || this.temp.itemCategory) && this.temp.template.subSections.length && this.temp.template.subSections[0].inputElements.length) {
 			this.loading = true;
 			if (this.temp.interval.frequency === 'Daily') this.temp.interval.days = {
 				sunday: true,
@@ -262,8 +262,7 @@ export class EditReport {
 			this.webService.doPost('/listReports', {report: this.temp})
 				.subscribe(() => {
 					this.toggle();
-				}, error => {
-					console.log(error);
+				}, () => {
 				}, () => {
 					this.loading = false;
 				});
