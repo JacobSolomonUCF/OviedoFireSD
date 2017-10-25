@@ -99,7 +99,7 @@ exports.activeVehicles = functions.https.onRequest((req, res) => {
     switch(req.method) {
 		case 'GET':
 	        if(req.query.uid) {
-				ref.child('users').child(req.query.uid).child('authentication').once('value').then(authSnap => {
+				ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
 					const auth = authSnap.val();
 					if(auth !== null) {
 	                    if(auth == 0 || auth == 1) {
@@ -146,62 +146,62 @@ exports.vehicleCompartments = functions.https.onRequest((req, res) => {
     switch(req.method) {
 		case 'GET':
 	        if(req.query.uid && req.query.vehicleId) {
-				ref.child('users').child(req.query.uid).child('authentication').once('value').then(authSnap => {
+				ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
 					const auth = authSnap.val();
 					if(auth !== null) {
 	                    if(auth == 0 || auth == 1) {
-							var time = getTime();
+							const time = getTime();
 							var retVal = { list: [] };
 
-							ref.child('inventory/vehicles').child(req.query.vehicleId).child('compartments').once('value').then(compartmentsSnap => {
+							ref.child(`inventory/vehicles/${req.query.vehicleId}/compartments`).once('value').then(compartmentsSnap => {
 								const compartments = compartmentsSnap.val();
 
 								if(compartments) {
-									ref.child('forms/intervals').once('value').then(intervalsSnap => {
-										const intervals = intervalsSnap.val();
+									const intervalsPr = ref.child('forms/intervals').once('value');
+									const resultsPr = ref.child('forms/results').once('value');
 
-										ref.child('forms/results').once('value').then(resultsSnap => {
-											const results = resultsSnap.val();
+									Promise.all([intervalsPr, resultsPr]).then(response => {
+										const intervals = response[0].val();
+										const results = response[1].val();
 
-											Object.keys(compartments).forEach(compartmentKey => {
-												var completedBy = 'nobody';
-												const formId = compartments[compartmentKey].formId[0];
+										Object.keys(compartments).forEach(compartmentKey => {
+											var completedBy = 'nobody';
+											const formId = compartments[compartmentKey].formId[0];
 
-												if(results && results[formId]) {
-													const frequency = intervals[req.query.vehicleId].frequency;
+											if(results && results[formId]) {
+												const frequency = intervals[req.query.vehicleId].frequency;
 
-													if(frequency == "Daily" && results[formId][time.datestamp]) {
-														completedBy = results[formId][time.datestamp].completedBy;
-													} else if(frequency == "Weekly") {
-														const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+												if(frequency == "Daily" && results[formId][time.datestamp]) {
+													completedBy = results[formId][time.datestamp].completedBy;
+												} else if(frequency == "Weekly") {
+													const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
 
-														if(time.weekstamps.includes(lastTimeStamp)) {
-															completedBy = results[formId][lastTimestamp].completedBy;
-														}
-													} else if(frequency == "Monthly") {
-														const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+													if(time.weekstamps.includes(lastTimeStamp)) {
+														completedBy = results[formId][lastTimestamp].completedBy;
+													}
+												} else if(frequency == "Monthly") {
+													const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
 
-														if(lastTimestamp.substring(0,6) == time.yearMonth) {
-															completedBy = results[formId][lastTimestamp].completedBy;
-														}
+													if(lastTimestamp.substring(0,6) == time.yearMonth) {
+														completedBy = results[formId][lastTimestamp].completedBy;
 													}
 												}
+											}
 
-												retVal.list.push({
-													name: compartments[compartmentKey].name,
-													formId: formId,
-													completedBy: completedBy
-												});
+											retVal.list.push({
+												name: compartments[compartmentKey].name,
+												formId: formId,
+												completedBy: completedBy
 											});
+										});
 
-											cors(req, res, () => {
-												res.status(200).send(retVal);
-											});
+										cors(req, res, () => {
+											res.status(200).send(retVal);
 										});
 									});
 								} else {
 									cors(req, res, () => {
-						                res.status(400).send(`Compartments for ${req.query.vehicleId} do not exist`);
+						                res.status(400).send(`Compartments for '${req.query.vehicleId}' do not exist`);
 						            });
 								}
 							});
@@ -229,124 +229,94 @@ exports.vehicleCompartments = functions.https.onRequest((req, res) => {
 			break;
     }
 });
-// -------------------------------END: API Functions----------------------------
 
 exports.form = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        if(req.query.formId && req.query.uid) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0 || auth == 1) {
-                        admin.database().ref('/').once('value', function(snap) {
-                            var root = snap.val();
-                            var templates = root.forms.templates;
-
-                            if(templates[req.query.formId]) {
-                                // send response
-                                cors(req, res, () => {
-                                    res.status(200).send(templates[req.query.formId]);
-                                });
-                            } else {
-                                cors(req, res, () => {
-                                    res.status(400).send("Template for " + req.query.formId + " does not exist");
-                                });
-                            }
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else if(!req.query.formId && req.query.uid) {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'formId' parameter");
-            });
-        } else if(req.query.formId && !req.query.uid) {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' parameter");
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'formId' and 'uid' parameters");
-            });
-        }
-    } else if(req.method == "POST") {
-		if(req.body) {
-			var body = req.body;
-			if(body.uid && body.formId && body.results) {
-	            getAuth(body.uid, function(auth) {
-	                if(auth != 401) {
+    switch(req.method) {
+		case 'GET':
+	        if(req.query.uid && req.query.formId) {
+				ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+					const auth = authSnap.val();
+					if(auth !== null) {
 	                    if(auth == 0 || auth == 1) {
-							admin.database().ref('/users/' + body.uid).once('value', function(snap) {
-								var user = snap.val();
-								var time = getTime();
+							ref.child(`forms/templates/${req.query.formId}`).once('value').then(formSnap => {
+								const form = formSnap.val();
 
-								admin.database().ref('/forms/results/' + body.formId + '/' + time.datestamp).set({
-									"completedBy": user.firstName + ' ' + user.lastName,
-									"results": body.results
-								});
-
-								cors(req, res, () => {
-		                            res.sendStatus(200);
-		                        });
+								if(form) {
+									cors(req, res, () => {
+										res.status(200).send(form);
+									});
+								} else {
+									cors(req, res, () => {
+						                res.status(400).send(`Template for '${req.query.formId}' does not exist`);
+						            });
+								}
 							});
-						} else {
+	                    } else {
 	                        cors(req, res, () => {
 	                            res.status(403).send("The request violates the user's permission level");
 	                        });
 	                    }
-					} else {
+	                } else {
 	                    cors(req, res, () => {
-	                        res.status(401).send('The user is not authorized for access');
+	                        res.status(401).send("The user is not authorized for access");
 	                    });
 	                }
 				});
-			} else if(body.uid && body.formId && !body.results) {
-				cors(req, res, () => {
-	                res.status(400).send("Missing 'results' parameter");
+	        } else {
+	            cors(req, res, () => {
+	                res.status(400).send("Missing parameter(s): uid, formId");
 	            });
-			} else if(body.uid && !body.formId && body.results) {
-				cors(req, res, () => {
-	                res.status(400).send("Missing 'formId' parameter");
-	            });
-			} else if(body.uid && !body.formId && !body.results) {
-				cors(req, res, () => {
-	                res.status(400).send("Missing 'formId' and 'results' parameter");
-	            });
-			} else if(!body.uid && body.formId && body.results) {
-				cors(req, res, () => {
-	                res.status(400).send("Missing 'uid' parameter");
-	            });
-			} else if(!body.uid && body.formId && !body.results) {
-				cors(req, res, () => {
-	                res.status(400).send("Missing 'uid' and 'results' parameter");
-	            });
-			} else if(!body.uid && !body.formId && body.results) {
-				cors(req, res, () => {
-	                res.status(400).send("Missing 'uid' and 'formId' parameter");
-	            });
+	        }
+			break;
+		case "POST":
+			if(req.body.uid && req.body.formId && req.body.results) {
+				ref.child(`users/${req.body.uid}/authentication`).once('value').then(authSnap => {
+					const auth = authSnap.val();
+					if(auth !== null) {
+	                    if(auth == 0 || auth == 1) {
+							const time = getTime();
+
+							ref.child(`users/${req.body.uid}`).once('value').then(userSnap => {
+								const user = userSnap.val();
+
+								ref.child(`forms/results/${req.body.formId}/${time.datestamp}`).set({
+									completedBy: `${user.firstName} ${user.lastName}`,
+									results: req.body.results
+								}).then(() => {
+									cors(req, res, () => {
+			                            res.sendStatus(200);
+			                        });
+								}).catch(err => {
+									cors(req, res, () => {
+			                            res.status(400).send(err);
+			                        });
+								});
+							});
+	                    } else {
+	                        cors(req, res, () => {
+	                            res.status(403).send("The request violates the user's permission level");
+	                        });
+	                    }
+	                } else {
+	                    cors(req, res, () => {
+	                        res.status(401).send("The user is not authorized for access");
+	                    });
+	                }
+				});
 			} else {
 				cors(req, res, () => {
-	                res.status(400).send("Missing 'uid', 'formId' and 'results' parameter");
+	                res.status(400).send("Missing parameter(s): uid, formId, results");
 	            });
 			}
-		} else {
+			break;
+		default:
 			cors(req, res, () => {
-                res.status(400).send("Missing request body");
-            });
-		}
-	} else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
+	            res.sendStatus(404);
+	        });
+			break;
     }
 });
+// -------------------------------END: API Functions----------------------------
 
 exports.ladders = functions.https.onRequest((req, res) => {
     if(req.method == "GET") {
@@ -991,7 +961,8 @@ exports.home = functions.https.onRequest((req, res) => {
                                 "totalUsers": totalUsers,
                                 "totalReports": totalReports,
                                 "reportsToDo": reportsToDo,
-                                "toDoList": toDoList
+                                "toDoList": toDoList,
+								"alerts": root.alerts
                             };
 
                             // send response
@@ -1055,6 +1026,15 @@ exports.reports = functions.https.onRequest((req, res) => {
                                         var schedule;
                                         var status = "Complete";
                                         var id = itemKey;
+										var days = {
+											sunday: false,
+											monday: false,
+											tuesday: false,
+											wednesday: false,
+											thursday: false,
+											friday: false,
+											saturday: false
+										};
                                         var data = {
                                             "rows": []
                                         };
@@ -1070,14 +1050,7 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                 for(var m = 0; m < templates[formId[l]].inputElements.length; m++) {
                                                     data.rows.push({
                                                         "compartment": templates[formId[l]].title,
-                                                        "item": templates[formId[l]].inputElements[m].caption,
-                                                        "sunday": null,
-                                                        "monday": null,
-                                                        "tuesday": null,
-                                                        "wednesday": null,
-                                                        "thursday": null,
-                                                        "friday": null,
-                                                        "saturday": null,
+                                                        "item": templates[formId[l]].inputElements[m].caption
                                                     });
                                                 }
 
@@ -1089,8 +1062,21 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                             if(!timestamps.includes(time.weekstamps[m])) {
                                                                 status = "Incomplete";
                                                             } else {
+																days[weekday[m]] = true;
                                                                 for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-                                                                    data.rows[offset+n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
+																	var result = results[formId[l]][time.weekstamps[m]].results[n].result;
+																	if(result == "Repairs Needed") {
+																		data.rows[offset+n][weekday[m]] = {
+																			result: result,
+																			note: results[formId[l]][time.weekstamps[m]].results[n].note,
+																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+																		};
+																	} else {
+																		data.rows[offset+n][weekday[m]] = {
+																			result: result,
+																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+																		};
+																	}
                                                                 }
                                                             }
                                                         }
@@ -1098,9 +1084,22 @@ exports.reports = functions.https.onRequest((req, res) => {
 														var complete = false;
 														for(var m = 0; m < time.weekstamps.length; m++) {
                                                             if(timestamps.includes(time.weekstamps[m])) {
+																days[weekday[m]] = true;
 																complete = true;
                                                                 for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-                                                                    data.rows[offset+n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
+																	var result = results[formId[l]][time.weekstamps[m]].results[n].result;
+																	if(result == "Repairs Needed") {
+																		data.rows[offset+n][weekday[m]] = {
+																			result: result,
+																			note: results[formId[l]][time.weekstamps[m]].results[n].note,
+																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+																		};
+																	} else {
+																		data.rows[offset+n][weekday[m]] = {
+																			result: result,
+																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+																		};
+																	}
                                                                 }
                                                             }
                                                         }
@@ -1122,8 +1121,21 @@ exports.reports = functions.https.onRequest((req, res) => {
 																	status = "Incomplete";
 																}
                                                             } else {
+																days[weekday[m]] = true;
 																for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-                                                                    data.rows[offset+n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
+																	var result = results[formId[l]][time.weekstamps[m]].results[n].result;
+																	if(result == "Repairs Needed") {
+																		data.rows[offset+n][weekday[m]] = {
+																			result: result,
+																			note: results[formId[l]][time.weekstamps[m]].results[n].note,
+																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+																		};
+																	} else {
+                                                                    	data.rows[offset+n][weekday[m]] = {
+																			result: result,
+																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+																		}
+																	}
                                                                 }
 															}
                                                         }
@@ -1141,6 +1153,7 @@ exports.reports = functions.https.onRequest((req, res) => {
                                             "schedule": schedule,
                                             "status": status,
                                             "id": id,
+											"days": days,
                                             "data": data
                                         });
 
@@ -1153,6 +1166,15 @@ exports.reports = functions.https.onRequest((req, res) => {
                                             var schedule = frequency;
                                             var status = "Complete";
                                             var id = formId[l];
+											var days = {
+												sunday: false,
+												monday: false,
+												tuesday: false,
+												wednesday: false,
+												thursday: false,
+												friday: false,
+												saturday: false
+											};
                                             var data = {
                                                 "rows": []
                                             };
@@ -1161,14 +1183,7 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                 for(var m = 0; m < templates[formId[l]].inputElements.length; m++) {
                                                     data.rows.push({
                                                         "compartment": "Main",
-                                                        "item": templates[formId[l]].inputElements[m].caption,
-                                                        "sunday": null,
-                                                        "monday": null,
-                                                        "tuesday": null,
-                                                        "wednesday": null,
-                                                        "thursday": null,
-                                                        "friday": null,
-                                                        "saturday": null
+                                                        "item": templates[formId[l]].inputElements[m].caption
                                                     });
                                                 }
 
@@ -1180,8 +1195,21 @@ exports.reports = functions.https.onRequest((req, res) => {
 	                                                        if(!timestamps.includes(time.weekstamps[m])) {
 	                                                            status = "Incomplete";
 	                                                        } else {
+																days[weekday[m]] = true;
 																for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-                                                                    data.rows[n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
+																	var result = results[formId[l]][time.weekstamps[m]].results[n].result;
+																	if(result == "Repairs Needed") {
+																		data.rows[n][weekday[m]] = {
+																			result: result,
+																			note: results[formId[l]][time.weekstamps[m]].results[n].note,
+																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+																		};
+																	} else {
+																		data.rows[n][weekday[m]] = {
+																			result: result,
+																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+																		};
+																	}
                                                                 }
 	                                                        }
 	                                                    }
@@ -1189,9 +1217,22 @@ exports.reports = functions.https.onRequest((req, res) => {
 														var complete = false;
 	                                                    for(var m = 0; m < time.weekstamps.length; m++) {
 	                                                        if(timestamps.includes(time.weekstamps[m])) {
+																days[weekday[m]] = true;
 																complete = true;
 																for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-                                                                    data.rows[n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
+																	var result = results[formId[l]][time.weekstamps[m]].results[n].result;
+																	if(result == "Repairs Needed") {
+                                                                    	data.rows[n][weekday[m]] = {
+																			result: result,
+																			note: results[formId[l]][time.weekstamps[m]].results[n].note,
+																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+																		};
+																	} else {
+																		data.rows[n][weekday[m]] = {
+																			result: result,
+																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+																		};
+																	}
                                                                 }
 	                                                        }
 	                                                    }
@@ -1213,8 +1254,21 @@ exports.reports = functions.https.onRequest((req, res) => {
 																	status = "Incomplete";
 																}
 	                                                        } else {
+																days[weekday[m]] = true;
 																for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-                                                                    data.rows[n][weekday[m]] = results[formId[l]][time.weekstamps[m]].results[n].result;
+																	var result = results[formId[l]][time.weekstamps[m]].results[n].result;
+																	if(result == "Repairs Needed") {
+                                                                    	data.rows[n][weekday[m]] = {
+																			result: result,
+																			note: results[formId[l]][time.weekstamps[m]].results[n].note,
+																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+																		};
+																	} else {
+                                                                    	data.rows[n][weekday[m]] = {
+																			result: result,
+																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+																		};
+																	}
                                                                 }
 	                                                        }
 	                                                    }
@@ -1229,14 +1283,7 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                     for(var n = 0; n < templates[formId[l]].subSections[m].inputElements.length; n++) {
                                                         data.rows.push({
                                                             "compartment": templates[formId[l]].subSections[m].title,
-                                                            "item": templates[formId[l]].subSections[m].inputElements[n].caption,
-															"sunday": null,
-	                                                        "monday": null,
-	                                                        "tuesday": null,
-	                                                        "wednesday": null,
-	                                                        "thursday": null,
-	                                                        "friday": null,
-	                                                        "saturday": null
+                                                            "item": templates[formId[l]].subSections[m].inputElements[n].caption
                                                         });
                                                     }
 
@@ -1248,8 +1295,21 @@ exports.reports = functions.https.onRequest((req, res) => {
 	                                                            if(!timestamps.includes(time.weekstamps[n])) {
 	                                                                status = "Incomplete";
 	                                                            } else {
+																	days[weekday[n]] = true;
 	                                                                for(var o = 0; o < results[formId[l]][time.weekstamps[n]].results[m].results.length; o++) {
-	                                                                    data.rows[offset+o][weekday[n]] = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
+																		var result = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
+																		if(result == "Repairs Needed") {
+	                                                                    	data.rows[offset+o][weekday[n]] = {
+																				result: result,
+																				note: results[formId[l]][time.weekstamps[n]].results[m].results[o].note,
+																				completedBy: results[formId[l]][time.weekstamps[n]].completedBy
+																			};
+																		} else {
+	                                                                    	data.rows[offset+o][weekday[n]] = {
+																				result: result,
+																				completedBy: results[formId[l]][time.weekstamps[n]].completedBy
+																			};
+																		}
 	                                                                }
 	                                                            }
 	                                                        }
@@ -1257,9 +1317,22 @@ exports.reports = functions.https.onRequest((req, res) => {
 															var complete = false;
 	                                                        for(var n = 0; n < time.weekstamps.length; n++) {
 	                                                            if(timestamps.includes(time.weekstamps[n])) {
+																	days[weekday[n]] = true;
 																	complete = true;
 	                                                                for(var o = 0; o < results[formId[l]][time.weekstamps[n]].results[m].results.length; o++) {
-	                                                                    data.rows[offset+o][weekday[n]] = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
+																		var result = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
+																		if(result == "Needs Repair") {
+	                                                                    	data.rows[offset+o][weekday[n]] = {
+																				result: result,
+																				note : results[formId[l]][time.weekstamps[n]].results[m].results[o].note,
+																				completedBy: results[formId[l]][time.weekstamps[n]].completedBy
+																			};
+																		} else {
+	                                                                    	data.rows[offset+o][weekday[n]] = {
+																				result: result,
+																				completedBy: results[formId[l]][time.weekstamps[n]].completedBy
+																			};
+																		}
 	                                                                }
 	                                                            }
 	                                                        }
@@ -1281,8 +1354,21 @@ exports.reports = functions.https.onRequest((req, res) => {
 																		status = "Incomplete";
 																	}
 	                                                            } else {
+																	days[weekday[n]] = true;
 	                                                                for(var o = 0; o < results[formId[l]][time.weekstamps[n]].results[m].results.length; o++) {
-	                                                                    data.rows[offset+o][weekday[n]] = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
+																		var result = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
+																		if(result == "Needs Repair") {
+	                                                                    	data.rows[offset+o][weekday[n]] = {
+																				result: result,
+																				note: results[formId[l]][time.weekstamps[n]].results[m].results[o].note,
+																				completedBy: results[formId[l]][time.weekstamps[n]].completedBy
+																			};
+																		} else {
+	                                                                    	data.rows[offset+o][weekday[n]] = {
+																				result: result,
+																				completedBy: results[formId[l]][time.weekstamps[n]].completedBy
+																			};
+																		}
 	                                                                }
 	                                                            }
 	                                                        }
@@ -1300,6 +1386,7 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                 "schedule": schedule,
                                                 "status": status,
                                                 "id": id,
+												"days": days,
                                                 "data": data
                                             });
                                         }
@@ -1716,7 +1803,48 @@ exports.listReports = functions.https.onRequest((req, res) => {
                 res.status(400).send("Missing 'uid' parameter");
             });
         }
-    } else {
+    } else if(req.method == "POST") {
+		if(req.body) {
+			var body = req.body;
+			if(body.uid && body.formId && body.results) {
+	            getAuth(body.uid, function(auth) {
+	                if(auth != 401) {
+	                    if(auth == 0 || auth == 1) {
+							admin.database().ref('/users/' + body.uid).once('value', function(snap) {
+								var user = snap.val();
+								var time = getTime();
+
+								admin.database().ref('/forms/results/' + body.formId + '/' + time.datestamp).set({
+									"completedBy": user.firstName + ' ' + user.lastName,
+									"results": body.results
+								});
+
+								cors(req, res, () => {
+		                            res.sendStatus(200);
+		                        });
+							});
+						} else {
+	                        cors(req, res, () => {
+	                            res.status(403).send("The request violates the user's permission level");
+	                        });
+	                    }
+					} else {
+	                    cors(req, res, () => {
+	                        res.status(401).send('The user is not authorized for access');
+	                    });
+	                }
+				});
+			} else {
+				cors(req, res, () => {
+	                res.status(400).send("Missing 'uid', 'formId' and 'results' parameter");
+	            });
+			}
+		} else {
+			cors(req, res, () => {
+                res.status(400).send("Missing request body");
+            });
+		}
+	} else {
         cors(req, res, () => {
             res.sendStatus(404);
         });
