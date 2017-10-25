@@ -13,7 +13,7 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var resultForm = result(completeBy: "Default", timeStamp: "Default", title: "Default", resultSection: [])
     var userName:[String] = []
-    
+     
 
     override func viewDidLoad() {
         super.viewDidLoad()
