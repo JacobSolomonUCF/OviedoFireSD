@@ -37,14 +37,16 @@ import {WebService} from "../services/webService";
                 <i class="fa fa-chevron-left"></i> Back
               </button>
             </div>
-            <div class="right">
+              <div class="right" [ngSwitch]="style.days.length">
+                  <div class="alert alert-warning" *ngSwitchCase="0">This report has not been started!</div>
               <input
-                #tableFilter
-                class='filter'
-                type='text'
-                [ngModel]="filter"
-                placeholder='Type to filter...'
-                (keyup)='filter = tableFilter.value; updateFilter($event)'/>
+                      *ngSwitchDefault
+                      #tableFilter
+                      class='filter'
+                      type='text'
+                      [ngModel]="filter"
+                      placeholder='Type to filter...'
+                      (keyup)='filter = tableFilter.value; updateFilter($event)'/>
             </div>
           </div>
         </div>
@@ -83,10 +85,12 @@ import {WebService} from "../services/webService";
             <ngx-datatable-column *ngFor="let x of style.days" [name]="x[0]" [prop]="x" [flexGrow]="1">
               <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
                            let-group="group">
-                <div class="hasTooltip">
-                  <i class="fa {{getCheckBox(value)}}">{{getCheckBox(value) === '' ? value : ''}}</i>
-                  <span *ngIf="row.comment"
-                        class="tooltip-text">{{row.comment ? (row.comment + ":" ) : ""}}{{row.reporter}}</span>
+                  <div class="hasTooltip">
+                      <i *ngIf="!value" class="fa fa-minus"></i>
+                      <i *ngIf="value"
+                         class="fa {{getCheckBox(value.result)}}">{{getCheckBox(value.result) === '' ? value.result : ''}}</i>
+                      <span *ngIf="value.completedBy"
+                            class="tooltip-text">{{"'" + (value.note ? value.note : value.result) + "' "}}{{value.completedBy}}</span>
                 </div>
               </ng-template>
             </ngx-datatable-column>
@@ -156,7 +160,8 @@ export class Report {
     },
     modal: {
       group: 'compartment',
-      days: ['sunday',
+        days: [
+            'sunday',
         'monday',
         'tuesday',
         'wednesday',
@@ -213,11 +218,15 @@ export class Report {
     this.filter = "";
     this.previousStyle = this.style;
     this.title = event.selected[0].name;
-    m.rows = (this.temp = {
+      this.reports = m.rows = (this.temp = {
       rows: event.selected[0].data.rows,
-      heading: event.selected[0].data.heading
+          heading: event.selected[0].data.heading,
+          days: event.selected[0].days
     }).rows;
     this.style = this.styles.modal;
+      this.style.days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].filter(day => {
+          if (this.temp.days[day]) return day;
+      });
     this.style.report = event.selected[0].name;
   }
 
@@ -292,8 +301,6 @@ export class Report {
     {prop: 'schedule', dragable: false, resizeable: false},
     {prop: 'status', dragable: false, resizeable: false},
     {prop: 'id', dragable: false, resizeable: false}];
-
-  //['name','schedule','status','id'];
   reports: any[];
   old: any[] = [
     {
