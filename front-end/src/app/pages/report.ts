@@ -871,8 +871,10 @@ export class Report {
 		let options = {
 			Present: 'fa-lg fa-check',
 			Pass: 'fa-lg fa-check',
+			Passed: 'fa-lg fa-check',
 			Missing: 'fa-lg fa-question box-missing',
 			Fail: 'fa-lg fa-close box-broken',
+			Failed: 'fa-lg fa-close box-broken',
 			"Repairs Needed": 'fa-lg fa-close box-broken',
 			other: 'fa-minus'
 		};
