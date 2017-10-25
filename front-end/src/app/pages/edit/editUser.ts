@@ -114,8 +114,10 @@ export class EditUser {
   temp;
   filter;
   original;
+    webService;
 
   constructor(webService: WebService) {
+      this.webService = webService;
     webService.setState('eUser')
       .doGet('/users')
       .subscribe(resp => {
@@ -126,6 +128,41 @@ export class EditUser {
         this.loading = false;
       });
   }
+
+    keyup(index, value) {
+        this.temp[index] = value;
+    }
+
+    submit() {
+        if (!(this.temp.firstName && this.temp.lastName && this.temp.type && this.temp.email))
+            return;
+        if (this.temp.original)
+            delete this.temp.original;
+        else
+            this.users.push(this.temp);
+
+        this.loading = true;
+        this.webService.doPost('/users', {user: this.temp})
+            .subscribe(() => {
+                this.toggle();
+            }, () => {
+                this.users.splice(this.temp, 1);
+            }, () => {
+                this.loading = false;
+            });
+    }
+
+    doDelete() {
+        this.loading = true;
+        this.webService.doDelete('/users', {user: {email: this.temp.email}})
+            .subscribe(() => {
+                this.users.splice(this.users.indexOf(this.temp.original), 1);
+                this.toggle();
+            }, () => {
+            }, () => {
+                this.loading = false;
+            });
+    }
 
   toggle() {
     delete this.temp;
