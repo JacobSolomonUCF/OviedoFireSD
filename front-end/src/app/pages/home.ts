@@ -161,7 +161,10 @@ export class Home {
 	}
 
 	dismiss(type, index) {
-		this.webService.doPost('/dismissAlert', {type: type, key: index}).subscribe(() => {
+		this.webService.doPost('/dismissAlert?type=' + type + '&key=' + index + '&uid=' + this.webService.getUID(), {
+			type: type,
+			key: index
+		}).subscribe(() => {
 			this.alerts[type].splice(index, 1);
 		});
 	}
