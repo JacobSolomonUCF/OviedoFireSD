@@ -64,6 +64,8 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
             nextController.truckNumber = truckNumber
             
         }
+        
+        table.isUserInteractionEnabled = true
     }
 
 }
@@ -75,7 +77,7 @@ extension ActiveViewController{
     //Table Functions
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         startSpinning(activityView: activityView)
-        table.allowsSelection = false
+        table.isUserInteractionEnabled = false
         if(truckCompartments.count != 0){
             truckCompartments.removeAll()
         }

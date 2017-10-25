@@ -95,6 +95,7 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
             
         }
         self.stopSpinning(activityView: self.activityView)
+        tableView.isUserInteractionEnabled = true
     }
     
 }
@@ -106,6 +107,8 @@ extension toDoViewController{
     //    Table Functions:
     //    List item is tapped:
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.isUserInteractionEnabled = false
         startSpinning(activityView: activityView)
         singleFormId = filterdList[indexPath.row].formId
         let fullName = filterdList[indexPath.row].name

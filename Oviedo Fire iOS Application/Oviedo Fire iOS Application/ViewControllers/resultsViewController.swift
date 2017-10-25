@@ -94,6 +94,18 @@ extension resultsViewController{
         }else{
             cell.caption.text = item.caption
             cell.values.text = item.value
+            
+//            Setting red text color
+            if(item.type == "pmr" && (item.value == "Repairs Needed" || item.value == "Missing")){
+                cell.values.textColor = hexStringToUIColor(hex: "a00606")
+            }else if(item.type == "pf" && item.value == "Fail"){
+                cell.values.textColor = hexStringToUIColor(hex: "a00606")
+            }else if(item.type == "per" && item.value == "0.0"){
+                cell.values.textColor = hexStringToUIColor(hex: "a00606")
+                cell.values.text = item.value + "%"
+            }
+            
+            
             if (item.comment != "No Comment"){
                 cell.comments.text = "Comment: " + item.comment
                 cell.setHeight(choice: 1)

@@ -64,6 +64,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let nextController = segue.destination as! HomeViewController
             nextController.firstName = userName
         }
+        tableView.isUserInteractionEnabled = true
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -359,11 +360,14 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBAction func submitPressed(_ sender: Any) {
         submitAlert(message: "Are you sure you want to submit?") { (result) in
             if(result == true){
+                self.tableView.isUserInteractionEnabled = false
                 let check = self.checkForm()
                 if(check == 0){
                     self.alert(message: "Please completed the entire form!")
+                    self.tableView.isUserInteractionEnabled = true
                 }else if(check == -1){
                     self.alert(message: "Plese enter a comment for the item that needs repairs")
+                    self.tableView.isUserInteractionEnabled = true
                 }else{
                     var json:[String:Any]
                     let item = self.userEnteredResults[1]

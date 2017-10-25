@@ -72,6 +72,8 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
             nextController.userName = userName
             
         }
+        
+        tableView.isUserInteractionEnabled = true
     }
     
 }
@@ -83,7 +85,7 @@ extension CompartmentsViewController{
     //    For when a table view is selected
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         startSpinning(activityView: activityView)
-        tableView.allowsSelection = false
+        tableView.isUserInteractionEnabled = false
         
         
         //    Checking if the form has been completed:
@@ -114,7 +116,6 @@ extension CompartmentsViewController{
 
 
             }
-            tableView.allowsSelection = true
         })
 
     }
