@@ -55,19 +55,23 @@ import {WebService} from "../../services/webService";
               </div>
             </div>
             <!-- TODO: Have submit functionality tested. -->
-            <div class="tile pure-form pure-form-stacked editing">
-              <span style="display: flex; flex-wrap: wrap">
+              <div class="tile white pure-form pure-form-stacked editing">
+              <span class="flex wrap align">
                 <div style="flex-grow: 3" *ngIf="temp.template">
                   <label for="text">Title</label>
                   <input #text id="text" type="text" [(ngModel)]="temp.template.title"/>
                 </div>
-                <div style="flex-grow: 1" *ngIf="temp.interval">
+                <div class="flexgrow" *ngIf="temp.interval">
                   <label for="type">Schedule</label>
-                  <select #schedule id="type" [(ngModel)]="temp.interval.frequency"
-                          (change)="temp.schedule = schedule.state">
-                    <option value="Daily">Daily</option>
-                    <option value="Weekly">Weekly</option>
-                    <option value="Monthly">Monthly</option>
+                  <select style="width: 100%" #schedule id="type" [(ngModel)]="temp.interval.frequency">
+                    <option *ngFor="let x of ['Daily', 'Weekly', 'Monthly']" [value]="x">{{x}}</option>
+                  </select>
+                </div>
+                <div class="flexgrow" *ngIf="temp.fresh && temp.interval">
+                  <label for="type">Category</label>
+                  <select #category id="type" [(ngModel)]="temp.itemCategory">
+                    <option *ngFor="let x of ['ladders', 'miscellaneous', 'scbas', 'stretchers', 'vehicles']"
+                            [value]="x">{{x}}</option>
                   </select>
                 </div>
                 <div style="flex-grow: 2" *ngIf="temp.interval && temp.interval.frequency !== 'Daily'">
@@ -171,6 +175,10 @@ import {WebService} from "../../services/webService";
   , styleUrls: ['../../menu.sass']
 })
 export class EditReport {
+
+    foo(x) {
+        console.log(this.temp.interval.frequency, this.temp.itemCategory);
+    }
   loading: boolean = true;
   heading: any[] = [
     {prop: 'name', flexGrow: 3, dragable: false, resizeable: true},
@@ -208,17 +216,19 @@ export class EditReport {
     if (this.viewType === 'view') {
       this.viewType = 'edit';
       this.temp = (event) ? event.selected[0] : {
+          fresh: true,
+          itemCategory: false,
         template: {subSections: []},
         interval: {
           frequency: "",
           days: {
-            sunday: false,
-            monday: false,
-            tuesday: false,
-            wednesday: false,
-            thursday: false,
-            friday: false,
-            saturday: false
+              sunday: true,
+              monday: true,
+              tuesday: true,
+              wednesday: true,
+              thursday: true,
+              friday: true,
+              saturday: true
           }
         }
       };
@@ -230,15 +240,27 @@ export class EditReport {
 
   submitReport() {
     console.log('Posting body:', this.temp);
-    this.loading = true;
-    this.webService.doPost('/listReports', {report: this.temp})
-      .subscribe(() => {
-        this.toggle();
-      }, error => {
-        console.log(error);
-      }, () => {
-        this.loading = false;
-      });
+      if (this.temp.title && this.temp.interval.frequency && (!this.temp.fresh || this.temp.itemCategory) && this.temp.template.subSections && this.temp.template.subSections[0].inputElements) {
+          this.loading = true;
+          if (this.temp.interval.frequency === 'Daily') this.temp.interval.days = {
+              sunday: true,
+              monday: true,
+              tuesday: true,
+              wednesday: true,
+              thursday: true,
+              friday: true,
+              saturday: true
+          };
+          this.webService.doPost('/listReports', {report: this.temp})
+              .subscribe(() => {
+                  this.toggle();
+              }, error => {
+                  console.log(error);
+              }, () => {
+                  this.loading = false;
+              });
+      } else
+          console.log('missing a required field');
   }
 
   addSection() {
@@ -277,15 +299,8 @@ export class EditReport {
   }
 
   updateFilter(event) {
-    // TODO: edit reports filter
     const val = (!event) ? '' : event.target.value.toLowerCase();
-    // const source = this.temp ? this.temp :
-    //   {rows: this.original, heading: this.heading};
-
-    console.log(this.original, this.temp, this.heading);
-
-    if (!event)
-      this.filter = "";
+      if (!event) this.filter = "";
 
     this.reports = this.original.filter(row => {
       if (row.template.title.toLowerCase().indexOf(val) !== -1)
