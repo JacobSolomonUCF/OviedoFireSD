@@ -31,41 +31,69 @@ import {WebService} from "../services/webService";
         </div>
         <br>
 
-        <div class="row">
-          <div class="pure-u-2-5 tile">
+          <div class="row flex">
+              <div class="alert alert-danger tile flexgrow" *ngIf="alerts && alerts.repairItems">
             <div class="tile-head">
-              <h3 class="pure-u-4-5">To Do List</h3>
-              <ul class="pure-u-1-5 options" hidden>
-                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                </li>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i
-                    class="fa fa-wrench"></i></a>
-                  <ul class="dropdown-menu" role="menu">
+                <h3 class="pure-u-4-5">Repairs Needed</h3>
+            </div>
+                  <div class="centered" *ngIf="loading">
+                      <br/>
+                      <i class="fa fa-5x fa-spinner fa-pulse"></i>
+                  </div>
+                  <ul class="to-do">
+                      <li *ngFor="let x of alerts.repairItems; let i = index">
+                          <div>
+                              <label class="pure-checkbox">
+                                  <i class="fa fa-lg fa-close" (click)="dismiss('repairItems', i)"></i>
+                                  {{x}}
+                              </label>
+                          </div>
+                      </li>
                   </ul>
-                </li>
-                <li><a class="close-link"><i class="fa fa-close"></i></a>
-                </li>
-              </ul>
+              </div>
+          </div>
+          <div class="row flex wrap">
+              <div class="alert alert-info tile flexgrow max2" *ngIf="alerts && alerts.missingItems">
+                  <div class="tile-head">
+                      <h3 class="pure-u-4-5">Missing Equipment</h3>
+                  </div>
+                  <div class="centered" *ngIf="loading">
+                      <br/>
+                      <i class="fa fa-5x fa-spinner fa-pulse"></i>
+                  </div>
+                  <ul class="to-do">
+                      <li *ngFor="let x of alerts.missingItems; let i = index">
+                          <div>
+                              <label class="pure-checkbox">
+                                  <i class="fa fa-lg fa-close" (click)="dismiss('missingItems', i)"></i>
+                                  {{x}}
+                              </label>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+              <div class="alert alert-warning tile flexgrow max2" *ngIf="alerts && alerts.incompleteForms">
+                  <div class="tile-head">
+                      <h3 class="pure-u-4-5">Forgotten Reports</h3>
             </div>
             <div class="centered" *ngIf="loading">
               <br/>
               <i class="fa fa-5x fa-spinner fa-pulse"></i>
             </div>
             <ul class="to-do">
-              <li *ngFor="let todo of toDoList; let i = index">
+                <li *ngFor="let x of alerts.incompleteForms; let i = index">
                 <div>
                   <label class="pure-checkbox">
-                    <i class="fa fa-lg fa-square-o" style="background-color: white"></i>
-                    {{todo.title}}
+                      <i class="fa fa-lg fa-close" (click)="dismiss('incompleteForms', i)"></i>
+                      {{x}}
                   </label>
                 </div>
               </li>
             </ul>
           </div>
-          <div class="pure-u-2-5 tile">
+              <div class="tile white flexgrow max2">
             <div class="tile-head">
-              <h3 class="pure-u-4-5">Completed List</h3>
+                <h3 class="pure-u-4-5">To Do List</h3>
               <ul class="pure-u-1-5 options" hidden>
                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                 </li>
@@ -83,11 +111,11 @@ import {WebService} from "../services/webService";
               <br/>
               <i class="fa fa-5x fa-spinner fa-pulse"></i>
             </div>
-            <ul class="to-do">
-              <li *ngFor="let todo of completeList; let i = index">
-                <div>
+                  <ul class="to-do white">
+                      <li *ngFor="let todo of toDoList; let i = index">
+                          <div class="white">
                   <label class="pure-checkbox">
-                    <input type="checkbox" checked (click)="nada()"/>
+                      <i class="fa fa-lg fa-square-o" style="background-color: white"></i>
                     {{todo.title}}
                   </label>
                 </div>
@@ -100,6 +128,7 @@ import {WebService} from "../services/webService";
   , styleUrls: ['../menu.sass']
 })
 export class Home {
+    alerts;
   loading: boolean = true;
   toDoList: any[] = [];
   equipment: number;
@@ -113,6 +142,7 @@ export class Home {
     webService.setState('home')
       .getHome()
       .subscribe(resp => {
+              this.alerts = {};//resp['alerts'];
           resp['toDoList'].map(toDo => {(toDo.complete ? this.completeList : this.toDoList).push(toDo);});
           this.equipment = resp['equipment'];
           this.totalUsers = resp['totalUsers'];
@@ -124,7 +154,10 @@ export class Home {
           this.loading = false;
         });
   }
-  nada() {
 
-  }
+    dismiss(type, index) {
+        this.webService.doPost('/dismissAlert?type=' + type + '&index=' + index, {}).subscribe(() => {
+            this.alerts[type].splice(index, 1);
+        });
+    }
 }

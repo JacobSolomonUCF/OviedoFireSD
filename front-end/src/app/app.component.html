@@ -45,10 +45,9 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
         <label for="password">Password</label>
         <input #password id="password" type="password" placeholder="Password">
       </div>
-
       <div class="pure-controls">
-        <button type="submit" class="pure-button pure-button-primary"
-                (click)="login(email.value, password.value)">Login
+        <button type="submit" class="pure-button pure-button-primary" (click)="login(email.value, password.value)">
+          Login
         </button>
       </div>
     </fieldset>
@@ -70,12 +69,6 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
         </a>
 
         <ul class="pure-menu-list">
-          <!--<li class="pure-menu-item"><br/></li>-->
-          <!--<li class="pure-menu-item"><br/></li>-->
-          <!--<li class="pure-menu-item"><span style="padding: 1em; color: #9a9810">Welcome,</span></li>-->
-          <!--<li class="pure-menu-item"><span style="padding: 1em; color: white">Nichlaus Dorey</span>&lt;!&ndash;span>{{user.name}}</span&ndash;&gt;</li>-->
-          <!--<li class="pure-menu-item"><br/></li>-->
-
           <div class="pure-menu-scrollable" style="overflow: hidden">
             <li></li>
             <li class="pure-menu-item {{(this.checkState() === 'home') ? 'active' : ''}}">
@@ -106,17 +99,10 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
               </a>
             </li>
             <ul *ngIf="this.editList" class="fa-ul pure-menu-sub-list">
-              <!--<li class="pure-menu-item {{(this.checkState() === 'eEquipment') ? 'active' : ''}}">-->
-              <!--<a uiSref="eEquipment" class="pure-menu-link">Equipment</a>-->
-              <!--</li>-->
               <li class="pure-menu-item {{(this.checkState() === 'eReport') ? 'active' : ''}}">
                 <a uiSref="eReport" class="pure-menu-link"><i class="fa fa-square small"></i>
                   Reports</a>
               </li>
-              <!--<li class="pure-menu-item {{(this.checkState() === 'eTruck') ? 'active' : ''}}">-->
-              <!--<a uiSref="eTruck" class="pure-menu-link"><i class="fa fa-square small"></i>-->
-              <!--Trucks</a>-->
-              <!--</li>-->
               <li class="pure-menu-item {{(this.checkState() === 'eUser') ? 'active' : ''}}">
                 <a uiSref="eUser" class="pure-menu-link"><i class="fa fa-square small"></i>
                   Users</a>
@@ -147,7 +133,7 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
         </div>
 
         <div class="content">
-          <div class="tile centered">
+          <div class="tile white centered">
             It appears you are not an Oviedo Fire Administrator.
             <br/>
             If you believe this is an error please contact the Administrator.

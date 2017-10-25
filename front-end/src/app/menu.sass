@@ -68,7 +68,8 @@ ul
 
   .tile
     overflow: hidden
-    background: white
+    &.white
+      background: white
     border-radius: 1%
     margin: 0.2em 0
     padding: .5em 1em .5em 1em
@@ -90,7 +91,7 @@ ul
         padding: .1em
         width: inherit
 
-        div
+        div.white
           padding: .5em
           background-color: $bg-primary
 
@@ -325,6 +326,7 @@ div.table-options
   display: flex
   width: 100%
   justify-content: space-between
+  align-items: center
   div.right
     input.filter
       padding: .25em
@@ -422,3 +424,68 @@ i.box-broken
   color: $broken
 i.box-missing
   color: $missing
+
+.alert
+  padding: 1em
+  margin-bottom: 1em
+  border: 1px solid transparent
+  border-radius: 5px
+
+  &.tile
+    padding: 0
+    margin: 0
+
+  .alert-heading
+    color: inherit
+
+  .alert-link
+    font-weight: bold
+
+  &.alert-success
+    background-color: #dff0d8
+    border-color: #d0e9c6
+    color: #3c763d
+    hr
+      border-top-color: #c1e2b3
+    .alert-link
+      color: #2b542c
+
+  &.alert-info
+    background-color: #d9edf7
+    border-color: #bcdff1
+    color: #31708f
+    hr
+      border-top-color: #a6d5ec
+    .alert-link
+      color: #245269
+
+  &.alert-warning
+    background-color: #fcf8e3
+    border-color: #faf2cc
+    color: #8a6d3b
+    hr
+      border-top-color: #f7ecb5
+    .alert-link
+      color: #66512c
+
+  &.alert-danger
+    background-color: #f2dede
+    border-color: #ebcccc
+    color: #a94442
+    hr
+      border-top-color: #e4b9b9
+    .alert-link
+      color: #843534
+
+/** flex
+div.flex, span.flex
+  display: flex
+  justify-content: space-between
+  &.wrap
+    flex-wrap: wrap
+  &.align
+    align-items: center
+  div.flexgrow
+    flex-grow: 1
+    &.max2
+      min-width: 30vw
