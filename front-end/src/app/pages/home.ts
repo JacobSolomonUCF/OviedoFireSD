@@ -41,11 +41,11 @@ import {WebService} from "../services/webService";
 							<i class="fa fa-5x fa-spinner fa-pulse"></i>
 						</div>
 						<ul class="to-do">
-							<li *ngFor="let x of alerts.repairItems; let i = index">
+							<li *ngFor="let x of alerts.repairItems.properties">
 								<div>
 									<label class="pure-checkbox">
-										<i class="fa fa-lg fa-close" (click)="dismiss('repairItems', i)"></i>
-										{{x}}
+										<i class="fa fa-lg fa-close" (click)="dismiss('repairItems', x)"></i>
+										{{alerts.repairItems[x]}}
 									</label>
 								</div>
 							</li>
@@ -62,11 +62,11 @@ import {WebService} from "../services/webService";
 							<i class="fa fa-5x fa-spinner fa-pulse"></i>
 						</div>
 						<ul class="to-do">
-							<li *ngFor="let x of alerts.missingItems; let i = index">
+							<li *ngFor="let x of alerts.missingItems.properties">
 								<div>
 									<label class="pure-checkbox">
-										<i class="fa fa-lg fa-close" (click)="dismiss('missingItems', i)"></i>
-										{{x}}
+										<i class="fa fa-lg fa-close" (click)="dismiss('missingItems', x)"></i>
+										{{alerts.missingItems[x]}}
 									</label>
 								</div>
 							</li>
@@ -81,11 +81,11 @@ import {WebService} from "../services/webService";
 							<i class="fa fa-5x fa-spinner fa-pulse"></i>
 						</div>
 						<ul class="to-do">
-							<li *ngFor="let x of alerts.incompleteForms; let i = index">
+							<li *ngFor="let x of alerts.incompleteForms.properties">
 								<div>
 									<label class="pure-checkbox">
-										<i class="fa fa-lg fa-close" (click)="dismiss('incompleteForms', i)"></i>
-										{{x}}
+										<i class="fa fa-lg fa-close" (click)="dismiss('incompleteForms', x)"></i>
+										{{alerts.incompleteForms[x]}}
 									</label>
 								</div>
 							</li>
@@ -139,11 +139,13 @@ export class Home {
 	totalReports: number;
 
 	constructor(public webService: WebService) {
-		let self = this;
 		webService.setState('home')
 			.getHome()
 			.subscribe(resp => {
 					this.alerts = resp['alerts'];
+					if (this.alerts.incompleteForms) this.alerts.incompleteForms.properties = Object.keys(this.alerts.incompleteForms);
+					if (this.alerts.missingItems) this.alerts.missingItems.properties = Object.keys(this.alerts.missingItems);
+					if (this.alerts.repairItems) this.alerts.repairItems.properties = Object.keys(this.alerts.repairItems);
 					resp['toDoList'].map(toDo => {
 						(toDo.complete ? this.completeList : this.toDoList).push(toDo);
 					});
@@ -159,7 +161,7 @@ export class Home {
 	}
 
 	dismiss(type, index) {
-		this.webService.doPost('/dismissAlert?type=' + type + '&index=' + index, {}).subscribe(() => {
+		this.webService.doPost('/dismissAlert', {type: type, key: index}).subscribe(() => {
 			this.alerts[type].splice(index, 1);
 		});
 	}

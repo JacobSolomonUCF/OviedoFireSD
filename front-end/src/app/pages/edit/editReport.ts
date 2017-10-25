@@ -239,7 +239,6 @@ export class EditReport {
 					}
 				}
 			};
-			this.temp.original = this.temp;
 			this.selected = (this.temp.template.subSections) ? [this.temp.template.subSections[0]] : [this.temp.template];
 		} else if (this.viewType === 'edit') {
 			this.selected = event.selected;
@@ -261,8 +260,10 @@ export class EditReport {
 			};
 			this.webService.doPost('/listReports', {report: this.temp})
 				.subscribe(() => {
+					this.reports.push(this.temp);
 					this.toggle();
-				}, () => {
+				}, error => {
+					console.log(error);
 				}, () => {
 					this.loading = false;
 				});
@@ -277,7 +278,7 @@ export class EditReport {
 		this.loading = true;
 		this.webService.doDelete('/listReports', {id: this.temp.id, itemCategory: this.temp.itemCategory})
 			.subscribe(() => {
-				this.reports.splice(this.reports.indexOf(this.temp.original), 1);
+				this.reports.splice(this.reports.indexOf(this.temp), 1);
 				this.toggle()
 			}, () => {
 			}, () => {

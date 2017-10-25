@@ -148,6 +148,7 @@ export class EditUser {
 		this.loading = true;
 		this.webService.doPost('/users', {user: this.temp})
 			.subscribe(() => {
+				this.users.push(this.temp);
 				this.toggle();
 			}, () => {
 				this.users.splice(this.temp, 1);
