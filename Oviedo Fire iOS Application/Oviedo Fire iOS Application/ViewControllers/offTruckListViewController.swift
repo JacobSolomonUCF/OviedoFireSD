@@ -85,6 +85,7 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
         }
         
         stopSpinning(activityView: activityView)
+        tableView.isUserInteractionEnabled = true
     }
 }
 
@@ -94,6 +95,7 @@ extension offTruckListViewController{
     //List item is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+        tableView.isUserInteractionEnabled = false
         startSpinning(activityView: activityView)
         singleFormId = list[indexPath.row].formId
         formName = list[indexPath.row].name
