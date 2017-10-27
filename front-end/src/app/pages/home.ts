@@ -10,7 +10,7 @@ import {WebService} from "../services/webService";
 
 			<div class="content">
 				<!-- top tiles -->
-				<div class="row tile_count" style="text-align: center">
+				<div class="row tile_count centered">
 					<div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
 						<div class="count_top"><i class="fa fa-user"></i> Users</div>
 						<div class="count" *ngIf="totalUsers">{{totalUsers}}</div>
@@ -18,21 +18,20 @@ import {WebService} from "../services/webService";
 					</div>
 
 					<div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-						<div class="count_top"><i class="fa fa-table"></i> Reports</div>
+						<div class="count-top"><i class="fa fa-table"></i> Reports</div>
 						<div class="count" *ngIf="totalReports">{{totalReports}}</div>
 						<i class="fa fa-2x fa-spinner fa-pulse" *ngIf="!totalReports && loading"></i>
 					</div>
 
 					<div class="pure-u-1-5 col-sm-4 col-xs-6 tile_stats_count">
-						<div class="count_top"><i class="fa fa-tasks"></i> Todo</div>
-						<div style="font-size: 2em;" *ngIf="reportsToDo">{{reportsToDo}}</div>
+						<div class="count-top"><i class="fa fa-tasks"></i> Todo</div>
+						<div class="count count-last" *ngIf="reportsToDo">{{reportsToDo}}</div>
 						<i class="fa fa-2x fa-spinner fa-pulse" *ngIf="!reportsToDo && loading"></i>
 					</div>
 				</div>
 				<br>
-
 				<div class="row flex">
-					<div class="alert alert-danger tile flexgrow"
+					<div class="alert alert-danger tile flex-grow"
 							 *ngIf="alerts && alerts.repairItems && alerts.repairItems.count">
 						<div class="tile-head">
 							<h3 class="pure-u-4-5">Repairs Needed</h3>
@@ -54,7 +53,7 @@ import {WebService} from "../services/webService";
 					</div>
 				</div>
 				<div class="row flex wrap">
-					<div class="alert alert-info tile flexgrow max2"
+					<div class="alert alert-info tile flex-grow max2"
 							 *ngIf="alerts && alerts.missingItems && alerts.missingItems.count">
 						<div class="tile-head">
 							<h3 class="pure-u-4-5">Missing Equipment</h3>
@@ -74,7 +73,7 @@ import {WebService} from "../services/webService";
 							</li>
 						</ul>
 					</div>
-					<div class="alert alert-warning tile flexgrow max2"
+					<div class="alert alert-warning tile flex-grow max2"
 							 *ngIf="alerts && alerts.incompleteForms && alerts.incompleteForms.count">
 						<div class="tile-head">
 							<h3 class="pure-u-4-5">Forgotten Reports</h3>
@@ -94,7 +93,7 @@ import {WebService} from "../services/webService";
 							</li>
 						</ul>
 					</div>
-					<div class="tile white flexgrow max2">
+					<div class="tile white flex-grow max2">
 						<div class="tile-head">
 							<h3 class="pure-u-4-5">To Do List</h3>
 							<ul class="pure-u-1-5 options" hidden>
@@ -119,7 +118,7 @@ import {WebService} from "../services/webService";
 							<li *ngFor="let todo of toDoList; let i = index">
 								<div class="white">
 									<label class="pure-checkbox">
-										<i class="fa fa-lg fa-square-o" style="background-color: white"></i>
+										<i class="fa fa-lg fa-square-o white"></i>
 										{{todo.title}}
 									</label>
 								</div>

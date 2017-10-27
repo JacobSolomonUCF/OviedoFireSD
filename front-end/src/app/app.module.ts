@@ -27,7 +27,7 @@ import {Extra} from "./pages/extra";
 // charts
 import {ChartsModule} from "ng2-charts/ng2-charts";
 // imported datepicker (seen on reports page)
-import {Datepicker} from "./datepicker";
+import {Datepicker} from "./utils/datepicker";
 // imported qr creator and custom qr downloader
 import {QRCodeModule} from "angular2-qrcode";
 import {QR} from "./utils/qr";

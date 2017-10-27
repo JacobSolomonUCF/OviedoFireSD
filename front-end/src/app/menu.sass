@@ -65,6 +65,8 @@ ul
 	.count
 		font-size: 2em
 		border-right: 2px solid darkgray
+		.count-last
+			border: none
 
 	.tile
 		overflow: hidden
@@ -90,6 +92,9 @@ ul
 			li
 				padding: .1em
 				width: inherit
+
+				i.white
+					background: white
 
 				div.white
 					padding: .5em
@@ -495,7 +500,7 @@ div.flex, span.flex
 		flex-wrap: wrap
 	&.align
 		align-items: center
-	div.flexgrow
+	div.flex-grow
 		flex-grow: 1
 		&.max2
 			min-width: 30vw

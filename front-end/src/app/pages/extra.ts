@@ -9,9 +9,9 @@ import {WebService} from "../services/webService";
 
 		<div class="content">
 			<div class="row flex">
-				<div class="tile white flexgrow">
+				<div class="tile white flex-grow">
 					<div class="tile-head">
-						<h3 class="pure-u-4-5">Mobile Applications</h3>
+						<h3>Mobile Applications</h3>
 					</div>
 					<div class="tile white centered" *ngIf="loading">
 						<br/>

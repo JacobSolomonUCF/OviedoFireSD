@@ -89,13 +89,13 @@ import {WebService} from "../../services/webService";
                   <label for="text">Title</label>
                   <input #text id="text" type="text" [(ngModel)]="temp.template.title"/>
                 </div>
-                <div class="flexgrow" *ngIf="temp.interval">
+                <div class="flex-grow" *ngIf="temp.interval">
                   <label for="type">Schedule</label>
                   <select style="width: 100%" #schedule id="type" [(ngModel)]="temp.interval.frequency">
                     <option *ngFor="let x of ['Daily', 'Weekly', 'Monthly']" [value]="x">{{x}}</option>
                   </select>
                 </div>
-                <div class="flexgrow" *ngIf="temp.fresh && temp.interval">
+                <div class="flex-grow" *ngIf="temp.fresh && temp.interval">
                   <label for="type">Category</label>
                   <select #category id="type" [(ngModel)]="temp.itemCategory">
                     <option *ngFor="let x of ['ladders', 'miscellaneous', 'scbas', 'stretchers', 'vehicles']"

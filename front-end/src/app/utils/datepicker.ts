@@ -1,8 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
 
-/**
- * @title Datepicker Filter
- */
 @Component({
 	selector: 'datepicker',
 	template: `
@@ -12,7 +9,7 @@ import {Component, ViewChild} from '@angular/core';
 			<mat-datepicker #picker></mat-datepicker>
 		</mat-form-field>
 	`,
-	styleUrls: ['./menu.sass']
+	styleUrls: ['../menu.sass']
 })
 export class Datepicker {
 	@ViewChild("input") input: any;
