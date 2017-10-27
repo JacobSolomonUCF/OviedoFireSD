@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {WebService} from "../../services/webService";
 
 @Component({
@@ -33,15 +33,38 @@ import {WebService} from "../../services/webService";
 						<ngx-datatable
 							#myTable
 							class="table"
-							(select)="onclick($event, myTable)"
 							[selectionType]="'single'"
 							[columnMode]="'flex'"
 							[rowHeight]="'auto'"
 							[rows]="reports">
-							<ngx-datatable-column [name]="'Report'" [prop]="'template.title'"
-																		[flexGrow]="2"></ngx-datatable-column>
-							<ngx-datatable-column [name]="'Frequency'" [prop]="'interval.frequency'"
-																		[flexGrow]="1"></ngx-datatable-column>
+							<ngx-datatable-column [name]="'Report'" [prop]="'template.title'" [flexGrow]="2">
+								<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+									<div (click)="onclick(row, myTable)">
+										{{value}}
+									</div>
+								</ng-template>
+							</ngx-datatable-column>
+							<ngx-datatable-column [name]="'Frequency'" [prop]="'interval.frequency'" [flexGrow]="1">
+								<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+									<div (click)="onclick(row, myTable)">
+										{{value}}
+									</div>
+								</ng-template>
+							</ngx-datatable-column>
+							<ngx-datatable-column [name]="'QR Code'" [prop]="'template.title'" [flexGrow]="1">
+								<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+									<span *ngIf="row.itemCategory === 'vehicles'">
+										<button class="close padding-0" (click)="viewQRCodes(row)">
+											<i class="fa fa-lg fa-qrcode"></i> View codes
+										</button>
+									</span>
+									<span *ngIf="row.itemCategory !== 'vehicles'">
+										<button class="close padding-0">
+											<qr-clickable [value]="row.id" [title]="row.template.title"></qr-clickable>
+										</button>
+									</span>
+								</ng-template>
+							</ngx-datatable-column>
 						</ngx-datatable>
 					</div>
 					<div *ngSwitchCase="'edit'">
@@ -53,7 +76,7 @@ import {WebService} from "../../services/webService";
 							</div>
 							<div class="center" *ngIf="!temp.fresh">
 								<button class="alert alert-danger close short" (click)="deleteReport()"><i
-									class="fa fa-trash"></i>Delete
+									class="fa fa-trash"></i> Delete
 								</button>
 							</div>
 							<div class="right">
@@ -105,7 +128,7 @@ import {WebService} from "../../services/webService";
 									[columnMode]="'flex'">
 									<ngx-datatable-column [name]="'Section'" [prop]="'title'" [flexGrow]="1">
 										<ng-template ngx-datatable-header-template>
-											<div style="display: flex; justify-content: space-between;">
+											<div class="flex">
 												<span>Section</span>
 												<span>
                         <button class="close" (click)="addSection()">
@@ -117,8 +140,8 @@ import {WebService} from "../../services/webService";
 										<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
 																 let-row="row">
 											<div (dblclick)="editing = editing === rowIndex ? -1 : rowIndex"
-													 style="display: flex; justify-content: space-between;">
-                        <span style="flex-grow: 99" [ngSwitch]="editing === rowIndex ? true : false">
+													 class="flex">
+                        <span style="flex-grow: 99" [ngSwitch]="editing === rowIndex">
                           <input class="mock-mat" style="flex-grow: 99" [(ngModel)]="row.title" placeholder="Add a name"
 																 *ngSwitchCase="true"/>
                           <span *ngSwitchCase="false">{{row.title}}</span>
@@ -148,7 +171,7 @@ import {WebService} from "../../services/webService";
 									</ngx-datatable-column>
 									<ngx-datatable-column [prop]="'type'" [flexGrow]="1">
 										<ng-template ngx-datatable-header-template>
-											<div style="display: flex; justify-content: space-between">
+											<div class="flex">
 												<span>type</span>
 												<span>
                     <button class="close" (click)="add()">
@@ -159,7 +182,7 @@ import {WebService} from "../../services/webService";
 										</ng-template>
 										<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
 																 let-row="row">
-											<div style="display: flex; justify-content: space-between;">
+											<div class="flex">
 												<select id="type" [value]="value" [(ngModel)]="row.type">
 													<option value="pmr">Present/Missing/Repair</option>
 													<option value="pf">Pass/Fail</option>
@@ -174,9 +197,33 @@ import {WebService} from "../../services/webService";
 								</ngx-datatable>
 							</div>
 						</div>
-						<!--<div class="pure-u-11-24">-->
-						<!--<img src="https://api.qrserver.com/v1/create-qr-code/?data=ATV46ATVS&amp;size=100x100" alt="" title="" />-->
-						<!--</div>-->
+					</div>
+					<div *ngSwitchCase="'qr'">
+						<div class="table-options">
+							<div class="left">
+								<button class="close" (click)="toggle()">
+									<i class="fa fa-chevron-left"></i> Back
+								</button>
+							</div>
+						</div>
+						<ngx-datatable
+							#myTable
+							class="table"
+							[selectionType]="'single'"
+							[columnMode]="'flex'"
+							[rowHeight]="'auto'"
+							[rows]="temp">
+							<ngx-datatable-column [name]="'Section'" [prop]="'title'" [flexGrow]="2">
+								<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+									{{value}}
+								</ng-template>
+							</ngx-datatable-column>
+							<ngx-datatable-column [flexGrow]="1" [name]="'QR Code'" [prop]="'title'">
+								<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+									<qr-clickable #qr [value]="row.id" [title]="row.title"></qr-clickable>
+								</ng-template>
+							</ngx-datatable-column>
+						</ngx-datatable>
 					</div>
 				</div>
 			</div>
@@ -186,31 +233,33 @@ import {WebService} from "../../services/webService";
 })
 export class EditReport {
 
+	@ViewChild('qr') qr;
+	@ViewChild('myTable') table: any;
+	viewType: string = 'view';
 	loading: boolean = true;
 	heading: any[] = [
 		{prop: 'name', flexGrow: 3, dragable: false, resizeable: true},
 		{prop: 'schedule', flexGrow: 1, dragable: false, resizeable: true},
 	];
 	reports: any[];
-	viewType: string = 'view';
-	temp;
 	selected = [];
 	original;
 	editing = -1;
 	filter;
+	temp;
 
 	constructor(public webService: WebService) {
 
 		webService.setState('eReport')
 			.doGet('/listReports')
 			.subscribe(resp => {
-					this.original = this.reports = resp['list'].map(report => {
-						if (report.interval.frequency === 'Daily')
-							for (let i = 0, len = report.template.subSections.length; i < len; i++)
-								if (report.template.subSections[i].title.indexOf(report.template.title) !== -1)
-									report.template.subSections[i].title = report.template.subSections[i].title.substring(report.template.title.length + 3);
-						return report
-					});
+				this.original = this.reports = resp['list'].map(report => {
+					if (report.interval.frequency === 'Daily')
+						for (let i = 0, len = report.template.subSections.length; i < len; i++)
+							if (report.template.subSections[i].title.indexOf(report.template.title) !== -1)
+								report.template.subSections[i].title = report.template.subSections[i].title.substring(report.template.title.length + 3);
+					return report
+				});
 				}, () => {
 					this.loading = false;
 				}, () => {
@@ -222,7 +271,7 @@ export class EditReport {
 	onclick(event) {
 		if (this.viewType === 'view') {
 			this.viewType = 'edit';
-			this.temp = (event) ? event.selected[0] : {
+			this.temp = (event) ? event : {
 				fresh: true,
 				itemCategory: false,
 				template: {subSections: []},
@@ -332,5 +381,10 @@ export class EditReport {
 			return row.interval.frequency.toLowerCase().indexOf(val) !== -1;
 
 		});
+	}
+
+	viewQRCodes(row) {
+		this.viewType = 'qr';
+		this.temp = row.template.subSections;
 	}
 }
