@@ -12,9 +12,9 @@ import {Component, ViewChild} from '@angular/core';
 	styleUrls: ['../menu.sass']
 })
 export class Datepicker {
-	@ViewChild("input") input: any;
-	minDate = new Date(2017, 10 - 1, 11);
-	maxDate = new Date();
+	@ViewChild("input") input;
+	minDate: Date = new Date(2017, 10 - 1, 11);
+	maxDate: Date = new Date();
 
 	ngOnInit() {
 		let date = new Date();

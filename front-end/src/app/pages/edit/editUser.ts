@@ -15,7 +15,7 @@ import {WebService} from "../../services/webService";
 					<div *ngSwitchCase="'view'">
 						<div class="table-options">
 							<div class="left">
-								<button class="add" (click)="onclick(undefined, table)">
+								<button class="add" (click)="this.onclick(undefined, table)">
 									<i class="fa fa-plus"></i> Add user
 								</button>
 							</div>
@@ -28,17 +28,25 @@ import {WebService} from "../../services/webService";
 									(keyup)='updateFilter($event)'/>
 							</div>
 						</div>
-
 						<ngx-datatable
 							#myTable
 							class="table"
 							[rows]="users"
 							[rowHeight]="'auto'"
-							[columns]="heading"
 							[columnMode]="'flex'"
-							(select)="onclick($event, table)"
+							(select)="this.onclick($event, table)"
 							*ngSwitchCase="'view'"
 							[selectionType]="'single'">
+							<ngx-datatable-column *ngFor="let x of heading" [name]="x.name" [prop]="x.prop" [flexGrow]="x.flexGrow">
+								<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
+														 let-group="group">
+									<span [ngSwitch]="row[x.prop]">
+										<span *ngSwitchCase="true"><i class="fa fa-lg fa-check"></i></span>
+										<span *ngSwitchCase="false"><i class="fa fa-lg fa-times"></i></span>
+										<span *ngSwitchDefault>{{value}}</span>
+									</span>
+								</ng-template>
+							</ngx-datatable-column>
 						</ngx-datatable>
 					</div>
 					<div *ngSwitchCase="'edit'">
@@ -111,22 +119,22 @@ import {WebService} from "../../services/webService";
 export class EditUser {
 	loading: any = true;
 	heading: any[] = [
-		{prop: 'firstName', flexGrow: 3, dragable: false, resizeable: false, style: 'text'},
-		{prop: 'lastName', flexGrow: 3, dragable: false, resizeable: false, style: 'text'},
-		{prop: 'email', flexGrow: 3, dragable: false, resizeable: false, style: 'text'},
-		{prop: 'type', flexGrow: 2, dragable: false, resizable: false, style: 'dropdown'},
-		{prop: 'alert', flexGrow: 1, dragable: false, resizable: false, style: 'check'}
-		// {prop: 'ID', flexGrow: 1, dragable: false, resizeable: false}
+		{prop: 'firstName', name: 'First Name', flexGrow: 3, dragable: false, resizeable: false},
+		{prop: 'lastName', name: 'Last Name', flexGrow: 3, dragable: false, resizeable: false},
+		{prop: 'email', name: 'Email', flexGrow: 3, dragable: false, resizeable: false},
+		{prop: 'type', name: 'Type', flexGrow: 2, dragable: false, resizable: false},
+		{prop: 'alert', name: 'Alert', flexGrow: 1, dragable: false, resizable: false}
 	];
 	users: any[];
 	viewType = 'view';
 	temp;
 	filter;
 	original;
-	webService;
+	webService: WebService;
 
 	constructor(webService: WebService) {
 		this.webService = webService;
+
 		webService.setState('eUser')
 			.doGet('/users')
 			.subscribe(resp => {

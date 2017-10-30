@@ -86,9 +86,12 @@ import {WebService} from "../services/webService";
 								<div class="hasTooltip">
 									<i *ngIf="!value" class="fa fa-minus"></i>
 									<i *ngIf="value"
-										 class="fa {{getCheckBox(value.result)}}">{{getCheckBox(value.result) === '' ? value.result : ''}}</i>
+										 class="fa {{getCheckBox(value.result)}}">{{getCheckBox(value.result) === ''
+										? value.result
+										: ''}}</i>
 									<span *ngIf="value.completedBy"
-												class="tooltip-text">{{"'" + (value.note ? value.note : value.result) + "' "}}{{value.completedBy}}</span>
+												class="tooltip-text">{{"'" + (value.note ? value.note : value.result) +
+									"' "}}{{value.completedBy}}</span>
 								</div>
 							</ng-template>
 						</ngx-datatable-column>
@@ -100,7 +103,7 @@ import {WebService} from "../services/webService";
 				</div>
 			</div>
 		</div>
-  `
+	`
 	, styleUrls: ['../menu.sass']
 })
 export class Report {
@@ -130,7 +133,7 @@ export class Report {
 	viewType: string = 'view';
 	temp: any;
 	original;
-	date;
+	date: string;
 	styles = {
 		edit: {
 			group: false,
@@ -180,9 +183,8 @@ export class Report {
 	reports: any[];
 
 	constructor(webService: WebService) {
-		this.webService = webService;
+		this.webService = webService.setState('reports');
 
-		webService.setState('reports');
 		this.doGet();
 	}
 

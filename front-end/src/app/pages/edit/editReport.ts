@@ -12,7 +12,6 @@ import {WebService} from "../../services/webService";
 			</div>
 			<div *ngSwitchCase="false">
 				<div [ngSwitch]="viewType">
-					<!-- TODO: Download QR -->
 					<div *ngSwitchCase="'view'">
 						<div class="table-options">
 							<div class="left">
@@ -84,38 +83,38 @@ import {WebService} from "../../services/webService";
 							</div>
 						</div>
 						<div class="tile white pure-form pure-form-stacked editing">
-              <span class="flex wrap align">
-                <div style="flex-grow: 3" *ngIf="temp.template">
-                  <label for="text">Title</label>
-                  <input #text id="text" type="text" [(ngModel)]="temp.template.title"/>
-                </div>
-                <div class="flex-grow" *ngIf="temp.interval">
-                  <label for="type">Schedule</label>
-                  <select style="width: 100%" #schedule id="type" [(ngModel)]="temp.interval.frequency">
-                    <option *ngFor="let x of ['Daily', 'Weekly', 'Monthly']" [value]="x">{{x}}</option>
-                  </select>
-                </div>
-                <div class="flex-grow" *ngIf="temp.fresh && temp.interval">
-                  <label for="type">Category</label>
-                  <select #category id="type" [(ngModel)]="temp.itemCategory">
-                    <option *ngFor="let x of ['ladders', 'miscellaneous', 'scbas', 'stretchers', 'vehicles']"
+							<span class="flex wrap align">
+								<div style="flex-grow: 3" *ngIf="temp.template">
+									<label for="text">Title</label>
+									<input #text id="text" type="text" [(ngModel)]="temp.template.title"/>
+								</div>
+								<div class="flex-grow" *ngIf="temp.interval">
+									<label for="type">Schedule</label>
+									<select style="width: 100%" #schedule id="type" [(ngModel)]="temp.interval.frequency">
+										<option *ngFor="let x of ['Daily', 'Weekly', 'Monthly']" [value]="x">{{x}}</option>
+									</select>
+								</div>
+								<div class="flex-grow" *ngIf="temp.fresh && temp.interval">
+									<label for="type">Category</label>
+									<select #category id="type" [(ngModel)]="temp.itemCategory">
+										<option *ngFor="let x of ['ladders', 'miscellaneous', 'scbas', 'stretchers', 'vehicles']"
 														[value]="x">{{x}}</option>
-                  </select>
-                </div>
-                <div style="flex-grow: 2" *ngIf="temp.interval && temp.interval.frequency !== 'Daily'">
-                  <table>
-                    <tr>
-                      <th *ngFor="let h of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">{{h}}</th>
-                    </tr>
-                    <tr>
-                      <td
+									</select>
+								</div>
+								<div style="flex-grow: 2" *ngIf="temp.interval && temp.interval.frequency !== 'Daily'">
+									<table>
+										<tr>
+											<th *ngFor="let h of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">{{h}}</th>
+										</tr>
+										<tr>
+											<td
 												*ngFor="let d of ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']">
-                        <input type="checkbox" [(ngModel)]="temp.interval.days[d]">
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </span>
+												<input type="checkbox" [(ngModel)]="temp.interval.days[d]">
+											</td>
+										</tr>
+									</table>
+								</div>
+							</span>
 							<div class="pure-u-1" *ngIf="temp.template">
 								<ngx-datatable
 									style="max-height: 25vh"
@@ -131,24 +130,24 @@ import {WebService} from "../../services/webService";
 											<div class="flex">
 												<span>Section</span>
 												<span>
-                        <button class="close" (click)="addSection()">
-                          <i class="fa fa-plus"></i>&nbsp;add&nbsp;&nbsp;
-                        </button>
-                      </span>
+												<button class="close" (click)="addSection()">
+													<i class="fa fa-plus"></i>&nbsp;add&nbsp;&nbsp;
+												</button>
+											</span>
 											</div>
 										</ng-template>
 										<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
 																 let-row="row">
 											<div (dblclick)="editing = editing === rowIndex ? -1 : rowIndex"
 													 class="flex">
-                        <span style="flex-grow: 99" [ngSwitch]="editing === rowIndex">
-                          <input class="mock-mat" style="flex-grow: 99" [(ngModel)]="row.title" placeholder="Add a name"
+												<span style="flex-grow: 99" [ngSwitch]="editing === rowIndex">
+													<input class="mock-mat" style="flex-grow: 99" [(ngModel)]="row.title" placeholder="Add a name"
 																 *ngSwitchCase="true"/>
-                          <span *ngSwitchCase="false">{{row.title}}</span>
-                        </span>
+													<span *ngSwitchCase="false">{{row.title}}</span>
+												</span>
 												<span style="flex-grow: 1">
-                          <button class="close" (click)="removeSection(rowIndex)"><i class="fa fa-times"></i></button>
-                        </span>
+													<button class="close" (click)="removeSection(rowIndex)"><i class="fa fa-times"></i></button>
+												</span>
 											</div>
 										</ng-template>
 									</ngx-datatable-column>
@@ -174,10 +173,10 @@ import {WebService} from "../../services/webService";
 											<div class="flex">
 												<span>type</span>
 												<span>
-                    <button class="close" (click)="add()">
-                      <i class="fa fa-plus"></i>&nbsp;add&nbsp;&nbsp;
-                    </button>
-                  </span>
+													<button class="close" (click)="add()">
+														<i class="fa fa-plus"></i>&nbsp;add&nbsp;&nbsp;
+													</button>
+												</span>
 											</div>
 										</ng-template>
 										<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"

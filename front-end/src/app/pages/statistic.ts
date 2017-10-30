@@ -20,7 +20,7 @@ import {WebService} from "../services/webService";
 								[chartType]="barChartType"></canvas>
 			</div>
 		</div>
-  `
+	`
 	, styleUrls: ['../menu.sass']
 })
 export class Statistic {
@@ -34,12 +34,7 @@ export class Statistic {
 	public barChartType: string = 'bar';
 	public barChartLegend: boolean = true;
 
-	public barChartData: any[] = [
-		// {data: [65, 59, 66, 60, 56, 55, 53], label: 'Broken'},
-		// {data: [50, 48, 52, 30, 10, 15, 12], label: 'Missing'},
-	];
-
-	// {data: [2650, 2590, 2660, 2600, 2560, 2550, 2253], label: 'Okay'}
+	public barChartData: any[] = [];
 
 	constructor(webService: WebService) {
 		webService.setState('statistics')

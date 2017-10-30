@@ -13,9 +13,15 @@ import {WebService} from "./services/webService";
 })
 export class AppComponent {
 	user: Observable<firebase.User>;
+	editList: boolean = false;
 
 	constructor(public afAuth: AngularFireAuth, public webService: WebService) {
 		this.user = this.afAuth.authState;
+	}
+
+	editPage() {
+		let state = this.checkState();
+		return state && state[0] === 'e'
 	}
 
 	checkState() {

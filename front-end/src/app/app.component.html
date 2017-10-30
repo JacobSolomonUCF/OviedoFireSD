@@ -31,8 +31,8 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
 <div id="login" *ngIf="(user | async)?.uid == undefined">
 	<div
 		style="background-color: #6c0505; color: white; text-align: center; font-size: 3em; padding-top: 5vh; padding-bottom: 5vh">
-		<i class="fa fa-fire-extinguisher"
-			 style="border: 2px solid #EAEAEA;padding: 7px 8px;border-radius: 50%"></i><span>&nbsp;Oviedo Fire</span>
+		<i class="fa fa-fire-extinguisher" style="border: 2px solid #EAEAEA;padding: 7px 8px;border-radius: 50%"></i>
+		<span>&nbsp;Oviedo Fire</span>
 	</div>
 	<div class="alert alert-warning login centered" *ngIf="checkState() === '401'">The password is invalid or the user
 		does not have a password.
@@ -96,7 +96,8 @@ FFFFF      IIIIIIIIIII  RRRR   RRRR   EEEEEEEEEEEE
 								<span class="pure-u-7-8">&nbsp;Statistics</span>
 							</a>
 						</li>
-						<li class="pure-menu-item edit-tab" (click)="this.editList = !this.editList" style="">
+						<li class="pure-menu-item edit-tab {{!this.editList && this.editPage() ? 'active' : ''}}"
+								(click)="this.editList = !this.editList">
 							<a class="pure-menu-link" [ngSwitch]="this.editList">
 								<i class="pure-u-1-8 fa fa-edit"></i>
 								<span class="pure-u-3-4">&nbsp;Edit</span>
