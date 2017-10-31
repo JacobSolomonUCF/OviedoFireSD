@@ -19,10 +19,10 @@ import {WebService} from "../services/webService";
 					</div>
 					<ul class="to-do white">
 						<li>
-							<i class="fa fa-android"></i> <a href="">Android .apk</a>
+							<i class="fa fa-android"></i> <a href="/assets/applications/OviedoFireApp.apk">Android .apk</a>
 						</li>
 						<li>
-							<i class="fa fa-apple"></i> <a href="">iOS .pdk</a>
+							<i class="fa fa-apple"></i> <a href="/assets/applications/OviedoFireApp.pdk">iOS .pdk</a>
 						</li>
 					</ul>
 				</div>
