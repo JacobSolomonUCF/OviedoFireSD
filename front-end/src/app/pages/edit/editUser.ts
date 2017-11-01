@@ -84,7 +84,7 @@ import {WebService} from "../../services/webService";
 												<option>administrator</option>
 											</select>
 										</div>
-										<div class="pure-form">
+										<div class="pure-form" *ngIf="temp.type === 'administrator'">
 											<label>Alert?</label>
 											<i class="fa fa-lg {{temp.alert ? 'fa-check-square-o' : 'fa-square-o'}}"
 												 (click)="temp.alert = !temp.alert"></i>
@@ -155,8 +155,8 @@ export class EditUser {
 			return;
 		if (this.temp.original)
 			delete this.temp.original;
-		else
-			this.users.push(this.temp);
+		if (this.temp.type === 'user')
+			delete this.temp.alert;
 
 		this.loading = true;
 		this.webService.doPost('/users', {user: this.temp})
