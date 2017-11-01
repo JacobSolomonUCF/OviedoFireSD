@@ -115,6 +115,12 @@ import {WebService} from "../../services/webService";
 									</table>
 								</div>
 							</span>
+							<span *ngIf="temp.template" class="flex">
+								<div class="flex-grow">
+									<label for="text">Alert</label>
+									<input #alert id="text" type="text" [(ngModel)]="temp.template.alert"/>
+								</div>
+							</span>
 							<div class="pure-u-1" *ngIf="temp.template">
 								<ngx-datatable
 									style="max-height: 25vh"
