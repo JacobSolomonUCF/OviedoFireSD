@@ -144,14 +144,16 @@ export class Home {
 		webService.setState('home')
 			.getHome()
 			.subscribe(resp => {
-					this.alerts = (!resp['alerts']) ? undefined :
+					this.alerts = resp['alerts'];
+					if (this.alerts) {
 						['incompleteForms', 'missingItems', 'repairItems'].map(prop => {
-							if (resp['alerts'][prop]) {
-								let keys = Object.keys(resp['alerts'][prop]);
-								resp['alerts'][prop].properties = keys;
-								resp['alerts'][prop].count = keys.length;
+							if (this['alerts'][prop]) {
+								let keys = Object.keys(this['alerts'][prop]);
+								this['alerts'][prop].properties = keys;
+								this['alerts'][prop].count = keys.length;
 							}
 						});
+					}
 					resp['toDoList'].map(toDo => {
 						(toDo.complete ? this.completeList : this.toDoList).push(toDo);
 					});

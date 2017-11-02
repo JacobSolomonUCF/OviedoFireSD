@@ -333,9 +333,17 @@ div.table-options
 	max-height: 3em
 	display: flex
 	width: 100%
-	justify-content: space-between
 	align-items: center
+	div.left
+		flex-grow: 1
+	div.center
+		text-align: center
+		flex-grow: 1
 	div.right
+		&.no-grow
+			flex-grow: 0
+		flex-grow: 1
+		text-align: right
 		input.filter
 			padding: .25em
 
@@ -509,6 +517,9 @@ div.flex, span.flex
 
 .padding-0
 	padding: 0
+
+.green
+	color: $green
 
 i.fa-android
 	color: $green

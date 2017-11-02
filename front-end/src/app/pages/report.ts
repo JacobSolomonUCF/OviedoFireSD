@@ -1,5 +1,6 @@
 import {Component, ViewChild} from "@angular/core";
 import {WebService} from "../services/webService";
+import {saveAs} from 'file-saver';
 
 @Component({
 	template: `
@@ -36,8 +37,11 @@ import {WebService} from "../services/webService";
 							<button class="close" (click)="toggle()">
 								<i class="fa fa-chevron-left"></i> Back
 							</button>
+							<button class="close green" (click)="download()">
+								<i class="fa fa-download"></i> export
+							</button>
 						</div>
-						<div class="right" [ngSwitch]="style.days.length">
+						<div class="right {{style.days.length ? '' : 'no-grow'}}" [ngSwitch]="style.days.length">
 							<div class="alert alert-warning" *ngSwitchCase="0">This report has not been started!</div>
 							<input
 								*ngSwitchDefault
@@ -89,15 +93,13 @@ import {WebService} from "../services/webService";
 										 class="fa {{getCheckBox(value.result)}}">{{getCheckBox(value.result) === ''
 										? value.result
 										: ''}}</i>
-									<span *ngIf="value.completedBy"
-												class="tooltip-text">{{"'" + (value.note ? value.note : value.result) +
-									"' "}}{{value.completedBy}}</span>
+									<span *ngIf="value.completedBy" class="tooltip-text">
+										{{"'" + (value.note ? value.note : value.result) + "' "}}{{value.completedBy}}
+									</span>
 								</div>
 							</ng-template>
 						</ngx-datatable-column>
-						<ngx-datatable-column *ngFor="let x of style.props" [name]="x.name"
-																	[prop]="(x.prop) ? x.prop : x.name"
-																	[flexGrow]="2">
+						<ngx-datatable-column *ngIf="viewType === 'view'" [name]="'Schedule'" [prop]="'schedule'" [flexGrow]="2">
 						</ngx-datatable-column>
 					</ngx-datatable>
 				</div>
@@ -253,6 +255,22 @@ export class Report {
 		return (options[status]) ? options[status] : (status.length) ? '' : options.other;
 	};
 
+	download() {
+		this.webService
+			.doGet('/downloadReport', '&reportId=' + this.temp.id + '&date=' + this.formatDate())
+			.subscribe(resp => {
+				let file = new Blob([JSON.stringify(resp)], {type: 'text/csv; charset=utf-8'});
+				saveAs(file, this.temp.name + '.csv')
+			}, error => {
+				let file = new Blob([`Column, Column, Column, Column
+Row, Cell, Cell, Cell
+Row, Cell, Cell, Cell
+Row, wait, a, second
+Error:,${error.name},${error.statusText},${error.message}`], {type: 'text/csv;charset=utf-8'});
+				saveAs(file, 'yourFile.csv')
+			});
+	}
+
 	doGet(date = undefined) {
 		this.webService
 			.doGet('/reports', (date) ? '&date=' + date : '')
@@ -281,13 +299,16 @@ export class Report {
 		;
 	}
 
+	formatDate(dateParts = this.date.split('/')) {
+		return dateParts[2] + this.pad(dateParts[0]) + this.pad(dateParts [1])
+	}
+
 	getReports(datepicker = this.date) {
 		if (datepicker === this.date)
 			return;
 		this.date = datepicker;
 		let self = this;
-		let dateParts = datepicker.split('/');
-		let date = dateParts[2] + this.pad(dateParts[0]) + this.pad(dateParts [1]);
+		let date = this.formatDate();
 		self.reloading = true;
 
 		this.doGet(date);

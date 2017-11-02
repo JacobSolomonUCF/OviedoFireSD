@@ -30,7 +30,6 @@ export class WebService {
 				localStorage.clear();
 				delete this.uid;
 				this.afAuth.auth.signOut();
-				console.log('look', this.getUID());
 				this.setState('403');
 			}, () => {
 			});

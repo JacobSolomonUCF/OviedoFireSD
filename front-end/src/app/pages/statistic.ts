@@ -41,13 +41,15 @@ export class Statistic {
 			.doGet('/statistics')
 			.subscribe(resp => {
 				this.barChartLabels = Object.keys(resp);
-				let repairsNeeded = [], missing = [];
+				let repairsNeeded = [], missing = [], failed = [];
 				this.barChartLabels.map(label => {
 					repairsNeeded.push(resp[label].repairsNeeded);
 					missing.push(resp[label].missing);
+					failed.push(resp[label].failed);
 				});
 				this.barChartData.push({label: 'Needed Repair', data: repairsNeeded});
 				this.barChartData.push({label: 'Missing', data: missing});
+				this.barChartData.push({label: 'Failed', data: failed});
 			}, () => {
 			}, () => {
 				this.loading = false;

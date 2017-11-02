@@ -74,8 +74,8 @@ import {WebService} from "../../services/webService";
 								</button>
 							</div>
 							<div class="center" *ngIf="!temp.fresh">
-								<button class="alert alert-danger close short" (click)="deleteReport()"><i
-									class="fa fa-trash"></i> Delete
+								<button class="alert alert-danger close short" (click)="deleteReport()">
+									<i class="fa fa-trash"></i> Delete
 								</button>
 							</div>
 							<div class="right">
@@ -300,7 +300,6 @@ export class EditReport {
 	}
 
 	submitReport() {
-		console.log('Posting body:', this.temp);
 		if (this.temp.template.title && this.temp.interval.frequency && (!this.temp.fresh || this.temp.itemCategory) && this.temp.template.subSections.length && this.temp.template.subSections[0].inputElements.length) {
 			this.loading = true;
 			if (this.temp.interval.frequency === 'Daily') this.temp.interval.days = {
@@ -326,7 +325,6 @@ export class EditReport {
 	}
 
 	deleteReport() {
-
 		if (this.temp.fresh || !this.temp.id || !this.temp.itemCategory)
 			return;
 		this.loading = true;
