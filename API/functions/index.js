@@ -297,7 +297,10 @@ exports.form = functions.https.onRequest((req, res) => {
 											} else if(req.body.results[i].result == "Missing") {
 												ref.child(`statistics/${time.yearMonth}/missing`).push().set(0);
 												ref.child(`alerts/missingItems`).push().set(`${time.formattedDate}: '${req.body.results[i].caption}' from '${templates[req.body.formId].title}'`);
-											}
+											} else if(req.body.results[i].result == "Failed") {
+                                                ref.child(`statistics/${time.yearMonth}/failed`).push().set(0);
+                                                ref.child(`alerts/failItems`).push().set(`${time.formattedDate}: '${req.body.results[i].caption}' from '${templates[req.body.formId].title}'`);
+                                            }
 										} else {
 											for(var j = 0; j < req.body.results[i].results.length; j++) {
 												if(req.body.results[i].results[j].result == "Repairs Needed") {
@@ -306,7 +309,10 @@ exports.form = functions.https.onRequest((req, res) => {
 												} else if(req.body.results[i].results[j].result == "Missing") {
 													ref.child(`statistics/${time.yearMonth}/missing`).push().set(0);
 													ref.child(`alerts/missingItems`).push().set(`${time.formattedDate}: '${req.body.results[i].results[j].caption}' from '${templates[req.body.formId].title}'`);
-												}
+												} else if(req.body.results[i].results[j].result == "Failed") {
+                                                    ref.child(`statistics/${time.yearMonth}/failed`).push().set(0);
+                                                    ref.child(`alerts/failItems`).push().set(`${time.formattedDate}: '${req.body.results[i].results[j].caption}' from '${templates[req.body.formId].title}'`);
+                                                }
 											}
 										}
 									}
@@ -1053,16 +1059,17 @@ exports.reports = functions.https.onRequest((req, res) => {
                                         var name = inventory[itemType][itemKey].name;
                                         var schedule;
                                         var status = "Complete";
+                                        var completedTimestamp = null;
                                         var id = itemKey;
-										var days = {
-											sunday: false,
-											monday: false,
-											tuesday: false,
-											wednesday: false,
-											thursday: false,
-											friday: false,
-											saturday: false
-										};
+                                        var days = {
+                                            sunday: false,
+                                            monday: false,
+                                            tuesday: false,
+                                            wednesday: false,
+                                            thursday: false,
+                                            friday: false,
+                                            saturday: false
+                                        };
                                         var data = {
                                             "rows": []
                                         };
@@ -1090,82 +1097,98 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                             if(!timestamps.includes(time.weekstamps[m])) {
                                                                 status = "Incomplete";
                                                             } else {
-																days[weekday[m]] = true;
+                                                                days[weekday[m]] = true;
                                                                 for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-																	var result = results[formId[l]][time.weekstamps[m]].results[n].result;
-																	if(result == "Repairs Needed") {
-																		data.rows[offset+n][weekday[m]] = {
-																			result: result,
-																			note: results[formId[l]][time.weekstamps[m]].results[n].note,
-																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
-																		};
-																	} else {
-																		data.rows[offset+n][weekday[m]] = {
-																			result: result,
-																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
-																		};
-																	}
+                                                                    var result = results[formId[l]][time.weekstamps[m]].results[n].result;
+                                                                    if(result == "Repairs Needed") {
+                                                                        data.rows[offset+n][weekday[m]] = {
+                                                                            result: result,
+                                                                            note: results[formId[l]][time.weekstamps[m]].results[n].note,
+                                                                            completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+                                                                        };
+                                                                    } else {
+                                                                        data.rows[offset+n][weekday[m]] = {
+                                                                            result: result,
+                                                                            completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+                                                                        };
+                                                                    }
                                                                 }
                                                             }
                                                         }
                                                     } else if(frequency == "Weekly") {
-														var complete = false;
-														for(var m = 0; m < time.weekstamps.length; m++) {
+                                                        var complete = false;
+                                                        for(var m = 0; m < time.weekstamps.length; m++) {
                                                             if(timestamps.includes(time.weekstamps[m])) {
-																days[weekday[m]] = true;
-																complete = true;
+                                                                days[weekday[m]] = true;
+                                                                complete = true;
                                                                 for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-																	var result = results[formId[l]][time.weekstamps[m]].results[n].result;
-																	if(result == "Repairs Needed") {
-																		data.rows[offset+n][weekday[m]] = {
-																			result: result,
-																			note: results[formId[l]][time.weekstamps[m]].results[n].note,
-																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
-																		};
-																	} else {
-																		data.rows[offset+n][weekday[m]] = {
-																			result: result,
-																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
-																		};
-																	}
+                                                                    var result = results[formId[l]][time.weekstamps[m]].results[n].result;
+                                                                    if(result == "Repairs Needed") {
+                                                                        data.rows[offset+n][weekday[m]] = {
+                                                                            result: result,
+                                                                            note: results[formId[l]][time.weekstamps[m]].results[n].note,
+                                                                            completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+                                                                        };
+                                                                    } else {
+                                                                        data.rows[offset+n][weekday[m]] = {
+                                                                            result: result,
+                                                                            completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+                                                                        };
+                                                                    }
                                                                 }
                                                             }
                                                         }
 
-														if(!complete) {
-															status = "Incomplete";
-														}
+                                                        if(!complete) {
+                                                            status = "Incomplete";
+                                                        }
                                                     } else if(frequency == "Monthly") {
                                                         for(var m = 0; m < time.weekstamps.length; m++) {
                                                             if(!timestamps.includes(time.weekstamps[m])) {
                                                                 var complete = false;
-																for(var n = 0; n < timestamps.length; n++) {
-																	if(timestamps[n].substring(0,6) == time.yearMonth) {
-																		complete = true;
-																	}
-																}
-
-																if(!complete) {
-																	status = "Incomplete";
-																}
-                                                            } else {
-																days[weekday[m]] = true;
-																for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-																	var result = results[formId[l]][time.weekstamps[m]].results[n].result;
-																	if(result == "Repairs Needed") {
-																		data.rows[offset+n][weekday[m]] = {
-																			result: result,
-																			note: results[formId[l]][time.weekstamps[m]].results[n].note,
-																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
-																		};
-																	} else {
-                                                                    	data.rows[offset+n][weekday[m]] = {
-																			result: result,
-																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
-																		}
-																	}
+                                                                for(var n = 0; n < timestamps.length; n++) {
+                                                                    if(timestamps[n].substring(0,6) == time.yearMonth) {
+                                                                        complete = true;
+                                                                        completedTimestamp = timestamps[n];
+                                                                        for(var o = 0; o < results[formId[l]][completedTimestamp].results.length; o++) {
+                                                                            var result = results[formId[l]][completedTimestamp].results[o].result;
+                                                                            if(result == "Repairs Needed") {
+                                                                                data.rows[offset+o][weekday[m]] = {
+                                                                                    result: result,
+                                                                                    note: results[formId[l]][completedTimestamp].results[o].note,
+                                                                                    completedBy: results[formId[l]][completedTimestamp].completedBy
+                                                                                };
+                                                                            } else {
+                                                                                data.rows[offset+o][weekday[m]] = {
+                                                                                    result: result,
+                                                                                    completedBy: results[formId[l]][completedTimestamp].completedBy
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 }
-															}
+
+                                                                if(!complete) {
+                                                                    status = "Incomplete";
+                                                                }
+                                                            } else {
+                                                                days[weekday[m]] = true;
+                                                                for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
+                                                                    var result = results[formId[l]][time.weekstamps[m]].results[n].result;
+                                                                    if(result == "Repairs Needed") {
+                                                                        data.rows[offset+n][weekday[m]] = {
+                                                                            result: result,
+                                                                            note: results[formId[l]][time.weekstamps[m]].results[n].note,
+                                                                            completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+                                                                        };
+                                                                    } else {
+                                                                        data.rows[offset+n][weekday[m]] = {
+                                                                            result: result,
+                                                                            completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
                                                         }
                                                     }
                                                 } else {
@@ -1176,12 +1199,17 @@ exports.reports = functions.https.onRequest((req, res) => {
                                             }
                                         }
 
+                                        if(completedTimestamp) {
+                                            const completeTime = getTime(completedTimestamp);
+                                            days[completeTime.weekday] = true;
+                                        }
+
                                         retVal.reports.push({
                                             "name": name,
                                             "schedule": schedule,
                                             "status": status,
                                             "id": id,
-											"days": days,
+                                            "days": days,
                                             "data": data
                                         });
 
@@ -1193,16 +1221,17 @@ exports.reports = functions.https.onRequest((req, res) => {
                                             var name = templates[formId[l]].title;
                                             var schedule = frequency;
                                             var status = "Complete";
+                                            var completedTimestamp = null;
                                             var id = formId[l];
-											var days = {
-												sunday: false,
-												monday: false,
-												tuesday: false,
-												wednesday: false,
-												thursday: false,
-												friday: false,
-												saturday: false
-											};
+                                            var days = {
+                                                sunday: false,
+                                                monday: false,
+                                                tuesday: false,
+                                                wednesday: false,
+                                                thursday: false,
+                                                friday: false,
+                                                saturday: false
+                                            };
                                             var data = {
                                                 "rows": []
                                             };
@@ -1215,99 +1244,115 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                     });
                                                 }
 
-												if(results && results[formId[l]]) {
-	                                                var timestamps = Object.keys(results[formId[l]]);
+                                                if(results && results[formId[l]]) {
+                                                    var timestamps = Object.keys(results[formId[l]]);
 
-	                                                if(frequency == "Daily") {
-	                                                    for(var m = 0; m < time.weekstamps.length; m++) {
-	                                                        if(!timestamps.includes(time.weekstamps[m])) {
-	                                                            status = "Incomplete";
-	                                                        } else {
-																days[weekday[m]] = true;
-																for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-																	var result = results[formId[l]][time.weekstamps[m]].results[n].result;
-																	if(result == "Repairs Needed") {
-																		data.rows[n][weekday[m]] = {
-																			result: result,
-																			note: results[formId[l]][time.weekstamps[m]].results[n].note,
-																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
-																		};
-																	} else {
-																		data.rows[n][weekday[m]] = {
-																			result: result,
-																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
-																		};
-																	}
+                                                    if(frequency == "Daily") {
+                                                        for(var m = 0; m < time.weekstamps.length; m++) {
+                                                            if(!timestamps.includes(time.weekstamps[m])) {
+                                                                status = "Incomplete";
+                                                            } else {
+                                                                days[weekday[m]] = true;
+                                                                for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
+                                                                    var result = results[formId[l]][time.weekstamps[m]].results[n].result;
+                                                                    if(result == "Repairs Needed") {
+                                                                        data.rows[n][weekday[m]] = {
+                                                                            result: result,
+                                                                            note: results[formId[l]][time.weekstamps[m]].results[n].note,
+                                                                            completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+                                                                        };
+                                                                    } else {
+                                                                        data.rows[n][weekday[m]] = {
+                                                                            result: result,
+                                                                            completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+                                                                        };
+                                                                    }
                                                                 }
-	                                                        }
-	                                                    }
-	                                                } else if(frequency == "Weekly") {
-														var complete = false;
-	                                                    for(var m = 0; m < time.weekstamps.length; m++) {
-	                                                        if(timestamps.includes(time.weekstamps[m])) {
-																days[weekday[m]] = true;
-																complete = true;
-																for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-																	var result = results[formId[l]][time.weekstamps[m]].results[n].result;
-																	if(result == "Repairs Needed") {
-                                                                    	data.rows[n][weekday[m]] = {
-																			result: result,
-																			note: results[formId[l]][time.weekstamps[m]].results[n].note,
-																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
-																		};
-																	} else {
-																		data.rows[n][weekday[m]] = {
-																			result: result,
-																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
-																		};
-																	}
+                                                            }
+                                                        }
+                                                    } else if(frequency == "Weekly") {
+                                                        var complete = false;
+                                                        for(var m = 0; m < time.weekstamps.length; m++) {
+                                                            if(timestamps.includes(time.weekstamps[m])) {
+                                                                days[weekday[m]] = true;
+                                                                complete = true;
+                                                                for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
+                                                                    var result = results[formId[l]][time.weekstamps[m]].results[n].result;
+                                                                    if(result == "Repairs Needed") {
+                                                                        data.rows[n][weekday[m]] = {
+                                                                            result: result,
+                                                                            note: results[formId[l]][time.weekstamps[m]].results[n].note,
+                                                                            completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+                                                                        };
+                                                                    } else {
+                                                                        data.rows[n][weekday[m]] = {
+                                                                            result: result,
+                                                                            completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+                                                                        };
+                                                                    }
                                                                 }
-	                                                        }
-	                                                    }
+                                                            }
+                                                        }
 
-														if(!complete) {
-															status = "Incomplete";
-														}
-	                                                } else if(frequency == "Monthly") {
-														for(var m = 0; m < time.weekstamps.length; m++) {
-	                                                        if(!timestamps.includes(time.weekstamps[m])) {
-	                                                            var complete = false;
-																for(var n = 0; n < timestamps.length; n++) {
-																	if(timestamps[n].substring(0,6) == time.yearMonth) {
-																		complete = true;
-																	}
-																}
-
-																if(!complete) {
-																	status = "Incomplete";
-																}
-	                                                        } else {
-																days[weekday[m]] = true;
-																for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
-																	var result = results[formId[l]][time.weekstamps[m]].results[n].result;
-																	if(result == "Repairs Needed") {
-                                                                    	data.rows[n][weekday[m]] = {
-																			result: result,
-																			note: results[formId[l]][time.weekstamps[m]].results[n].note,
-																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
-																		};
-																	} else {
-                                                                    	data.rows[n][weekday[m]] = {
-																			result: result,
-																			completedBy: results[formId[l]][time.weekstamps[m]].completedBy
-																		};
-																	}
+                                                        if(!complete) {
+                                                            status = "Incomplete";
+                                                        }
+                                                    } else if(frequency == "Monthly") {
+                                                        for(var m = 0; m < time.weekstamps.length; m++) {
+                                                            if(!timestamps.includes(time.weekstamps[m])) {
+                                                                var complete = false;
+                                                                for(var n = 0; n < timestamps.length; n++) {
+                                                                    if(timestamps[n].substring(0,6) == time.yearMonth) {
+                                                                        complete = true;
+                                                                        completedTimestamp = timestamps[n];
+                                                                        for(var o = 0; o < results[formId[l]][completedTimestamp].results.length; o++) {
+                                                                            var result = results[formId[l]][completedTimestamp].results[o].result;
+                                                                            if(result == "Repairs Needed") {
+                                                                                data.rows[o][weekday[m]] = {
+                                                                                    result: result,
+                                                                                    note: results[formId[l]][completedTimestamp].results[o].note,
+                                                                                    completedBy: results[formId[l]][completedTimestamp].completedBy
+                                                                                };
+                                                                            } else {
+                                                                                data.rows[o][weekday[m]] = {
+                                                                                    result: result,
+                                                                                    completedBy: results[formId[l]][completedTimestamp].completedBy
+                                                                                };
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 }
-	                                                        }
-	                                                    }
-	                                                }
-	                                            } else {
-	                                                status = "Incomplete";
-	                                            }
+
+                                                                if(!complete) {
+                                                                    status = "Incomplete";
+                                                                }
+                                                            } else {
+                                                                days[weekday[m]] = true;
+                                                                for(var n = 0; n < results[formId[l]][time.weekstamps[m]].results.length; n++) {
+                                                                    var result = results[formId[l]][time.weekstamps[m]].results[n].result;
+                                                                    if(result == "Repairs Needed") {
+                                                                        data.rows[n][weekday[m]] = {
+                                                                            result: result,
+                                                                            note: results[formId[l]][time.weekstamps[m]].results[n].note,
+                                                                            completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+                                                                        };
+                                                                    } else {
+                                                                        data.rows[n][weekday[m]] = {
+                                                                            result: result,
+                                                                            completedBy: results[formId[l]][time.weekstamps[m]].completedBy
+                                                                        };
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                } else {
+                                                    status = "Incomplete";
+                                                }
                                             } else {
-												var offset = 0;
+                                                var offset = 0;
                                                 for(var m = 0; m < templates[formId[l]].subSections.length; m++) {
-													var itemCount = templates[formId[l]].subSections[m].inputElements.length;
+                                                    var itemCount = templates[formId[l]].subSections[m].inputElements.length;
                                                     for(var n = 0; n < templates[formId[l]].subSections[m].inputElements.length; n++) {
                                                         data.rows.push({
                                                             "compartment": templates[formId[l]].subSections[m].title,
@@ -1315,98 +1360,119 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                         });
                                                     }
 
-													if(results && results[formId[l]]) {
-	                                                    var timestamps = Object.keys(results[formId[l]]);
+                                                    if(results && results[formId[l]]) {
+                                                        var timestamps = Object.keys(results[formId[l]]);
 
-	                                                    if(frequency == "Daily") {
-	                                                        for(var n = 0; n < time.weekstamps.length; n++) {
-	                                                            if(!timestamps.includes(time.weekstamps[n])) {
-	                                                                status = "Incomplete";
-	                                                            } else {
-																	days[weekday[n]] = true;
-	                                                                for(var o = 0; o < results[formId[l]][time.weekstamps[n]].results[m].results.length; o++) {
-																		var result = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
-																		if(result == "Repairs Needed") {
-	                                                                    	data.rows[offset+o][weekday[n]] = {
-																				result: result,
-																				note: results[formId[l]][time.weekstamps[n]].results[m].results[o].note,
-																				completedBy: results[formId[l]][time.weekstamps[n]].completedBy
-																			};
-																		} else {
-	                                                                    	data.rows[offset+o][weekday[n]] = {
-																				result: result,
-																				completedBy: results[formId[l]][time.weekstamps[n]].completedBy
-																			};
-																		}
-	                                                                }
-	                                                            }
-	                                                        }
-	                                                    } else if(frequency == "Weekly") {
-															var complete = false;
-	                                                        for(var n = 0; n < time.weekstamps.length; n++) {
-	                                                            if(timestamps.includes(time.weekstamps[n])) {
-																	days[weekday[n]] = true;
-																	complete = true;
-	                                                                for(var o = 0; o < results[formId[l]][time.weekstamps[n]].results[m].results.length; o++) {
-																		var result = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
-																		if(result == "Needs Repair") {
-	                                                                    	data.rows[offset+o][weekday[n]] = {
-																				result: result,
-																				note : results[formId[l]][time.weekstamps[n]].results[m].results[o].note,
-																				completedBy: results[formId[l]][time.weekstamps[n]].completedBy
-																			};
-																		} else {
-	                                                                    	data.rows[offset+o][weekday[n]] = {
-																				result: result,
-																				completedBy: results[formId[l]][time.weekstamps[n]].completedBy
-																			};
-																		}
-	                                                                }
-	                                                            }
-	                                                        }
+                                                        if(frequency == "Daily") {
+                                                            for(var n = 0; n < time.weekstamps.length; n++) {
+                                                                if(!timestamps.includes(time.weekstamps[n])) {
+                                                                    status = "Incomplete";
+                                                                } else {
+                                                                    days[weekday[n]] = true;
+                                                                    for(var o = 0; o < results[formId[l]][time.weekstamps[n]].results[m].results.length; o++) {
+                                                                        var result = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
+                                                                        if(result == "Repairs Needed") {
+                                                                            data.rows[offset+o][weekday[n]] = {
+                                                                                result: result,
+                                                                                note: results[formId[l]][time.weekstamps[n]].results[m].results[o].note,
+                                                                                completedBy: results[formId[l]][time.weekstamps[n]].completedBy
+                                                                            };
+                                                                        } else {
+                                                                            data.rows[offset+o][weekday[n]] = {
+                                                                                result: result,
+                                                                                completedBy: results[formId[l]][time.weekstamps[n]].completedBy
+                                                                            };
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        } else if(frequency == "Weekly") {
+                                                            var complete = false;
+                                                            for(var n = 0; n < time.weekstamps.length; n++) {
+                                                                if(timestamps.includes(time.weekstamps[n])) {
+                                                                    days[weekday[n]] = true;
+                                                                    complete = true;
+                                                                    for(var o = 0; o < results[formId[l]][time.weekstamps[n]].results[m].results.length; o++) {
+                                                                        var result = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
+                                                                        if(result == "Needs Repair") {
+                                                                            data.rows[offset+o][weekday[n]] = {
+                                                                                result: result,
+                                                                                note : results[formId[l]][time.weekstamps[n]].results[m].results[o].note,
+                                                                                completedBy: results[formId[l]][time.weekstamps[n]].completedBy
+                                                                            };
+                                                                        } else {
+                                                                            data.rows[offset+o][weekday[n]] = {
+                                                                                result: result,
+                                                                                completedBy: results[formId[l]][time.weekstamps[n]].completedBy
+                                                                            };
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
 
-															if(!complete) {
-																status = "Incomplete";
-															}
-	                                                    } else if(frequency == "Monthly") {
-															for(var n = 0; n < time.weekstamps.length; n++) {
-	                                                            if(!timestamps.includes(time.weekstamps[n])) {
-	                                                                var complete = false;
-																	for(var o = 0; o < timestamps.length; o++) {
-																		if(timestamps[o].substring(0,6) == time.yearMonth) {
-																			complete = true;
-																		}
-																	}
+                                                            if(!complete) {
+                                                                status = "Incomplete";
+                                                            }
+                                                        } else if(frequency == "Monthly") {
+                                                            for(var n = 0; n < time.weekstamps.length; n++) {
+                                                                if(!timestamps.includes(time.weekstamps[n])) {
+                                                                    var complete = false;
+                                                                    for(var o = 0; o < timestamps.length; o++) {
+                                                                        if(timestamps[o].substring(0,6) == time.yearMonth) {
+                                                                            complete = true;
+                                                                            completedTimestamp = timestamps[o];
+                                                                            for(var p = 0; p < results[formId[l]][completedTimestamp].results[m].results.length; p++) {
+                                                                                var result = results[formId[l]][completedTimestamp].results[m].results[p].result;
+                                                                                if(result == "Needs Repair") {
+                                                                                    data.rows[offset+p][weekday[n]] = {
+                                                                                        result: result,
+                                                                                        note: results[formId[l]][completedTimestamp].results[m].results[p].note,
+                                                                                        completedBy: results[formId[l]][completedTimestamp].completedBy
+                                                                                    };
+                                                                                } else {
+                                                                                    data.rows[offset+p][weekday[n]] = {
+                                                                                        result: result,
+                                                                                        completedBy: results[formId[l]][completedTimestamp].completedBy
+                                                                                    };
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
 
-																	if(!complete) {
-																		status = "Incomplete";
-																	}
-	                                                            } else {
-																	days[weekday[n]] = true;
-	                                                                for(var o = 0; o < results[formId[l]][time.weekstamps[n]].results[m].results.length; o++) {
-																		var result = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
-																		if(result == "Needs Repair") {
-	                                                                    	data.rows[offset+o][weekday[n]] = {
-																				result: result,
-																				note: results[formId[l]][time.weekstamps[n]].results[m].results[o].note,
-																				completedBy: results[formId[l]][time.weekstamps[n]].completedBy
-																			};
-																		} else {
-	                                                                    	data.rows[offset+o][weekday[n]] = {
-																				result: result,
-																				completedBy: results[formId[l]][time.weekstamps[n]].completedBy
-																			};
-																		}
-	                                                                }
-	                                                            }
-	                                                        }
-	                                                    }
-	                                                } else {
-	                                                    status = "Incomplete";
-	                                                }
+                                                                    if(!complete) {
+                                                                        status = "Incomplete";
+                                                                    }
+                                                                } else {
+                                                                    days[weekday[n]] = true;
+                                                                    for(var o = 0; o < results[formId[l]][time.weekstamps[n]].results[m].results.length; o++) {
+                                                                        var result = results[formId[l]][time.weekstamps[n]].results[m].results[o].result;
+                                                                        if(result == "Needs Repair") {
+                                                                            data.rows[offset+o][weekday[n]] = {
+                                                                                result: result,
+                                                                                note: results[formId[l]][time.weekstamps[n]].results[m].results[o].note,
+                                                                                completedBy: results[formId[l]][time.weekstamps[n]].completedBy
+                                                                            };
+                                                                        } else {
+                                                                            data.rows[offset+o][weekday[n]] = {
+                                                                                result: result,
+                                                                                completedBy: results[formId[l]][time.weekstamps[n]].completedBy
+                                                                            };
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    } else {
+                                                        status = "Incomplete";
+                                                    }
 
-	                                                offset += itemCount;
+                                                    offset += itemCount;
                                                 }
+                                            }
+
+                                            if(completedTimestamp) {
+                                                const completeTime = getTime(completedTimestamp);
+                                                days[completeTime.weekday] = true;
                                             }
 
                                             retVal.reports.push({
@@ -1414,7 +1480,7 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                 "schedule": schedule,
                                                 "status": status,
                                                 "id": id,
-												"days": days,
+                                                "days": days,
                                                 "data": data
                                             });
                                         }
@@ -2285,6 +2351,54 @@ exports.sendMissingItemsEmail = functions.https.onRequest((req, res) => {
 	}
 });
 
+exports.sendFailItemsEmail = functions.https.onRequest((req, res) => {
+    if(req.method == "GET") {
+        admin.database().ref('/alerts/failItems').once('value', function(snap) {
+            admin.database().ref('/users').once('value').then(usersSnap => {
+                const users = usersSnap.val();
+                const failItems = snap.val();
+                var emails = [];
+                var time = getTime();
+
+                Object.keys(users).forEach(userKey => {
+                    if(users[userKey].alert) {
+                        emails.push(users[userKey].email);
+                    }
+                });
+
+                if(failItems) {
+                    var mailOptions = {
+                        from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
+                        bcc: emails.join(),
+                        subject: time.formattedDate + ': Failed Items',
+                        text: 'The following item(s) are marked as failures:\n'
+                    }
+
+                    Object.keys(failItems).forEach(itemKey => {
+                        mailOptions.text += `\n${failItems[itemKey]}`
+                    });
+
+                    mailOptions.text += "\n\nThanks,\n\nYour OviedoFireSD team";
+
+                    mailTransport.sendMail(mailOptions).then(function() {
+                        cors(req, res, () => {
+                            res.sendStatus(200);
+                        });
+                    }).catch(function(err) {
+                        cors(req, res, () => {
+                            res.status(400).send(err);
+                        });
+                    });
+                } else {
+                    cors(req, res, () => {
+                        res.sendStatus(200);
+                    });
+                }
+            });
+        });
+    }
+});
+
 exports.statistics = functions.https.onRequest((req, res) => {
 	function pad(num, size) {
 	    var s = num+"";
@@ -2304,51 +2418,63 @@ exports.statistics = functions.https.onRequest((req, res) => {
 							var retVal = {
 								January: {
 									repairsNeeded: 0,
-									missing: 0
+									missing: 0,
+                                    failed: 0
 								},
 								February: {
 									repairsNeeded: 0,
-									missing: 0
+									missing: 0,
+                                    failed: 0
 								},
 								March: {
 									repairsNeeded: 0,
-									missing: 0
+									missing: 0,
+                                    failed: 0
 								},
 								April: {
 									repairsNeeded: 0,
-									missing: 0
+									missing: 0,
+                                    failed: 0
 								},
 								May: {
 									repairsNeeded: 0,
-									missing: 0
+									missing: 0,
+                                    failed: 0
 								},
 								June: {
 									repairsNeeded: 0,
-									missing: 0
+									missing: 0,
+                                    failed: 0
 								},
 								July: {
 									repairsNeeded: 0,
-									missing: 0
+									missing: 0,
+                                    failed: 0
 								},
 								August: {
 									repairsNeeded: 0,
-									missing: 0
+									missing: 0,
+                                    failed: 0
 								},
 								September: {
 									repairsNeeded: 0,
-									missing: 0
+									missing: 0,
+                                    failed: 0
 								},
 								October: {
 									repairsNeeded: 0,
-									missing: 0
+									missing: 0,
+                                    failed: 0
 								},
 								November: {
 									repairsNeeded: 0,
-									missing: 0
+									missing: 0,
+                                    failed: 0
 								},
 								December: {
 									repairsNeeded: 0,
-									missing: 0
+									missing: 0,
+                                    failed: 0
 								}
 							};
 
@@ -2365,6 +2491,10 @@ exports.statistics = functions.https.onRequest((req, res) => {
 										if(statistics[yearMonth].missing) {
 											retVal[Object.keys(retVal)[i]].missing = Object.keys(statistics[yearMonth].missing).length;
 										}
+
+                                        if(statistics[yearMonth].failed) {
+                                            retVal[Object.keys(retVal)[i]].failed = Object.keys(statistics[yearMonth].failed).length;
+                                        }
 									}
 								}
 							}
