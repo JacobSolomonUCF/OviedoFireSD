@@ -95,19 +95,20 @@ import {WebService} from "../../services/webService";
 								<button type="submit" class="accept"
 												[disabled]="loading || !(temp.firstName && temp.lastName && temp.type && temp.email)"
 												(click)="submit()">
-									<i class="fa fa-spinner fa-spin" *ngIf="loading && !temp.original"></i>
+									<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
 									Submit
 								</button>
-								<button type="submit" class="accept" (click)="doDelete()" *ngIf="temp.original"
+								<button type="submit" class="accept" (click)="doDelete()" *ngIf="original"
 												[disabled]="loading">
 									<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
 									Delete
 								</button>
-								<button type="submit" class="accept" (click)="resetPassword()" *ngIf="temp.original"
+								<button type="submit" class="accept" (click)="resetPassword()" *ngIf="original"
 												[disabled]="loading">
 									<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
 									Reset Password
 								</button>
+								<span style="color: red">{{error}}</span>
 							</fieldset>
 						</div>
 					</div>
@@ -127,9 +128,11 @@ export class EditUser {
 	];
 	users: any[];
 	viewType = 'view';
+	error: string;
 	temp;
 	filter;
 	original;
+	usersList;
 	webService: WebService;
 
 	constructor(webService: WebService) {
@@ -138,7 +141,7 @@ export class EditUser {
 		webService.setState('eUser')
 			.doGet('/users')
 			.subscribe(resp => {
-				this.original = this.users = resp['list'];
+				this.usersList = this.users = resp['list'];
 			}, () => {
 				this.users = undefined;
 			}, () => {
@@ -153,18 +156,19 @@ export class EditUser {
 	submit() {
 		if (!(this.temp.firstName && this.temp.lastName && this.temp.type && this.temp.email))
 			return;
-		if (this.temp.original)
-			delete this.temp.original;
 		if (this.temp.type === 'user')
-			delete this.temp.alert;
+			this.temp.alert = false;
 
 		this.loading = true;
+		delete this.error;
 		this.webService.doPost('/users', {user: this.temp})
 			.subscribe(() => {
-				this.users.push(this.temp);
+				if (!this.original)
+					this.users.push(this.temp);
 				this.toggle();
-			}, () => {
-				this.users.splice(this.temp, 1);
+			}, error => {
+				this.loading = false;
+				this.error = JSON.parse(error.error).message;
 			}, () => {
 				this.loading = false;
 			});
@@ -174,7 +178,7 @@ export class EditUser {
 		this.loading = true;
 		this.webService.doDelete('/users', {user: {email: this.temp.email}})
 			.subscribe(() => {
-				this.users.splice(this.users.indexOf(this.temp.original), 1);
+				this.users.splice(this.users.indexOf(this.original), 1);
 				this.toggle();
 			}, () => {
 			}, () => {
@@ -194,26 +198,28 @@ export class EditUser {
 
 	toggle() {
 		delete this.temp;
+		delete this.error;
+		delete this.original;
 		this.viewType = 'view';
-		this.users = this.original;
+		this.users = this.usersList;
 		this.updateFilter(undefined);
 	}
 
 	onclick(event) {
 		this.viewType = 'edit';
 		this.temp = (event) ? event.selected[0] : {firstName: "", lastName: "", email: "", alert: false, type: "user"};
-		this.temp.original = event ? event.selected[0] : event;
+		this.original = event ? event.selected[0] : event;
 	}
 
 	updateFilter(event) {
 		const val = (!event) ? '' : event.target.value.toLowerCase();
 		const source = this.temp ? this.temp :
-			{rows: this.original, heading: this.heading};
+			{rows: this.usersList, heading: this.heading};
 
 		if (!event)
 			this.filter = "";
 		this.users = (!event) ?
-			this.original : source.rows.filter(row => {
+			this.usersList : source.rows.filter(row => {
 				for (let i = 0, len = (!val ? 1 : source.heading.length); i < len; i++)
 					if (val == '' || ("" + row[source.heading[i].prop]).toLowerCase().indexOf(val) !== -1)
 						return true;
