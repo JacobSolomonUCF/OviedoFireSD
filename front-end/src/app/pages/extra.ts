@@ -1,5 +1,6 @@
 import {Component} from "@angular/core";
 import {WebService} from "../services/webService";
+import {saveAs} from 'file-saver';
 
 @Component({
 	template: `
@@ -9,20 +10,32 @@ import {WebService} from "../services/webService";
 
 		<div class="content">
 			<div class="row flex">
-				<div class="tile white flex-grow">
+				<div class="tile white flex-grow" [ngSwitch]="message">
 					<div class="tile-head">
-						<h3>Mobile Applications</h3>
+						<h3 *ngSwitchCase="true">Confirmation</h3>
+						<h3 *ngSwitchDefault>Downloads</h3>
 					</div>
-					<div class="tile white centered" *ngIf="loading">
-						<br/>
-						<i class="fa fa-5x fa-spinner fa-pulse"></i>
+					<div *ngSwitchCase="true">
+						<p>Please wait a moment you will be prompted to save your reports.</p>
+						<p>Proceed to result clear?
+							<button class="default" (click)="message = false">No</button>
+							<button class="accept short" (click)="clear()">Yes</button>
+						</p>
 					</div>
-					<ul class="to-do white">
+					<ul class="to-do white" *ngSwitchDefault>
 						<li>
 							<i class="fa fa-android"></i> <a href="/assets/applications/OviedoFire.apk">Android .apk</a>
 						</li>
 						<li>
 							<i class="fa fa-apple"></i> <a href="/assets/applications/OviedoFire.pdk">iOS .pdk</a>
+						</li>
+						<li>
+							<i class="fa fa-external-link"></i>
+							<select #x [ngModel]="year" (change)="year = x.value">
+								<option value="" label="Select a year"></option>
+								<option *ngFor="let y of years" [value]="y" [label]="y" selected></option>
+							</select>
+							<a *ngIf="!year" (click)="message = true" href="{{backUp()}}">download</a>
 						</li>
 					</ul>
 				</div>
@@ -32,8 +45,29 @@ import {WebService} from "../services/webService";
 	, styleUrls: ['../menu.sass']
 })
 export class Extra {
+	webService: WebService;
+	message: boolean = false;
+	years: any;
+	year: string = '';
 
 	constructor(webService: WebService) {
-		webService.setState('extras');
+		this.webService = webService.setState('extras');
+		this.webService.doGet('/availableYears')
+			.subscribe(resp => this.years = resp);
 	}
+
+	backUp() {
+		return this.webService.baseUrl + '/downloadReports' + this.webService.token() + '&year=' + this.year;
+	}
+
+	clear() {
+		this.webService.doDelete('/clearReports', {})
+			.subscribe(() => {
+			}, () => {
+			}, () => {
+				this.message = false
+			});
+		this.message = true;
+	}
+
 }

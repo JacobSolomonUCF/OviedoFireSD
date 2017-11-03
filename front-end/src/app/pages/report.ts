@@ -183,6 +183,7 @@ export class Report {
 		{prop: 'status', dragable: false, resizeable: false},
 		{prop: 'id', dragable: false, resizeable: false}];
 	reports: any[];
+	report: any;
 
 	constructor(webService: WebService) {
 		this.webService = webService.setState('reports');
@@ -223,6 +224,7 @@ export class Report {
 		this.filter = "";
 		this.previousStyle = this.style;
 		this.title = event.selected[0].name;
+		this.report = event.selected[0];
 		this.reports = m.rows = (this.temp = {
 			rows: event.selected[0].data.rows,
 			heading: event.selected[0].data.heading,
@@ -257,10 +259,10 @@ export class Report {
 
 	download() {
 		this.webService
-			.doGet('/downloadReport', '&reportId=' + this.temp.id + '&date=' + this.formatDate())
+			.doPost('/downloadReport' + '?date=' + this.formatDate(), {report: this.report})
 			.subscribe(resp => {
-				let file = new Blob([JSON.stringify(resp)], {type: 'text/csv; charset=utf-8'});
-				saveAs(file, this.temp.name + '.csv')
+				let file = new Blob([resp], {type: 'text/csv; charset=utf-8'});
+				saveAs(file, this.report.name + '(' + this.date + ')' + '.csv')
 			}, error => {
 				let file = new Blob([`Column, Column, Column, Column
 Row, Cell, Cell, Cell
