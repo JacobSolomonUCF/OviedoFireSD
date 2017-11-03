@@ -35,7 +35,7 @@ import {saveAs} from 'file-saver';
 								<option value="" label="Select a year"></option>
 								<option *ngFor="let y of years" [value]="y" [label]="y" selected></option>
 							</select>
-							<a *ngIf="!year" (click)="message = true" href="{{backUp()}}">download</a>
+							<a *ngIf="year" (click)="message = true" href="{{backUp()}}">download</a>
 						</li>
 					</ul>
 				</div>
