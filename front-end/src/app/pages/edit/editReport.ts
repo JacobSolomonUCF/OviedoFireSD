@@ -144,14 +144,15 @@ import {WebService} from "../../services/webService";
 										</ng-template>
 										<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
 																 let-row="row">
-											<div (dblclick)="editing = editing === rowIndex ? -1 : rowIndex"
-													 class="flex">
-												<span style="flex-grow: 99" [ngSwitch]="editing === rowIndex">
-													<input class="mock-mat" style="flex-grow: 99" [(ngModel)]="row.title" placeholder="Add a name"
-																 *ngSwitchCase="true"/>
-													<span *ngSwitchCase="false">{{row.title}}</span>
-												</span>
-												<span style="flex-grow: 1">
+											<div class="flex">
+												<select #location (change)="location.value = foo(location.value, rowIndex)">
+													<option *ngFor="let x of Arr(temp.template.subSections.length).keys()" [value]="x"
+																	[selected]="x === rowIndex">
+														{{x + 1}}
+													</option>
+												</select>
+												<input style="flex-grow: 99" [(ngModel)]="row.title" placeholder="Add a name"/>
+												<span class="flex-grow">
 													<button class="close" (click)="removeSection(rowIndex)"><i class="fa fa-times"></i></button>
 												</span>
 											</div>
@@ -170,8 +171,15 @@ import {WebService} from "../../services/webService";
 									<ngx-datatable-column [name]="'Caption'" [prop]="'caption'" [flexGrow]="2">
 										<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
 																 let-row="row">
-											<input type="text" [value]="value" style="padding-right: 1em"
-														 [(ngModel)]="row.caption"/>
+											<div class="flex">
+												<select #location (change)="location.value = foo2(location.value, rowIndex)">
+													<option *ngFor="let x of Arr(selected[0].inputElements.length).keys()" [value]="x"
+																	[selected]="x === rowIndex">
+														{{x + 1}}
+													</option>
+												</select>
+												<input type="text" [value]="value" style="padding-right: 1em" [(ngModel)]="row.caption"/>
+											</div>
 										</ng-template>
 									</ngx-datatable-column>
 									<ngx-datatable-column [prop]="'type'" [flexGrow]="1">
@@ -237,6 +245,23 @@ import {WebService} from "../../services/webService";
 	, styleUrls: ['../../menu.sass']
 })
 export class EditReport {
+	Arr = Array;
+
+	move = function (array, from, to) {
+		array.splice(to, 0, array.splice(from, 1)[0]);
+		return array;
+	};
+
+	foo(x, rowIndex) {
+		this.move(this.temp.template.subSections, rowIndex, x);
+		return rowIndex;
+	}
+
+	foo2(x, rowIndex) {
+		this.move(this.selected[0].inputElements, rowIndex, x);
+		return rowIndex;
+	}
+
 
 	@ViewChild('qr') qr;
 	@ViewChild('myTable') table: any;
@@ -249,7 +274,6 @@ export class EditReport {
 	reports: any[];
 	selected = [];
 	original;
-	editing = -1;
 	filter;
 	temp;
 
@@ -344,11 +368,9 @@ export class EditReport {
 		let len = this.temp.template.subSections.length;
 		for (let i = 0; i < len; i++) {
 			if (this.temp.template.subSections[i].title === emptySection.title) {
-				this.editing = i;
 				return;
 			}
 		}
-		this.editing = 0;
 		this.selected = [emptySection];
 		this.temp.template.subSections.unshift(emptySection);
 	}
@@ -360,7 +382,8 @@ export class EditReport {
 	}
 
 	add() {
-		this.selected[0].inputElements.push({caption: "", type: ""},);
+		let emptySection = {title: "", type: ""};
+		this.selected[0].inputElements.unshift(emptySection);
 	}
 
 	remove(row) {
