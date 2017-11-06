@@ -30,6 +30,7 @@ import {WebService} from "../services/webService";
 					</div>
 				</div>
 				<br>
+				<!-- Alert Sections -->
 				<div *ngFor="let alert of alertTypes">
 					<div *ngIf="alerts && alerts[alert.type] && alerts[alert.type].count"
 							 class="alert alert-{{alert.style}} tile flex-grow">
@@ -52,6 +53,7 @@ import {WebService} from "../services/webService";
 						</ul>
 					</div>
 				</div>
+				<!-- To Do List -->
 				<div class="tile white flex-grow max2">
 					<div class="tile-head">
 						<h3 class="pure-u-1">To Do List</h3>

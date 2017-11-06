@@ -3,12 +3,15 @@ import {HttpClient} from "@angular/common/http";
 
 import {AngularFireAuth} from "angularfire2/auth";
 
+/*
+ *  Service for web call (http and page state)
+ */
 @Injectable()
 export class WebService {
 
 	uid: string;
-	baseUrl = 'https://us-central1-oviedofiresd-55a71.cloudfunctions.net';
 	state: string;
+	baseUrl: string = 'https://us-central1-oviedofiresd-55a71.cloudfunctions.net';
 
 	constructor(public afAuth: AngularFireAuth, public http: HttpClient) {
 	}
@@ -21,10 +24,12 @@ export class WebService {
 		return (this.uid === undefined) ? localStorage.getItem('uid') : this.uid;
 	}
 
-	login(email, password) {
+	login(email: string, password: string) {
 		let self = this;
 		this.afAuth.auth.signInWithEmailAndPassword(email, password).then(resp => {
+			/* save uid token in browser */
 			localStorage.setItem('uid', self.uid = resp.uid);
+			/* if the user signed in isn't an administrator sign them out */
 			this.doGet('/home').subscribe(() => {
 			}, () => {
 				localStorage.clear();
@@ -43,16 +48,16 @@ export class WebService {
 		this.afAuth.auth.signOut();
 	}
 
-	doGet(url, extra = '') {
+	doGet(url: string, extra: string = '') {
 		return this.http.get(this.baseUrl + url + this.token() + extra);
 	}
 
-	doPost(url, body, extra = '') {
+	doPost(url: string, body, extra: string = '') {
 		body.uid = this.getUID();
 		return this.http.post(this.baseUrl + url + this.token() + extra, body, {responseType: 'text'});
 	}
 
-	doDelete(url, body) {
+	doDelete(url: string, body) {
 		body.uid = this.getUID();
 		body = {body: body, responseType: 'text'};
 		return this.http.delete(this.baseUrl + url, body);
@@ -62,7 +67,7 @@ export class WebService {
 		return this.http.get(this.baseUrl + '/home' + this.token());
 	}
 
-	// TODO: remove this from webservices because it really isnt a web service
+	/* TODO: remove this from webservices because it really isn't a web service*/
 	setState(state: string) {
 		this.state = state;
 		return this;

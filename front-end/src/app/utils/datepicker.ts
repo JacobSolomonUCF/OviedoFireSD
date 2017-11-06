@@ -1,5 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 
+/** Material styled date selector, selects from a calendar view */
 @Component({
 	selector: 'datepicker',
 	template: `

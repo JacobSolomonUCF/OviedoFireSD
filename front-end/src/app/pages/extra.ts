@@ -15,6 +15,7 @@ import {saveAs} from 'file-saver';
 						<h3 *ngSwitchCase="true">Confirmation</h3>
 						<h3 *ngSwitchDefault>Downloads</h3>
 					</div>
+					<!-- Confirmation on clearing results -->
 					<div *ngSwitchCase="true">
 						<p>Please wait a moment you will be prompted to save your reports.</p>
 						<p>Ready to clear the result?
@@ -45,10 +46,10 @@ import {saveAs} from 'file-saver';
 	, styleUrls: ['../menu.sass']
 })
 export class Extra {
-	webService: WebService;
-	message: boolean = false;
-	years: any;
 	year: string = '';
+	years;
+	message: boolean = false;
+	webService: WebService;
 
 	constructor(webService: WebService) {
 		this.webService = webService.setState('extras');

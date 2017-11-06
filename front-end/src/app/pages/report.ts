@@ -71,21 +71,25 @@ import {saveAs} from 'file-saver';
 						<!-- Group Header Template -->
 						<ngx-datatable-group-header [rowHeight]="'auto'" #myGroupHeader>
 							<ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
-								<div style="padding-left:5px;"
-										 (click)="toggleExpandGroup(group)">
-              <span
-								title="Expand/Collapse Group">
-                <b><i class="fa {{expanded ? 'fa-chevron-down' : 'fa-chevron-right'}}" style="font-size: .7em"></i>&nbsp;{{group.value[0][style.group]}}</b>
-              </span>
+								<div style="padding-left:5px;" (click)="toggleExpandGroup(group)">
+									<span title="Expand/Collapse Group">
+										<b>{{group.value[0][style.group]}}</b>
+									</span>
 								</div>
 							</ng-template>
 						</ngx-datatable-group-header>
 						<ngx-datatable-column [name]="style.thing"
 																	[prop]="(style.thingProp) ? style.thingProp : style.thing"
-																	[flexGrow]="3"></ngx-datatable-column>
-						<ngx-datatable-column *ngFor="let x of style.days" [name]="x[0]" [prop]="x" [flexGrow]="1">
-							<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
-													 let-row="row"
+																	[flexGrow]="3"
+																	[resizeable]="false"
+																	[sortable]="false"></ngx-datatable-column>
+						<ngx-datatable-column *ngFor="let x of style.days"
+																	[name]="x[0]"
+																	[prop]="x"
+																	[flexGrow]="1"
+																	[resizeable]="false"
+																	[sortable]="false">
+							<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
 													 let-group="group">
 								<div class="hasTooltip">
 									<i *ngIf="!value" class="fa fa-minus"></i>
@@ -93,13 +97,18 @@ import {saveAs} from 'file-saver';
 										 class="fa {{getCheckBox(value.result)}}">{{getCheckBox(value.result) === ''
 										? value.result
 										: ''}}</i>
-									<span *ngIf="value.completedBy" class="tooltip-text">
-										{{"'" + (value.note ? value.note : value.result) + "' "}}{{value.completedBy}}
+									<span *ngIf="value['completedBy']" class="tooltip-text">
+										{{"'" + (value['note'] ? value['note'] : value.result) + "' "}}{{value['completedBy']}}
 									</span>
 								</div>
 							</ng-template>
 						</ngx-datatable-column>
-						<ngx-datatable-column *ngIf="viewType === 'view'" [name]="'Schedule'" [prop]="'schedule'" [flexGrow]="2">
+						<ngx-datatable-column *ngIf="viewType === 'view'"
+																	[name]="'Schedule'"
+																	[prop]="'schedule'"
+																	[flexGrow]="2"
+																	[resizeable]="false"
+																	[sortable]="false">
 						</ngx-datatable-column>
 					</ngx-datatable>
 				</div>
@@ -111,31 +120,22 @@ import {saveAs} from 'file-saver';
 export class Report {
 
 	@ViewChild('myTable') table: any;
-	title: string;
+
+	date: string;
+	days: string[] = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+	title: string = undefined;
+	filter: string = '';
+	viewType: string = 'view';
 	loading: boolean = true;
 	reloading: boolean = true;
-	headingDaily = [
-		{prop: 'compartment', dragable: false, resizeable: false},
-		{prop: 'item', dragable: false, resizeable: false},
-		{prop: 'sunday', name: 'Sun', dragable: false, resizeable: false},
-		{prop: 'monday', dragable: false, resizeable: false},
-		{prop: 'tuesday', dragable: false, resizeable: false},
-		{prop: 'wednesday', dragable: false, resizeable: false},
-		{prop: 'thursday', dragable: false, resizeable: false},
-		{prop: 'friday', dragable: false, resizeable: false},
-		{prop: 'saturday', dragable: false, resizeable: false}
-	];
-	headingWeekly = [
-		{prop: 'compartment', dragable: false, resizeable: false},
-		{prop: 'item', dragable: false, resizeable: false},
-		{prop: 'status', dragable: false, resizeable: false}
-	];
-	filter;
-	webService: WebService;
-	viewType: string = 'view';
-	temp: any;
+	filterableHeading: string[] = ['name', 'schedule', 'status', 'id'];
+
+	temp;
+	report;
 	original;
-	date: string;
+	reports: any[];
+	webService: WebService;
+
 	styles = {
 		edit: {
 			group: false,
@@ -177,13 +177,6 @@ export class Report {
 	};
 	style: any;
 	previousStyle: any;
-	heading: any[] = [
-		{prop: 'name', dragable: false, resizeable: false},
-		{prop: 'schedule', dragable: false, resizeable: false},
-		{prop: 'status', dragable: false, resizeable: false},
-		{prop: 'id', dragable: false, resizeable: false}];
-	reports: any[];
-	report: any;
 
 	constructor(webService: WebService) {
 		this.webService = webService.setState('reports');
@@ -196,22 +189,21 @@ export class Report {
 		this.style = (this.previousStyle) ? this.previousStyle : this.style;
 		this.table.rows = this.reports;
 		this.title = '';
-		delete this.previousStyle;
 		delete this.temp;
+		delete this.previousStyle;
 		this.updateFilter(undefined);
 	}
 
 	updateFilter(event) {
 		let val = (!event) ? '' : event.target.value.toLowerCase();
-		const source = this.temp ? this.temp :
-			{rows: this.original, heading: this.heading};
+		const source = this.temp ? this.temp : {rows: this.original, heading: this.filterableHeading};
 
 		if (!event) this.filter = "";
 
 		this.reports = (!event) ?
 			this.original : source.rows.filter(row => {
 				for (let i = 0, len = (!val ? 1 : source.heading.length); i < len; i++)
-					if (val == '' || ("" + row[source.heading[i].prop]).toLowerCase().indexOf(val) !== -1)
+					if (val == '' || (row[source.heading[i]]).toLowerCase().indexOf(val) !== -1)
 						return true;
 				return false;
 			});
@@ -221,7 +213,7 @@ export class Report {
 		if (this.viewType == 'edit')
 			return;
 		this.viewType = 'edit';
-		this.filter = "";
+		this.filter = '';
 		this.previousStyle = this.style;
 		this.title = event.selected[0].name;
 		this.report = event.selected[0];
@@ -231,7 +223,7 @@ export class Report {
 			days: event.selected[0].days
 		}).rows;
 		this.style = this.styles.modal;
-		this.style.days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'].filter(day => {
+		this.style.days = this.days.filter(day => {
 			if (this.temp.days[day]) return day;
 		});
 		this.style.report = event.selected[0].name;
@@ -259,7 +251,7 @@ export class Report {
 
 	download() {
 		this.webService
-			.doPost('/downloadReport' + '?date=' + this.formatDate(), {report: this.report})
+			.doPost('/downloadReport', {report: this.report}, '?date=' + this.formatDate())
 			.subscribe(resp => {
 				let file = new Blob([resp], {type: 'text/csv; charset=utf-8'});
 				saveAs(file, this.report.name + '(' + this.date + ')' + '.csv')
@@ -278,11 +270,6 @@ Error:,${error.name},${error.statusText},${error.message}`], {type: 'text/csv;ch
 			.doGet('/reports', (date) ? '&date=' + date : '')
 			.subscribe((resp) => {
 				this.original = this.reports = resp['reports'].map((r) => {
-					if (r.status === 'Daily')
-						r.data.heading = this.headingDaily;
-					else
-						r.data.heading = this.headingWeekly;
-
 					if (r.schedule === 'Daily') {
 						let title = r.name + ' - ';
 						for (let i = 0, len = r.data.rows.length; i < len; i++)

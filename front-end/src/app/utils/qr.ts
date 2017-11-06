@@ -1,6 +1,7 @@
 import {Component, Input, ViewChild} from "@angular/core";
 import {saveAs} from 'file-saver';
 
+/** Directive to show the qr code on hover and download on click */
 @Component({
 	selector: 'qr-clickable',
 	template: `
@@ -15,9 +16,9 @@ import {saveAs} from 'file-saver';
 	`
 })
 export class QR {
+	@ViewChild('qr') qr;
 	@Input('title') title: string;
 	@Input('value') value: string;
-	@ViewChild('qr') qr;
 
 	constructor() {
 	}
