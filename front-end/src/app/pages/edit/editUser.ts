@@ -95,17 +95,17 @@ import {WebService} from "../../services/webService";
 								<button type="submit" class="accept"
 												[disabled]="loading || !(temp.firstName && temp.lastName && temp.type && temp.email)"
 												(click)="submit()">
-									<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+									<i class="fa fa-spinner fa-pulse" *ngIf="loading"></i>
 									Submit
 								</button>
 								<button type="submit" class="accept" (click)="doDelete()" *ngIf="original"
 												[disabled]="loading">
-									<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+									<i class="fa fa-spinner fa-pulse" *ngIf="loading"></i>
 									Delete
 								</button>
 								<button type="submit" class="accept" (click)="resetPassword()" *ngIf="original"
 												[disabled]="loading">
-									<i class="fa fa-spinner fa-spin" *ngIf="loading"></i>
+									<i class="fa fa-spinner fa-pulse" *ngIf="loading"></i>
 									Reset Password
 								</button>
 								<span style="color: red">{{error}}</span>

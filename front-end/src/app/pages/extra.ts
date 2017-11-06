@@ -17,7 +17,7 @@ import {saveAs} from 'file-saver';
 					</div>
 					<div *ngSwitchCase="true">
 						<p>Please wait a moment you will be prompted to save your reports.</p>
-						<p>Proceed to result clear?
+						<p>Ready to clear the result?
 							<button class="default" (click)="message = false">No</button>
 							<button class="accept short" (click)="clear()">Yes</button>
 						</p>

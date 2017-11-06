@@ -30,112 +30,41 @@ import {WebService} from "../services/webService";
 					</div>
 				</div>
 				<br>
-				<div class="alert alert-danger tile flex-grow"
-						 *ngIf="alerts && alerts.repairItems && alerts.repairItems.count">
-					<div class="tile-head">
-						<h3 class="pure-u-4-5">Repairs Needed</h3>
-					</div>
-					<div class="centered" *ngIf="loading">
-						<br/>
-						<i class="fa fa-5x fa-spinner fa-pulse"></i>
-					</div>
-					<ul class="to-do">
-						<li *ngFor="let x of alerts.repairItems.properties">
-							<div>
-								<label class="pure-checkbox" *ngIf="alerts.repairItems[x]">
-									<i class="fa fa-lg fa-close" (click)="dismiss('repairItems', x)"></i>
-									{{alerts.repairItems[x]}}
-								</label>
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="alert alert-info tile flex-grow max2"
-						 *ngIf="alerts && alerts.missingItems && alerts.missingItems.count">
-					<div class="tile-head">
-						<h3 class="pure-u-4-5">Missing Equipment</h3>
-					</div>
-					<div class="centered" *ngIf="loading">
-						<br/>
-						<i class="fa fa-5x fa-spinner fa-pulse"></i>
-					</div>
-					<ul class="to-do">
-						<li *ngFor="let x of alerts.missingItems.properties">
-							<div>
-								<label class="pure-checkbox" *ngIf="alerts.missingItems[x]">
-									<i class="fa fa-lg fa-close" (click)="dismiss('missingItems', x)"></i>
-									{{alerts.missingItems[x]}}
-								</label>
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="alert alert-warning tile flex-grow max2"
-						 *ngIf="alerts && alerts.incompleteForms && alerts.incompleteForms.count">
-					<div class="tile-head">
-						<h3 class="pure-u-4-5">Forgotten Reports</h3>
-					</div>
-					<div class="centered" *ngIf="loading">
-						<br/>
-						<i class="fa fa-5x fa-spinner fa-pulse"></i>
-					</div>
-					<ul class="to-do">
-						<li *ngFor="let x of alerts.incompleteForms.properties">
-							<div>
-								<label class="pure-checkbox" *ngIf="alerts.incompleteForms[x]">
-									<i class="fa fa-lg fa-close" (click)="dismiss('incompleteForms', x)"></i>
-									{{alerts.incompleteForms[x]}}
-								</label>
-							</div>
-						</li>
-					</ul>
-				</div>
-				<div class="alert alert-danger tile flex-grow"
-						 *ngIf="alerts && alerts.failItems && alerts.failItems.count">
+				<div *ngFor="let alert of alertTypes">
+					<div *ngIf="alerts && alerts[alert.type] && alerts[alert.type].count"
+							 class="alert alert-{{alert.style}} tile flex-grow">
 						<div class="tile-head">
-							<h3 class="pure-u-4-5">Failed Items</h3>
+							<h3 class="pure-u-1">
+								{{alert.title}}
+							</h3>
 						</div>
-						<div class="centered" *ngIf="loading">
-							<br/>
-							<i class="fa fa-5x fa-spinner fa-pulse"></i>
-						</div>
-					<ul class="to-do">
-						<li *ngFor="let x of alerts.failItems.properties">
-							<div>
-								<label class="pure-checkbox" *ngIf="alerts.failItems[x]">
-									<i class="fa fa-lg fa-close" (click)="dismiss('failItems', x)"></i>
-									{{alerts.failItems[x]}}
+						<div class="centered" *ngIf="loading"><i class="fa fa-5x fa-spinner fa-pulse"></i></div>
+						<ul class="to-do">
+							<li *ngFor="let message of alerts[alert.type].properties">
+								<div>
+									<label #label class="pure-checkbox" *ngIf="alerts[alert.type][message]" [ngSwitch]="label.value">
+										<i class="fa fa-lg fa-spinner fa-pulse" *ngSwitchCase="true"></i>
+										<i class="fa fa-lg fa-close" (click)="dismiss('repairItems', message, label)" *ngSwitchDefault></i>
+										{{alerts[alert.type][message]}}
 									</label>
 								</div>
 							</li>
 						</ul>
 					</div>
+				</div>
 				<div class="tile white flex-grow max2">
 					<div class="tile-head">
-						<h3 class="pure-u-4-5">To Do List</h3>
-						<ul class="pure-u-1-5 options" hidden>
-							<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-							</li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-									 aria-expanded="false"><i
-									class="fa fa-wrench"></i></a>
-								<ul class="dropdown-menu" role="menu">
-								</ul>
-							</li>
-							<li><a class="close-link"><i class="fa fa-close"></i></a>
-							</li>
-						</ul>
+						<h3 class="pure-u-1">To Do List</h3>
 					</div>
 					<div class="centered" *ngIf="loading">
 						<br/>
 						<i class="fa fa-5x fa-spinner fa-pulse"></i>
 					</div>
 					<ul class="to-do white">
-						<li *ngFor="let todo of toDoList; let i = index">
+						<li *ngFor="let todo of toDoList">
 							<div class="white">
 								<label class="pure-checkbox">
-									<i class="fa fa-lg fa-square-o white"></i>
+									<i class="fa fa-minus"></i>
 									{{todo.title}}
 								</label>
 							</div>
@@ -147,7 +76,7 @@ import {WebService} from "../services/webService";
 	, styleUrls: ['../menu.sass']
 })
 export class Home {
-	alerts;
+	alerts: any[];
 	loading: boolean = true;
 	toDoList: any[] = [];
 	equipment: number;
@@ -156,18 +85,24 @@ export class Home {
 	completeList: any[] = [];
 	totalReports: number;
 
+	alertTypes: any[] = [
+		{style: 'danger', title: 'Repairs Needed', type: 'repairItems'},
+		{style: 'info', title: 'Missing Equipment', type: 'missingItems'},
+		{style: 'warning', title: 'Forgotten Reports', type: 'incompleteForms'},
+		{style: 'danger', title: 'Failed Items', type: 'failItems'}
+	];
+
 	constructor(public webService: WebService) {
 		webService.setState('home')
 			.getHome()
 			.subscribe(resp => {
 					this.alerts = resp['alerts'];
-					console.log(resp['alerts']);
 					if (this.alerts) {
-						['incompleteForms', 'missingItems', 'repairItems', 'failItems'].map(prop => {
-							if (this['alerts'][prop]) {
-								let keys = Object.keys(this['alerts'][prop]);
-								this['alerts'][prop].properties = keys;
-								this['alerts'][prop].count = keys.length;
+						this.alertTypes.map(alert => {
+							if (this.alerts[alert.type]) {
+								let keys = Object.keys(this.alerts[alert.type]);
+								this.alerts[alert.type].properties = keys;
+								this.alerts[alert.type].count = keys.length;
 							}
 						});
 					}
@@ -185,11 +120,10 @@ export class Home {
 				});
 	}
 
-	dismiss(type, index) {
-		this.webService.doPost('/dismissAlert?type=' + type + '&key=' + index + '&uid=' + this.webService.getUID(), {
-			type: type,
-			key: index
-		}).subscribe(() => {
+	dismiss(type, index, label = {value: false}) {
+		label.value = true;
+		let body = {type: type, key: index};
+		this.webService.doPost('/dismissAlert', body, '&type=' + type + '&key=' + index).subscribe(() => {
 			this.alerts[type].count--;
 			if (!this.alerts[type].count) delete this.alerts[type];
 			else delete this.alerts[type][index];

@@ -33,7 +33,6 @@ export class WebService {
 				this.setState('403');
 			}, () => {
 			});
-			// return resp.uid;
 		}, error => {
 			console.log(error);
 			this.setState('401');
@@ -48,9 +47,9 @@ export class WebService {
 		return this.http.get(this.baseUrl + url + this.token() + extra);
 	}
 
-	doPost(url, body) {
+	doPost(url, body, extra = '') {
 		body.uid = this.getUID();
-		return this.http.post(this.baseUrl + url, body, {responseType: 'text'});
+		return this.http.post(this.baseUrl + url + this.token() + extra, body, {responseType: 'text'});
 	}
 
 	doDelete(url, body) {
