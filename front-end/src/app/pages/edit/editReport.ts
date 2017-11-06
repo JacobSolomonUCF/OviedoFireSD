@@ -15,8 +15,11 @@ import {WebService} from "../../services/webService";
 					<div *ngSwitchCase="'view'">
 						<div class="table-options">
 							<div class="left">
-								<button class="add" (click)="onclick(undefined, table)">
-									<i class="fa fa-plus"></i> Add report
+								<button class="add" (click)="onclick(undefined)">
+									<i class="fa fa-plus"></i> Create new
+								</button>
+								<button class="add" (click)="viewType = 'copy'">
+									<i class="fa fa-copy"></i> Copy report
 								</button>
 							</div>
 							<div class="right">
@@ -38,14 +41,14 @@ import {WebService} from "../../services/webService";
 							[rows]="reports">
 							<ngx-datatable-column [name]="'Report'" [prop]="'template.title'" [flexGrow]="2">
 								<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-									<div (click)="onclick(row, myTable)">
+									<div (click)="onclick(row)">
 										{{value}}
 									</div>
 								</ng-template>
 							</ngx-datatable-column>
 							<ngx-datatable-column [name]="'Frequency'" [prop]="'interval.frequency'" [flexGrow]="1">
 								<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-									<div (click)="onclick(row, myTable)">
+									<div (click)="onclick(row)">
 										{{value}}
 									</div>
 								</ng-template>
@@ -65,6 +68,24 @@ import {WebService} from "../../services/webService";
 								</ng-template>
 							</ngx-datatable-column>
 						</ngx-datatable>
+					</div>
+					<div *ngSwitchCase="'copy'">
+						<div class="table-options">
+							<div class="left">
+								<button class="close" (click)="toggle()">
+									<i class="fa fa-chevron-left"></i> Back
+								</button>
+							</div>
+						</div>
+						<div class="tile white pure-form pure-form-stacked editing" style="min-height: 15vh">
+							<span>Which report would you like to copy?</span>
+							<select [(ngModel)]="temp">
+								<option *ngFor="let x of reports; index as i" [value]="i">{{x.template.title}}</option>
+							</select>
+							<button class="accept" (click)="onclick()">
+								Copy
+							</button>
+						</div>
 					</div>
 					<div *ngSwitchCase="'edit'">
 						<div class="table-options">
@@ -145,7 +166,8 @@ import {WebService} from "../../services/webService";
 										<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
 																 let-row="row">
 											<div class="flex">
-												<select #location (change)="location.value = foo(location.value, rowIndex)">
+												<select #location
+																(change)="location.value = move(temp.template.subSections, rowIndex, location.value)">
 													<option *ngFor="let x of Arr(temp.template.subSections.length).keys()" [value]="x"
 																	[selected]="x === rowIndex">
 														{{x + 1}}
@@ -172,7 +194,8 @@ import {WebService} from "../../services/webService";
 										<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
 																 let-row="row">
 											<div class="flex">
-												<select #location (change)="location.value = foo2(location.value, rowIndex)">
+												<select #location
+																(change)="location.value = move(selected[0].inputElements, rowIndex, location.value)">
 													<option *ngFor="let x of Arr(selected[0].inputElements.length).keys()" [value]="x"
 																	[selected]="x === rowIndex">
 														{{x + 1}}
@@ -247,24 +270,13 @@ import {WebService} from "../../services/webService";
 export class EditReport {
 	Arr = Array;
 
-	move = function (array, from, to) {
+	move = function (array: any[], from: number, to: number) {
 		array.splice(to, 0, array.splice(from, 1)[0]);
-		return array;
+		return from;
 	};
 
-	foo(x, rowIndex) {
-		this.move(this.temp.template.subSections, rowIndex, x);
-		return rowIndex;
-	}
-
-	foo2(x, rowIndex) {
-		this.move(this.selected[0].inputElements, rowIndex, x);
-		return rowIndex;
-	}
-
-
 	@ViewChild('qr') qr;
-	@ViewChild('myTable') table: any;
+	@ViewChild('myTable') table;
 	viewType: string = 'view';
 	loading: boolean = true;
 	heading: any[] = [
@@ -274,8 +286,18 @@ export class EditReport {
 	reports: any[];
 	selected = [];
 	original;
-	filter;
+	filter: string = '';
 	temp;
+
+	weekDaily = {
+		sunday: true,
+		monday: true,
+		tuesday: true,
+		wednesday: true,
+		thursday: true,
+		friday: true,
+		saturday: true
+	};
 
 	constructor(public webService: WebService) {
 
@@ -297,47 +319,46 @@ export class EditReport {
 			);
 	}
 
-	onclick(event) {
-		if (this.viewType === 'view') {
-			this.viewType = 'edit';
-			this.temp = (event) ? event : {
-				fresh: true,
-				itemCategory: false,
-				template: {subSections: []},
-				interval: {
-					frequency: "",
-					days: {
-						sunday: true,
-						monday: true,
-						tuesday: true,
-						wednesday: true,
-						thursday: true,
-						friday: true,
-						saturday: true
-					}
-				}
-			};
-			this.selected = (this.temp.template.subSections) ? [this.temp.template.subSections[0]] : [this.temp.template];
+	onclick(event = this.reports[this.temp]) {
+
+		let copy = !event ? undefined : {
+			fresh: true,
+			itemCategory: event.itemCategory,
+			template: event.template,
+			interval: event.interval
+		};
+		let fresh = event ? event : {
+			fresh: true,
+			itemCategory: false,
+			template: {subSections: []},
+			interval: {
+				frequency: "",
+				days: this.weekDaily
+			}
+		};
+
+		if (this.viewType === 'copy') {
+			this.temp = copy;
 		} else if (this.viewType === 'edit') {
 			this.selected = event.selected;
+			return;
+		} else if (this.viewType === 'view') {
+			this.temp = (event) ? event : fresh;
 		}
+
+		this.viewType = 'edit';
+		this.selected = (this.temp.template.subSections) ? [this.temp.template.subSections[0]] : [this.temp.template];
 	}
 
 	submitReport() {
 		if (this.temp.template.title && this.temp.interval.frequency && (!this.temp.fresh || this.temp.itemCategory) && this.temp.template.subSections.length && this.temp.template.subSections[0].inputElements.length) {
 			this.loading = true;
-			if (this.temp.interval.frequency === 'Daily') this.temp.interval.days = {
-				sunday: true,
-				monday: true,
-				tuesday: true,
-				wednesday: true,
-				thursday: true,
-				friday: true,
-				saturday: true
-			};
+			if (this.temp.interval.frequency === 'Daily')
+				this.temp.interval.days = this.weekDaily;
 			this.webService.doPost('/listReports', {report: this.temp})
 				.subscribe(() => {
-					this.reports.push(this.temp);
+					if (this.temp.fresh)
+						this.reports.push(this.temp);
 					this.toggle();
 				}, error => {
 					console.log(error);
