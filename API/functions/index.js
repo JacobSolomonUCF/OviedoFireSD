@@ -2432,33 +2432,51 @@ exports.listReports = functions.https.onRequest((req, res) => {
 							} else if(report.itemCategory == "vehicles") {
 								if(report.id) {
 									admin.database().ref(`forms/intervals/${report.id}`).set(report.interval).then(() => {
-										for(var i = 0; i < report.template.subSections.length; i++) {
-											if(report.template.subSections[i].id) {
-												admin.database().ref(`forms/intervals/${report.template.subSections[i].id}`).set(report.interval);
-												admin.database().ref(`forms/templates/${report.template.subSections[i].id}`).set({
-													inputElements: report.template.subSections[i].inputElements,
-													title: `${report.template.title} - ${report.template.subSections[i].title}`
-												});
-											} else {
-												var newKey = admin.database().ref(`forms/intervals`).push().key;
+                                        admin.database().ref(`inventory/vehicles/${report.id}/compartments`).once('value').then(compartmentSnap => {
+                                            var compartments = Object.keys(compartmentSnap.val());
+                                            var oldCompartments = {};
 
-												if(newKey) {
-													admin.database().ref(`forms/intervals/${newKey}`).set(report.interval);
-													admin.database().ref(`forms/templates/${newKey}`).set({
-														inputElements: report.template.subSections[i].inputElements,
-														title: `${report.template.title} - ${report.template.subSections[i].title}`
-													});
-													admin.database().ref(`inventory/vehicles/${report.id}/compartments/${newKey}`).set({
-														formId: [newKey],
-														name: report.template.subSections[i].title
-													});
-												}
-											}
-										}
+                                            compartments.forEach(key => {
+                                                oldCompartments[key] = true;
+                                            });
 
-										cors(req, res, () => {
-								            res.sendStatus(200);
-								        });
+    										for(var i = 0; i < report.template.subSections.length; i++) {
+    											if(report.template.subSections[i].id) {
+                                                    oldCompartments[report.template.subSections[i].id] = false;
+    												admin.database().ref(`forms/intervals/${report.template.subSections[i].id}`).set(report.interval);
+    												admin.database().ref(`forms/templates/${report.template.subSections[i].id}`).set({
+    													inputElements: report.template.subSections[i].inputElements,
+    													title: `${report.template.title} - ${report.template.subSections[i].title}`
+    												});
+    											} else {
+    												var newKey = admin.database().ref(`forms/intervals`).push().key;
+
+    												if(newKey) {
+    													admin.database().ref(`forms/intervals/${newKey}`).set(report.interval);
+    													admin.database().ref(`forms/templates/${newKey}`).set({
+    														inputElements: report.template.subSections[i].inputElements,
+    														title: `${report.template.title} - ${report.template.subSections[i].title}`
+    													});
+    													admin.database().ref(`inventory/vehicles/${report.id}/compartments/${newKey}`).set({
+    														formId: [newKey],
+    														name: report.template.subSections[i].title
+    													});
+    												}
+    											}
+    										}
+
+                                            Object.keys(oldCompartments).forEach(formId => {
+                                                if(oldCompartments[formId]) {
+                                                    admin.database().ref(`forms/intervals/${formId}`).set(null);
+                                                    admin.database().ref(`forms/templates/${formId}`).set(null);
+                                                    admin.database().ref(`inventory/vehicles/${report.id}/compartments/${formId}`).set(null);
+                                                }
+                                            });
+
+    										cors(req, res, () => {
+    								            res.sendStatus(200);
+    								        });
+                                        });
 									}).catch(err => {
 										cors(req, res, () => {
 								            res.status(400).send(err);
@@ -3253,10 +3271,10 @@ exports.availableYears = functions.https.onRequest((req, res) => {
     }
 });
 
-exports.clearResults = functions.https.onRequest((req, res) => {
+exports.clearReports = functions.https.onRequest((req, res) => {
     if(req.method == "DELETE") {
-        if(req.query.uid) {
-            getAuth(req.query.uid, function(auth) {
+        if(req.body.uid) {
+            getAuth(req.body.uid, function(auth) {
                 if(auth != 401) {
                     if(auth == 0) {
 						admin.database().ref('forms/results').set(null).then(() => {
