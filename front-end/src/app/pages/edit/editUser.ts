@@ -86,8 +86,11 @@ import {WebService} from "../../services/webService";
 										</div>
 										<div class="pure-form" *ngIf="temp.type === 'administrator'">
 											<label>Alert?</label>
-											<i class="fa fa-lg {{temp.alert ? 'fa-check-square-o' : 'fa-square-o'}}"
-												 (click)="temp.alert = !temp.alert"></i>
+											<label class="checkbox">
+												<input type="checkbox" [ngModel]="temp.alert"/>
+												<i class="fa fa-fw fa-2x fa-square-o unchecked"></i>
+												<i class="fa fa-fw fa-2x fa-check-square box-okay checked"></i>
+											</label>
 										</div>
 									</div>
 								</div>

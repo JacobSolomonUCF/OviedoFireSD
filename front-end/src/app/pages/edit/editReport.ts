@@ -286,6 +286,7 @@ export class EditReport {
 	reports: any[];
 	selected = [];
 	original;
+	copy;
 	filter: string = '';
 	temp;
 
@@ -304,14 +305,14 @@ export class EditReport {
 		webService.setState('eReport')
 			.doGet('/listReports')
 			.subscribe(resp => {
-				this.original = this.reports = resp['list'].map(report => {
+					this.original = resp['list'].map(report => {
 					if (report.interval.frequency === 'Daily')
 						for (let i = 0, len = report.template.subSections.length; i < len; i++)
 							if (report.template.subSections[i].title.indexOf(report.template.title) !== -1)
 								report.template.subSections[i].title = report.template.subSections[i].title.substring(report.template.title.length + 3);
 					return report
 				});
-				}, () => {
+					this.reports = JSON.parse(JSON.stringify(this.original));
 					this.loading = false;
 				}, () => {
 					this.loading = false;
@@ -321,7 +322,7 @@ export class EditReport {
 
 	onclick(event = this.reports[this.temp]) {
 
-		let copy = !event ? undefined : {
+		this.copy = !event ? undefined : {
 			fresh: true,
 			itemCategory: event.itemCategory,
 			template: event.template,
@@ -338,6 +339,8 @@ export class EditReport {
 		};
 
 		if (this.viewType === 'copy') {
+			let copy = {...this.copy};
+			copy.template.title = this.copy.template.title + ' (Copy)';
 			this.temp = copy;
 		} else if (this.viewType === 'edit') {
 			this.selected = event.selected;
@@ -359,6 +362,7 @@ export class EditReport {
 				.subscribe(() => {
 					if (this.temp.fresh)
 						this.reports.push(this.temp);
+					this.original = JSON.parse(JSON.stringify(this.reports));
 					this.toggle();
 				}, error => {
 					console.log(error);
@@ -414,7 +418,7 @@ export class EditReport {
 	toggle() {
 		delete this.temp;
 		this.viewType = 'view';
-		this.reports = this.original;
+		this.reports = JSON.parse(JSON.stringify(this.original));
 		this.updateFilter(undefined);
 	}
 

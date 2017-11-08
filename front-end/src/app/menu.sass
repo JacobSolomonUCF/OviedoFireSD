@@ -404,6 +404,14 @@ ngx-datatable
 .expandable.ngx-datatable.selectable.single-selection
 	width: 100%
 
+.checkbox
+	input[type="checkbox"], .checked
+		display: none
+	input[type="checkbox"]:checked ~ .checked
+		display: inline-block
+	input[type="checkbox"]:checked ~ .unchecked
+		display: none
+
 input
 	&.wide
 		width: 100%
