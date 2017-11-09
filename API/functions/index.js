@@ -653,346 +653,6 @@ exports.activeVehicles = functions.https.onRequest((req, res) => {
     }
 });
 
-exports.vehicleCompartments = functions.https.onRequest((req, res) => {
-    switch(req.method) {
-        case 'GET':
-            if(req.query.uid && req.query.vehicleId) {
-                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
-                    const auth = authSnap.val();
-                    if(auth !== null) {
-                        if(auth == 0 || auth == 1) {
-                            ref.child(`inventory/vehicles/${req.query.vehicleId}/compartments`).once('value').then(compartmentsSnap => {
-                                const compartments = compartmentsSnap.val();
-
-                                if(compartments) {
-                                    const intervalsPr = ref.child('forms/intervals').once('value');
-                                    const resultsPr = ref.child('forms/results').once('value');
-
-                                    Promise.all([intervalsPr, resultsPr]).then(response => {
-                                        var retVal = { list: [] };
-                                        const time = getTime();
-                                        const intervals = response[0].val();
-                                        const results = response[1].val();
-
-                                        Object.keys(compartments).forEach(compartmentKey => {
-                                            var completedBy = 'nobody';
-                                            const formId = compartments[compartmentKey].formId;
-
-                                            if(results && results[formId]) {
-                                                const frequency = intervals[req.query.vehicleId].frequency;
-
-                                                if(frequency == "Daily" && results[formId][time.datestamp]) {
-                                                    completedBy = results[formId][time.datestamp].completedBy;
-                                                } else if(frequency == "Weekly") {
-                                                    const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
-
-                                                    if(time.weekstamps.includes(lastTimestamp)) {
-                                                        completedBy = results[formId][lastTimestamp].completedBy;
-                                                    }
-                                                } else if(frequency == "Monthly") {
-                                                    const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
-
-                                                    if(lastTimestamp.substring(0,6) == time.yearMonth) {
-                                                        completedBy = results[formId][lastTimestamp].completedBy;
-                                                    }
-                                                }
-                                            }
-
-                                            retVal.list.push({
-                                                name: compartments[compartmentKey].name,
-                                                formId: formId,
-                                                completedBy: completedBy
-                                            });
-                                        });
-
-                                        cors(req, res, () => {
-                                            res.status(200).send(retVal);
-                                        });
-                                    }).catch(err => {
-                                        cors(req, res, () => {
-                                            res.status(400).send(err);
-                                        });
-                                    });
-                                } else {
-                                    cors(req, res, () => {
-                                        res.status(400).send(`Compartments for '${req.query.vehicleId}' do not exist`);
-                                    });
-                                }
-                            }).catch(err => {
-                                cors(req, res, () => {
-                                    res.status(400).send(err);
-                                });
-                            });
-                        } else {
-                            cors(req, res, () => {
-                                res.status(403).send("The request violates the user's permission level");
-                            });
-                        }
-                    } else {
-                        cors(req, res, () => {
-                            res.status(401).send("The user is not authorized for access");
-                        });
-                    }
-                }).catch(err => {
-                    cors(req, res, () => {
-                        res.status(400).send(err);
-                    });
-                });
-            } else {
-                cors(req, res, () => {
-                    res.status(400).send("Missing parameter(s): uid, vehicleId");
-                });
-            }
-            break;
-        default:
-            cors(req, res, () => {
-                res.sendStatus(404);
-            });
-            break;
-    }
-});
-
-exports.form = functions.https.onRequest((req, res) => {
-    switch(req.method) {
-        case 'GET':
-            if(req.query.uid && req.query.formId) {
-                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
-                    const auth = authSnap.val();
-                    if(auth !== null) {
-                        if(auth == 0 || auth == 1) {
-                            const formPr = ref.child(`forms/templates/${req.query.formId}`).once('value');
-                            const prevResultPr = ref.child(`forms/results/${req.query.formId}`).orderByKey().limitToLast(1).once('value');
-
-                            Promise.all([formPr, prevResultPr]).then(response => {
-                                const form = response[0].val();
-                                const prevResult = response[1].val();
-
-                                if(form) {
-                                    if(prevResult) {
-                                        var clearPrev = false;
-                                        const prevResultDatestamp = Object.keys(prevResult)[0];
-
-                                        if(form.inputElements) {
-                                            for(var i = 0; i < form.inputElements.length; i++) {
-                                                if(form.inputElements[i].caption != prevResult[prevResultDatestamp].results[i].caption) {
-                                                    clearPrev = true;
-                                                    break;
-                                                } else if(prevResult[prevResultDatestamp].results[i].result == "Repairs Needed" || prevResult[prevResultDatestamp].results[i].result == "Missing" || prevResult[prevResultDatestamp].results[i].result == "Failed"){
-                                                    form.inputElements[i].prev = prevResult[prevResultDatestamp].results[i].result;
-													form.prevCompletedBy = prevResult[prevResultDatestamp].completedBy;
-                                                }
-                                            }
-
-                                            if(clearPrev) {
-												delete form.prevCompletedBy;
-                                                for(var i = 0; i < form.inputElements.length; i++) {
-                                                    delete form.inputElements[i].prev;
-                                                }
-                                            }
-                                        } else {
-                                            for(var i = 0; i < form.subSections.length; i++) {
-                                                for(var j = 0; j < form.subSections[i].inputElements.length; j++) {
-                                                    if(form.subSections[i].inputElements[j].caption != prevResult[prevResultDatestamp].results[i].results[j].caption) {
-                                                        clearPrev = true;
-                                                        break;
-                                                    } else if(prevResult[prevResultDatestamp].results[i].results[j].result == "Repairs Needed" || prevResult[prevResultDatestamp].results[i].results[j].result == "Missing" || prevResult[prevResultDatestamp].results[i].results[j].result == "Failed"){
-                                                        form.subSections[i].inputElements[j].prev = prevResult[prevResultDatestamp].results[i].results[j].result;
-														form.prevCompletedBy = prevResult[prevResultDatestamp].completedBy;
-                                                    }
-                                                }
-
-                                                if(clearPrev) {
-                                                    break;
-                                                }
-                                            }
-
-                                            if(clearPrev) {
-												delete form.prevCompletedBy;
-                                                for(var i = 0; i < form.subSections.length; i++) {
-                                                    for(var j = 0; j < form.subSections[i].inputElements.length; j++) {
-                                                        delete form.subSections[i].inputElements[j].prev;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    cors(req, res, () => {
-                                        res.status(200).send(form);
-                                    });
-                                } else {
-                                    cors(req, res, () => {
-                                        res.status(400).send(`Template for '${req.query.formId}' does not exist`);
-                                    });
-                                }
-                            }).catch(err => {
-                                cors(req, res, () => {
-                                    res.status(400).send(err);
-                                });
-                            });
-                        } else {
-                            cors(req, res, () => {
-                                res.status(403).send("The request violates the user's permission level");
-                            });
-                        }
-                    } else {
-                        cors(req, res, () => {
-                            res.status(401).send("The user is not authorized for access");
-                        });
-                    }
-                }).catch(err => {
-                    cors(req, res, () => {
-                        res.status(400).send(err);
-                    });
-                });
-            } else {
-                cors(req, res, () => {
-                    res.status(400).send("Missing parameter(s): uid, formId");
-                });
-            }
-            break;
-        case "POST":
-            if(req.body.uid && req.body.formId && req.body.results) {
-                ref.child(`users/${req.body.uid}/authentication`).once('value').then(authSnap => {
-                    const auth = authSnap.val();
-                    if(auth !== null) {
-                        if(auth == 0 || auth == 1) {
-                            const userPr = ref.child(`users/${req.body.uid}`).once('value');
-                            const templatesPr = ref.child(`forms/templates`).once('value');
-
-                            Promise.all([userPr, templatesPr]).then(response => {
-                                const time = getTime();
-                                const user = response[0].val();
-                                const templates = response[1].val();
-
-                                ref.child(`forms/results/${req.body.formId}/${time.datestamp}`).set({
-                                    completedBy: `${user.firstName} ${user.lastName}`,
-                                    results: req.body.results
-                                }).then(() => {
-                                    var postError = false;
-
-                                    for(var i = 0; i < req.body.results.length; i++) {
-                                        if(req.body.results[i].result) {
-                                            var failureCheck = false;
-                                            var statType;
-                                            var alertType;
-
-                                            if(req.body.results[i].result == "Repairs Needed") {
-                                                failureCheck = true;
-                                                statType = "repairsNeeded";
-                                                alertType = "repairItems";
-                                            } else if(req.body.results[i].result == "Missing") {
-                                                failureCheck = true;
-                                                statType = "missing";
-                                                alertType = "missingItems";
-                                            } else if(req.body.results[i].result == "Failed") {
-                                                failureCheck = true;
-                                                statType = "failed";
-                                                alertType = "failItems";
-                                            }
-
-                                            if(failureCheck) {
-                                                ref.child(`statistics/${time.yearMonth}/${statType}`).push().set({
-                                                    caption: req.body.results[i].caption,
-                                                    formId: templates[req.body.formId].title
-                                                }).catch(err => {
-                                                    postError = true;
-                                                    cors(req, res, () => {
-                                                        res.status(400).send(err);
-                                                    });
-                                                });
-                                                ref.child(`alerts/${alertType}`).push().set(`${time.formattedDate}: '${req.body.results[i].caption}' from '${templates[req.body.formId].title}'`).catch(err => {
-                                                    postError = true;
-                                                    cors(req, res, () => {
-                                                        res.status(400).send(err);
-                                                    });
-                                                });
-                                            }
-                                        } else {
-                                            for(var j = 0; j < req.body.results[i].results.length; j++) {
-                                                var failureCheck = false;
-                                                var statType;
-                                                var alertType;
-
-                                                if(req.body.results[i].results[j].result == "Repairs Needed") {
-                                                    failureCheck = true;
-                                                    statType = "repairsNeeded";
-                                                    alertType = "repairItems";
-                                                } else if(req.body.results[i].results[j].result == "Missing") {
-                                                    failureCheck = true;
-                                                    statType = "missing";
-                                                    alertType = "missingItems";
-                                                } else if(req.body.results[i].results[j].result == "Failed") {
-                                                    failureCheck = true;
-                                                    statType = "failed";
-                                                    alertType = "failItems";
-                                                }
-
-                                                if(failureCheck) {
-                                                    ref.child(`statistics/${time.yearMonth}/${statType}`).push().set({
-                                                        caption: req.body.results[i].results[j].caption,
-                                                        formId: templates[req.body.formId].title
-                                                    }).catch(err => {
-                                                        postError = true;
-                                                        cors(req, res, () => {
-                                                            res.status(400).send(err);
-                                                        });
-                                                    });
-                                                    ref.child(`alerts/${alertType}`).push().set(`${time.formattedDate}: '${req.body.results[i].results[j].caption}' from '${templates[req.body.formId].title}'`).catch(err => {
-                                                        postError = true;
-                                                        cors(req, res, () => {
-                                                            res.status(400).send(err);
-                                                        });
-                                                    });
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    if(!postError) {
-                                        cors(req, res, () => {
-                                            res.sendStatus(200);
-                                        });
-                                    }
-                                }).catch(err => {
-                                    cors(req, res, () => {
-                                        res.status(400).send(err);
-                                    });
-                                });
-                            }).catch(err => {
-                                cors(req, res, () => {
-                                    res.status(400).send(err);
-                                });
-                            });
-                        } else {
-                            cors(req, res, () => {
-                                res.status(403).send("The request violates the user's permission level");
-                            });
-                        }
-                    } else {
-                        cors(req, res, () => {
-                            res.status(401).send("The user is not authorized for access");
-                        });
-                    }
-                }).catch(err => {
-                    cors(req, res, () => {
-                        res.status(400).send(err);
-                    });
-                });
-            } else {
-                cors(req, res, () => {
-                    res.status(400).send("Missing parameter(s): uid, formId, results");
-                });
-            }
-            break;
-        default:
-            cors(req, res, () => {
-                res.sendStatus(404);
-            });
-            break;
-    }
-});
-
 exports.checkCompletion = functions.https.onRequest((req, res) => {
     switch(req.method) {
         case 'GET':
@@ -1062,6 +722,331 @@ exports.checkCompletion = functions.https.onRequest((req, res) => {
             } else {
                 cors(req, res, () => {
                     res.status(400).send("Missing parameter(s): uid, formId");
+                });
+            }
+            break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
+
+exports.form = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+        case 'GET':
+            if(req.query.uid && req.query.formId) {
+                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0 || auth == 1) {
+                            const formPr = ref.child(`forms/templates/${req.query.formId}`).once('value');
+                            const prevResultPr = ref.child(`forms/results/${req.query.formId}`).orderByKey().limitToLast(1).once('value');
+
+                            Promise.all([formPr, prevResultPr]).then(response => {
+                                const form = response[0].val();
+                                const prevResult = response[1].val();
+
+                                if(form) {
+                                    if(prevResult) {
+                                        var clearPrev = false;
+                                        const prevResultDatestamp = Object.keys(prevResult)[0];
+										form.prevCompletedBy = prevResult[prevResultDatestamp].completedBy;
+
+                                        if(form.inputElements) {
+                                            for(var i = 0; i < form.inputElements.length; i++) {
+                                                if(form.inputElements[i].caption != prevResult[prevResultDatestamp].results[i].caption) {
+                                                    clearPrev = true;
+                                                    break;
+												} else if(prevResult[prevResultDatestamp].results[i].result == "Repairs Needed") {
+													form.inputElements[i].prev = prevResult[prevResultDatestamp].results[i].result;
+													form.inputElements[i].prevNote = prevResult[prevResultDatestamp].results[i].note;
+                                                } else {
+                                                    form.inputElements[i].prev = prevResult[prevResultDatestamp].results[i].result;
+                                                }
+                                            }
+
+                                            if(clearPrev) {
+												delete form.prevCompletedBy;
+                                                for(var i = 0; i < form.inputElements.length; i++) {
+                                                    delete form.inputElements[i].prev;
+                                                }
+                                            }
+                                        } else {
+                                            for(var i = 0; i < form.subSections.length; i++) {
+                                                for(var j = 0; j < form.subSections[i].inputElements.length; j++) {
+                                                    if(form.subSections[i].inputElements[j].caption != prevResult[prevResultDatestamp].results[i].results[j].caption) {
+                                                        clearPrev = true;
+                                                        break;
+                                                    } else if(prevResult[prevResultDatestamp].results[i].results[j].result == "Repairs Needed"){
+                                                        form.subSections[i].inputElements[j].prev = prevResult[prevResultDatestamp].results[i].results[j].result;
+														form.subSections[i].inputElements[j].prevNote = prevResult[prevResultDatestamp].results[i].results[j].note;
+                                                    } else {
+														form.subSections[i].inputElements[j].prev = prevResult[prevResultDatestamp].results[i].results[j].result;
+													}
+                                                }
+
+                                                if(clearPrev) {
+                                                    break;
+                                                }
+                                            }
+
+                                            if(clearPrev) {
+												delete form.prevCompletedBy;
+                                                for(var i = 0; i < form.subSections.length; i++) {
+                                                    for(var j = 0; j < form.subSections[i].inputElements.length; j++) {
+                                                        delete form.subSections[i].inputElements[j].prev;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    cors(req, res, () => {
+                                        res.status(200).send(form);
+                                    });
+                                } else {
+                                    cors(req, res, () => {
+                                        res.status(400).send(`Template for '${req.query.formId}' does not exist`);
+                                    });
+                                }
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid, formId");
+                });
+            }
+            break;
+        case "POST":
+            if(req.body.uid && req.body.formId && req.body.results) {
+                ref.child(`users/${req.body.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0 || auth == 1) {
+                            const usersPr = ref.child(`users`).once('value');
+                            const templatesPr = ref.child(`forms/templates`).once('value');
+
+                            Promise.all([usersPr, templatesPr]).then(response => {
+                                const time = getTime();
+                                const users = response[0].val();
+                                const templates = response[1].val();
+
+                                ref.child(`forms/results/${req.body.formId}/${time.datestamp}`).set({
+                                    completedBy: `${users[req.body.uid].firstName} ${users[req.body.uid].lastName}`,
+                                    results: req.body.results
+                                }).then(() => {
+                                    var postError = false;
+									var repairItems = [];
+									var missingItems = [];
+									var failItems = [];
+									var emails = [];
+
+									Object.keys(users).forEach(user => {
+										if(users[user].alert) {
+											emails.push(users[user].email);
+										}
+									});
+
+                                    for(var i = 0; i < req.body.results.length; i++) {
+                                        if(req.body.results[i].result) {
+                                            var failureCheck = false;
+                                            var statType;
+                                            var alertType;
+
+                                            if(req.body.results[i].result == "Repairs Needed") {
+                                                failureCheck = true;
+                                                statType = "repairsNeeded";
+                                                alertType = "repairItems";
+												repairItems.push(`${req.body.results[i].caption}: ${req.body.results[i].note}`);
+                                            } else if(req.body.results[i].result == "Missing") {
+                                                failureCheck = true;
+                                                statType = "missing";
+                                                alertType = "missingItems";
+												missingItems.push(req.body.results[i].caption);
+                                            } else if(req.body.results[i].result == "Failed") {
+                                                failureCheck = true;
+                                                statType = "failed";
+                                                alertType = "failItems";
+												failItems.push(req.body.results[i].caption);
+                                            }
+
+                                            if(failureCheck) {
+                                                ref.child(`statistics/${time.yearMonth}/${statType}`).push().set({
+                                                    caption: req.body.results[i].caption,
+                                                    formId: templates[req.body.formId].title
+                                                }).catch(err => {
+                                                    postError = true;
+                                                    cors(req, res, () => {
+                                                        res.status(400).send(err);
+                                                    });
+                                                });
+                                                ref.child(`alerts/${alertType}`).push().set(`${time.formattedDate}: '${req.body.results[i].caption}' from '${templates[req.body.formId].title}'`).catch(err => {
+                                                    postError = true;
+                                                    cors(req, res, () => {
+                                                        res.status(400).send(err);
+                                                    });
+                                                });
+                                            }
+                                        } else {
+                                            for(var j = 0; j < req.body.results[i].results.length; j++) {
+                                                var failureCheck = false;
+                                                var statType;
+                                                var alertType;
+
+                                                if(req.body.results[i].results[j].result == "Repairs Needed") {
+                                                    failureCheck = true;
+                                                    statType = "repairsNeeded";
+                                                    alertType = "repairItems";
+													repairItems.push(`${req.body.results[i].results[j].caption}: ${req.body.results[i].results[j].note}`);
+                                                } else if(req.body.results[i].results[j].result == "Missing") {
+                                                    failureCheck = true;
+                                                    statType = "missing";
+                                                    alertType = "missingItems";
+													missingItems.push(req.body.results[i].results[j].caption);
+                                                } else if(req.body.results[i].results[j].result == "Failed") {
+                                                    failureCheck = true;
+                                                    statType = "failed";
+                                                    alertType = "failItems";
+													failItems.push(req.body.results[i].results[j].caption);
+                                                }
+
+                                                if(failureCheck) {
+                                                    ref.child(`statistics/${time.yearMonth}/${statType}`).push().set({
+                                                        caption: req.body.results[i].results[j].caption,
+                                                        formId: templates[req.body.formId].title
+                                                    }).catch(err => {
+                                                        postError = true;
+                                                        cors(req, res, () => {
+                                                            res.status(400).send(err);
+                                                        });
+                                                    });
+                                                    ref.child(`alerts/${alertType}`).push().set(`${time.formattedDate}: '${req.body.results[i].results[j].caption}' from '${templates[req.body.formId].title}'`).catch(err => {
+                                                        postError = true;
+                                                        cors(req, res, () => {
+                                                            res.status(400).send(err);
+                                                        });
+                                                    });
+                                                }
+
+												if(postError) {
+													break;
+												}
+                                            }
+                                        }
+
+										if(postError) {
+											break;
+										}
+                                    }
+
+                                    if(!postError) {
+										if(emails.length > 0) {
+											var mailOptions = {
+								                from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
+								                bcc: emails.join(),
+								                subject: `${time.formattedDate}: ${templates[req.body.formId].title}`,
+												text: ''
+								            };
+
+											if(repairItems.length > 0) {
+												mailOptions.text  += `The following item(s) need(s) repair:\n`;
+
+												for(var i = 0; i< repairItems.length; i++) {
+													mailOptions.text += `\n\t${repairItems[i]}`;
+												}
+
+												mailOptions.text += '\n\n';
+											}
+
+											if(missingItems.length > 0) {
+												mailOptions.text  += `The following item(s) is/are missing:\n`;
+
+												for(var i = 0; i< missingItems.length; i++) {
+													mailOptions.text += `\n\t${missingItems[i]}`;
+												}
+
+												mailOptions.text += '\n\n';
+											}
+
+											if(failItems.length > 0) {
+												mailOptions.text  += `The following item(s) has/have failed:\n`;
+
+												for(var i = 0; i< failItems.length; i++) {
+													mailOptions.text += `\n\t${failItems[i]}`;
+												}
+
+												mailOptions.text += '\n\n';
+											}
+
+											if(mailOptions.text != '') {
+												mailTransport.sendMail(mailOptions).then(() => {
+													cors(req, res, () => {
+			                                            res.sendStatus(200);
+			                                        });
+								                }).catch(err => {
+								                    cors(req, res, () => {
+								                        res.status(400).send(err);
+								                    });
+								                });
+											} else {
+												cors(req, res, () => {
+		                                            res.sendStatus(200);
+		                                        });
+											}
+										} else {
+	                                        cors(req, res, () => {
+	                                            res.sendStatus(200);
+	                                        });
+										}
+                                    }
+                                }).catch(err => {
+                                    cors(req, res, () => {
+                                        res.status(400).send(err);
+                                    });
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid, formId, results");
                 });
             }
             break;
@@ -1149,6 +1134,151 @@ exports.ladders = functions.https.onRequest((req, res) => {
             } else {
                 cors(req, res, () => {
                     res.status(400).send("Missing parameter(s): uid");
+                });
+            }
+            break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
+
+exports.misc = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+        case 'GET':
+            if(req.query.uid) {
+                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0 || auth == 1) {
+                            const miscPr = ref.child('inventory/miscellaneous').once('value');
+                            const intervalsPr = ref.child('forms/intervals').once('value');
+                            const resultsPr = ref.child('forms/results').once('value');
+
+                            Promise.all([miscPr, intervalsPr, resultsPr]).then(response => {
+                                var retVal = { list: [] };
+                                const time = getTime();
+                                const misc = response[0].val();
+                                const intervals = response[1].val();
+                                const results = response[2].val();
+
+                                Object.keys(misc).forEach(miscKey => {
+                                    var completedBy = 'nobody';
+                                    const formId = misc[miscKey].formId;
+
+                                    if(results && results[formId]) {
+                                        const frequency = intervals[formId].frequency;
+
+                                        if(frequency == "Daily" && results[formId][time.datestamp]) {
+                                            completedBy = results[formId][time.datestamp].completedBy;
+                                        } else if(frequency == "Weekly") {
+                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+                                            if(time.weekstamps.includes(lastTimestamp)) {
+                                                completedBy = results[formId][lastTimestamp].completedBy;
+                                            }
+                                        } else if(frequency == "Monthly") {
+                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+                                            if(lastTimestamp.substring(0,6) == time.yearMonth) {
+                                                completedBy = results[formId][lastTimestamp].completedBy;
+                                            }
+                                        }
+                                    }
+
+                                    retVal.list.push({
+                                        name: misc[miscKey].name,
+                                        formId: formId,
+                                        completedBy: completedBy
+                                    });
+                                });
+
+                                cors(req, res, () => {
+                                    res.status(200).send(retVal);
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid");
+                });
+            }
+            break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
+
+exports.results = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+        case 'GET':
+            if(req.query.uid && req.query.formId) {
+                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0 || auth == 1) {
+                            const titlePr = ref.child(`forms/templates/${req.query.formId}/title`).once('value');
+                            const resultPr = ref.child(`forms/results/${req.query.formId}`).orderByKey().limitToLast(1).once('value');
+
+                            Promise.all([titlePr, resultPr]).then(response => {
+                                const title = response[0].val();
+                                const result = response[1].val();
+                                const datestamp = Object.keys(result)[0];
+
+                                cors(req, res, () => {
+                                    res.status(200).send({
+                                        completedBy: result[datestamp].completedBy,
+                                        datestamp: `${datestamp.substring(4,6)}/${datestamp.substring(6,8)}/${datestamp.substring(0,4)}`,
+                                        results: result[datestamp].results,
+                                        title: title,
+                                    });
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid, formId");
                 });
             }
             break;
@@ -1334,93 +1464,6 @@ exports.stretchers = functions.https.onRequest((req, res) => {
     }
 });
 
-exports.misc = functions.https.onRequest((req, res) => {
-    switch(req.method) {
-        case 'GET':
-            if(req.query.uid) {
-                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
-                    const auth = authSnap.val();
-                    if(auth !== null) {
-                        if(auth == 0 || auth == 1) {
-                            const miscPr = ref.child('inventory/miscellaneous').once('value');
-                            const intervalsPr = ref.child('forms/intervals').once('value');
-                            const resultsPr = ref.child('forms/results').once('value');
-
-                            Promise.all([miscPr, intervalsPr, resultsPr]).then(response => {
-                                var retVal = { list: [] };
-                                const time = getTime();
-                                const misc = response[0].val();
-                                const intervals = response[1].val();
-                                const results = response[2].val();
-
-                                Object.keys(misc).forEach(miscKey => {
-                                    var completedBy = 'nobody';
-                                    const formId = misc[miscKey].formId;
-
-                                    if(results && results[formId]) {
-                                        const frequency = intervals[formId].frequency;
-
-                                        if(frequency == "Daily" && results[formId][time.datestamp]) {
-                                            completedBy = results[formId][time.datestamp].completedBy;
-                                        } else if(frequency == "Weekly") {
-                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
-
-                                            if(time.weekstamps.includes(lastTimestamp)) {
-                                                completedBy = results[formId][lastTimestamp].completedBy;
-                                            }
-                                        } else if(frequency == "Monthly") {
-                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
-
-                                            if(lastTimestamp.substring(0,6) == time.yearMonth) {
-                                                completedBy = results[formId][lastTimestamp].completedBy;
-                                            }
-                                        }
-                                    }
-
-                                    retVal.list.push({
-                                        name: misc[miscKey].name,
-                                        formId: formId,
-                                        completedBy: completedBy
-                                    });
-                                });
-
-                                cors(req, res, () => {
-                                    res.status(200).send(retVal);
-                                });
-                            }).catch(err => {
-                                cors(req, res, () => {
-                                    res.status(400).send(err);
-                                });
-                            });
-                        } else {
-                            cors(req, res, () => {
-                                res.status(403).send("The request violates the user's permission level");
-                            });
-                        }
-                    } else {
-                        cors(req, res, () => {
-                            res.status(401).send("The user is not authorized for access");
-                        });
-                    }
-                }).catch(err => {
-                    cors(req, res, () => {
-                        res.status(400).send(err);
-                    });
-                });
-            } else {
-                cors(req, res, () => {
-                    res.status(400).send("Missing parameter(s): uid");
-                });
-            }
-            break;
-        default:
-            cors(req, res, () => {
-                res.sendStatus(404);
-            });
-            break;
-    }
-});
-
 exports.toDoList = functions.https.onRequest((req, res) => {
     switch(req.method) {
         case 'GET':
@@ -1536,30 +1579,117 @@ exports.toDoList = functions.https.onRequest((req, res) => {
     }
 });
 
-exports.results = functions.https.onRequest((req, res) => {
+exports.userInfo = functions.https.onRequest((req, res) => {
     switch(req.method) {
         case 'GET':
-            if(req.query.uid && req.query.formId) {
+            if(req.query.uid) {
                 ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0 || auth == 1) {
-                            const titlePr = ref.child(`forms/templates/${req.query.formId}/title`).once('value');
-                            const resultPr = ref.child(`forms/results/${req.query.formId}`).orderByKey().limitToLast(1).once('value');
+							ref.child(`users/${req.query.uid}`).once('value').then(userSnap => {
+								cors(req, res, () => {
+			                        res.status(200).send(userSnap.val());
+			                    });
+							}).catch(err => {
+								cors(req, res, () => {
+			                        res.status(400).send(err);
+			                    });
+							});
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid");
+                });
+            }
+            break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
 
-                            Promise.all([titlePr, resultPr]).then(response => {
-                                const title = response[0].val();
-                                const result = response[1].val();
-                                const datestamp = Object.keys(result)[0];
+exports.vehicleCompartments = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+        case 'GET':
+            if(req.query.uid && req.query.vehicleId) {
+                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0 || auth == 1) {
+                            ref.child(`inventory/vehicles/${req.query.vehicleId}/compartments`).once('value').then(compartmentsSnap => {
+                                const compartments = compartmentsSnap.val();
 
-                                cors(req, res, () => {
-                                    res.status(200).send({
-                                        completedBy: result[datestamp].completedBy,
-                                        datestamp: `${datestamp.substring(4,6)}/${datestamp.substring(6,8)}/${datestamp.substring(0,4)}`,
-                                        results: result[datestamp].results,
-                                        title: title,
+                                if(compartments) {
+                                    const intervalsPr = ref.child('forms/intervals').once('value');
+                                    const resultsPr = ref.child('forms/results').once('value');
+
+                                    Promise.all([intervalsPr, resultsPr]).then(response => {
+                                        var retVal = { list: [] };
+                                        const time = getTime();
+                                        const intervals = response[0].val();
+                                        const results = response[1].val();
+
+                                        Object.keys(compartments).forEach(compartmentKey => {
+                                            var completedBy = 'nobody';
+                                            const formId = compartments[compartmentKey].formId;
+
+                                            if(results && results[formId]) {
+                                                const frequency = intervals[req.query.vehicleId].frequency;
+
+                                                if(frequency == "Daily" && results[formId][time.datestamp]) {
+                                                    completedBy = results[formId][time.datestamp].completedBy;
+                                                } else if(frequency == "Weekly") {
+                                                    const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+                                                    if(time.weekstamps.includes(lastTimestamp)) {
+                                                        completedBy = results[formId][lastTimestamp].completedBy;
+                                                    }
+                                                } else if(frequency == "Monthly") {
+                                                    const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+                                                    if(lastTimestamp.substring(0,6) == time.yearMonth) {
+                                                        completedBy = results[formId][lastTimestamp].completedBy;
+                                                    }
+                                                }
+                                            }
+
+                                            retVal.list.push({
+                                                name: compartments[compartmentKey].name,
+                                                formId: formId,
+                                                completedBy: completedBy
+                                            });
+                                        });
+
+                                        cors(req, res, () => {
+                                            res.status(200).send(retVal);
+                                        });
+                                    }).catch(err => {
+                                        cors(req, res, () => {
+                                            res.status(400).send(err);
+                                        });
                                     });
-                                });
+                                } else {
+                                    cors(req, res, () => {
+                                        res.status(400).send(`Compartments for '${req.query.vehicleId}' do not exist`);
+                                    });
+                                }
                             }).catch(err => {
                                 cors(req, res, () => {
                                     res.status(400).send(err);
@@ -1582,7 +1712,7 @@ exports.results = functions.https.onRequest((req, res) => {
                 });
             } else {
                 cors(req, res, () => {
-                    res.status(400).send("Missing parameter(s): uid, formId");
+                    res.status(400).send("Missing parameter(s): uid, vehicleId");
                 });
             }
             break;
@@ -1595,126 +1725,689 @@ exports.results = functions.https.onRequest((req, res) => {
 });
 // END: API App Functions-------------------------------------------------------
 
-/*
+// BEGIN: API Admin Portal Functions--------------------------------------------
 exports.home = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+        case 'GET':
+            if(req.query.uid) {
+                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0) {
+							const usersPr = ref.child('users').once('value');
+							const alertsPr = ref.child('alerts').once('value');
+							const inventoryPr = ref.child('inventory').once('value');
+							const resultsPr = ref.child('forms/results').once('value');
+							const intervalsPr = ref.child('forms/intervals').once('value');
+
+							Promise.all([usersPr, alertsPr, inventoryPr, resultsPr, intervalsPr]).then(response => {
+								const time = getTime();
+								var retVal = {
+									totalUsers: response[0].numChildren(),
+									alerts: response[1].val(),
+									totalReports: 0,
+									reportsToDo: 0,
+									toDoList: []
+								};
+								const inventory = response[2].val();
+								const results = response[3].val();
+								const intervals = response[4].val();
+
+								Object.keys(inventory).forEach(itemType => {
+                                    Object.keys(inventory[itemType]).forEach(item => {
+										if(intervals[item].days[time.weekday]) {
+											retVal.totalReports++;
+
+	                                        if(itemType == "vehicles") {
+												var complete = true;
+
+	                                            Object.keys(inventory[itemType][item].compartments).forEach(compartment => {
+													if(complete) {
+														const formId = inventory[itemType][item].compartments[compartment].formId;
+														const frequency = intervals[formId].frequency;
+
+														if(results && results[formId]) {
+															if(frequency == "Daily" && !Object.keys(results[formId]).includes(time.datestamp)) {
+					                                            complete = false;
+					                                        } else if(frequency == "Weekly") {
+					                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+					                                            if(!time.weekstamps.includes(lastTimestamp)) {
+					                                                complete = false;
+					                                            }
+					                                        } else if(frequency == "Monthly") {
+					                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+					                                            if(lastTimestamp.substring(0,6) != time.yearMonth) {
+					                                                complete = false;
+					                                            }
+					                                        }
+														} else {
+															complete = false;
+														}
+													}
+	                                            });
+
+												if(!complete) {
+													retVal.reportsToDo++;
+												}
+
+												retVal.toDoList.push({
+													title: inventory[itemType][item].name,
+													complete: complete
+												});
+	                                        } else {
+												const formId = inventory[itemType][item].formId;
+												const frequency = intervals[formId].frequency;
+												var complete = false;
+
+												if(results && results[formId]) {
+													if(frequency == "Daily" && results[formId][time.datestamp]) {
+			                                            complete = true;
+			                                        } else if(frequency == "Weekly") {
+			                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+			                                            if(time.weekstamps.includes(lastTimestamp)) {
+			                                                complete = true;
+			                                            }
+			                                        } else if(frequency == "Monthly") {
+			                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+			                                            if(lastTimestamp.substring(0,6) == time.yearMonth) {
+			                                                complete = true;
+			                                            }
+			                                        }
+												}
+
+												if(!complete) {
+													retVal.reportsToDo++;
+												}
+
+												retVal.toDoList.push({
+													title: inventory[itemType][item].name,
+													complete: complete
+												});
+	                                        }
+										}
+                                    });
+                                });
+
+								cors(req, res, () => {
+			                        res.status(200).send(retVal);
+			                    });
+							}).catch(err => {
+								cors(req, res, () => {
+			                        res.status(400).send(err);
+			                    });
+							});
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid");
+                });
+            }
+            break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
+
+exports.resetPassword = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+        case 'POST':
+            if(req.body.uid && req.body.user) {
+                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0) {
+							firebase.auth().sendPasswordResetEmail(req.body.user.email).then(() => {
+								cors(req, res, () => {
+			                        res.sendStatus(200);
+			                    });
+							}).catch(err => {
+								cors(req, res, () => {
+			                        res.status(400).send(err);
+			                    });
+							});
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid, user");
+                });
+            }
+            break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
+
+exports.users = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+        case 'GET':
+            if(req.query.uid) {
+                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0) {
+							ref.child('users').once('value').then(usersSnap => {
+								var retVal = { list:[] };
+
+								usersSnap.forEach(userSnap => {
+									var user = userSnap.val();
+
+									user.uid = userSnap.key;
+									if(user.authentication == 0) {
+										user.type = "administrator";
+									} else {
+										user.type = "user";
+									}
+
+									delete user.authentication;
+
+									retVal.list.push(user);
+								});
+
+								cors(req, res, () => {
+			                        res.status(200).send(retVal);
+			                    });
+							}).catch(err => {
+								cors(req, res, () => {
+			                        res.status(400).send(err);
+			                    });
+							});
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid");
+                });
+            }
+            break;
+		case 'POST':
+			if(req.body.uid && req.body.user) {
+                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0) {
+							var user = req.body.user;
+							admin.auth().getUser(user.uid).then(userRecord => {
+								if(user.email != userRecord.email) {
+									admin.auth().updateUser(user.uid, {
+										email: user.email
+									}).then(() => {
+										const uid = user.uid;
+
+										if(user.type == "administrator") {
+											user.authentication = 0;
+										} else {
+											user.authentication = 1;
+										}
+										delete user.type;
+										delete user.uid;
+
+										ref.child(`users/${uid}`).set(user).then(() => {
+											cors(req, res, () => {
+												res.sendStatus(200);
+											});
+										}).catch(err => {
+											cors(req, res, () => {
+						                        res.status(400).send(err);
+						                    });
+										});
+									}).catch(err => {
+										cors(req, res, () => {
+					                        res.status(400).send(err);
+					                    });
+									});
+								} else {
+									const uid = user.uid;
+
+									if(user.type == "administrator") {
+										user.authentication = 0;
+									} else {
+										user.authentication = 1;
+									}
+									delete user.type;
+									delete user.uid;
+
+									ref.child(`users/${uid}`).set(user).then(() => {
+										cors(req, res, () => {
+											res.sendStatus(200);
+										});
+									}).catch(err => {
+										cors(req, res, () => {
+					                        res.status(400).send(err);
+					                    });
+									});
+								}
+							}).catch(() => {
+								admin.auth().getUserByEmail(user.email).then(() => {
+									cors(req, res, () => {
+				                        res.status(400).send("The email provided already exists.");
+				                    });
+								}).catch(() => {
+									admin.auth().createUser({
+										email: user.email,
+										emailVerified: true
+									}).then(userRecord => {
+										firebase.auth().sendPasswordResetEmail(user.email).then(() => {
+											if(user.type == "administrator") {
+												user.authentication = 0;
+											} else {
+												user.authentication = 1;
+											}
+											delete user.type;
+
+											ref.child(`users/${userRecord.uid}`).set(user).then(() => {
+												cors(req, res, () => {
+													res.sendStatus(200);
+												});
+											}).catch(err => {
+												cors(req, res, () => {
+							                        res.status(400).send(err);
+							                    });
+											});
+										}).catch(err => {
+											cors(req, res, () => {
+						                        res.status(400).send(err);
+						                    });
+										});
+									}).catch(err => {
+										cors(req, res, () => {
+					                        res.status(400).send(err);
+					                    });
+									});
+								});
+							});
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid, user");
+                });
+            }
+			break;
+		case 'DELETE':
+			if(req.body.uid && req.body.user) {
+                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0) {
+							var user = req.body.user;
+							admin.auth().getUser(user.uid).then(userRecord => {
+								admin.auth().deleteUser(user.uid).then(() => {
+									ref.child(`users/${user.uid}`).set(null).then(() => {
+										cors(req, res, () => {
+					                        res.sendStatus(200);
+					                    });
+									}).catch(err => {
+										cors(req, res, () => {
+					                        res.status(400).send(err);
+					                    });
+									});
+								}).catch(err => {
+									cors(req, res, () => {
+				                        res.status(400).send(err);
+				                    });
+								});
+							}).catch(err => {
+								cors(req, res, () => {
+			                        res.status(400).send(err);
+			                    });
+							});
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid, user");
+                });
+            }
+			break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
+// END: API Admin Portal Functions----------------------------------------------
+
+// BEGIN: API Automated Functions-----------------------------------------------
+exports.sendIncompleteFormsEmail = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+        case 'GET':
+			ref.child('users').once('value').then(usersSnap => {
+				var emails = [];
+
+				usersSnap.forEach(userSnap => {
+					const user = userSnap.val();
+					if(user.alert) {
+						emails.push(user.email);
+					}
+				});
+
+				if(emails.length > 0) {
+					const inventoryPr = ref.child('inventory').once('value');
+					const resultsPr = ref.child('forms/results').once('value');
+					const intervalsPr = ref.child('forms/intervals').once('value');
+
+					Promise.all([inventoryPr, resultsPr, intervalsPr]).then(response => {
+						var toDoList = [];
+						const time = getTime();
+						const inventory = response[0].val();
+						const results = response[1].val();
+						const intervals = response[2].val();
+
+						Object.keys(inventory).forEach(itemType => {
+		                    Object.keys(inventory[itemType]).forEach(item => {
+								if(intervals[item].days[time.weekday]) {
+		                            if(itemType == "vehicles") {
+										var complete = true;
+
+		                                Object.keys(inventory[itemType][item].compartments).forEach(compartment => {
+											if(complete) {
+												const formId = inventory[itemType][item].compartments[compartment].formId;
+												const frequency = intervals[formId].frequency;
+
+												if(results && results[formId]) {
+													if(frequency == "Daily" && !Object.keys(results[formId]).includes(time.datestamp)) {
+			                                            complete = false;
+			                                        } else if(frequency == "Weekly") {
+			                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+			                                            if(!time.weekstamps.includes(lastTimestamp)) {
+			                                                complete = false;
+			                                            }
+			                                        } else if(frequency == "Monthly") {
+			                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+			                                            if(lastTimestamp.substring(0,6) != time.yearMonth) {
+			                                                complete = false;
+			                                            }
+			                                        }
+												} else {
+													complete = false;
+												}
+											}
+		                                });
+
+										if(!complete) {
+											toDoList.push(inventory[itemType][item].name);
+										}
+		                            } else {
+										const formId = inventory[itemType][item].formId;
+										const frequency = intervals[formId].frequency;
+										var complete = false;
+
+										if(results && results[formId]) {
+											if(frequency == "Daily" && results[formId][time.datestamp]) {
+		                                        complete = true;
+		                                    } else if(frequency == "Weekly") {
+		                                        const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+		                                        if(time.weekstamps.includes(lastTimestamp)) {
+		                                            complete = true;
+		                                        }
+		                                    } else if(frequency == "Monthly") {
+		                                        const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+
+		                                        if(lastTimestamp.substring(0,6) == time.yearMonth) {
+		                                            complete = true;
+		                                        }
+		                                    }
+										}
+
+										if(!complete) {
+											toDoList.push(inventory[itemType][item].name);
+										}
+		                            }
+								}
+		                    });
+		                });
+
+						if(toDoList.length > 0) {
+			                var mailOptions = {
+			                    from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
+			                    bcc: emails.join(),
+			                    subject: `${time.formattedDate}: Incomplete Forms`,
+			                    text: `The following form(s) are incomplete for ${time.formattedDate}:\n`
+			                };
+
+			                for(var i = 0; i < toDoList.length; i++) {
+								if(i == toDoList.length - 1) {
+									mailOptions.text += `\n\t${toDoList[i]}`;
+								} else {
+			                    	mailOptions.text += `\n\t${toDoList[i]}, `;
+								}
+			                }
+
+			                mailTransport.sendMail(mailOptions).then(() => {
+								admin.database().ref('alerts/incompleteForms').push().set(mailOptions.text).then(() => {
+									cors(req, res, () => {
+				                        res.sendStatus(200);
+				                    });
+								}).catch(err => {
+									cors(req, res, () => {
+				                        res.status(400).send(err);
+				                    });
+								});
+			                }).catch(err => {
+			                    cors(req, res, () => {
+			                        res.status(400).send(err);
+			                    });
+			                });
+			            } else {
+			                cors(req, res, () => {
+			                    res.sendStatus(200);
+			                });
+			            }
+					});
+				} else {
+					cors(req, res, () => {
+	                    res.sendStatus(200);
+	                });
+				}
+			}).catch(err => {
+				cors(req, res, () => {
+                    res.status(400).send(err);
+                });
+			});
+            break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
+// END: API Automated Functions-------------------------------------------------
+/*
+exports.dismissAlert = functions.https.onRequest((req, res) => {
+    if(req.method == "POST") {
+        if(req.query.uid && req.query.type && req.query.key) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0) {
+                        admin.database().ref(`alerts/${req.query.type}/${req.query.key}`).set(null).then(() => {
+                            cors(req, res, () => {
+                                res.sendStatus(200);
+                            });
+                        }).catch(err => {
+                            cors(req, res, () => {
+                                res.status(400).send(err);
+                            });
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing parameter(s): uid, type, key");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
+
+exports.availableYears = functions.https.onRequest((req, res) => {
     if(req.method == "GET") {
         if(req.query.uid) {
             getAuth(req.query.uid, function(auth) {
                 if(auth != 401) {
                     if(auth == 0) {
-                        admin.database().ref('/').once('value', function(snap) {
-                            // initialize data variables
-                            var root = snap.val();
-                            var intervals = root.forms.intervals;
-                            var results = root.forms.results;
-                            var templates = root.forms.templates;
-                            var inventory = root.inventory;
-                            var users = root.users;
-                            var forms = Object.keys(intervals);
-                            var time = getTime();
+                        admin.database().ref('forms/results').once('value').then(resultsSnap => {
+                            var results = resultsSnap.val();
+                            var years = {};
+                            var availableYears = [];
 
-                            // initialize return variables
-                            var totalUsers = Object.keys(users).length;
-                            var totalReports = 0;
-                            var reportsToDo = 0;
-                            var toDoList = [];
+                            if(results) {
+                                resultsSnap.forEach(formSnap => {
+                                    formSnap.forEach(dateSnap => {
+                                        years[dateSnap.key.substring(0,4)] = true;
+                                    });
+                                });
 
-                            // run through available forms and add to counters and todo list
-                            for(var i = 0; i < Object.keys(inventory).length; i++) {
-                                var itemType = Object.keys(inventory)[i];
-                                for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
-                                    var itemKey = Object.keys(inventory[itemType])[j];
-                                    if(inventory[itemType][itemKey].compartments) {
-                                        var compartments = inventory[itemType][itemKey].compartments;
-                                        var push = false;
-                                        var complete = true;
-
-                                        for(var k = 0; k < Object.keys(compartments).length; k++) {
-                                            var formId = compartments[Object.keys(compartments)[k]].formId;
-                                            for(var l = 0; l < formId.length; l++) {
-                                                if(intervals[formId[l]].days[time.weekday]) {
-                                                    push = true;
-
-                                                    if(results && results[formId[l]]) {
-                                                        var frequency = intervals[formId[l]].frequency;
-                                                        var timestamps = Object.keys(results[formId[l]]);
-
-                                                        if(frequency == "Daily" && !timestamps.includes(time.datestamp)) {
-                                                            complete = false;
-                                                            break;
-                                                        } else if(frequency == "Weekly" && !time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                                            complete = false;
-                                                            break;
-                                                        } else if(frequency == "Monthly" && !timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                                            complete = false;
-                                                            break;
-                                                        }
-                                                    } else {
-                                                        complete = false;
-                                                        break;
-                                                    }
-                                                }
-                                            }
-
-                                            if(!complete) {
-                                                reportsToDo++;
-                                                break;
-                                            }
-                                        }
-
-                                        if(push) {
-                                            totalReports++;
-                                            toDoList.push({
-                                                "title": inventory[itemType][itemKey].name,
-                                                "complete": complete
-                                            });
-                                        }
-                                    } else {
-                                        var formId = inventory[itemType][itemKey].formId;
-                                        for(var l = 0; l < formId.length; l++) {
-                                            if(intervals[formId[l]].days[time.weekday]) {
-                                                var complete = false;
-
-                                                if(results && results[formId[l]]) {
-                                                    var frequency = intervals[formId[l]].frequency;
-                                                    var timestamps = Object.keys(results[formId[l]]);
-
-                                                    if(frequency == "Daily" && timestamps.includes(time.datestamp)) {
-                                                        complete = true;
-                                                    } else if(frequency == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                                        complete = true;
-                                                    } else if(frequency == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                                        complete = true;
-                                                    }
-                                                }
-
-                                                if(!complete) {
-                                                    reportsToDo++;
-                                                }
-
-                                                totalReports++;
-                                                toDoList.push({
-                                                    "title": templates[formId[l]].title,
-                                                    "complete": complete
-                                                });
-                                            }
-                                        }
+                                Object.keys(years).forEach(year => {
+                                    if(years[year]) {
+                                        availableYears.push(year);
                                     }
-                                }
+                                })
+
+                                cors(req, res, () => {
+                                    res.status(200).send(availableYears);
+                                });
+                            } else {
+                                cors(req, res, () => {
+                                    res.status(200).send([]);
+                                });
                             }
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' parameter");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
 
-                            // create JSON response object
-                            var home = {
-                                "totalUsers": totalUsers,
-                                "totalReports": totalReports,
-                                "reportsToDo": reportsToDo,
-                                "toDoList": toDoList,
-                                "alerts": root.alerts
-                            };
-
-                            // send response
+exports.clearReports = functions.https.onRequest((req, res) => {
+    if(req.method == "DELETE") {
+        if(req.body.uid) {
+            getAuth(req.body.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0) {
+                        admin.database().ref('forms/results').set(null).then(() => {
+                            admin.database().ref('statistics').set(null).then(() => {
+                                cors(req, res, () => {
+                                    res.sendStatus(200);
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
+                        }).catch(err => {
                             cors(req, res, () => {
-                                res.status(200).send(home);
+                                res.status(400).send(err);
                             });
                         });
                     } else {
@@ -1731,6 +2424,457 @@ exports.home = functions.https.onRequest((req, res) => {
         } else {
             cors(req, res, () => {
                 res.status(400).send("Missing 'uid' parameter");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
+
+exports.downloadReport = functions.https.onRequest((req, res) => {
+    if(req.method == "POST") {
+        if(req.body) {
+            var body = req.body;
+            if(body.uid && body.report) {
+                getAuth(body.uid, function(auth) {
+                    if(auth != 401) {
+                        if(auth == 0) {
+                            var report = body.report;
+                            var completedDays = [];
+                            var csvReport = `"Compartment","Caption"`;
+
+                            for(var i = 0; i < Object.keys(report.days).length; i++) {
+                                if(report.days[Object.keys(report.days)[i]]) {
+                                    completedDays.push(Object.keys(report.days)[i]);
+                                    csvReport+=`,"${Object.keys(report.days)[i].charAt(0).toUpperCase() + Object.keys(report.days)[i].slice(1)}"`;
+                                }
+                            }
+
+                            for(var i = 0; i < report.data.rows.length; i++) {
+                                csvReport += `\n"${report.data.rows[i].compartment}","${report.data.rows[i].item}"`;
+
+                                for(var j = 0; j < completedDays.length; j++) {
+                                    csvReport += `,"'${report.data.rows[i][completedDays[j]].result}' ${report.data.rows[i][completedDays[j]].completedBy}"`;
+                                }
+                            }
+
+                            cors(req, res, () => {
+                                res.status(200).send(csvReport);
+                            });
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send('The user is not authorized for access');
+                        });
+                    }
+                });
+            } else if(body.uid && !body.report) {
+                cors(req, res, () => {
+                    res.status(400).send("Missing 'report' parameter");
+                });
+            } else if(!body.uid && body.report) {
+                cors(req, res, () => {
+                    res.status(400).send("Missing 'uid' parameter");
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing 'uid' and 'report' parameter");
+                });
+            }
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing request body");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
+
+exports.downloadReports = functions.https.onRequest((req, res) => {
+    if(req.method == "GET") {
+        if(req.query.uid && req.query.year) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0) {
+                        admin.database().ref().once('value').then(rootSnap => {
+                            getAllReports(req.query.year, reports => {
+                                cors(req, res, () => {
+                                    var root = rootSnap.val();
+
+                                    res.writeHead(200, {
+                                        'Content-Type': 'application/zip',
+                                        'Content-disposition': `attachment; filename=${req.query.year}.zip`
+                                    });
+
+                                    var zip = archiver('zip');
+                                    zip.pipe(res);
+
+                                    zip.append(JSON.stringify(root), { name: 'Database/firebase.json' });
+
+                                    for(var i = 0; i < reports.reports.length; i++) {
+                                        var name;
+
+                                        if(reports.reports[i].name.includes('/')) {
+                                            name = `${reports.reports[i].folder}/${reports.reports[i].name.substring(0,reports.reports[i].name.indexOf('/'))}.csv`;
+                                        } else {
+                                            name = `${reports.reports[i].folder}/${reports.reports[i].name}.csv`;
+                                        }
+
+                                        zip.append(generateCSV(reports.reports[i]), { name: name });
+                                    }
+
+                                    zip.finalize();
+                                });
+                            });
+                        }).catch(err => {
+                            cors(req, res, () => {
+                                res.status(400).send(err);
+                            });
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' or 'year' parameter");
+            });
+        }
+    } else {
+        cors(req, res, () => {
+            res.sendStatus(404);
+        });
+    }
+});
+
+exports.listReports = functions.https.onRequest((req, res) => {
+    if(req.method == "GET") {
+        if(req.query.uid) {
+            getAuth(req.query.uid, function(auth) {
+                if(auth != 401) {
+                    if(auth == 0) {
+                        admin.database().ref('/').once('value', function(snap) {
+                            // initialize data variables
+                            var root = snap.val();
+                            var templates = root.forms.templates;
+                            var intervals = root.forms.intervals;
+                            var inventory = root.inventory;
+
+                            var reportsList = {
+                                "list": []
+                            }
+
+                            for(var i = 0; i < Object.keys(inventory).length; i++) {
+                                var itemType = Object.keys(inventory)[i];
+                                for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
+                                    var itemKey = Object.keys(inventory[itemType])[j];
+
+                                    if(inventory[itemType][itemKey].compartments) {
+                                        var listItem = {
+                                            "id": itemKey,
+                                            "itemCategory": itemType,
+                                            "interval": intervals[itemKey],
+                                            "template": {
+                                                "title": inventory[itemType][itemKey].name,
+                                                "subSections": []
+                                            }
+                                        };
+
+                                        for(var k = 0; k < Object.keys(inventory[itemType][itemKey].compartments).length; k++) {
+                                            var compartmentKey = Object.keys(inventory[itemType][itemKey].compartments)[k];
+                                            for(var l = 0; l < inventory[itemType][itemKey].compartments[compartmentKey].formId.length; l++) {
+                                                var formId = inventory[itemType][itemKey].compartments[compartmentKey].formId[l];
+                                                templates[formId].id = formId;
+                                                listItem.template.subSections.push(templates[formId]);
+                                            }
+                                        }
+
+                                        reportsList.list.push(listItem);
+                                    } else {
+                                        for(var k = 0; k < inventory[itemType][itemKey].formId.length; k++) {
+                                            var formId = inventory[itemType][itemKey].formId[k];
+
+                                            reportsList.list.push({
+                                                "id": formId,
+                                                "itemCategory": itemType,
+                                                "interval": intervals[formId],
+                                                "template": templates[formId]
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+
+                            // send response
+                            cors(req, res, () => {
+                                res.status(200).send(reportsList);
+                            });
+                        });
+                    } else {
+                        cors(req, res, () => {
+                            res.status(403).send("The request violates the user's permission level");
+                        });
+                    }
+                } else {
+                    cors(req, res, () => {
+                        res.status(401).send('The user is not authorized for access');
+                    });
+                }
+            });
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing 'uid' parameter");
+            });
+        }
+    } else if(req.method == "POST") {
+        if(req.body) {
+            var body = req.body;
+            if(body.uid && body.report) {
+                getAuth(body.uid, function(auth) {
+                    if(auth != 401) {
+                        if(auth == 0) {
+                            const report = body.report;
+
+                            if(report.template.inputElements) {
+                                if(report.id) {
+                                    admin.database().ref(`forms/intervals/${report.id}`).set(report.interval).then(() => {
+                                        admin.database().ref(`forms/templates/${report.id}`).set(report.template).then(() => {
+                                            cors(req, res, () => {
+                                                res.sendStatus(200);
+                                            });
+                                        }).catch(err => {
+                                            cors(req, res, () => {
+                                                res.status(400).send(err);
+                                            });
+                                        });
+                                    }).catch(err => {
+                                        cors(req, res, () => {
+                                            res.status(400).send(err);
+                                        });
+                                    });
+                                }
+                            } else if(report.itemCategory == "vehicles") {
+                                if(report.id) {
+                                    admin.database().ref(`forms/intervals/${report.id}`).set(report.interval).then(() => {
+                                        admin.database().ref(`inventory/vehicles/${report.id}/compartments`).once('value').then(compartmentSnap => {
+                                            var compartments = Object.keys(compartmentSnap.val());
+                                            var oldCompartments = {};
+
+                                            compartments.forEach(key => {
+                                                oldCompartments[key] = true;
+                                            });
+
+                                            for(var i = 0; i < report.template.subSections.length; i++) {
+                                                if(report.template.subSections[i].id) {
+                                                    oldCompartments[report.template.subSections[i].id] = false;
+                                                    admin.database().ref(`forms/intervals/${report.template.subSections[i].id}`).set(report.interval);
+                                                    admin.database().ref(`forms/templates/${report.template.subSections[i].id}`).set({
+                                                        inputElements: report.template.subSections[i].inputElements,
+                                                        title: `${report.template.title} - ${report.template.subSections[i].title}`
+                                                    });
+                                                } else {
+                                                    var newKey = admin.database().ref(`forms/intervals`).push().key;
+
+                                                    if(newKey) {
+                                                        admin.database().ref(`forms/intervals/${newKey}`).set(report.interval);
+                                                        admin.database().ref(`forms/templates/${newKey}`).set({
+                                                            inputElements: report.template.subSections[i].inputElements,
+                                                            title: `${report.template.title} - ${report.template.subSections[i].title}`
+                                                        });
+                                                        admin.database().ref(`inventory/vehicles/${report.id}/compartments/${newKey}`).set({
+                                                            formId: [newKey],
+                                                            name: report.template.subSections[i].title
+                                                        });
+                                                    }
+                                                }
+                                            }
+
+                                            Object.keys(oldCompartments).forEach(formId => {
+                                                if(oldCompartments[formId]) {
+                                                    admin.database().ref(`forms/intervals/${formId}`).set(null);
+                                                    admin.database().ref(`forms/templates/${formId}`).set(null);
+                                                    admin.database().ref(`inventory/vehicles/${report.id}/compartments/${formId}`).set(null);
+                                                }
+                                            });
+
+                                            cors(req, res, () => {
+                                                res.sendStatus(200);
+                                            });
+                                        });
+                                    }).catch(err => {
+                                        cors(req, res, () => {
+                                            res.status(400).send(err);
+                                        });
+                                    });
+                                } else {
+                                    var newVehicleKey = admin.database().ref('inventory/vehicles').push().key;
+
+                                    if(newVehicleKey) {
+                                        admin.database().ref(`inventory/vehicles/${newVehicleKey}`).set({
+                                            name: report.template.title
+                                        }).then(() => {
+                                            admin.database().ref(`forms/intervals/${newVehicleKey}`).set(report.interval).then(() => {
+                                                for(var i = 0; i < report.template.subSections.length; i++) {
+                                                    var newKey = admin.database().ref(`inventory/vehicles/${newVehicleKey}`).push().key;
+
+                                                    if(newKey) {
+                                                        admin.database().ref(`inventory/vehicles/${newVehicleKey}/compartments/${newKey}`).set({
+                                                            formId: [newKey],
+                                                            name: report.template.subSections[i].title
+                                                        });
+                                                        admin.database().ref(`forms/intervals/${newKey}`).set(report.interval);
+                                                        admin.database().ref(`forms/templates/${newKey}`).set({
+                                                            inputElements: report.template.subSections[i].inputElements,
+                                                            title: `${report.template.title} - ${report.template.subSections[i].title}`
+                                                        });
+                                                    }
+                                                }
+
+                                                cors(req, res, () => {
+                                                    res.sendStatus(200);
+                                                });
+                                            });
+                                        });
+                                    }
+                                }
+                            } else {
+                                if(report.id) {
+                                    admin.database().ref(`forms/intervals/${report.id}`).set(report.interval).then(() => {
+                                        admin.database().ref(`forms/templates/${report.id}`).set(report.template).then(() => {
+                                            cors(req, res, () => {
+                                                res.sendStatus(200);
+                                            });
+                                        }).catch(err => {
+                                            cors(req, res, () => {
+                                                res.status(400).send(err);
+                                            });
+                                        });
+                                    }).catch(err => {
+                                        cors(req, res, () => {
+                                            res.status(400).send(err);
+                                        });
+                                    });
+                                } else {
+                                    var newKey = admin.database().ref('forms/intervals').push().key;
+
+                                    if(newKey) {
+                                        admin.database().ref(`forms/intervals/${newKey}`).set(report.interval).then(() => {
+                                            admin.database().ref(`forms/templates/${newKey}`).set(report.template).then(() => {
+                                                admin.database().ref(`inventory/${report.itemCategory}/${newKey}`).set({
+                                                    formId: [newKey],
+                                                    name: report.template.title
+                                                }).then(() => {
+                                                    cors(req, res, () => {
+                                                        res.sendStatus(200);
+                                                    });
+                                                }).catch(err => {
+                                                    cors(req, res, () => {
+                                                        res.status(400).send(err);
+                                                    });
+                                                });
+                                            }).catch(err => {
+                                                cors(req, res, () => {
+                                                    res.status(400).send(err);
+                                                });
+                                            });
+                                        }).catch(err => {
+                                            cors(req, res, () => {
+                                                res.status(400).send(err);
+                                            });
+                                        });
+                                    }
+                                }
+                            }
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send('The user is not authorized for access');
+                        });
+                    }
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid, report");
+                });
+            }
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing request body");
+            });
+        }
+    } else if(req.method == "DELETE") {
+        if(req.body) {
+            var body = req.body;
+            if(body.uid && body.id && body.itemCategory) {
+                getAuth(body.uid, function(auth) {
+                    if(auth != 401) {
+                        if(auth == 0) {
+                            if(body.itemCategory == "vehicles") {
+                                admin.database().ref(`inventory/vehicles/${body.id}/compartments`).once('value').then(compartmentsSnap => {
+                                    var compartments = compartmentsSnap.val();
+
+                                    for(var i = 0; i < Object.keys(compartments).length; i++) {
+                                        var formId = compartments[Object.keys(compartments)[i]].formId[0];
+
+                                        admin.database().ref(`forms/intervals/${formId}`).set(null);
+                                        admin.database().ref(`forms/templates/${formId}`).set(null);
+                                    }
+
+                                    admin.database().ref(`forms/intervals/${body.id}`).set(null);
+                                    admin.database().ref(`inventory/vehicles/${body.id}`).set(null);
+
+                                    cors(req, res, () => {
+                                        res.sendStatus(200);
+                                    });
+                                });
+                            } else {
+                                admin.database().ref(`inventory/${body.itemCategory}/${body.id}`).set(null);
+                                admin.database().ref(`forms/intervals/${body.id}`).set(null);
+                                admin.database().ref(`forms/templates/${body.id}`).set(null);
+
+                                cors(req, res, () => {
+                                    res.sendStatus(200);
+                                });
+                            }
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send('The user is not authorized for access');
+                        });
+                    }
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid, id, itemCategory");
+                });
+            }
+        } else {
+            cors(req, res, () => {
+                res.status(400).send("Missing request body");
             });
         }
     } else {
@@ -2229,907 +3373,6 @@ exports.reports = functions.https.onRequest((req, res) => {
     }
 });
 
-exports.users = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        if(req.query.uid) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0) {
-                        admin.database().ref('/users/').once('value', function(snap) {
-                            // initialize data variables
-                            var users = snap.val();
-
-                            var userList = { "list": [] };
-
-                            for(var i = 0; i < Object.keys(users).length; i++) {
-                                    var type;
-
-                                if(users[Object.keys(users)[i]].authentication == 0) {
-                                    type = "administrator";
-                                } else if(users[Object.keys(users)[i]].authentication == 1) {
-                                    type = "user";
-                                }
-
-                                userList.list.push({
-                                    "firstName": users[Object.keys(users)[i]].firstName,
-                                    "lastName": users[Object.keys(users)[i]].lastName,
-                                    "email": users[Object.keys(users)[i]].email,
-                                    "type": type,
-                                    "alert": users[Object.keys(users)[i]].alert
-                                });
-                            }
-
-                            // send response
-                            cors(req, res, () => {
-                                res.status(200).send(userList);
-                            });
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' parameter");
-            });
-        }
-    } else if(req.method == "POST") {
-        if(req.body) {
-            var body = req.body;
-            if(body.uid && body.user) {
-                getAuth(body.uid, function(auth) {
-                    if(auth != 401) {
-                        if(auth == 0) {
-                            admin.auth().getUserByEmail(body.user.email).then(function(user) {
-                                var authentication;
-                                if(body.user.type == "user") {
-                                    authentication = 1;
-                                } else if(body.user.type == "administrator") {
-                                    authentication = 0;
-                                }
-
-                                admin.database().ref('/users/' + user.uid).set({
-                                    "email": user.email,
-                                    "firstName": body.user.firstName,
-                                    "lastName": body.user.lastName,
-                                    "authentication": authentication,
-                                    "alert": body.user.alert
-                                });
-
-                                cors(req, res, () => {
-                                    res.sendStatus(200);
-                                });
-                            }).catch(function(error) {
-                                var password = Math.random().toString(36).slice(-8);
-
-                                admin.auth().createUser({
-                                    email: body.user.email,
-                                    emailVerified: true,
-                                    password: password,
-                                    disabled: false
-                                }).then(function(user) {
-                                    var authentication;
-                                    if(body.user.type == "user") {
-                                        authentication = 1;
-                                    } else if(body.user.type == "administrator") {
-                                        authentication = 0;
-                                    }
-
-                                    admin.database().ref('/users/' + user.uid).set({
-                                        "email": user.email,
-                                        "firstName": body.user.firstName,
-                                        "lastName": body.user.lastName,
-                                        "authentication": authentication,
-                                        "alert": body.user.alert
-                                    });
-
-                                    firebase.auth().sendPasswordResetEmail(user.email).then(function() {
-                                        cors(req, res, () => {
-                                            res.sendStatus(200);
-                                        });
-                                    }).catch(function(error) {
-                                        cors(req, res, () => {
-                                            res.status(400).send(error);
-                                        });
-                                    });
-                                }).catch(function(error) {
-                                    cors(req, res, () => {
-                                        res.status(400).send(error);
-                                    });
-                                });
-                            });
-                        } else {
-                            cors(req, res, () => {
-                                res.status(403).send("The request violates the user's permission level");
-                            });
-                        }
-                    } else {
-                        cors(req, res, () => {
-                            res.status(401).send('The user is not authorized for access');
-                        });
-                    }
-                });
-            } else if(body.uid && !body.user) {
-                cors(req, res, () => {
-                    res.status(400).send("Missing 'user' parameter");
-                });
-            } else if(!body.uid && body.user) {
-                cors(req, res, () => {
-                    res.status(400).send("Missing 'uid' parameter");
-                });
-            } else {
-                cors(req, res, () => {
-                    res.status(400).send("Missing 'uid' and 'user' parameter");
-                });
-            }
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing request body");
-            });
-        }
-    } else if(req.method == "DELETE") {
-        if(req.body) {
-            var body = req.body;
-            if(body.uid && body.user) {
-                getAuth(body.uid, function(auth) {
-                    if(auth != 401) {
-                        if(auth == 0) {
-                            admin.auth().getUserByEmail(body.user.email).then(function(user) {
-                                admin.auth().deleteUser(user.uid).then(function() {
-                                    admin.database().ref('/users/' + user.uid).set(null);
-                                }).catch(function(error) {
-                                    cors(req, res, () => {
-                                        res.status(400).send(error);
-                                    });
-                                });
-
-                                cors(req, res, () => {
-                                    res.sendStatus(200);
-                                });
-                            }).catch(function(error) {
-                                cors(req, res, () => {
-                                    res.status(400).send(error);
-                                });
-                            });
-                        } else {
-                            cors(req, res, () => {
-                                res.status(403).send("The request violates the user's permission level");
-                            });
-                        }
-                    } else {
-                        cors(req, res, () => {
-                            res.status(401).send('The user is not authorized for access');
-                        });
-                    }
-                });
-            } else if(body.uid && !body.user) {
-                cors(req, res, () => {
-                    res.status(400).send("Missing 'user' parameter");
-                });
-            } else if(!body.uid && body.user) {
-                cors(req, res, () => {
-                    res.status(400).send("Missing 'uid' parameter");
-                });
-            } else {
-                cors(req, res, () => {
-                    res.status(400).send("Missing 'uid' and 'user' parameter");
-                });
-            }
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing request body");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-
-exports.userInfo = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        if(req.query.uid) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0 || auth == 1) {
-                        admin.database().ref('/users/' + req.query.uid).once('value', function(snap) {
-                            // initialize data variables
-                            var userInfo = snap.val();
-
-                            var type;
-
-                            if(userInfo.authentication == 0) {
-                                type = "administrator";
-                            } else if(userInfo.authentication == 1) {
-                                type = "user";
-                            }
-
-                            // send response
-                            cors(req, res, () => {
-                                res.status(200).send(userInfo);
-                            });
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' parameter");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-
-exports.resetPassword = functions.https.onRequest((req, res) => {
-    if(req.method == "POST") {
-        if(req.body) {
-            var body = req.body;
-            if(body.uid && body.user) {
-                getAuth(body.uid, function(auth) {
-                    if(auth != 401) {
-                        if(auth == 0) {
-                            firebase.auth().sendPasswordResetEmail(body.user.email).then(function() {
-                                cors(req, res, () => {
-                                    res.sendStatus(200);
-                                });
-                            }).catch(function(error) {
-                                cors(req, res, () => {
-                                    res.status(400).send(error);
-                                });
-                            });
-                        } else {
-                            cors(req, res, () => {
-                                res.status(403).send("The request violates the user's permission level");
-                            });
-                        }
-                    } else {
-                        cors(req, res, () => {
-                            res.status(401).send('The user is not authorized for access');
-                        });
-                    }
-                });
-            } else if(body.uid && !body.user) {
-                cors(req, res, () => {
-                    res.status(400).send("Missing 'user' parameter");
-                });
-            } else if(!body.uid && body.user) {
-                cors(req, res, () => {
-                    res.status(400).send("Missing 'uid' parameter");
-                });
-            } else {
-                cors(req, res, () => {
-                    res.status(400).send("Missing 'uid' and 'user' parameter");
-                });
-            }
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing request body");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-
-exports.listReports = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        if(req.query.uid) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0) {
-                        admin.database().ref('/').once('value', function(snap) {
-                            // initialize data variables
-                            var root = snap.val();
-                            var templates = root.forms.templates;
-                            var intervals = root.forms.intervals;
-                            var inventory = root.inventory;
-
-                            var reportsList = {
-                                "list": []
-                            }
-
-                            for(var i = 0; i < Object.keys(inventory).length; i++) {
-                                var itemType = Object.keys(inventory)[i];
-                                for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
-                                    var itemKey = Object.keys(inventory[itemType])[j];
-
-                                    if(inventory[itemType][itemKey].compartments) {
-                                        var listItem = {
-                                            "id": itemKey,
-                                            "itemCategory": itemType,
-                                            "interval": intervals[itemKey],
-                                            "template": {
-                                                "title": inventory[itemType][itemKey].name,
-                                                "subSections": []
-                                            }
-                                        };
-
-                                        for(var k = 0; k < Object.keys(inventory[itemType][itemKey].compartments).length; k++) {
-                                            var compartmentKey = Object.keys(inventory[itemType][itemKey].compartments)[k];
-                                            for(var l = 0; l < inventory[itemType][itemKey].compartments[compartmentKey].formId.length; l++) {
-                                                var formId = inventory[itemType][itemKey].compartments[compartmentKey].formId[l];
-                                                templates[formId].id = formId;
-                                                listItem.template.subSections.push(templates[formId]);
-                                            }
-                                        }
-
-                                        reportsList.list.push(listItem);
-                                    } else {
-                                        for(var k = 0; k < inventory[itemType][itemKey].formId.length; k++) {
-                                            var formId = inventory[itemType][itemKey].formId[k];
-
-                                            reportsList.list.push({
-                                                "id": formId,
-                                                "itemCategory": itemType,
-                                                "interval": intervals[formId],
-                                                "template": templates[formId]
-                                            });
-                                        }
-                                    }
-                                }
-                            }
-
-                            // send response
-                            cors(req, res, () => {
-                                res.status(200).send(reportsList);
-                            });
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' parameter");
-            });
-        }
-    } else if(req.method == "POST") {
-        if(req.body) {
-            var body = req.body;
-            if(body.uid && body.report) {
-                getAuth(body.uid, function(auth) {
-                    if(auth != 401) {
-                        if(auth == 0) {
-                            const report = body.report;
-
-                            if(report.template.inputElements) {
-                                if(report.id) {
-                                    admin.database().ref(`forms/intervals/${report.id}`).set(report.interval).then(() => {
-                                        admin.database().ref(`forms/templates/${report.id}`).set(report.template).then(() => {
-                                            cors(req, res, () => {
-                                                res.sendStatus(200);
-                                            });
-                                        }).catch(err => {
-                                            cors(req, res, () => {
-                                                res.status(400).send(err);
-                                            });
-                                        });
-                                    }).catch(err => {
-                                        cors(req, res, () => {
-                                            res.status(400).send(err);
-                                        });
-                                    });
-                                }
-                            } else if(report.itemCategory == "vehicles") {
-                                if(report.id) {
-                                    admin.database().ref(`forms/intervals/${report.id}`).set(report.interval).then(() => {
-                                        admin.database().ref(`inventory/vehicles/${report.id}/compartments`).once('value').then(compartmentSnap => {
-                                            var compartments = Object.keys(compartmentSnap.val());
-                                            var oldCompartments = {};
-
-                                            compartments.forEach(key => {
-                                                oldCompartments[key] = true;
-                                            });
-
-                                            for(var i = 0; i < report.template.subSections.length; i++) {
-                                                if(report.template.subSections[i].id) {
-                                                    oldCompartments[report.template.subSections[i].id] = false;
-                                                    admin.database().ref(`forms/intervals/${report.template.subSections[i].id}`).set(report.interval);
-                                                    admin.database().ref(`forms/templates/${report.template.subSections[i].id}`).set({
-                                                        inputElements: report.template.subSections[i].inputElements,
-                                                        title: `${report.template.title} - ${report.template.subSections[i].title}`
-                                                    });
-                                                } else {
-                                                    var newKey = admin.database().ref(`forms/intervals`).push().key;
-
-                                                    if(newKey) {
-                                                        admin.database().ref(`forms/intervals/${newKey}`).set(report.interval);
-                                                        admin.database().ref(`forms/templates/${newKey}`).set({
-                                                            inputElements: report.template.subSections[i].inputElements,
-                                                            title: `${report.template.title} - ${report.template.subSections[i].title}`
-                                                        });
-                                                        admin.database().ref(`inventory/vehicles/${report.id}/compartments/${newKey}`).set({
-                                                            formId: [newKey],
-                                                            name: report.template.subSections[i].title
-                                                        });
-                                                    }
-                                                }
-                                            }
-
-                                            Object.keys(oldCompartments).forEach(formId => {
-                                                if(oldCompartments[formId]) {
-                                                    admin.database().ref(`forms/intervals/${formId}`).set(null);
-                                                    admin.database().ref(`forms/templates/${formId}`).set(null);
-                                                    admin.database().ref(`inventory/vehicles/${report.id}/compartments/${formId}`).set(null);
-                                                }
-                                            });
-
-                                            cors(req, res, () => {
-                                                res.sendStatus(200);
-                                            });
-                                        });
-                                    }).catch(err => {
-                                        cors(req, res, () => {
-                                            res.status(400).send(err);
-                                        });
-                                    });
-                                } else {
-                                    var newVehicleKey = admin.database().ref('inventory/vehicles').push().key;
-
-                                    if(newVehicleKey) {
-                                        admin.database().ref(`inventory/vehicles/${newVehicleKey}`).set({
-                                            name: report.template.title
-                                        }).then(() => {
-                                            admin.database().ref(`forms/intervals/${newVehicleKey}`).set(report.interval).then(() => {
-                                                for(var i = 0; i < report.template.subSections.length; i++) {
-                                                    var newKey = admin.database().ref(`inventory/vehicles/${newVehicleKey}`).push().key;
-
-                                                    if(newKey) {
-                                                        admin.database().ref(`inventory/vehicles/${newVehicleKey}/compartments/${newKey}`).set({
-                                                            formId: [newKey],
-                                                            name: report.template.subSections[i].title
-                                                        });
-                                                        admin.database().ref(`forms/intervals/${newKey}`).set(report.interval);
-                                                        admin.database().ref(`forms/templates/${newKey}`).set({
-                                                            inputElements: report.template.subSections[i].inputElements,
-                                                            title: `${report.template.title} - ${report.template.subSections[i].title}`
-                                                        });
-                                                    }
-                                                }
-
-                                                cors(req, res, () => {
-                                                    res.sendStatus(200);
-                                                });
-                                            });
-                                        });
-                                    }
-                                }
-                            } else {
-                                if(report.id) {
-                                    admin.database().ref(`forms/intervals/${report.id}`).set(report.interval).then(() => {
-                                        admin.database().ref(`forms/templates/${report.id}`).set(report.template).then(() => {
-                                            cors(req, res, () => {
-                                                res.sendStatus(200);
-                                            });
-                                        }).catch(err => {
-                                            cors(req, res, () => {
-                                                res.status(400).send(err);
-                                            });
-                                        });
-                                    }).catch(err => {
-                                        cors(req, res, () => {
-                                            res.status(400).send(err);
-                                        });
-                                    });
-                                } else {
-                                    var newKey = admin.database().ref('forms/intervals').push().key;
-
-                                    if(newKey) {
-                                        admin.database().ref(`forms/intervals/${newKey}`).set(report.interval).then(() => {
-                                            admin.database().ref(`forms/templates/${newKey}`).set(report.template).then(() => {
-                                                admin.database().ref(`inventory/${report.itemCategory}/${newKey}`).set({
-                                                    formId: [newKey],
-                                                    name: report.template.title
-                                                }).then(() => {
-                                                    cors(req, res, () => {
-                                                        res.sendStatus(200);
-                                                    });
-                                                }).catch(err => {
-                                                    cors(req, res, () => {
-                                                        res.status(400).send(err);
-                                                    });
-                                                });
-                                            }).catch(err => {
-                                                cors(req, res, () => {
-                                                    res.status(400).send(err);
-                                                });
-                                            });
-                                        }).catch(err => {
-                                            cors(req, res, () => {
-                                                res.status(400).send(err);
-                                            });
-                                        });
-                                    }
-                                }
-                            }
-                        } else {
-                            cors(req, res, () => {
-                                res.status(403).send("The request violates the user's permission level");
-                            });
-                        }
-                    } else {
-                        cors(req, res, () => {
-                            res.status(401).send('The user is not authorized for access');
-                        });
-                    }
-                });
-            } else {
-                cors(req, res, () => {
-                    res.status(400).send("Missing parameter(s): uid, report");
-                });
-            }
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing request body");
-            });
-        }
-    } else if(req.method == "DELETE") {
-        if(req.body) {
-            var body = req.body;
-            if(body.uid && body.id && body.itemCategory) {
-                getAuth(body.uid, function(auth) {
-                    if(auth != 401) {
-                        if(auth == 0) {
-                            if(body.itemCategory == "vehicles") {
-                                admin.database().ref(`inventory/vehicles/${body.id}/compartments`).once('value').then(compartmentsSnap => {
-                                    var compartments = compartmentsSnap.val();
-
-                                    for(var i = 0; i < Object.keys(compartments).length; i++) {
-                                        var formId = compartments[Object.keys(compartments)[i]].formId[0];
-
-                                        admin.database().ref(`forms/intervals/${formId}`).set(null);
-                                        admin.database().ref(`forms/templates/${formId}`).set(null);
-                                    }
-
-                                    admin.database().ref(`forms/intervals/${body.id}`).set(null);
-                                    admin.database().ref(`inventory/vehicles/${body.id}`).set(null);
-
-                                    cors(req, res, () => {
-                                        res.sendStatus(200);
-                                    });
-                                });
-                            } else {
-                                admin.database().ref(`inventory/${body.itemCategory}/${body.id}`).set(null);
-                                admin.database().ref(`forms/intervals/${body.id}`).set(null);
-                                admin.database().ref(`forms/templates/${body.id}`).set(null);
-
-                                cors(req, res, () => {
-                                    res.sendStatus(200);
-                                });
-                            }
-                        } else {
-                            cors(req, res, () => {
-                                res.status(403).send("The request violates the user's permission level");
-                            });
-                        }
-                    } else {
-                        cors(req, res, () => {
-                            res.status(401).send('The user is not authorized for access');
-                        });
-                    }
-                });
-            } else {
-                cors(req, res, () => {
-                    res.status(400).send("Missing parameter(s): uid, id, itemCategory");
-                });
-            }
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing request body");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-
-exports.sendIncompleteFormsEmail = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        admin.database().ref('/').once('value', function(snap) {
-            var root = snap.val();
-            var emails = [];
-            var time = getTime();
-            var inventory = root.inventory;
-            var results = root.forms.results;
-            var intervals = root.forms.intervals;
-            var templates = root.forms.templates;
-            var toDoList = [];
-
-            for(var i = 0; i < Object.keys(root.users).length; i++) {
-                var user = Object.keys(root.users)[i];
-
-                if(root.users[user].alert) {
-                    emails.push(root.users[user].email);
-                }
-            }
-
-            for(var i = 0; i < Object.keys(inventory).length; i++) {
-                var itemType = Object.keys(inventory)[i];
-                for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
-                    var itemKey = Object.keys(inventory[itemType])[j];
-                    if(inventory[itemType][itemKey].compartments) {
-                        var compartments = inventory[itemType][itemKey].compartments;
-                        var push = false;
-                        var complete = true;
-
-                        for(var k = 0; k < Object.keys(compartments).length; k++) {
-                            var formId = compartments[Object.keys(compartments)[k]].formId;
-                            for(var l = 0; l < formId.length; l++) {
-                                if(intervals[formId[l]].days[time.weekday]) {
-                                    push = true;
-
-                                    if(results && results[formId[l]]) {
-                                        var frequency = intervals[formId[l]].frequency;
-                                        var timestamps = Object.keys(results[formId[l]]);
-
-                                        if(frequency == "Daily" && !timestamps.includes(time.datestamp)) {
-                                            complete = false;
-                                            break;
-                                        } else if(frequency == "Weekly" && !time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                            complete = false;
-                                            break;
-                                        } else if(frequency == "Monthly" && !timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                            complete = false;
-                                            break;
-                                        }
-                                    } else {
-                                        complete = false;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if(!complete) {
-                                break;
-                            }
-                        }
-
-                        if(push) {
-                            toDoList.push({
-                                "title": inventory[itemType][itemKey].name,
-                                "complete": complete
-                            });
-                        }
-                    } else {
-                        var formId = inventory[itemType][itemKey].formId;
-                        for(var l = 0; l < formId.length; l++) {
-                            if(intervals[formId[l]].days[time.weekday]) {
-                                var complete = false;
-
-                                if(results && results[formId[l]]) {
-                                    var frequency = intervals[formId[l]].frequency;
-                                    var timestamps = Object.keys(results[formId[l]]);
-
-                                    if(frequency == "Daily" && timestamps.includes(time.datestamp)) {
-                                        complete = true;
-                                    } else if(frequency == "Weekly" && time.weekstamps.includes(timestamps[timestamps.length - 1])) {
-                                        complete = true;
-                                    } else if(frequency == "Monthly" && timestamps[timestamps.length-1].substring(0,6) == time.yearMonth) {
-                                        complete = true;
-                                    }
-                                }
-
-                                toDoList.push({
-                                    "title": templates[formId[l]].title,
-                                    "complete": complete
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-
-            if(toDoList.length > 0) {
-                var mailOptions = {
-                    from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
-                    bcc: emails.join(),
-                    subject: time.formattedDate + ': Incomplete Forms',
-                    text: 'The following form(s) are incomplete for ' + time.formattedDate + ':\n'
-                }
-
-                for(var i = 0; i < toDoList.length; i++) {
-                    if(!toDoList[i].complete) {
-                        mailOptions.text += "\n\t" + toDoList[i].title;
-                    }
-                }
-
-                admin.database().ref(`alerts/incompleteForms`).push().set(mailOptions.text);
-
-                mailOptions.text += "\n\nThanks,\n\nYour OviedoFireSD team";
-
-                mailTransport.sendMail(mailOptions).then(function() {
-                    cors(req, res, () => {
-                        res.sendStatus(200);
-                    });
-                }).catch(function(err) {
-                    cors(req, res, () => {
-                        res.status(400).send(err);
-                    });
-                });
-            } else {
-                cors(req, res, () => {
-                    res.sendStatus(200);
-                });
-            }
-        });
-    }
-});
-
-exports.sendRepairItemsEmail = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        admin.database().ref('/alerts/repairItems').once('value', function(snap) {
-            admin.database().ref('/users').once('value').then(usersSnap => {
-                const users = usersSnap.val();
-                const repairItems = snap.val();
-                var emails = [];
-                var time = getTime();
-
-                Object.keys(users).forEach(userKey => {
-                    if(users[userKey].alert) {
-                        emails.push(users[userKey].email);
-                    }
-                });
-
-                if(repairItems) {
-                    var mailOptions = {
-                        from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
-                        bcc: emails.join(),
-                        subject: time.formattedDate + ': Repair Items',
-                        text: 'The following item(s) need repair:\n'
-                    }
-
-                    Object.keys(repairItems).forEach(itemKey => {
-                        mailOptions.text += `\n${repairItems[itemKey]}`
-                    });
-
-                    mailOptions.text += "\n\nThanks,\n\nYour OviedoFireSD team";
-
-                    mailTransport.sendMail(mailOptions).then(function() {
-                        cors(req, res, () => {
-                            res.sendStatus(200);
-                        });
-                    }).catch(function(err) {
-                        cors(req, res, () => {
-                            res.status(400).send(err);
-                        });
-                    });
-                } else {
-                    cors(req, res, () => {
-                        res.sendStatus(200);
-                    });
-                }
-            });
-        });
-    }
-});
-
-exports.sendMissingItemsEmail = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        admin.database().ref('/alerts/missingItems').once('value', function(snap) {
-            admin.database().ref('/users').once('value').then(usersSnap => {
-                const users = usersSnap.val();
-                const missingItems = snap.val();
-                var emails = [];
-                var time = getTime();
-
-                Object.keys(users).forEach(userKey => {
-                    if(users[userKey].alert) {
-                        emails.push(users[userKey].email);
-                    }
-                });
-
-                if(missingItems) {
-                    var mailOptions = {
-                        from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
-                        bcc: emails.join(),
-                        subject: time.formattedDate + ': Missing Items',
-                        text: 'The following item(s) are missing:\n'
-                    }
-
-                    Object.keys(missingItems).forEach(itemKey => {
-                        mailOptions.text += `\n${missingItems[itemKey]}`
-                    });
-
-                    mailOptions.text += "\n\nThanks,\n\nYour OviedoFireSD team";
-
-                    mailTransport.sendMail(mailOptions).then(function() {
-                        cors(req, res, () => {
-                            res.sendStatus(200);
-                        });
-                    }).catch(function(err) {
-                        cors(req, res, () => {
-                            res.status(400).send(err);
-                        });
-                    });
-                } else {
-                    cors(req, res, () => {
-                        res.sendStatus(200);
-                    });
-                }
-            });
-        });
-    }
-});
-
-exports.sendFailItemsEmail = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        admin.database().ref('/alerts/failItems').once('value', function(snap) {
-            admin.database().ref('/users').once('value').then(usersSnap => {
-                const users = usersSnap.val();
-                const failItems = snap.val();
-                var emails = [];
-                var time = getTime();
-
-                Object.keys(users).forEach(userKey => {
-                    if(users[userKey].alert) {
-                        emails.push(users[userKey].email);
-                    }
-                });
-
-                if(failItems) {
-                    var mailOptions = {
-                        from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
-                        bcc: emails.join(),
-                        subject: time.formattedDate + ': Failed Items',
-                        text: 'The following item(s) are marked as failures:\n'
-                    }
-
-                    Object.keys(failItems).forEach(itemKey => {
-                        mailOptions.text += `\n${failItems[itemKey]}`
-                    });
-
-                    mailOptions.text += "\n\nThanks,\n\nYour OviedoFireSD team";
-
-                    mailTransport.sendMail(mailOptions).then(function() {
-                        cors(req, res, () => {
-                            res.sendStatus(200);
-                        });
-                    }).catch(function(err) {
-                        cors(req, res, () => {
-                            res.status(400).send(err);
-                        });
-                    });
-                } else {
-                    cors(req, res, () => {
-                        res.sendStatus(200);
-                    });
-                }
-            });
-        });
-    }
-});
-
 exports.statistics = functions.https.onRequest((req, res) => {
     function pad(num, size) {
         var s = num+"";
@@ -3256,271 +3499,4 @@ exports.statistics = functions.https.onRequest((req, res) => {
         });
     }
 });
-
-exports.dismissAlert = functions.https.onRequest((req, res) => {
-    if(req.method == "POST") {
-        if(req.query.uid && req.query.type && req.query.key) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0) {
-                        admin.database().ref(`alerts/${req.query.type}/${req.query.key}`).set(null).then(() => {
-                            cors(req, res, () => {
-                                res.sendStatus(200);
-                            });
-                        }).catch(err => {
-                            cors(req, res, () => {
-                                res.status(400).send(err);
-                            });
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing parameter(s): uid, type, key");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-
-exports.downloadReport = functions.https.onRequest((req, res) => {
-    if(req.method == "POST") {
-        if(req.body) {
-            var body = req.body;
-            if(body.uid && body.report) {
-                getAuth(body.uid, function(auth) {
-                    if(auth != 401) {
-                        if(auth == 0) {
-                            var report = body.report;
-                            var completedDays = [];
-                            var csvReport = `"Compartment","Caption"`;
-
-                            for(var i = 0; i < Object.keys(report.days).length; i++) {
-                                if(report.days[Object.keys(report.days)[i]]) {
-                                    completedDays.push(Object.keys(report.days)[i]);
-                                    csvReport+=`,"${Object.keys(report.days)[i].charAt(0).toUpperCase() + Object.keys(report.days)[i].slice(1)}"`;
-                                }
-                            }
-
-                            for(var i = 0; i < report.data.rows.length; i++) {
-                                csvReport += `\n"${report.data.rows[i].compartment}","${report.data.rows[i].item}"`;
-
-                                for(var j = 0; j < completedDays.length; j++) {
-                                    csvReport += `,"'${report.data.rows[i][completedDays[j]].result}' ${report.data.rows[i][completedDays[j]].completedBy}"`;
-                                }
-                            }
-
-                            cors(req, res, () => {
-                                res.status(200).send(csvReport);
-                            });
-                        } else {
-                            cors(req, res, () => {
-                                res.status(403).send("The request violates the user's permission level");
-                            });
-                        }
-                    } else {
-                        cors(req, res, () => {
-                            res.status(401).send('The user is not authorized for access');
-                        });
-                    }
-                });
-            } else if(body.uid && !body.report) {
-                cors(req, res, () => {
-                    res.status(400).send("Missing 'report' parameter");
-                });
-            } else if(!body.uid && body.report) {
-                cors(req, res, () => {
-                    res.status(400).send("Missing 'uid' parameter");
-                });
-            } else {
-                cors(req, res, () => {
-                    res.status(400).send("Missing 'uid' and 'report' parameter");
-                });
-            }
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing request body");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-
-exports.downloadReports = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        if(req.query.uid && req.query.year) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0) {
-                        admin.database().ref().once('value').then(rootSnap => {
-                            getAllReports(req.query.year, reports => {
-                                cors(req, res, () => {
-                                    var root = rootSnap.val();
-
-                                    res.writeHead(200, {
-                                        'Content-Type': 'application/zip',
-                                        'Content-disposition': `attachment; filename=${req.query.year}.zip`
-                                    });
-
-                                    var zip = archiver('zip');
-                                    zip.pipe(res);
-
-                                    zip.append(JSON.stringify(root), { name: 'Database/firebase.json' });
-
-                                    for(var i = 0; i < reports.reports.length; i++) {
-                                        var name;
-
-                                        if(reports.reports[i].name.includes('/')) {
-                                            name = `${reports.reports[i].folder}/${reports.reports[i].name.substring(0,reports.reports[i].name.indexOf('/'))}.csv`;
-                                        } else {
-                                            name = `${reports.reports[i].folder}/${reports.reports[i].name}.csv`;
-                                        }
-
-                                        zip.append(generateCSV(reports.reports[i]), { name: name });
-                                    }
-
-                                    zip.finalize();
-                                });
-                            });
-                        }).catch(err => {
-                            cors(req, res, () => {
-                                res.status(400).send(err);
-                            });
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' or 'year' parameter");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-
-exports.availableYears = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        if(req.query.uid) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0) {
-                        admin.database().ref('forms/results').once('value').then(resultsSnap => {
-                            var results = resultsSnap.val();
-                            var years = {};
-                            var availableYears = [];
-
-                            if(results) {
-                                resultsSnap.forEach(formSnap => {
-                                    formSnap.forEach(dateSnap => {
-                                        years[dateSnap.key.substring(0,4)] = true;
-                                    });
-                                });
-
-                                Object.keys(years).forEach(year => {
-                                    if(years[year]) {
-                                        availableYears.push(year);
-                                    }
-                                })
-
-                                cors(req, res, () => {
-                                    res.status(200).send(availableYears);
-                                });
-                            } else {
-                                cors(req, res, () => {
-                                    res.status(200).send([]);
-                                });
-                            }
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' parameter");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-
-exports.clearReports = functions.https.onRequest((req, res) => {
-    if(req.method == "DELETE") {
-        if(req.body.uid) {
-            getAuth(req.body.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0) {
-                        admin.database().ref('forms/results').set(null).then(() => {
-                            admin.database().ref('statistics').set(null).then(() => {
-                                cors(req, res, () => {
-                                    res.sendStatus(200);
-                                });
-                            }).catch(err => {
-                                cors(req, res, () => {
-                                    res.status(400).send(err);
-                                });
-                            });
-                        }).catch(err => {
-                            cors(req, res, () => {
-                                res.status(400).send(err);
-                            });
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' parameter");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});*/
+*/
