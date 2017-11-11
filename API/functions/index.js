@@ -753,6 +753,7 @@ exports.form = functions.https.onRequest((req, res) => {
                                         var clearPrev = false;
                                         const prevResultDatestamp = Object.keys(prevResult)[0];
 										form.prevCompletedBy = prevResult[prevResultDatestamp].completedBy;
+										form.prevDate = `${prevResultDatestamp.substring(4,6)}/${prevResultDatestamp.substring(6,8)}/${prevResultDatestamp.substring(0,4)}`;
 
                                         if(form.inputElements) {
                                             for(var i = 0; i < form.inputElements.length; i++) {
@@ -769,6 +770,7 @@ exports.form = functions.https.onRequest((req, res) => {
 
                                             if(clearPrev) {
 												delete form.prevCompletedBy;
+												delete form.prevDate;
                                                 for(var i = 0; i < form.inputElements.length; i++) {
                                                     delete form.inputElements[i].prev;
                                                 }
@@ -794,6 +796,7 @@ exports.form = functions.https.onRequest((req, res) => {
 
                                             if(clearPrev) {
 												delete form.prevCompletedBy;
+												delete form.prevDate;
                                                 for(var i = 0; i < form.subSections.length; i++) {
                                                     for(var j = 0; j < form.subSections[i].inputElements.length; j++) {
                                                         delete form.subSections[i].inputElements[j].prev;
@@ -917,17 +920,17 @@ exports.form = functions.https.onRequest((req, res) => {
                                                     failureCheck = true;
                                                     statType = "repairsNeeded";
                                                     alertType = "repairItems";
-													repairItems.push(`${req.body.results[i].results[j].caption}: ${req.body.results[i].results[j].note}`);
+													repairItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}: ${req.body.results[i].results[j].note}`);
                                                 } else if(req.body.results[i].results[j].result == "Missing") {
                                                     failureCheck = true;
                                                     statType = "missing";
                                                     alertType = "missingItems";
-													missingItems.push(req.body.results[i].results[j].caption);
+													missingItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}`);
                                                 } else if(req.body.results[i].results[j].result == "Failed") {
                                                     failureCheck = true;
                                                     statType = "failed";
                                                     alertType = "failItems";
-													failItems.push(req.body.results[i].results[j].caption);
+													failItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}`);
                                                 }
 
                                                 if(failureCheck) {
@@ -999,6 +1002,9 @@ exports.form = functions.https.onRequest((req, res) => {
 											}
 
 											if(mailOptions.text != '') {
+												mailOptions.text += `Reported By: ${users[req.body.uid].firstName} ${users[req.body.uid].lastName}\n`;
+												mailOptions.text += `Form: ${templates[req.body.formId].title}`;
+
 												mailTransport.sendMail(mailOptions).then(() => {
 													cors(req, res, () => {
 			                                            res.sendStatus(200);
@@ -1726,6 +1732,172 @@ exports.vehicleCompartments = functions.https.onRequest((req, res) => {
 // END: API App Functions-------------------------------------------------------
 
 // BEGIN: API Admin Portal Functions--------------------------------------------
+exports.availableYears = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+        case 'GET':
+            if(req.query.uid) {
+                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0) {
+							ref.child('forms/results').once('value').then(resultsSnap => {
+								var retVal = [];
+								var years = {};
+								const results = resultsSnap.val();
+
+								if(results) {
+									resultsSnap.forEach(formResultsSnap => {
+										formResultsSnap.forEach(datestampSnap => {
+											years[datestampSnap.key.substring(0,4)] = true;
+										});
+									});
+
+									Object.keys(years).forEach(year => {
+										retVal.push(year);
+									});
+								}
+
+								cors(req, res, () => {
+			                        res.status(200).send(retVal);
+			                    });
+							}).catch(err => {
+								cors(req, res, () => {
+			                        res.status(400).send(err);
+			                    });
+							});
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid");
+                });
+            }
+            break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
+
+exports.clearReports = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+		case 'DELETE':
+			if(req.body.uid) {
+                ref.child(`users/${req.body.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0) {
+							ref.child('forms/results').set(null).then(() => {
+								ref.child('statistics').set(null).then(() => {
+									ref.child('alerts').set(null).then(() => {
+										cors(req, res, () => {
+					                        res.sendStatus(200);
+					                    });
+									}).catch(err => {
+										cors(req, res, () => {
+					                        res.status(400).send(err);
+					                    });
+									});
+								}).catch(err => {
+									cors(req, res, () => {
+				                        res.status(400).send(err);
+				                    });
+								});
+							}).catch(err => {
+								cors(req, res, () => {
+			                        res.status(400).send(err);
+			                    });
+							});
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid");
+                });
+            }
+			break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
+
+exports.dismissAlert = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+		case 'POST':
+			if(req.query.uid && req.query.type && req.query.key) {
+                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0) {
+							ref.child(`alerts/${req.query.type}/${req.query.key}`).set(null).then(() => {
+								cors(req, res, () => {
+			                        res.sendStatus(200);
+			                    });
+							}).catch(err => {
+								cors(req, res, () => {
+			                        res.status(400).send(err);
+			                    });
+							});
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid, type, key");
+                });
+            }
+			break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
+
 exports.home = functions.https.onRequest((req, res) => {
     switch(req.method) {
         case 'GET':
@@ -1873,7 +2045,7 @@ exports.resetPassword = functions.https.onRequest((req, res) => {
     switch(req.method) {
         case 'POST':
             if(req.body.uid && req.body.user) {
-                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                ref.child(`users/${req.body.uid}/authentication`).once('value').then(authSnap => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
@@ -2294,145 +2466,8 @@ exports.sendIncompleteFormsEmail = functions.https.onRequest((req, res) => {
     }
 });
 // END: API Automated Functions-------------------------------------------------
+
 /*
-exports.dismissAlert = functions.https.onRequest((req, res) => {
-    if(req.method == "POST") {
-        if(req.query.uid && req.query.type && req.query.key) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0) {
-                        admin.database().ref(`alerts/${req.query.type}/${req.query.key}`).set(null).then(() => {
-                            cors(req, res, () => {
-                                res.sendStatus(200);
-                            });
-                        }).catch(err => {
-                            cors(req, res, () => {
-                                res.status(400).send(err);
-                            });
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing parameter(s): uid, type, key");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-
-exports.availableYears = functions.https.onRequest((req, res) => {
-    if(req.method == "GET") {
-        if(req.query.uid) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0) {
-                        admin.database().ref('forms/results').once('value').then(resultsSnap => {
-                            var results = resultsSnap.val();
-                            var years = {};
-                            var availableYears = [];
-
-                            if(results) {
-                                resultsSnap.forEach(formSnap => {
-                                    formSnap.forEach(dateSnap => {
-                                        years[dateSnap.key.substring(0,4)] = true;
-                                    });
-                                });
-
-                                Object.keys(years).forEach(year => {
-                                    if(years[year]) {
-                                        availableYears.push(year);
-                                    }
-                                })
-
-                                cors(req, res, () => {
-                                    res.status(200).send(availableYears);
-                                });
-                            } else {
-                                cors(req, res, () => {
-                                    res.status(200).send([]);
-                                });
-                            }
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' parameter");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-
-exports.clearReports = functions.https.onRequest((req, res) => {
-    if(req.method == "DELETE") {
-        if(req.body.uid) {
-            getAuth(req.body.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0) {
-                        admin.database().ref('forms/results').set(null).then(() => {
-                            admin.database().ref('statistics').set(null).then(() => {
-                                cors(req, res, () => {
-                                    res.sendStatus(200);
-                                });
-                            }).catch(err => {
-                                cors(req, res, () => {
-                                    res.status(400).send(err);
-                                });
-                            });
-                        }).catch(err => {
-                            cors(req, res, () => {
-                                res.status(400).send(err);
-                            });
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' parameter");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-
 exports.downloadReport = functions.https.onRequest((req, res) => {
     if(req.method == "POST") {
         if(req.body) {
