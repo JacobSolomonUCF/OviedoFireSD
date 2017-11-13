@@ -999,7 +999,8 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <connections>
-                                            <outlet property="perPrevResultHeight" destination="wWy-2I-OiH" id="uzD-ba-asd"/>
+                                            <outlet property="perNumResultLabel" destination="wWy-2I-OiH" id="7Ia-5I-RBf"/>
+                                            <outlet property="perPrevResultHeight" destination="wWy-2I-OiH" id="GdJ-Cp-5hl"/>
                                             <outlet property="perPrevResultLabel" destination="Hrs-hO-tK6" id="FhD-Tn-Sgv"/>
                                             <outlet property="percentName" destination="C9g-dG-QB5" id="Mag-W6-Lsk"/>
                                             <outlet property="percentSlider" destination="vhp-Nb-pb9" id="NV9-Ob-wsk"/>

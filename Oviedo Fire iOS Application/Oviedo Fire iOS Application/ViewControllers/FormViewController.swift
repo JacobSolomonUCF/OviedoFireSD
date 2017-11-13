@@ -481,7 +481,7 @@ extension EqFormViewController{
                         cell.setHeightPmrComment(choice: 0)
                     }
                     
-                }else{cell.setHeightPer(choice: 0)}
+                }else{cell.setHeightPmrResult(choice: 0)}
                 
                 
                 
