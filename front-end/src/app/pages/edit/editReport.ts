@@ -355,23 +355,20 @@ export class EditReport {
 	}
 
 	submitReport() {
-		if (this.temp.template.title && this.temp.interval.frequency && (!this.temp.fresh || this.temp.itemCategory) && this.temp.template.subSections.length && this.temp.template.subSections[0].inputElements.length) {
-			this.loading = true;
-			if (this.temp.interval.frequency === 'Daily')
-				this.temp.interval.days = this.weekDaily;
-			this.webService.doPost('/listReports', {report: this.temp})
-				.subscribe(() => {
-					if (this.temp.fresh)
-						this.reports.push(this.temp);
-					this.original = JSON.parse(JSON.stringify(this.reports));
-					this.toggle();
-				}, error => {
+		this.loading = true;
+		if (this.temp.interval.frequency === 'Daily')
+			this.temp.interval.days = this.weekDaily;
+		this.webService.doPost('/listReports', {report: this.temp})
+			.subscribe(() => {
+				if (this.temp.fresh)
+					this.reports.push(this.temp);
+				this.original = JSON.parse(JSON.stringify(this.reports));
+				this.toggle();
+			}, error => {
 					console.log(error);
 				}, () => {
 					this.loading = false;
 				});
-		} else
-			console.log('missing a required field');
 	}
 
 	deleteReport() {
