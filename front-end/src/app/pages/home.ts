@@ -45,7 +45,7 @@ import {WebService} from "../services/webService";
 								<div>
 									<label #label class="pure-checkbox" *ngIf="alerts[alert.type][message]" [ngSwitch]="label.value">
 										<i class="fa fa-lg fa-spinner fa-pulse" *ngSwitchCase="true"></i>
-										<i class="fa fa-lg fa-close" (click)="dismiss('repairItems', message, label)" *ngSwitchDefault></i>
+										<i class="fa fa-lg fa-close" (click)="dismiss(alert.type, message, label)" *ngSwitchDefault></i>
 										{{alerts[alert.type][message]}}
 									</label>
 								</div>
