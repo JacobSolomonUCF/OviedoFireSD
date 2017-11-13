@@ -12,10 +12,10 @@ import {WebService} from "../services/webService";
 				<i class="fa fa-5x fa-spinner fa-pulse"></i>
 			</div>
 			<div *ngSwitchCase="false">
-				<select [(ngModel)]="index" (change)="switchTo()">
+				<select [(ngModel)]="index" (change)="switchTo()" *ngIf="original[index].title.length">
 					<option *ngFor="let data of original; index as i" [value]="i">{{data.title}}</option>
 				</select>
-				<select [(ngModel)]="level" (change)="switchTo()">
+				<select [(ngModel)]="level" (change)="switchTo()" *ngIf="original[index].details.length">
 					<option *ngFor="let time of original[index].details; index as i" [value]="i">{{time}}</option>
 				</select>
 
@@ -61,12 +61,19 @@ export class Statistic {
 		webService.setState('statistics')
 			.doGet('/statistics')
 			.subscribe(resp => {
-
-				let result = {...resp['results'][0][resp['results'][0].details[0]]};
-				this.original = resp['results'];
-				this.barChartLabels = [...result.labels];
-				if (!result.data) result.data = this.barChartLabels.map(label => { return {label: label, data:[0]}});
-				this.barChartData = [...result.data];
+				if (resp['results'] && resp['results'][0]) {
+					let result = {...resp['results'][0][resp['results'][0].details[0]]};
+					this.original = resp['results'];
+					this.barChartLabels = [...result.labels];
+					if (!result.data) result.data = this.barChartLabels.map(label => {
+						return {label: label, data: [0]}
+					});
+					this.barChartData = [...result.data];
+				} else {
+					this.original = [{title: '', details: []}];
+					this.barChartLabels = ['Nothing here'];
+					this.barChartData = [{label: 'Nothing here', data: [0, 0]}];
+				}
 			}, () => {
 				this.loading = false;
 			}, () => {
