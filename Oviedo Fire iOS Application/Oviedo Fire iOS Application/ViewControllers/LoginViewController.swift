@@ -101,7 +101,11 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
                     
                     if let myError = error?.localizedDescription{
                         print(myError)
-                        self.alert(message: "Username/Password invalid")
+                        if(myError.contains("Network error")){
+                            self.alert(message: "Network Error")
+                        }else{
+                            self.alert(message: "Username/Password invalid")
+                        }
                         self.stopSpinning(activityView: self.activityView)
                     }
                 }
