@@ -80,7 +80,7 @@ import {WebService} from "../../services/webService";
 						<div class="tile white pure-form pure-form-stacked editing" style="min-height: 15vh">
 							<span>Which report would you like to copy?</span>
 							<select [(ngModel)]="temp">
-								<option *ngFor="let x of reports; index as i" [value]="i">{{x.template.title}}</option>
+								<option *ngFor="let report of reports; index as i" [value]="i">{{report.template.title}}</option>
 							</select>
 							<button class="accept" (click)="onclick()">
 								Copy
@@ -112,25 +112,26 @@ import {WebService} from "../../services/webService";
 								<div class="flex-grow" *ngIf="temp.interval">
 									<label for="type">Schedule</label>
 									<select style="width: 100%" #schedule id="type" [(ngModel)]="temp.interval.frequency">
-										<option *ngFor="let x of ['Daily', 'Weekly', 'Monthly']" [value]="x">{{x}}</option>
+										<option *ngFor="let frequency of ['Daily', 'Weekly', 'Monthly']"
+														[value]="frequency">{{frequency}}</option>
 									</select>
 								</div>
 								<div class="flex-grow" *ngIf="temp.fresh && temp.interval">
 									<label for="type">Category</label>
 									<select #category id="type" [(ngModel)]="temp.itemCategory">
-										<option *ngFor="let x of ['ladders', 'miscellaneous', 'scbas', 'stretchers', 'vehicles']"
-														[value]="x">{{x}}</option>
+										<option *ngFor="let category of ['ladders', 'miscellaneous', 'scbas', 'stretchers', 'vehicles']"
+														[value]="category">{{category}}</option>
 									</select>
 								</div>
 								<div style="flex-grow: 2" *ngIf="temp.interval && temp.interval.frequency !== 'Daily'">
 									<table>
 										<tr>
-											<th *ngFor="let h of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">{{h}}</th>
+											<th *ngFor="let heading of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">{{heading}}</th>
 										</tr>
 										<tr>
 											<td
-												*ngFor="let d of ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']">
-												<input type="checkbox" [(ngModel)]="temp.interval.days[d]">
+												*ngFor="let day of ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']">
+												<input type="checkbox" [(ngModel)]="temp.interval.days[day]">
 											</td>
 										</tr>
 									</table>
@@ -168,9 +169,9 @@ import {WebService} from "../../services/webService";
 											<div class="flex">
 												<select #location
 																(change)="location.value = move(temp.template.subSections, rowIndex, location.value)">
-													<option *ngFor="let x of Arr(temp.template.subSections.length).keys()" [value]="x"
-																	[selected]="x === rowIndex">
-														{{x + 1}}
+													<option *ngFor="let indexes of Arr(temp.template.subSections.length).keys()" [value]="indexes"
+																	[selected]="indexes === rowIndex">
+														{{indexes + 1}}
 													</option>
 												</select>
 												<input style="flex-grow: 99" [(ngModel)]="row.title" placeholder="Add a name"/>
@@ -196,9 +197,9 @@ import {WebService} from "../../services/webService";
 											<div class="flex">
 												<select #location
 																(change)="location.value = move(selected[0].inputElements, rowIndex, location.value)">
-													<option *ngFor="let x of Arr(selected[0].inputElements.length).keys()" [value]="x"
-																	[selected]="x === rowIndex">
-														{{x + 1}}
+													<option *ngFor="let indexes of Arr(selected[0].inputElements.length).keys()" [value]="indexes"
+																	[selected]="indexes === rowIndex">
+														{{indexes + 1}}
 													</option>
 												</select>
 												<input type="text" [value]="value" style="padding-right: 1em" [(ngModel)]="row.caption"/>

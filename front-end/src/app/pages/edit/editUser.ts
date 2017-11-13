@@ -37,10 +37,10 @@ import {WebService} from "../../services/webService";
 							(select)="this.onclick($event, table)"
 							*ngSwitchCase="'view'"
 							[selectionType]="'single'">
-							<ngx-datatable-column *ngFor="let x of heading" [name]="x.name" [prop]="x.prop" [flexGrow]="x.flexGrow">
+							<ngx-datatable-column *ngFor="let h of heading" [name]="h.name" [prop]="h.prop" [flexGrow]="h.flexGrow">
 								<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row"
 														 let-group="group">
-									<span [ngSwitch]="row[x.prop]">
+									<span [ngSwitch]="row[h.prop]">
 										<span *ngSwitchCase="true"><i class="fa fa-lg fa-check"></i></span>
 										<span *ngSwitchCase="false"><i class="fa fa-lg fa-times"></i></span>
 										<span *ngSwitchDefault>{{value}}</span>
@@ -168,6 +168,8 @@ export class EditUser {
 			.subscribe(() => {
 				if (!this.original)
 					this.users.push(this.temp);
+				else
+					this.original = this.temp;
 				this.toggle();
 			}, error => {
 				this.loading = false;
@@ -179,7 +181,7 @@ export class EditUser {
 
 	doDelete() {
 		this.loading = true;
-		this.webService.doDelete('/users', {user: {email: this.temp.email}})
+		this.webService.doDelete('/users', {user: this.temp})
 			.subscribe(() => {
 				this.users.splice(this.users.indexOf(this.original), 1);
 				this.toggle();
@@ -210,8 +212,14 @@ export class EditUser {
 
 	onclick(event) {
 		this.viewType = 'edit';
-		this.temp = (event) ? event.selected[0] : {firstName: "", lastName: "", email: "", alert: false, type: "user"};
-		this.original = event ? event.selected[0] : event;
+		this.original = (event) ? event.selected[0] : undefined;
+		this.temp = this.original ? {...this.original} : {
+			firstName: "",
+			lastName: "",
+			email: "",
+			alert: false,
+			type: "user"
+		};
 	}
 
 	updateFilter(event) {

@@ -83,9 +83,9 @@ import {saveAs} from 'file-saver';
 																	[flexGrow]="3"
 																	[resizeable]="false"
 																	[sortable]="false"></ngx-datatable-column>
-						<ngx-datatable-column *ngFor="let x of style.days"
-																	[name]="x[0]"
-																	[prop]="x"
+						<ngx-datatable-column *ngFor="let day of style.days"
+																	[name]="day[0]"
+																	[prop]="day"
 																	[flexGrow]="1"
 																	[resizeable]="false"
 																	[sortable]="false">
