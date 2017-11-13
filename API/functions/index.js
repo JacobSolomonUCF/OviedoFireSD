@@ -876,10 +876,13 @@ exports.form = functions.https.onRequest((req, res) => {
                                             }
 
                                             if(failureCheck) {
-                                                ref.child(`statistics/${time.yearMonth}/${statType}`).push().set({
-                                                    caption: req.body.results[i].caption,
-                                                    formId: templates[req.body.formId].title
-                                                }).catch(err => {
+												ref.child(`statistics/${req.body.formId}/title`).set(templates[req.body.formId].title).catch(err => {
+                                                    postError = true;
+                                                    cors(req, res, () => {
+                                                        res.status(400).send(err);
+                                                    });
+                                                });
+                                                ref.child(`statistics/${req.body.formId}/${time.yearMonth}/${req.body.results[i].caption}/${statType}`).push().set(0).catch(err => {
                                                     postError = true;
                                                     cors(req, res, () => {
                                                         res.status(400).send(err);
@@ -916,15 +919,18 @@ exports.form = functions.https.onRequest((req, res) => {
                                                 }
 
                                                 if(failureCheck) {
-                                                    ref.child(`statistics/${time.yearMonth}/${statType}`).push().set({
-                                                        caption: req.body.results[i].results[j].caption,
-                                                        formId: templates[req.body.formId].title
-                                                    }).catch(err => {
-                                                        postError = true;
-                                                        cors(req, res, () => {
-                                                            res.status(400).send(err);
-                                                        });
-                                                    });
+													ref.child(`statistics/${req.body.formId}/title`).set(templates[req.body.formId].title).catch(err => {
+	                                                    postError = true;
+	                                                    cors(req, res, () => {
+	                                                        res.status(400).send(err);
+	                                                    });
+	                                                });
+                                                    ref.child(`statistics/${req.body.formId}/${time.yearMonth}/${req.body.results[i].title}: ${req.body.results[i].results[j].caption}/${statType}`).push().set(0).catch(err => {
+	                                                    postError = true;
+	                                                    cors(req, res, () => {
+	                                                        res.status(400).send(err);
+	                                                    });
+	                                                });
                                                     ref.child(`alerts/${alertType}`).push().set(`${time.formattedDate}: '${req.body.results[i].results[j].caption}' from '${templates[req.body.formId].title}'`).catch(err => {
                                                         postError = true;
                                                         cors(req, res, () => {
@@ -2243,7 +2249,7 @@ exports.users = functions.https.onRequest((req, res) => {
 			break;
 		case 'DELETE':
 			if(req.body.uid && req.body.user) {
-                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                ref.child(`users/${req.body.uid}/authentication`).once('value').then(authSnap => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
@@ -3012,6 +3018,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                 if(report.id) {
                                     ref.child(`forms/intervals/${report.id}`).set(report.interval).then(() => {
                                         ref.child(`inventory/vehicles/${report.id}/compartments`).once('value').then(compartmentSnap => {
+											ref.child(`inventory/${report.itemCategory}/${report.id}/name`).set(report.template.title);
                                             var compartments = Object.keys(compartmentSnap.val());
                                             var oldCompartments = {};
 
@@ -3027,7 +3034,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                                         inputElements: report.template.subSections[i].inputElements,
                                                         title: `${report.template.title} - ${report.template.subSections[i].title}`
                                                     });
-													ref.child(`inventory/${report.itemCategory}/${report.id}/${report.template.subSections[i].id}/name`).set(report.template.title);
+													ref.child(`inventory/${report.itemCategory}/${report.id}/compartments/${report.template.subSections[i].id}/name`).set(report.template.subSections[i].title);
                                                 } else {
                                                     var newKey = ref.child(`forms/intervals`).push().key;
 
@@ -3230,6 +3237,111 @@ exports.listReports = functions.https.onRequest((req, res) => {
             break;
     }
 });
+
+exports.statistics = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+        case 'GET':
+            if(req.query.uid) {
+                ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0) {
+							ref.child('statistics').once('value').then(statsSnap => {
+								var retVal = {results: [] };
+								const stats = statsSnap.val();
+
+								if(stats) {
+									Object.keys(stats).forEach(form => {
+										var formStat = {
+											title: stats[form].title,
+											details: []
+										};
+
+										Object.keys(stats[form]).forEach(month => {
+											if(month != "title") {
+												const stamp = `${month.substring(4,6)}/${month.substring(0,4)}`;
+												formStat.details.push(stamp);
+												formStat[stamp] = {
+													data: [
+														{
+															label: "Needed Repair",
+															data: []
+														},
+														{
+															label: "Missing",
+															data: []
+														},
+														{
+															label: "Failed",
+															data: []
+														}
+													]
+												};
+
+												var labels = [];
+												var itemNum = 0;
+												Object.keys(stats[form][month]).forEach(item => {
+													labels.push(item);
+
+													formStat[stamp].data[0].data.push(0);
+													formStat[stamp].data[1].data.push(0);
+													formStat[stamp].data[2].data.push(0);
+
+													if(stats[form][month][item].repairsNeeded) {
+														formStat[stamp].data[0].data[itemNum] = Object.keys(stats[form][month][item].repairsNeeded).length;
+													} else if(stats[form][month][item].missing) {
+														formStat[stamp].data[1].data[itemNum] = Object.keys(stats[form][month][item].missing).length;
+													} else if(stats[form][month][item].failed) {
+														formStat[stamp].data[2].data[itemNum] = Object.keys(stats[form][month][item].failed).length;
+													}
+
+													itemNum++;
+												});
+
+												formStat[stamp].labels = labels;
+											}
+										});
+
+										retVal.results.push(formStat);
+									});
+								}
+
+								cors(req, res, () => {
+			                        res.status(200).send(retVal);
+			                    });
+							}).catch(err => {
+								cors(req, res, () => {
+			                        res.status(400).send(err);
+			                    });
+							});
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid");
+                });
+            }
+            break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
 // END: API Admin Portal Functions----------------------------------------------
 
 // BEGIN: API Automated Functions-----------------------------------------------
@@ -3381,132 +3493,3 @@ exports.sendIncompleteFormsEmail = functions.https.onRequest((req, res) => {
     }
 });
 // END: API Automated Functions-------------------------------------------------
-
-/*
-exports.statistics = functions.https.onRequest((req, res) => {
-    function pad(num, size) {
-        var s = num+"";
-        while (s.length < size) s = "0" + s;
-        return s;
-    }
-
-    if(req.method == "GET") {
-        if(req.query.uid) {
-            getAuth(req.query.uid, function(auth) {
-                if(auth != 401) {
-                    if(auth == 0) {
-                        var time = getTime();
-
-                        ref.child('/statistics').once('value').then(statisticsSnap => {
-                            var statistics = statisticsSnap.val();
-                            var retVal = {
-                                January: {
-                                    repairsNeeded: 0,
-                                    missing: 0,
-                                    failed: 0
-                                },
-                                February: {
-                                    repairsNeeded: 0,
-                                    missing: 0,
-                                    failed: 0
-                                },
-                                March: {
-                                    repairsNeeded: 0,
-                                    missing: 0,
-                                    failed: 0
-                                },
-                                April: {
-                                    repairsNeeded: 0,
-                                    missing: 0,
-                                    failed: 0
-                                },
-                                May: {
-                                    repairsNeeded: 0,
-                                    missing: 0,
-                                    failed: 0
-                                },
-                                June: {
-                                    repairsNeeded: 0,
-                                    missing: 0,
-                                    failed: 0
-                                },
-                                July: {
-                                    repairsNeeded: 0,
-                                    missing: 0,
-                                    failed: 0
-                                },
-                                August: {
-                                    repairsNeeded: 0,
-                                    missing: 0,
-                                    failed: 0
-                                },
-                                September: {
-                                    repairsNeeded: 0,
-                                    missing: 0,
-                                    failed: 0
-                                },
-                                October: {
-                                    repairsNeeded: 0,
-                                    missing: 0,
-                                    failed: 0
-                                },
-                                November: {
-                                    repairsNeeded: 0,
-                                    missing: 0,
-                                    failed: 0
-                                },
-                                December: {
-                                    repairsNeeded: 0,
-                                    missing: 0,
-                                    failed: 0
-                                }
-                            };
-
-                            if(statistics) {
-                                for(var i = 0; i < 12; i++) {
-                                    var month = pad(i+1, 2);
-                                    var yearMonth = time.year + month;
-
-                                    if(statistics[yearMonth]) {
-                                        if(statistics[yearMonth].repairsNeeded) {
-                                            retVal[Object.keys(retVal)[i]].repairsNeeded = Object.keys(statistics[yearMonth].repairsNeeded).length;
-                                        }
-
-                                        if(statistics[yearMonth].missing) {
-                                            retVal[Object.keys(retVal)[i]].missing = Object.keys(statistics[yearMonth].missing).length;
-                                        }
-
-                                        if(statistics[yearMonth].failed) {
-                                            retVal[Object.keys(retVal)[i]].failed = Object.keys(statistics[yearMonth].failed).length;
-                                        }
-                                    }
-                                }
-                            }
-
-                            cors(req, res, () => {
-                                res.status(200).send(retVal);
-                            });
-                        });
-                    } else {
-                        cors(req, res, () => {
-                            res.status(403).send("The request violates the user's permission level");
-                        });
-                    }
-                } else {
-                    cors(req, res, () => {
-                        res.status(401).send('The user is not authorized for access');
-                    });
-                }
-            });
-        } else {
-            cors(req, res, () => {
-                res.status(400).send("Missing 'uid' parameter");
-            });
-        }
-    } else {
-        cors(req, res, () => {
-            res.sendStatus(404);
-        });
-    }
-});
-*/
