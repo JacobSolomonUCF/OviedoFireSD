@@ -100,7 +100,7 @@ import {WebService} from "../../services/webService";
 								</button>
 							</div>
 							<div class="right">
-								<button class="accept short" (click)="submitReport()">Submit</button>
+								<button class="accept short" (click)="submitReport()" [disabled]="!submitEnabled()">Submit</button>
 							</div>
 						</div>
 						<div class="tile white pure-form pure-form-stacked editing">
@@ -354,21 +354,28 @@ export class EditReport {
 		this.selected = (this.temp.template.subSections) ? [this.temp.template.subSections[0]] : [this.temp.template];
 	}
 
+	submitEnabled() {
+		return (!!this.temp.template.title && !!this.temp.interval.frequency && !!(!this.temp.fresh || this.temp.itemCategory) && !!this.temp.template.subSections.length);
+	}
+
 	submitReport() {
-		this.loading = true;
-		if (this.temp.interval.frequency === 'Daily')
-			this.temp.interval.days = this.weekDaily;
-		this.webService.doPost('/listReports', {report: this.temp})
-			.subscribe(() => {
-				if (this.temp.fresh)
-					this.reports.push(this.temp);
-				this.original = JSON.parse(JSON.stringify(this.reports));
-				this.toggle();
-			}, error => {
+		if (this.submitEnabled()) {
+			this.loading = true;
+			if (this.temp.interval.frequency === 'Daily')
+				this.temp.interval.days = this.weekDaily;
+			this.webService.doPost('/listReports', {report: this.temp})
+				.subscribe(() => {
+					if (this.temp.fresh)
+						this.reports.push(this.temp);
+					this.original = JSON.parse(JSON.stringify(this.reports));
+					this.toggle();
+				}, error => {
 					console.log(error);
 				}, () => {
 					this.loading = false;
 				});
+		} else
+			console.log('Missing a field');
 	}
 
 	deleteReport() {
