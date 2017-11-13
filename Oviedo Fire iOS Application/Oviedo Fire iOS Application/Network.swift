@@ -60,12 +60,16 @@ struct userResults{
     var note:String
     var type:String
     var caption:String
+    var prev: String
+    var comment: String
     
-    init(value:String,note:String,type:String,caption:String) {
+    init(value:String,note:String,type:String,caption:String, prev:String,comment:String) {
         self.value = value
         self.note = note
         self.type = type
         self.caption = caption
+        self.prev = prev
+        self.comment = comment
     }
     
     
@@ -74,11 +78,15 @@ struct userResults{
 struct formItem {
     var caption: String
     var type: String
+    var prev: String
+    var comment: String
 
     
-    init(caption:String,type:String) {
+    init(caption:String,type:String, prev:String,comment:String) {
         self.caption = caption
         self.type = type
+        self.prev = prev
+        self.comment = comment
     }
 }
 struct subSection{
@@ -221,9 +229,9 @@ extension UIViewController{
             let sections = items.formItem
             for entry in sections{
                 if(entry.type == "pf"){
-                    list.append(userResults.init(value: "Fail", note: "", type: entry.type, caption: entry.caption))
+                    list.append(userResults.init(value: "Fail", note: "", type: entry.type, caption: entry.caption, prev: entry.prev, comment: entry.comment))
                 }else{
-                    list.append(userResults.init(value: "", note: "", type: entry.type, caption: entry.caption))
+                    list.append(userResults.init(value: "", note: "", type: entry.type, caption: entry.caption, prev: entry.prev, comment: entry.comment))
                 }
             }
         }
@@ -236,7 +244,7 @@ extension UIViewController{
             cString.remove(at: cString.startIndex)
         }
         
-        if ((cString.characters.count) != 6) {
+        if ((cString.count) != 6) {
             return UIColor.gray
         }
         
@@ -468,12 +476,25 @@ extension UIViewController{
             if((response.result.value) != nil){
                 let json = JSON(response.result.value!)
                 if(json["subSections"].exists()){
-                    formItemList.append(formItem.init(caption: json["title"].string!, type: "formTitle"))
+                    if let prev:String = json["prevCompletedBy"].string,let comment:String = json["prevDate"].string{
+                       formItemList.append(formItem.init(caption: json["title"].string!, type: "formTitle", prev: prev, comment: comment))
+                    }else{
+                        formItemList.append(formItem.init(caption: json["title"].string!, type: "formTitle", prev: "None", comment: "None"))
+                    }
                     for (_,subJson) in json["subSections"]{
-                        formItemList.append(formItem(caption: subJson["title"].string!,type: "title"))
+                        formItemList.append(formItem(caption: subJson["title"].string!,type: "title", prev: "None", comment: "None"))
                         for (_,subsubJson) in subJson["inputElements"]{
                             if let type = subsubJson["type"].string, let caption = subsubJson["caption"].string{
-                                formItemList.append(formItem(caption: caption,type: type))
+                                if let prev:String = subsubJson["prev"].string{
+                                    if let comment:String = subsubJson["prevNote"].string{
+                                        formItemList.append(formItem(caption: caption,type: type, prev: prev, comment: comment))
+                                    }else{
+                                        formItemList.append(formItem(caption: caption,type: type, prev: prev, comment: "None"))
+                                    }
+                                }else{
+                                    formItemList.append(formItem(caption: caption,type: type, prev: "None", comment: "None"))
+                                }
+                        
                             }
                             
                         }
@@ -497,10 +518,22 @@ extension UIViewController{
                     
                     
                 }else{
-                    formItemList.append(formItem(caption: json["title"].string!,type: "formTitle"))
+                    if let prev:String = json["prevCompletedBy"].string,let comment:String = json["prevDate"].string{
+                        formItemList.append(formItem.init(caption: json["title"].string!, type: "formTitle", prev: prev, comment: comment))
+                    }else{
+                        formItemList.append(formItem.init(caption: json["title"].string!, type: "formTitle", prev: "None", comment: "None"))
+                    }
                     for (_,subJson) in json["inputElements"]{
                         if let type = subJson["type"].string, let caption = subJson["caption"].string{
-                            formItemList.append(formItem(caption: caption, type:type))
+                            if let prev:String = subJson["prev"].string{
+                                if let comment:String = subJson["prevNote"].string{
+                                    formItemList.append(formItem(caption: caption,type: type, prev: prev, comment: comment))
+                                }else{
+                                    formItemList.append(formItem(caption: caption,type: type, prev: prev, comment: "None"))
+                                }
+                            }else{
+                                formItemList.append(formItem(caption: caption,type: type, prev: "None", comment: "None"))
+                            }
                         }
                     }
                     subSectionList.append(subSection(title: "N/A" , formItem: formItemList))

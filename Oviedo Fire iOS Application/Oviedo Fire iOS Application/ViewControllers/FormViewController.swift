@@ -97,7 +97,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func findItem(index:Int, form:completeForm) -> formItem{
-        var item = formItem.init(caption: "NA", type: "NA")
+        var item = formItem.init(caption: "NA", type: "NA", prev: "NA", comment: "NA")
         
         var count = 0
         let subsections = form.subSection
@@ -105,6 +105,8 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let sections = items.formItem
             for row in sections{
                 if(index == count){
+                    item.comment = row.comment
+                    item.prev = row.prev
                     item.caption = row.caption
                     item.type = row.type
                     return item
@@ -118,6 +120,16 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     func checkForm()->(Int){
         var numberNotCompleted = 0;
         var commentflag = 0;
+        
+        checkCompletion(userID: userID, formId: formId, completion: { (result) in
+            if(result == "true"){
+                commentflag = 2
+            }
+        })
+        if commentflag == 2{
+            return 2
+        }
+        
         
         for items in userEnteredResults{
             if !(items.type.contains("title") || items.type.contains("formTitle")){
@@ -368,6 +380,10 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }else if(check == -1){
                     self.alert(message: "Plese enter a comment for the item that needs repairs")
                     self.tableView.isUserInteractionEnabled = true
+                }else if(check == 0){
+                    self.alert(message: "This form has been completed already")
+                    self.tableView.isUserInteractionEnabled = true
+                    //Perform Segue here
                 }else{
                     var json:[String:Any]
                     let item = self.userEnteredResults[1]
@@ -450,6 +466,23 @@ extension EqFormViewController{
                     
 
                 }
+                if(item.prev != "None"){
+                    cell.pmrPrevResultLabel.text = "Previous result: \t" + item.prev
+                    cell.setHeightPmrResult(choice: 1)
+                    if(item.prev == "Missing" || item.prev == "Repairs Needed"){
+                        cell.pmrPrevResultLabel.textColor = hexStringToUIColor(hex: "a00606")
+                        if (item.prev == "Repairs Needed"){
+                            cell.pmrPrevCommentLabel.text = "Previous comments: " + item.comment
+                            cell.setHeightPmrComment(choice: 1)
+                            cell.pmrPrevCommentLabel.textColor = hexStringToUIColor(hex: "a00606")
+                        }else{cell.setHeightPmrComment(choice: 0)}
+                    }else{
+                        cell.pmrPrevResultLabel.textColor = hexStringToUIColor(hex: "12b481")
+                        cell.setHeightPmrComment(choice: 0)
+                    }
+                    
+                }else{cell.setHeightPer(choice: 0)}
+                
                 
                 
             }else if(item.type == "num"){
@@ -460,6 +493,12 @@ extension EqFormViewController{
                 if(item.value != ""){
                     cell.numValue.text = item.value
                 }
+                if(item.prev != "None"){
+                    cell.perNumResultLabel.text = "Previous result: \t" + item.prev
+                    cell.setHeightNum(choice: 1)
+                    cell.perNumResultLabel.textColor = hexStringToUIColor(hex: "12b481")
+
+                }else{cell.setHeightPer(choice: 0)}
             }else if(item.type == "per"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "per", for: indexPath) as! FormTableViewCell
                 cell.percentSlider.addTarget(self, action: #selector(EqFormViewController.sliderChanged(sender:)), for: .valueChanged)
@@ -470,6 +509,16 @@ extension EqFormViewController{
                     cell.percentValue.text = item.value
                     cell.percentSlider.value = Float(item.value)!
                 }
+                if(item.prev != "None"){
+                    cell.perPrevResultLabel.text = "Previous result: \t" + item.prev
+                    cell.setHeightPer(choice: 1)
+                    if (item.prev != "0%"){
+                        cell.perPrevResultLabel.textColor = hexStringToUIColor(hex: "12b481")
+                    }else{
+                        cell.perPrevResultLabel.textColor = hexStringToUIColor(hex: "a00606")
+                    }
+                }else{cell.setHeightPer(choice: 0)}
+                
             }else if(item.type == "pf"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "pf", for: indexPath) as! FormTableViewCell
                 cell.pfSwitch.addTarget(self, action: #selector(EqFormViewController.switchChanged(sender:)), for: .valueChanged)
@@ -487,6 +536,15 @@ extension EqFormViewController{
                         cell.pfSwitch.isOn = false
                     }
                 }
+                if(item.prev != "None"){
+                    cell.pfPrevResultLabel.text = "Previous result: \t" + item.prev
+                    if item.prev == "Pass"{
+                        cell.pfPrevResultLabel.textColor = hexStringToUIColor(hex: "12b481")
+                    }else{
+                        cell.pfPrevResultLabel.textColor = hexStringToUIColor(hex: "a00606")
+                    }
+                    cell.setHeightPF(choice: 1)
+                }else{cell.setHeightPF(choice: 0)}
             }else if(item.type == "title"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "title", for: indexPath) as! FormTableViewCell
                 cell.title.text = item.caption
@@ -496,6 +554,15 @@ extension EqFormViewController{
                 cell.truckName.text = titleParts[0]
                 cell.formTitle.text = titleParts[1]
                 cell.personCompleting.text = "Being completed by: " + userName[0] + " " + userName[1]
+                if(item.prev != "None"){
+                    cell.prevCompletedByLabel.text = "Previously completed by: " + item.prev
+                    cell.prevCompletedByLabel.textColor = hexStringToUIColor(hex: "12b481")
+                    cell.prevCompletedOnLabel.text = "Previously completed on: " + item.comment
+                    cell.prevCompletedOnLabel.textColor = hexStringToUIColor(hex: "12b481")
+                    cell.setHeight(choice: 1)
+                }else{cell.setHeight(choice: 0)}
+                
+                
                 
             }
             return cell
