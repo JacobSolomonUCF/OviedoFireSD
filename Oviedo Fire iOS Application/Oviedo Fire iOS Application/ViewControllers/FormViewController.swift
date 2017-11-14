@@ -498,7 +498,7 @@ extension EqFormViewController{
                     cell.setHeightNum(choice: 1)
                     cell.perNumResultLabel.textColor = hexStringToUIColor(hex: "12b481")
 
-                }else{cell.setHeightPer(choice: 0)}
+                }else{cell.setHeightNum(choice: 0)}
             }else if(item.type == "per"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "per", for: indexPath) as! FormTableViewCell
                 cell.percentSlider.addTarget(self, action: #selector(EqFormViewController.sliderChanged(sender:)), for: .valueChanged)
