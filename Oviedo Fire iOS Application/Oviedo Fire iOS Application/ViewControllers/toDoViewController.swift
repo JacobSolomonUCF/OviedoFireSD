@@ -112,13 +112,15 @@ extension toDoViewController{
         startSpinning(activityView: activityView)
         singleFormId = filterdList[indexPath.row].formId
         let fullName = filterdList[indexPath.row].name
-        if(fullName.contains("Check-Off")){
+        if(fullName.lowercased().contains("check-off")){
             formName = fullName
-        }else{
+        }else if(fullName.contains("-")){
             var sIndex = fullName.index(of:"-") ?? fullName.endIndex
             sIndex = fullName.index(sIndex, offsetBy: 2)
             formName = String(fullName[sIndex...])
             
+        }else{
+            formName = fullName
         }
 
         
@@ -165,13 +167,16 @@ extension toDoViewController{
         
         if(fullName.contains("/")){                 //For the default case
             fIndex = fullName.index(of:"/") ?? fullName.endIndex
-            sIndex = fullName.index(sIndex, offsetBy: 2)
-        }else if(!fullName.contains(" - ")){        //For the case with no name at all
+            sIndex = fullName.index(sIndex, offsetBy: 1)
+        }else if(!fullName.contains("-")){        //For the case with no name at all
+            fIndex = fullName.endIndex
+            sIndex = fullName.startIndex
+        }else if(fullName.lowercased().contains("check-off")){
             fIndex = fullName.endIndex
             sIndex = fullName.startIndex
         }else{                                      //For the case with no second name
             fIndex = fullName.index(of:"-") ?? fullName.endIndex
-            sIndex = fullName.index(sIndex, offsetBy: 2)
+            sIndex = fullName.index(sIndex, offsetBy: 1)
         }
         
         //  Parsing the string:
