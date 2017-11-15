@@ -270,34 +270,6 @@ extension UIViewController{
         activityView.stopAnimating()
     }
     
-    func splitToDoList(title:String) ->[String]{
-        var text:[String] = []
-        
-        let fullName:String = "TEST"
-        var fIndex = fullName.endIndex
-        var sIndex = fullName.index(of:"-") ?? fullName.endIndex
-        
-        if(fullName.contains("/")){                 //For the default case
-            fIndex = fullName.index(of:"/") ?? fullName.endIndex
-            sIndex = fullName.index(sIndex, offsetBy: 1)
-        }else if(!fullName.contains("-")){        //For the case with no name at all
-            fIndex = fullName.endIndex
-            sIndex = fullName.startIndex
-        }else{                                      //For the case with no second name
-            fIndex = fullName.index(of:"-") ?? fullName.endIndex
-            sIndex = fullName.index(sIndex, offsetBy: 1)
-        }
-        
-        //  Parsing the string:
-        var firstName = String(fullName[..<fIndex])
-        let oneFormName = String(fullName[sIndex...])
-        if(oneFormName == firstName){
-            firstName = " "
-        }
-        return text
-        
-    }
-    
     func splitFormTitle(formTitle:String) -> [String]{
         var names:[String] = []
         

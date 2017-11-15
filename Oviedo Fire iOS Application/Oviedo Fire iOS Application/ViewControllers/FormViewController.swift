@@ -369,6 +369,17 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         
     }
+    
+    //    TODO: RIGHT DATE FORMAT
+    @objc func dateChanged(sender: UIDatePicker) {
+        print("print \(sender.date)")
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd, YYYY"
+        let somedateString = dateFormatter.string(from: sender.date)
+        userEnteredResults[sender.tag].value = somedateString
+
+    }
     @IBAction func submitPressed(_ sender: Any) {
         submitAlert(message: "Are you sure you want to submit?") { (result) in
             if(result == true){
@@ -481,7 +492,10 @@ extension EqFormViewController{
                         cell.setHeightPmrComment(choice: 0)
                     }
                     
-                }else{cell.setHeightPmrResult(choice: 0)}
+                }else{
+                    cell.setHeightPmrResult(choice: 0)
+                    cell.setHeightPmrComment(choice: 0)
+                }
                 
                 
                 
@@ -564,6 +578,17 @@ extension EqFormViewController{
                 
                 
                 
+            }else if(item.type == "date"){
+                cell = tableView.dequeueReusableCell(withIdentifier: "date", for: indexPath) as! FormTableViewCell
+                cell.dateLabel.text = item.caption
+                cell.dateSwitch.tag = indexPath.row
+                cell.dateSwitch.addTarget(self, action: #selector(EqFormViewController.dateChanged(sender:)), for: .valueChanged)
+                if(item.prev != "None"){
+                    cell.setHeightDate(choice:1)
+                    cell.datePrevLabel.text = "Previous result: \t" + item.prev
+                }else{
+                    cell.setHeightDate(choice:0)
+                }
             }
             return cell
         }

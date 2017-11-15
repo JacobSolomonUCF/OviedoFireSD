@@ -102,9 +102,7 @@ extension ActiveViewController{
     {
         let name = list[indexPath.row].name
         var split = name.components(separatedBy: "/")
-        
-
-        
+                
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActiveTableViewCell
         cell.backgroundColor = UIColor.clear
         tableView.backgroundColor = UIColor.clear
