@@ -523,23 +523,14 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vehicle #:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4bA-EX-JLu">
-                                                    <rect key="frame" x="349" y="42" width="57" height="14"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="4bA-EX-JLu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6PR-lv-7nH" secondAttribute="leading" constant="20" symbolic="YES" id="aeH-lo-9yE"/>
                                                 <constraint firstItem="v02-3M-H1U" firstAttribute="width" secondItem="6cP-G4-wAH" secondAttribute="width" id="xJ1-EV-De4"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <constraints>
                                             <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="v02-3M-H1U" secondAttribute="trailing" constant="251" id="DVl-0q-eFq"/>
-                                            <constraint firstAttribute="bottom" secondItem="4bA-EX-JLu" secondAttribute="bottom" constant="4" id="Hs9-gX-EjA"/>
                                             <constraint firstItem="6cP-G4-wAH" firstAttribute="leading" secondItem="NDW-HT-Dwd" secondAttribute="leading" constant="15" id="Nat-NP-cYA"/>
-                                            <constraint firstAttribute="trailing" secondItem="4bA-EX-JLu" secondAttribute="trailing" constant="8" id="U6b-qc-Ny4"/>
                                             <constraint firstItem="6cP-G4-wAH" firstAttribute="top" secondItem="NDW-HT-Dwd" secondAttribute="top" constant="8" id="WAD-ia-Tdr"/>
                                             <constraint firstItem="v02-3M-H1U" firstAttribute="leading" secondItem="NDW-HT-Dwd" secondAttribute="leading" constant="15" id="hnM-Jr-4Js"/>
                                             <constraint firstAttribute="bottom" secondItem="v02-3M-H1U" secondAttribute="bottom" constant="4" id="rne-1R-CPe"/>
@@ -548,7 +539,6 @@
                                         <connections>
                                             <outlet property="vehicleName" destination="6cP-G4-wAH" id="yxY-Pq-0bs"/>
                                             <outlet property="vehicleName2" destination="v02-3M-H1U" id="0M2-26-JGQ"/>
-                                            <outlet property="vehicleNumber" destination="4bA-EX-JLu" id="ryG-0x-z8l"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

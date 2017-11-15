@@ -101,7 +101,6 @@ extension ActiveViewController{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let name = list[indexPath.row].name
-        let number = list[indexPath.row].number
         var split = name.components(separatedBy: "/")
         
 
@@ -117,9 +116,7 @@ extension ActiveViewController{
             cell.vehicleName.text = split[0]
             cell.vehicleName2.text = ""
         }
-        
-        
-        cell.vehicleNumber.text = "Vehicle #: "     +  number
+    
         return cell
     }
     //End Table Functions
