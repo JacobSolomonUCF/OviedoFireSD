@@ -13,23 +13,37 @@ import {WebService} from "../../services/webService";
 			<div *ngSwitchCase="false">
 				<div [ngSwitch]="viewType">
 					<div *ngSwitchCase="'view'">
-						<div class="table-options">
-							<div class="left">
-								<button class="add" (click)="onclick(undefined)">
-									<i class="fa fa-plus"></i> Create new
+						<div [ngSwitch]="reorder">
+							<div class="table-options" *ngSwitchCase="true">
+								<button class="close" (click)="toggle()">
+									<i class="fa fa-chevron-left"></i> Back
 								</button>
-								<button class="add" (click)="viewType = 'copy'">
-									<i class="fa fa-copy"></i> Copy report
-								</button>
+								<div class="right">
+									<button class="accept short" (click)="submitReport()" [disabled]="!diff(reports, original)">Submit
+									</button>
+								</div>
 							</div>
-							<div class="right">
-								<input
-									#tableFilter
-									class='filter'
-									type='text'
-									[ngModel]="filter"
-									placeholder='Type to filter...'
-									(keyup)='updateFilter($event)'/>
+							<div class="table-options" *ngSwitchDefault>
+								<div class="left">
+									<button class="add" (click)="onclick(undefined)">
+										<i class="fa fa-plus"></i> Create new
+									</button>
+									<button class="add" (click)="viewType = 'copy'">
+										<i class="fa fa-copy"></i> Copy report
+									</button>
+									<button class="add" (click)="reorder = true">
+										<i class="fa fa-arrows"></i> Reorder reports
+									</button>
+								</div>
+								<div class="right">
+									<input
+										#tableFilter
+										class='filter'
+										type='text'
+										[ngModel]="filter"
+										placeholder='Type to filter...'
+										(keyup)='updateFilter($event)'/>
+								</div>
 							</div>
 						</div>
 						<ngx-datatable
@@ -41,8 +55,20 @@ import {WebService} from "../../services/webService";
 							[rows]="reports">
 							<ngx-datatable-column [name]="'Report'" [prop]="'template.title'" [flexGrow]="2">
 								<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-									<div (click)="onclick(row)">
-										{{value}}
+									<div [ngSwitch]="reorder">
+										<div *ngSwitchCase="true">
+											<select #location
+															(change)="location.value = move(reports, rowIndex, location.value)">
+												<option *ngFor="let indexes of Arr(reports.length).keys()" [value]="indexes"
+																[selected]="indexes === rowIndex">
+													{{indexes + 1}}
+												</option>
+											</select>
+											{{value}}
+										</div>
+										<div (click)="onclick(row)" *ngSwitchDefault>
+											{{value}}
+										</div>
 									</div>
 								</ng-template>
 							</ngx-datatable-column>
@@ -271,14 +297,31 @@ import {WebService} from "../../services/webService";
 export class EditReport {
 	Arr = Array;
 
-	move = function (array: any[], from: number, to: number) {
-		array.splice(to, 0, array.splice(from, 1)[0]);
-		return from;
-	};
+	reorder: boolean = false;
 
 	@ViewChild('qr') qr;
 	@ViewChild('myTable') table;
 	viewType: string = 'view';
+
+	constructor(public webService: WebService) {
+
+		webService.setState('eReport')
+			.doGet('/listReports')
+			.subscribe(resp => {
+					this.original = resp['list'].map(report => {
+						if (report.interval.frequency === 'Daily')
+							for (let i = 0, len = report.template.subSections.length; i < len; i++)
+								if (report.template.subSections[i].title.indexOf(report.template.title) !== -1)
+									report.template.subSections[i].title = report.template.subSections[i].title.substring(report.template.title.length + 3);
+						return report
+					});
+					this.reports = JSON.parse(JSON.stringify(this.original));
+					this.loading = false;
+				}, () => {
+					this.loading = false;
+				}
+			);
+	}
 	loading: boolean = true;
 	heading: any[] = [
 		{prop: 'name', flexGrow: 3, dragable: false, resizeable: true},
@@ -301,25 +344,19 @@ export class EditReport {
 		saturday: true
 	};
 
-	constructor(public webService: WebService) {
+	move(array: any[], from: number, to: number) {
+		array.splice(to, 0, array.splice(from, 1)[0]);
+		return from;
+	};
 
-		webService.setState('eReport')
-			.doGet('/listReports')
-			.subscribe(resp => {
-					this.original = resp['list'].map(report => {
-					if (report.interval.frequency === 'Daily')
-						for (let i = 0, len = report.template.subSections.length; i < len; i++)
-							if (report.template.subSections[i].title.indexOf(report.template.title) !== -1)
-								report.template.subSections[i].title = report.template.subSections[i].title.substring(report.template.title.length + 3);
-					return report
-				});
-					this.reports = JSON.parse(JSON.stringify(this.original));
-					this.loading = false;
-				}, () => {
-					this.loading = false;
-				}
-			);
-	}
+	diff(a, b) {
+		if (a.length != b.length)
+			return true;
+		for (let i = 0, len = a.length; i < len; i++)
+			if (a[i].id != b[i].id)
+				return true;
+		return false;
+	};
 
 	onclick(event = this.reports[this.temp]) {
 
@@ -359,7 +396,18 @@ export class EditReport {
 	}
 
 	submitReport() {
-		if (this.submitEnabled()) {
+		if (this.reorder) {
+			console.log('reports', this.reports);
+			this.webService.doPost('/orderReports', {reports: this.reports})
+				.subscribe(() => {
+					this.original = JSON.parse(JSON.stringify(this.reports));
+				}, error => {
+					console.log(error);
+					this.toggle();
+				}, () => {
+					this.toggle()
+				});
+		} else if (this.submitEnabled()) {
 			this.loading = true;
 			if (this.temp.interval.frequency === 'Daily')
 				this.temp.interval.days = this.weekDaily;
@@ -422,6 +470,7 @@ export class EditReport {
 
 	toggle() {
 		delete this.temp;
+		delete this.reorder;
 		this.viewType = 'view';
 		this.reports = JSON.parse(JSON.stringify(this.original));
 		this.updateFilter(undefined);
