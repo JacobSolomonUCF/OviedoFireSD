@@ -384,7 +384,7 @@ export class EditReport {
 		};
 
 		if (this.viewType === 'copy') {
-			let copy = {...this.copy};
+			let copy = JSON.parse(JSON.stringify(this.copy));
 			copy.template.title = this.copy.template.title + ' (Copy)';
 			this.temp = copy;
 		} else if (this.viewType === 'edit') {
