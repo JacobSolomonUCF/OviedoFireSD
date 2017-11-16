@@ -397,8 +397,7 @@ export class EditReport {
 
 	submitReport() {
 		if (this.reorder) {
-			console.log('reports', this.reports);
-			this.webService.doPost('/orderReports', {reports: this.reports})
+			this.webService.doPost('/orderReports', {list: this.reports})
 				.subscribe(() => {
 					this.original = JSON.parse(JSON.stringify(this.reports));
 				}, error => {
@@ -433,6 +432,7 @@ export class EditReport {
 		this.webService.doDelete('/listReports', {id: this.temp.id, itemCategory: this.temp.itemCategory})
 			.subscribe(() => {
 				this.reports.splice(this.reports.indexOf(this.temp), 1);
+				this.original = JSON.parse(JSON.stringify(this.reports));
 				this.toggle()
 			}, () => {
 			}, () => {
