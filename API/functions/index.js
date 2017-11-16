@@ -577,6 +577,14 @@ function generateCSV(report) {
 
     return csvReport;
 }
+
+function sortByRank(a, b) {
+	if(a.rank < b.rank)
+		return -1;
+	if(a.rank > b.rank)
+		return 1;
+	return 0;
+}
 // END: Global Functions--------------------------------------------------------
 
 // BEGIN: API App Functions-----------------------------------------------------
@@ -594,9 +602,12 @@ exports.activeVehicles = functions.https.onRequest((req, res) => {
                                 vehiclesSnap.forEach(vehicleSnap => {
                                     retVal.list.push({
                                         id: vehicleSnap.key,
-                                        name: vehicleSnap.child('name').val()
+                                        name: vehicleSnap.child('name').val(),
+										rank: vehicleSnap.child('rank').val()
                                     });
                                 });
+
+								retVal.list.sort(sortByRank);
 
                                 cors(req, res, () => {
                                     res.status(200).send(retVal);
@@ -1098,9 +1109,12 @@ exports.ladders = functions.https.onRequest((req, res) => {
                                     retVal.list.push({
                                         name: ladders[ladderKey].name,
                                         formId: formId,
-                                        completedBy: completedBy
+                                        completedBy: completedBy,
+										rank: ladders[ladderKey].rank
                                     });
                                 });
+
+								retVal.list.sort(sortByRank);
 
                                 cors(req, res, () => {
                                     res.status(200).send(retVal);
@@ -1185,9 +1199,12 @@ exports.misc = functions.https.onRequest((req, res) => {
                                     retVal.list.push({
                                         name: misc[miscKey].name,
                                         formId: formId,
-                                        completedBy: completedBy
+                                        completedBy: completedBy,
+										rank: misc[miscKey].rank
                                     });
                                 });
+
+								retVal.list.sort(sortByRank);
 
                                 cors(req, res, () => {
                                     res.status(200).send(retVal);
@@ -1330,9 +1347,12 @@ exports.scbas = functions.https.onRequest((req, res) => {
                                     retVal.list.push({
                                         name: scbas[scbaKey].name,
                                         formId: formId,
-                                        completedBy: completedBy
+                                        completedBy: completedBy,
+										rank: scbas[scbaKey].rank
                                     });
                                 });
+
+								retVal.list.sort(sortByRank);
 
                                 cors(req, res, () => {
                                     res.status(200).send(retVal);
@@ -1417,9 +1437,12 @@ exports.stretchers = functions.https.onRequest((req, res) => {
                                     retVal.list.push({
                                         name: stretchers[stretcherKey].name,
                                         formId: formId,
-                                        completedBy: completedBy
+                                        completedBy: completedBy,
+										rank: stretchers[stretcherKey].rank
                                     });
                                 });
+
+								retVal.list.sort(sortByRank);
 
                                 cors(req, res, () => {
                                     res.status(200).send(retVal);
@@ -1640,6 +1663,7 @@ exports.vehicleCompartments = functions.https.onRequest((req, res) => {
                                         const intervals = response[0].val();
                                         const results = response[1].val();
 
+										retVal.list.length = Object.keys(compartments).length;
                                         Object.keys(compartments).forEach(compartmentKey => {
                                             var completedBy = 'nobody';
                                             const formId = compartments[compartmentKey].formId;
@@ -1664,11 +1688,11 @@ exports.vehicleCompartments = functions.https.onRequest((req, res) => {
                                                 }
                                             }
 
-                                            retVal.list.push({
+                                            retVal.list[compartments[compartmentKey].rank] = {
                                                 name: compartments[compartmentKey].name,
                                                 formId: formId,
                                                 completedBy: completedBy
-                                            });
+                                            };
                                         });
 
                                         cors(req, res, () => {
@@ -2936,11 +2960,13 @@ exports.listReports = functions.https.onRequest((req, res) => {
 	                                            }
 	                                        };
 
+											listItem.rank = inventory[itemType][itemKey].rank;
+											listItem.template.subSections.length = Object.keys(inventory[itemType][itemKey].compartments).length;
 	                                        for(var k = 0; k < Object.keys(inventory[itemType][itemKey].compartments).length; k++) {
 	                                            var compartmentKey = Object.keys(inventory[itemType][itemKey].compartments)[k];
                                                 var formId = inventory[itemType][itemKey].compartments[compartmentKey].formId;
                                                 templates[formId].id = formId;
-                                                listItem.template.subSections.push(templates[formId]);
+												listItem.template.subSections[inventory[itemType][itemKey].compartments[compartmentKey].rank] = templates[formId];
 	                                        }
 
 	                                        reportsList.list.push(listItem);
@@ -2951,11 +2977,14 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                                 "id": formId,
                                                 "itemCategory": itemType,
                                                 "interval": intervals[formId],
-                                                "template": templates[formId]
+                                                "template": templates[formId],
+												"rank": inventory[itemType][itemKey].rank
                                             });
 	                                    }
 	                                }
 	                            }
+
+								reportsList.list.sort(sortByRank);
 
 	                            cors(req, res, () => {
 	                                res.status(200).send(reportsList);
@@ -3035,6 +3064,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                                         title: `${report.template.title} - ${report.template.subSections[i].title}`
                                                     });
 													ref.child(`inventory/${report.itemCategory}/${report.id}/compartments/${report.template.subSections[i].id}/name`).set(report.template.subSections[i].title);
+													ref.child(`inventory/${report.itemCategory}/${report.id}/compartments/${report.template.subSections[i].id}/rank`).set(i);
                                                 } else {
                                                     var newKey = ref.child(`forms/intervals`).push().key;
 
@@ -3046,7 +3076,8 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                                         });
                                                         ref.child(`inventory/vehicles/${report.id}/compartments/${newKey}`).set({
                                                             formId: [newKey],
-                                                            name: report.template.subSections[i].title
+                                                            name: report.template.subSections[i].title,
+															rank: i
                                                         });
                                                     }
                                                 }
@@ -3083,7 +3114,8 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                                     if(newKey) {
                                                         ref.child(`inventory/vehicles/${newVehicleKey}/compartments/${newKey}`).set({
                                                             formId: newKey,
-                                                            name: report.template.subSections[i].title
+                                                            name: report.template.subSections[i].title,
+															rank: i
                                                         });
                                                         ref.child(`forms/intervals/${newKey}`).set(report.interval);
                                                         ref.child(`forms/templates/${newKey}`).set({
@@ -3314,6 +3346,61 @@ exports.statistics = functions.https.onRequest((req, res) => {
 			                        res.status(400).send(err);
 			                    });
 							});
+                        } else {
+                            cors(req, res, () => {
+                                res.status(403).send("The request violates the user's permission level");
+                            });
+                        }
+                    } else {
+                        cors(req, res, () => {
+                            res.status(401).send("The user is not authorized for access");
+                        });
+                    }
+                }).catch(err => {
+                    cors(req, res, () => {
+                        res.status(400).send(err);
+                    });
+                });
+            } else {
+                cors(req, res, () => {
+                    res.status(400).send("Missing parameter(s): uid");
+                });
+            }
+            break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
+
+exports.orderReports = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+        case 'POST':
+            if(req.body.uid && req.body.list) {
+                ref.child(`users/${req.body.uid}/authentication`).once('value').then(authSnap => {
+                    const auth = authSnap.val();
+                    if(auth !== null) {
+                        if(auth == 0) {
+							const list = req.body.list;
+							var postError = false;
+
+							for(var i = 0; i < list.length; i++) {
+								ref.child(`inventory/${list[i].itemCategory}/${list[i].id}/rank`).set(i).catch(err => {
+									postError = true;
+								});
+							}
+
+							if(postError) {
+								cors(req, res, () => {
+					                res.sendStatus(400);
+					            });
+							} else {
+								cors(req, res, () => {
+					                res.sendStatus(200);
+					            });
+							}
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
