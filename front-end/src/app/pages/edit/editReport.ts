@@ -126,6 +126,7 @@ import {WebService} from "../../services/webService";
 								</button>
 							</div>
 							<div class="right">
+								<span *ngIf="subsectionError" class="required">*Required <span *ngIf="subsectionEmpty"> missing subsections</span> </span>
 								<button class="accept short" (click)="submitReport()" [disabled]="!submitEnabled()">Submit</button>
 							</div>
 						</div>
@@ -145,7 +146,7 @@ import {WebService} from "../../services/webService";
 								<div class="flex-grow" *ngIf="temp.fresh && temp.interval">
 									<label for="type">Category</label>
 									<select #category id="type" [(ngModel)]="temp.itemCategory">
-										<option *ngFor="let category of ['PPE', 'MISC', 'Tools', 'EMS', 'Vehicles']"
+										<option *ngFor="let category of ['ppe', 'miscellaneous', 'tools', 'ems', 'vehicles']"
 														[value]="category">{{category}}</option>
 									</select>
 								</div>
@@ -194,13 +195,15 @@ import {WebService} from "../../services/webService";
 																 let-row="row">
 											<div class="flex">
 												<select #location
+																class="{{subsectionError && (!location || location.value == '') ? 'required' : ''}}"
 																(change)="location.value = move(temp.template.subSections, rowIndex, location.value)">
 													<option *ngFor="let indexes of Arr(temp.template.subSections.length).keys()" [value]="indexes"
 																	[selected]="indexes === rowIndex">
 														{{indexes + 1}}
 													</option>
 												</select>
-												<input style="flex-grow: 99" [(ngModel)]="row.title" placeholder="Add a name"/>
+												<input style="flex-grow: 99" class="{{subsectionError ? 'required' : ''}}"
+															 [(ngModel)]="row.title" placeholder="Add a name"/>
 												<span class="flex-grow">
 													<button class="close" (click)="removeSection(rowIndex)"><i class="fa fa-times"></i></button>
 												</span>
@@ -222,13 +225,15 @@ import {WebService} from "../../services/webService";
 																 let-row="row">
 											<div class="flex">
 												<select #location
+																class="{{subsectionError && (!location || location.value == '') ? 'required' : ''}}"
 																(change)="location.value = move(selected[0].inputElements, rowIndex, location.value)">
 													<option *ngFor="let indexes of Arr(selected[0].inputElements.length).keys()" [value]="indexes"
 																	[selected]="indexes === rowIndex">
 														{{indexes + 1}}
 													</option>
 												</select>
-												<input type="text" [value]="value" style="padding-right: 1em" [(ngModel)]="row.caption"/>
+												<input type="text" class="{{subsectionError ? 'required' : ''}}" placeholder=" " [value]="value"
+															 style="padding-right: 1em" [(ngModel)]="row.caption"/>
 											</div>
 										</ng-template>
 									</ngx-datatable-column>
@@ -246,7 +251,8 @@ import {WebService} from "../../services/webService";
 										<ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value"
 																 let-row="row">
 											<div class="flex">
-												<select id="type" [value]="value" [(ngModel)]="row.type">
+												<select id="type" [value]="value" [(ngModel)]="row.type"
+																class="{{subsectionError && (row.type == '') ? 'required' : ''}}">
 													<option value="pmr">Present/Missing/Repair</option>
 													<option value="pf">Pass/Fail</option>
 													<option value="num">Number</option>
@@ -302,6 +308,28 @@ export class EditReport {
 	@ViewChild('qr') qr;
 	@ViewChild('myTable') table;
 	viewType: string = 'view';
+	loading: boolean = true;
+	subsectionError: boolean = false;
+	subsectionEmpty: boolean = false;
+	heading: any[] = [
+		{prop: 'name', flexGrow: 3, dragable: false, resizeable: true},
+		{prop: 'schedule', flexGrow: 1, dragable: false, resizeable: true},
+	];
+	reports: any[];
+	selected = [];
+	original;
+	copy;
+	filter: string = '';
+	temp;
+	weekDaily = {
+		sunday: true,
+		monday: true,
+		tuesday: true,
+		wednesday: true,
+		thursday: true,
+		friday: true,
+		saturday: true
+	};
 
 	constructor(public webService: WebService) {
 
@@ -322,27 +350,6 @@ export class EditReport {
 				}
 			);
 	}
-	loading: boolean = true;
-	heading: any[] = [
-		{prop: 'name', flexGrow: 3, dragable: false, resizeable: true},
-		{prop: 'schedule', flexGrow: 1, dragable: false, resizeable: true},
-	];
-	reports: any[];
-	selected = [];
-	original;
-	copy;
-	filter: string = '';
-	temp;
-
-	weekDaily = {
-		sunday: true,
-		monday: true,
-		tuesday: true,
-		wednesday: true,
-		thursday: true,
-		friday: true,
-		saturday: true
-	};
 
 	move(array: any[], from: number, to: number) {
 		array.splice(to, 0, array.splice(from, 1)[0]);
@@ -395,6 +402,27 @@ export class EditReport {
 		return (!!this.temp.template.title && !!this.temp.interval.frequency && !!(!this.temp.fresh || this.temp.itemCategory) && !!this.temp.template.subSections.length);
 	}
 
+	emptySubsection() {
+		console.log(this.temp);
+		if (this.temp.template.subSections) {
+			for (let i = 0, len = this.temp.template.subSections.length; i < len; i++) {
+				if (this.temp.template.title == '') return true;
+				if (this.temp.template.subSections[i].inputElements.length) {
+					for (let j = 0, len2 = this.temp.template.subSections[i].inputElements.length; j < len2; j++) {
+						if (this.temp.template.subSections[i].inputElements[j].caption == '' || this.temp.template.subSections[i].inputElements[j].type == '')
+							return true;
+					}
+					return false;
+				} else {
+					this.subsectionEmpty = true;
+					return true;
+				}
+			}
+		} else {
+			return true;
+		}
+	}
+
 	submitReport() {
 		if (this.reorder) {
 			this.webService.doPost('/orderReports', {list: this.reports})
@@ -407,20 +435,28 @@ export class EditReport {
 					this.toggle()
 				});
 		} else if (this.submitEnabled()) {
-			this.loading = true;
+			this.subsectionEmpty = false;
+			this.subsectionError = false;
+			if (this.emptySubsection()) {
+				this.subsectionError = true;
+				return;
+			}
+
+			// this.loading = true;
 			if (this.temp.interval.frequency === 'Daily')
 				this.temp.interval.days = this.weekDaily;
-			this.webService.doPost('/listReports', {report: this.temp})
-				.subscribe(() => {
-					if (this.temp.fresh)
-						this.reports.push(this.temp);
-					this.original = JSON.parse(JSON.stringify(this.reports));
-					this.toggle();
-				}, error => {
-					console.log(error);
-				}, () => {
-					this.loading = false;
-				});
+			console.log('got here');
+			// this.webService.doPost('/listReports', {report: this.temp})
+			// 	.subscribe(resp => {
+			// 		if (this.temp.fresh)
+			// 			this.reports.push(resp);
+			// 		this.original = JSON.parse(JSON.stringify(this.reports));
+			// 		this.toggle();
+			// 	}, error => {
+			// 		console.log(error);
+			// 	}, () => {
+			// 		this.loading = false;
+			// 	});
 		} else
 			console.log('Missing a field');
 	}
