@@ -1071,20 +1071,20 @@ exports.ladders = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0 || auth == 1) {
-                            const laddersPr = ref.child('inventory/ladders').once('value');
+                            const ppePr = ref.child('inventory/ppe').once('value');
                             const intervalsPr = ref.child('forms/intervals').once('value');
                             const resultsPr = ref.child('forms/results').once('value');
 
-                            Promise.all([laddersPr, intervalsPr, resultsPr]).then(response => {
+                            Promise.all([ppePr, intervalsPr, resultsPr]).then(response => {
                                 var retVal = { list: [] };
                                 const time = getTime();
-                                const ladders = response[0].val();
+                                const ppe = response[0].val();
                                 const intervals = response[1].val();
                                 const results = response[2].val();
 
-                                Object.keys(ladders).forEach(ladderKey => {
+                                Object.keys(ppe).forEach(ppeKey => {
                                     var completedBy = 'nobody';
-                                    const formId = ladders[ladderKey].formId;
+                                    const formId = ppe[ppeKey].formId;
 
                                     if(results && results[formId]) {
                                         const frequency = intervals[formId].frequency;
@@ -1107,10 +1107,10 @@ exports.ladders = functions.https.onRequest((req, res) => {
                                     }
 
                                     retVal.list.push({
-                                        name: ladders[ladderKey].name,
+                                        name: ppe[ppeKey].name,
                                         formId: formId,
                                         completedBy: completedBy,
-										rank: ladders[ladderKey].rank
+										rank: ppe[ppeKey].rank
                                     });
                                 });
 
@@ -1309,20 +1309,20 @@ exports.scbas = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0 || auth == 1) {
-                            const scbasPr = ref.child('inventory/scbas').once('value');
+                            const toolsPr = ref.child('inventory/tools').once('value');
                             const intervalsPr = ref.child('forms/intervals').once('value');
                             const resultsPr = ref.child('forms/results').once('value');
 
-                            Promise.all([scbasPr, intervalsPr, resultsPr]).then(response => {
+                            Promise.all([toolsPr, intervalsPr, resultsPr]).then(response => {
                                 var retVal = { list: [] };
                                 const time = getTime();
-                                const scbas = response[0].val();
+                                const tools = response[0].val();
                                 const intervals = response[1].val();
                                 const results = response[2].val();
 
-                                Object.keys(scbas).forEach(scbaKey => {
+                                Object.keys(tools).forEach(toolKey => {
                                     var completedBy = 'nobody';
-                                    const formId = scbas[scbaKey].formId;
+                                    const formId = tools[toolKey].formId;
 
                                     if(results && results[formId]) {
                                         const frequency = intervals[formId].frequency;
@@ -1345,10 +1345,10 @@ exports.scbas = functions.https.onRequest((req, res) => {
                                     }
 
                                     retVal.list.push({
-                                        name: scbas[scbaKey].name,
+                                        name: tools[toolKey].name,
                                         formId: formId,
                                         completedBy: completedBy,
-										rank: scbas[scbaKey].rank
+										rank: tools[toolKey].rank
                                     });
                                 });
 
@@ -1399,20 +1399,20 @@ exports.stretchers = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0 || auth == 1) {
-                            const stretchersPr = ref.child('inventory/stretchers').once('value');
+                            const emsPr = ref.child('inventory/ems').once('value');
                             const intervalsPr = ref.child('forms/intervals').once('value');
                             const resultsPr = ref.child('forms/results').once('value');
 
-                            Promise.all([stretchersPr, intervalsPr, resultsPr]).then(response => {
+                            Promise.all([emsPr, intervalsPr, resultsPr]).then(response => {
                                 var retVal = { list: [] };
                                 const time = getTime();
-                                const stretchers = response[0].val();
+                                const ems = response[0].val();
                                 const intervals = response[1].val();
                                 const results = response[2].val();
 
-                                Object.keys(stretchers).forEach(stretcherKey => {
+                                Object.keys(ems).forEach(emsKey => {
                                     var completedBy = 'nobody';
-                                    const formId = stretchers[stretcherKey].formId;
+                                    const formId = ems[emsKey].formId;
 
                                     if(results && results[formId]) {
                                         const frequency = intervals[formId].frequency;
@@ -1435,10 +1435,10 @@ exports.stretchers = functions.https.onRequest((req, res) => {
                                     }
 
                                     retVal.list.push({
-                                        name: stretchers[stretcherKey].name,
+                                        name: ems[emsKey].name,
                                         formId: formId,
                                         completedBy: completedBy,
-										rank: stretchers[stretcherKey].rank
+										rank: ems[emsKey].rank
                                     });
                                 });
 
@@ -3102,6 +3102,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                     });
                                 } else {
                                     var newVehicleKey = ref.child('inventory/vehicles').push().key;
+									report.id = newVehicleKey;
 
                                     if(newVehicleKey) {
                                         ref.child(`inventory/vehicles/${newVehicleKey}`).set({
@@ -3110,6 +3111,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                             ref.child(`forms/intervals/${newVehicleKey}`).set(report.interval).then(() => {
                                                 for(var i = 0; i < report.template.subSections.length; i++) {
                                                     var newKey = ref.child(`inventory/vehicles/${newVehicleKey}`).push().key;
+													report.template.subSections[i].id = newKey;
 
                                                     if(newKey) {
                                                         ref.child(`inventory/vehicles/${newVehicleKey}/compartments/${newKey}`).set({
@@ -3126,7 +3128,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                                 }
 
                                                 cors(req, res, () => {
-                                                    res.sendStatus(200);
+                                                    res.status(200).send(report);
                                                 });
                                             });
                                         });
@@ -3158,6 +3160,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                     });
                                 } else {
                                     var newKey = ref.child('forms/intervals').push().key;
+									report.id = newKey;
 
                                     if(newKey) {
                                         ref.child(`forms/intervals/${newKey}`).set(report.interval).then(() => {
@@ -3167,7 +3170,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                                     name: report.template.title
                                                 }).then(() => {
                                                     cors(req, res, () => {
-                                                        res.sendStatus(200);
+                                                        res.status(200).send(report);
                                                     });
                                                 }).catch(err => {
                                                     cors(req, res, () => {
