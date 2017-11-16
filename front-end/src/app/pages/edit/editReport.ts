@@ -145,7 +145,7 @@ import {WebService} from "../../services/webService";
 								<div class="flex-grow" *ngIf="temp.fresh && temp.interval">
 									<label for="type">Category</label>
 									<select #category id="type" [(ngModel)]="temp.itemCategory">
-										<option *ngFor="let category of ['ladders', 'miscellaneous', 'scbas', 'stretchers', 'vehicles']"
+										<option *ngFor="let category of ['PPE', 'MISC', 'Tools', 'EMS', 'Vehicles']"
 														[value]="category">{{category}}</option>
 									</select>
 								</div>
