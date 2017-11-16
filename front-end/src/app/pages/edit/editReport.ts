@@ -460,7 +460,7 @@ export class EditReport {
 	}
 
 	add() {
-		let emptySection = {title: "", type: ""};
+		let emptySection = {caption: "", type: ""};
 		this.selected[0].inputElements.unshift(emptySection);
 	}
 
