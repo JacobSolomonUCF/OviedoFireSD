@@ -12,7 +12,7 @@ class ActiveTableViewCell: UITableViewCell {
 
     @IBOutlet weak var vehicleName: UILabel!
     @IBOutlet weak var vehicleName2: UILabel!
-    @IBOutlet weak var vehicleNumber: UILabel!
+
     
     override func awakeFromNib() {
         super.awakeFromNib()

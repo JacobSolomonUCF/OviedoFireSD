@@ -21,15 +21,20 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     //    Variables
     var firstName:[String] = []
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        checkForUser()
+        
+    }
+    
     override func viewDidLoad() {
-        stopSpinning(activityView: activityView)
         super.viewDidLoad()
         
         //Hides the navigation bar
         self.navigationController?.isNavigationBarHidden = true
         
         // Do any additional setup after loading the view.
-        checkForUser()
+        stopSpinning(activityView: activityView)
         UILayout()
     }
     override func didReceiveMemoryWarning() {
@@ -38,11 +43,13 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        stopSpinning(activityView: activityView)
         if segue.identifier == "toHome"{
             let navVC = segue.destination as? UINavigationController
             let nextController = navVC?.viewControllers.first as! HomeViewController
             nextController.firstName = firstName
         }
+        
     
     }
     
@@ -63,6 +70,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     }
     
     func checkForUser(){
+        startSpinning(activityView: activityView)
         Auth.auth().addStateDidChangeListener { auth, user in
             if user != nil{
                 let userId = Auth.auth().currentUser!.uid
@@ -71,7 +79,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
                     self.performSegue(withIdentifier: "toHome", sender: nil)
                 })
             }else{
-    
+                self.stopSpinning(activityView: self.activityView)
             }
         }
     }

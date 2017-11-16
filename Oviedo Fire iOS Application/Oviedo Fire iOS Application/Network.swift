@@ -269,6 +269,7 @@ extension UIViewController{
         activityView.isHidden = true
         activityView.stopAnimating()
     }
+    
     func splitFormTitle(formTitle:String) -> [String]{
         var names:[String] = []
         

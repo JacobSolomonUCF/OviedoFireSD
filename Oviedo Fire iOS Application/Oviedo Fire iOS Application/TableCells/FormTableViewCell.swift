@@ -48,6 +48,10 @@ class FormTableViewCell: UITableViewCell{
     @IBOutlet weak var pmrPrevResultHeight: NSLayoutConstraint!
     @IBOutlet weak var pmrPrevCommentLabel: UILabel!
     @IBOutlet weak var pmrPrevCommentHeight: NSLayoutConstraint!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var datePrevLabel: UILabel!
+    @IBOutlet weak var datePrevHeight: NSLayoutConstraint!
+    @IBOutlet weak var dateSwitch: UIDatePicker!
     
 
     func setHeight(choice:Int){
@@ -57,6 +61,15 @@ class FormTableViewCell: UITableViewCell{
         }else{
             self.prevCompletedBy.constant = 0.0
             self.prevCompletedOn.constant = 0.0
+        }
+        
+    }
+    func setHeightDate(choice:Int){
+        if(choice == 1){
+            self.datePrevHeight.constant = 20.0
+        }else{
+            self.datePrevHeight.constant = 0.0
+            
         }
         
     }
@@ -128,7 +141,7 @@ class FormTableViewCell: UITableViewCell{
         
     }
     @IBAction func sliderChanged(_ sender: Any) {
-        self.percentValue.text = String(round(self.percentSlider.value*10)/10)
+        self.percentValue.text = String(round(self.percentSlider.value*10)/10) + "%"
     }
     
     @IBAction func switchClicked(_ sender: Any) {
