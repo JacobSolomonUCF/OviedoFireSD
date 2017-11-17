@@ -257,6 +257,7 @@ import {WebService} from "../../services/webService";
 													<option value="pf">Pass/Fail</option>
 													<option value="num">Number</option>
 													<option value="per">Percent</option>
+													<option value="date">Date</option>
 												</select>
 												<button class="close" (click)="remove(rowIndex)"><i
 													class="fa fa-times"></i></button>
