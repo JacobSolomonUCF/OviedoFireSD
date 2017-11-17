@@ -141,7 +141,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                 self.codeLabel.text = "No Form Found"
                 let alert = UIAlertController(title: "", message: "Invalid Form", preferredStyle: UIAlertControllerStyle.alert)
                 self.present(alert, animated: true, completion: nil)
-                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
                     self.captureSession?.startRunning()
                     self.codeFrame.frame = CGRect.zero
                 }))
@@ -156,7 +156,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
                             
                             let refreshAlert = UIAlertController(title: "Attention", message: "This form has already been completed", preferredStyle: UIAlertControllerStyle.alert)
                             self.present(refreshAlert, animated: true, completion: nil)
-                            refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                            refreshAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
                                 self.performSegue(withIdentifier: "toResult" , sender: nil)
                                 
                             }))

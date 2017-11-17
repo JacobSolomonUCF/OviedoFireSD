@@ -11,8 +11,10 @@ import Firebase
 import Alamofire
 import SwiftyJSON
 
-//    MARK: Structs
-//    Structs for the various types of JSON responses
+//////MARK: Structs
+//////Structs for the various types of JSON responses
+
+//    Struct for Active List network request
 struct active{
     var name: String
     var number: String
@@ -22,6 +24,7 @@ struct active{
         self.number = truckNumber
     }
 }
+//    Struct for ToDo List network request
 struct toDo{
     var name: String
     var formId: String
@@ -33,6 +36,7 @@ struct toDo{
         self.completeBy = completeBy
     }
 }
+//    Struct for Compartments List network request
 struct compartments {
     var formName: String
     var formId: String
@@ -44,6 +48,19 @@ struct compartments {
         self.formName = formName
     }
 }
+//    Struct for various OffTruck List network request
+struct offTruck{
+    var name: String
+    var formId: String
+    var completedBy: String
+    
+    init(name:String,formId:String, completedBy:String) {
+        self.name = name
+        self.formId = formId
+        self.completedBy = completedBy
+    }
+}
+//    Struct for a single form, contains a list of Subsections,  which contains a list of items.
 struct completeForm{
     var title:String
     var alert:String
@@ -55,6 +72,31 @@ struct completeForm{
         self.subSection = subSection
     }
 }
+//    Struct for a single SubSection, contains a list of form items.
+struct subSection{
+    var title: String
+    var formItem: [formItem]
+    
+    init(title:String, formItem:[formItem]) {
+        self.title = title
+        self.formItem = formItem
+    }
+}
+//    Struct for a single form entry
+struct formItem {
+    var caption: String
+    var type: String
+    var prev: String
+    var comment: String
+    
+    init(caption:String,type:String, prev:String,comment:String) {
+        self.caption = caption
+        self.type = type
+        self.prev = prev
+        self.comment = comment
+    }
+}
+//    Struct to save the data that is entered into the form.
 struct userResults{
     var value:String
     var note:String
@@ -71,45 +113,8 @@ struct userResults{
         self.prev = prev
         self.comment = comment
     }
-    
-    
 }
-
-struct formItem {
-    var caption: String
-    var type: String
-    var prev: String
-    var comment: String
-
-    
-    init(caption:String,type:String, prev:String,comment:String) {
-        self.caption = caption
-        self.type = type
-        self.prev = prev
-        self.comment = comment
-    }
-}
-struct subSection{
-    var title: String
-    var formItem: [formItem]
-    
-    init(title:String, formItem:[formItem]) {
-        self.title = title
-        self.formItem = formItem
-    }
-}
-
-struct offTruck{
-    var name: String
-    var formId: String
-    var completedBy: String
-    
-    init(name:String,formId:String, completedBy:String) {
-        self.name = name
-        self.formId = formId
-        self.completedBy = completedBy
-    }
-}
+//    Struct for a single result item from the Results network call
 struct resultItem {
     var caption: String
     var value: String
@@ -123,14 +128,14 @@ struct resultItem {
         self.comment = comment
     }
 }
-
+//    Struct for Compartments List network request, contains a list of subsection
 struct resultSection{
     var result: [resultItem]
     init(result:[resultItem]) {
         self.result = result
     }
 }
-
+//   Struct storing all the results, contains a list of subsection, which contains a list of items
 struct result{
     var completedBy: String
     var timeStamp: String
@@ -144,7 +149,7 @@ struct result{
         self.resultSection = resultSection
     }
 }
-
+//   Struct to store which path was taken to the form
 struct fromWhere{
     var type:String
     var section:String
@@ -155,44 +160,52 @@ struct fromWhere{
     }
     
 }
+//    Struct to store the devices current orientation
 struct AppUtility {
-    
     static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
-        
         if let delegate = UIApplication.shared.delegate as? AppDelegate {
             delegate.orientationLock = orientation
         }
     }
-    
-    /// OPTIONAL Added method to adjust lock and rotate to the desired orientation
     static func lockOrientation(_ orientation: UIInterfaceOrientationMask, andRotateTo rotateOrientation:UIInterfaceOrientation) {
-        
         self.lockOrientation(orientation)
-        
         UIDevice.current.setValue(rotateOrientation.rawValue, forKey: "orientation")
     }
-    
 }
+//////END Structs
 
-//    End Structs
+//////Network API URLS:
+let getActiveURL = "https://us-central1-oviedofiresd-55a71.cloudfunctions.net/activeVehicles"
+let getToDoListURL = "https://us-central1-oviedofiresd-55a71.cloudfunctions.net/toDoList"
+let getOffTruckURL = "https://us-central1-oviedofiresd-55a71.cloudfunctions.net/"
+let getResultsURL = "https://us-central1-oviedofiresd-55a71.cloudfunctions.net/results"
+let checkCompletionURL = "https://us-central1-oviedofiresd-55a71.cloudfunctions.net/checkCompletion"
+let resultsURL = "https://us-central1-oviedofiresd-55a71.cloudfunctions.net/results"
+let formURL = "https://us-central1-oviedofiresd-55a71.cloudfunctions.net/form"
+let compartmentsURL = "https://us-central1-oviedofiresd-55a71.cloudfunctions.net/vehicleCompartments"
+//////END URLS:
 
 extension UIViewController{
+//////MARK: Alerts
     
+    //    Generic Alerts
     func alert(message: String, title: String = ""){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default)
+        let okAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default)
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
     }
+    //    Result of submitting a form
     func sendBackAlert(message: String, title: String = "",completion : @escaping ()->()){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.default){
+        let okAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default){
             UIAlertAction in
             completion()
         }
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
     }
+    //    Cancel submitting form alert
     func cancelForm(message: String, title: String = "",completion : @escaping (Bool)->()){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let submitAction = UIAlertAction(title: "Leave", style: UIAlertActionStyle.default) {
@@ -207,7 +220,7 @@ extension UIViewController{
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
     }
-
+    //    Submit form alert
     func submitAlert(message: String, title: String = "",completion : @escaping (Bool)->()){
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let submitAction = UIAlertAction(title: "Submit", style: UIAlertActionStyle.default) {
@@ -222,6 +235,42 @@ extension UIViewController{
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
     }
+//////END ALERTS
+    
+//////MARK: Helper functions
+    //    redirectAfterSubmit:
+    //    Converts the struct to users results type
+    func redirectAfterSubmit(path:fromWhere,completion : @escaping ([Any])->()){
+        let userID:String = (Auth.auth().currentUser?.uid)!
+        
+        var error:[formItem] = []
+        var offTruckItem:[offTruck] = []
+        var compartmentList:[compartments] = []
+        var TODOList: [toDo] = []
+        switch path.type {
+        case "todo":
+            getTODO(userID: userID, completion: { (result) in
+                TODOList = result
+                completion(TODOList)
+            })
+        case "offtruck":
+            getOffTruck(userID: userID, type: path.section, completion: { (result) in
+                offTruckItem = result
+                completion(offTruckItem)
+            })
+        case "compartment":
+            getCompartments(singleSelection: path.section, completion: { (result) in
+                compartmentList = result
+                completion(compartmentList)
+            })
+        default:
+            error.append(formItem.init(caption: "error", type: "error", prev: "error", comment: "error"))
+            completion(error)
+        }
+        
+    }
+    //    createResults:
+    //    Converts the struct to users results type
     func createResults(form:completeForm)->([userResults]){
         var list:[userResults] = []
         let subsections = form.subSection
@@ -237,20 +286,18 @@ extension UIViewController{
         }
         return list
     }
+    //    hexStringToUIColor:
+    //    Converts hex color to UIColor
     func hexStringToUIColor (hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        
         if (cString.hasPrefix("#")) {
             cString.remove(at: cString.startIndex)
         }
-        
         if ((cString.count) != 6) {
             return UIColor.gray
         }
-        
         var rgbValue:UInt32 = 0
         Scanner(string: cString).scanHexInt32(&rgbValue)
-        
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
             green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
@@ -259,20 +306,22 @@ extension UIViewController{
         )
     }
     
-
-    //    Help functions to load/unload activity view
+    //    startSpinning:
+    //    Unhides and start animating the activity indicator
     func startSpinning(activityView: UIActivityIndicatorView){
         activityView.isHidden = false
         activityView.startAnimating()
     }
+    //    stopSpinning:
+    //    Hides and stop animating the activity indicator
     func stopSpinning(activityView: UIActivityIndicatorView){
         activityView.isHidden = true
         activityView.stopAnimating()
     }
-    
+    //    splitFormTitle:
+    //    Parses to form title to contain only the form name, removing the truck name
     func splitFormTitle(formTitle:String) -> [String]{
         var names:[String] = []
-        
         if(formTitle.contains("Check-Off") || !formTitle.contains(" - ")){
             names.append("Other")
             names.append(formTitle)
@@ -281,23 +330,22 @@ extension UIViewController{
             names.append(split[0])
             names.append(split[1])
         }
-        
         return names
     }
+    //    hideKeyboardWhenTappedAround:
+    //    dimisses the keyboard when the screen is tapped
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-    
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+//////Ends Misc Helper functions
     
-    
-    
-    //    MARK: NETWORK FUNCTIONS
-    
+//////MARK: NETWORK FUNCTIONS
+    //    getUsername:
     //    Gets the username of the current user
     func getUsername(userID:String,completion : @escaping ([String])->()){
         var firstName:[String] = []
@@ -309,75 +357,119 @@ extension UIViewController{
             completion(firstName)
         }
     }
-    //    Gets Active Items:
+    //    getActive:
+    //    Makes network request to /activeVehicles stores data in active Struct array
     func getActive(userID:String,completion : @escaping ([active])->()){
-        
         var activeTrucks: [active] = []
-        if(activeTrucks.count != 0){
-            activeTrucks.removeAll()
-        }
+        activeTrucks.removeAll() //Removes trucks if any
         
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/activeVehicles?uid=\(userID)") .responseJSON { response in
-            if let result = response.result.value as? [String:Any],
-                let main = result["list"] as? [[String:String]]{
-                for obj in main{
-                    activeTrucks.append(active(truckName: obj["name"]!, truckNumber: obj["id"]!))
+        //Parameters to pass with the network request
+        let parameters: Parameters = [
+            "uid": userID,
+        ]
+        Alamofire.request(getActiveURL, method: .get, parameters: parameters).responseJSON { response in
+            if response.result.value != nil{
+                let jsonData = JSON(response.result.value as Any)
+                if let arrJSON = jsonData["list"].arrayObject{
+                    for index in 0...arrJSON.count-1 {
+                        let aObject = arrJSON[index] as! [String : AnyObject]
+                        let id = aObject["id"] as? String;
+                        let name = aObject["name"] as? String;
+                        activeTrucks.append(active(truckName: name!, truckNumber: id!))
+                    }
                 }
+            }else{ //If result value is nil
+                self.alert(message: "Error Making Network Request")
+                print("Error: \(String(describing: response.error))")
             }
+            //Return the active Trucks
             completion(activeTrucks)
         }
     }
-    
-    //     Gets the TODO List:
+    //    getTODO:
+    //    Makes network request to /toDoList stores data in todo Struct array
     func getTODO(userID:String,completion : @escaping ([toDo])->()){
         var TODOList: [toDo] = []
-        if(TODOList.count != 0){
-            TODOList.removeAll()
-        }
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/toDoList?uid=\(userID)") .responseJSON { response in
-            if let result = response.result.value as? [String:Any],
-                let main = result["list"] as? [[String:String]]{
-                // main[0]["name"] or use main.first?["name"] for first index or loop through array
-                for obj in main{
-                    TODOList.append(toDo(truckName: obj["name"]!, formId: obj["formId"]!,completeBy: obj["completeBy"]!))
+        TODOList.removeAll() //Removes all items from the list
+        
+        //Parameters to pass with the network request
+        let parameters: Parameters = [
+            "uid": userID,
+            ]
+        
+        Alamofire.request(getToDoListURL, method: .get, parameters: parameters).responseJSON { response in
+            if response.result.value != nil{
+                let jsonData = JSON(response.result.value as Any)
+                if let arrJSON = jsonData["list"].arrayObject{
+                    for index in 0...arrJSON.count-1 {
+                        let aObject = arrJSON[index] as! [String : AnyObject]
+                        let formId = aObject["formId"] as? String;
+                        let name = aObject["name"] as? String;
+                        let completeBy = aObject["completeBy"] as? String;
+                        TODOList.append(toDo(truckName: name!, formId: formId!,completeBy: completeBy!))
+                    }
                 }
+            }else{ //If result value is nil
+                self.alert(message: "Error Making Network Request")
+                print("Error: \(String(describing: response.error))")
             }
+            //Return the active Trucks
             completion(TODOList)
         }
     }
-    
-    //    Get list of off truck items:
+
+    //    getOffTruck:
+    //    Get list the off truck items:
     func getOffTruck(userID:String,type:String,completion : @escaping ([offTruck])->()){
         var offTruckItem:[offTruck] = []
-        
-        if(offTruckItem.count != 0){
             offTruckItem.removeAll()
-        }
+        //Parameters to pass with the network request
+        let parameters: Parameters = [
+            "uid": userID,
+            ]
         
-
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/\(type)?uid=\(userID)") .responseJSON { response in
-            if let result = response.result.value as? [String:Any],
-                let main = result["list"] as? [[String:String]]{
-                // main[0]["name"] or use main.first?["name"] for first index or loop through array
-                for obj in main{
-                    offTruckItem.append(offTruck(name: obj["name"]!, formId: obj["formId"]!, completedBy: obj["completedBy"]!))
+        Alamofire.request(getOffTruckURL+"\(type)", method: .get, parameters: parameters).responseJSON { response in
+            if response.result.value != nil{
+                let jsonData = JSON(response.result.value as Any)
+                if let arrJSON = jsonData["list"].arrayObject{
+                    for index in 0...arrJSON.count-1 {
+                        let aObject = arrJSON[index] as! [String : AnyObject]
+                        let formId = aObject["formId"] as? String;
+                        let name = aObject["name"] as? String;
+                        let completeBy = aObject["completedBy"] as? String;
+                        offTruckItem.append(offTruck(name: name!, formId: formId!, completedBy: completeBy!))
+                    }
                 }
+            }else{ //If result value is nil
+                self.alert(message: "Error Making Network Request")
+                print("Error: \(String(describing: response.error))")
             }
-            
+            //Return the active Trucks
             completion(offTruckItem)
         }
     }
-    
+    //    checkCompletion:
     //    Checks for form already being completed:
     func checkCompletion(userID:String,formId:String,completion : @escaping (String)->()){
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/checkCompletion?uid=\(userID)&formId=\(formId)") .responseJSON { response in
-            let isCompleted = String(data: response.data!, encoding: .utf8)
-            completion(isCompleted!)
+        var isCompleted:String?
+        let parameters: Parameters = [
+            "uid": userID,
+            "formId": formId
+            ]
+        
+        Alamofire.request(checkCompletionURL, parameters: parameters) .responseJSON { response in
+            if response.result.value != nil{
+                isCompleted = String(data: response.data!, encoding: .utf8)
+            }else{ //Print the error
+                self.alert(message: "Error Making Network Request")
+                print("Error: \(String(describing: response.error))")
             }
+            completion(isCompleted!)
         
         }
-    
-    //    Gets the results:
+    }
+    //    getResults:
+    //    Gets the results of a completed form:
     func getResults(userID:String,formId:String,completion : @escaping (result)->()){
         
         var resultForm = result.init(completeBy: "Default", timeStamp: "Default", title: "Default", resultSection: [])
@@ -385,8 +477,12 @@ extension UIViewController{
         var item:[resultItem] = []
         var flag = 0
         
-        
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/results?uid=\(userID)&formId=\(formId)") .responseJSON { (response) in
+        let parameters: Parameters = [
+            "uid": userID,
+            "formId": formId
+        ]
+
+        Alamofire.request(resultsURL, parameters: parameters) .responseJSON { (response) in
             if((response.result.value) != nil){
                 let json = JSON(response.result.value!)
                 resultForm.completedBy = json["completedBy"].string!
@@ -448,24 +544,26 @@ extension UIViewController{
                 resultForm.resultSection = sections
                 
          
-            }else{
-                self.alert(message: "Error connecting to the server")
+            }else{ //Print the error
+                self.alert(message: "Error Making Network Request")
+                print("Error: \(String(describing: response.error))")
             }
-            completion(resultForm)
+        completion(resultForm)
         }
-        
-        
     }
     
-    
-    //    Gets the form:
+    //    getForm:
+    //    Gets a form
     func getForm(userID:String,formId:String,completion : @escaping (completeForm)->()){
-        
         var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
         var subSectionList:[subSection] = []
         var formItemList:[formItem] = []
+        let parameters: Parameters = [
+            "uid": userID,
+            "formId": formId
+        ]
         
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/form?uid=\(userID)&formId=\(formId)") .responseJSON { (response) in
+        Alamofire.request(formURL, parameters: parameters) .responseJSON { (response) in
             let isCompleted = String(data: response.data!, encoding: .utf8)
             if (isCompleted?.contains("does not exist") == true){
                     print("FORM NOT FOUND")
@@ -506,7 +604,7 @@ extension UIViewController{
                         }
                         formItemList.removeAll()
                     }
-//                  Adds the Subsections to the struct
+                    // Adds the Subsections to the struct
                     if let title:String = json["title"].string, let alert:String = json["alert"].string{
                         form.alert = alert
                         form.title = title
@@ -552,6 +650,9 @@ extension UIViewController{
                     formItemList.removeAll()
                 }
                 
+            }else{ //Print the error
+                self.alert(message: "Error Making Network Request")
+                print("Error: \(String(describing: response.error))")
             }
             
             completion(form)
@@ -559,47 +660,47 @@ extension UIViewController{
         }
     }
     
-    //    Get Compartments:
+    //    getCompartments:
+    //    Gets the compartments for a truck
     func getCompartments(singleSelection:String,completion : @escaping ([compartments])->()){
         var list:[compartments] = []
-        
         let userID:String = (Auth.auth().currentUser?.uid)!
+        let parameters: Parameters = [
+            "uid": userID,
+            "vehicleId": singleSelection
+        ]
         
-        Alamofire.request("https://us-central1-oviedofiresd-55a71.cloudfunctions.net/vehicleCompartments?uid=\(userID)&vehicleId=\(singleSelection)") .responseJSON { response in
+        Alamofire.request(compartmentsURL, parameters:parameters) .responseJSON { response in
             if let result = response.result.value as? [String:Any],
                 let main = result["list"] as? [[String:String]]{
-                // main[0]["name"] or use main.first?["name"] for first index or loop through array
                 for obj in main{
                     list.append(compartments(formName: obj["name"]!, formId: obj["formId"]!, completedBy: obj["completedBy"]!))
                     
                 }
+            }else{ //Print the error
+                self.alert(message: "Error Making Network Request")
+                print("Error: \(String(describing: response.error))")
             }
             completion(list)
         }
     }
     
-    //    POST FORM:
+    //    sendForm:
+    //    Sends a complete form
     func sentForm(json:[String:Any],completion : @escaping (Bool)->()){
-        let urlString = "https://us-central1-oviedofiresd-55a71.cloudfunctions.net/form"
         var flag = false
-        Alamofire.request(urlString, method: .post, parameters: json, encoding: JSONEncoding.default).response {  response in
+        Alamofire.request(formURL, method: .post, parameters: json, encoding: JSONEncoding.default).response {  response in
             let isSubmitted = String(data: response.data!, encoding: .utf8)
-            if(isSubmitted == "OK"){
+            if(isSubmitted == "OK" || isSubmitted?.lowercased() == "ok"){
                 flag = true
+            }else{ //Print the error
+                self.alert(message: "Error Making Network Request")
+                print("Error: \(String(describing: response.error))")
             }
             completion(flag)
         }
-        
     }
-    
+//////END NETWORK FUNCTIONS
 }
-extension UIViewController {
-    func performSegueToReturnBack()  {
-        if let nav = self.navigationController {
-            nav.popViewController(animated: true)
-        } else {
-            self.dismiss(animated: true, completion: nil)
-        }
-    }
-}
+
 

@@ -236,12 +236,12 @@
 				16EDEBE41F8C004C001E50C1 /* CompartmentsViewController.swift */,
 				16EDEBE51F8C004C001E50C1 /* toDoViewController.swift */,
 				16EDEBE61F8C004C001E50C1 /* offTruckViewController.swift */,
+				16EDEBEB1F8C004C001E50C1 /* offTruckListViewController.swift */,
 				16EDEBE71F8C004C001E50C1 /* FormViewController.swift */,
 				16B829FC1F97CB110071679C /* resultsViewController.swift */,
 				16EDEBE81F8C004C001E50C1 /* HomeViewController.swift */,
 				16EDEBE91F8C004C001E50C1 /* QRScannerViewController.swift */,
 				16EDEBEA1F8C004C001E50C1 /* LoginViewController.swift */,
-				16EDEBEB1F8C004C001E50C1 /* offTruckListViewController.swift */,
 				16EDEBEC1F8C004C001E50C1 /* ActiveViewController.swift */,
 			);
 			path = ViewControllers;

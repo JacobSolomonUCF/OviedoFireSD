@@ -1,5 +1,5 @@
 //
-//  EqFormViewController.swift
+//  FormViewController.swift
 //  Oviedo Fire iOS Application
 //
 //  Created by Jacob Solomon on 9/15/17.
@@ -10,20 +10,6 @@ import UIKit
 import DLRadioButton
 import Firebase
 import SwiftyJSON
-
-
-struct formSaved {
-    var commentField:String
-    var pmrSelection:Int
-    var rowIndex:Int
-    
-    init(commentField:String,pmrSelection:Int, rowIndex:Int) {
-        self.commentField = commentField
-        self.pmrSelection = pmrSelection
-        self.rowIndex = rowIndex
-    }
-    
-}
 
 class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
     @IBOutlet weak var tableView: UITableView!
@@ -70,6 +56,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         
         setupView()
+        print(commingFrom)
     }
     
     override func didReceiveMemoryWarning() {
@@ -200,7 +187,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
             if(items.type != "formTitle"){
                 if(items.type != "title"){
                     var item:[String:Any]
-                    if(items.type == "pmr" && items.note != "" && items.value == "Repairs Needed"){
+                    if((items.type == "pmr" && items.note != "" && items.value == "Repairs Needed") || (items.type == "pmr" && items.note != "" && items.value == "Missing")){
                         item = ["caption":"\(items.caption)","type":"\(items.type)","result":"\(items.value)","note":"\(items.note)"]
                     }else{
                         item = ["caption":"\(items.caption)","type":"\(items.type)","result":"\(items.value)"]
@@ -293,8 +280,8 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 else { return }
             if (!cell.isExpanded){
                 self.expandedRows.insert(buttonRow)
-            }else{return}
-            cell.isExpanded = !cell.isExpanded
+                cell.isExpanded = !cell.isExpanded
+            }else{cell.needsRepairButton.isUserInteractionEnabled = true}
             cell.presentButton.isUserInteractionEnabled = true
             cell.missingButton.isUserInteractionEnabled = true
             cell.needsRepairButton.isUserInteractionEnabled = false
@@ -312,11 +299,12 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let entry = findItem(index: buttonRow, form: form)
         if (entry.type == "pmr"){
             guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell
-                else { return }
-            if (cell.isExpanded){
-                self.expandedRows.remove(buttonRow)
-            }else{return}
-            cell.isExpanded = !cell.isExpanded
+                else {
+                    return }
+            if (!cell.isExpanded){
+                self.expandedRows.insert(buttonRow)
+                cell.isExpanded = !cell.isExpanded
+            }else{cell.missingButton.isUserInteractionEnabled = true}
             cell.presentButton.isUserInteractionEnabled = true
             cell.missingButton.isUserInteractionEnabled = false
             cell.needsRepairButton.isUserInteractionEnabled = true
@@ -338,8 +326,8 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 else { return }
             if (cell.isExpanded){
                 self.expandedRows.remove(buttonRow)
-            }else{return}
-            cell.isExpanded = !cell.isExpanded
+                cell.isExpanded = !cell.isExpanded
+            }else{cell.presentButton.isUserInteractionEnabled = true}
             cell.presentButton.isUserInteractionEnabled = false
             cell.missingButton.isUserInteractionEnabled = true
             cell.needsRepairButton.isUserInteractionEnabled = true

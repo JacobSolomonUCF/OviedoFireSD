@@ -72,10 +72,6 @@ static BOOL _groupModifing = NO;
             isRightToLeftLayout = [UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft;
         } else {
             // Fallback on earlier versions
-        }if (@available(iOS 9.0, *)) {
-            isRightToLeftLayout = [UIView userInterfaceLayoutDirectionForSemanticContentAttribute:self.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft;
-        } else {
-            // Fallback on earlier versions
         }
     }
     if (self.isIconOnRight) {

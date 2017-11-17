@@ -70,9 +70,10 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
             let nextController = segue.destination as! resultsViewController
             nextController.resultForm = resultForm
             nextController.userName = userName
+            nextController.commingFrom.type = "compartment"
+            nextController.commingFrom.section = truckNumber
             
         }
-        
         tableView.isUserInteractionEnabled = true
     }
     
@@ -108,7 +109,7 @@ extension CompartmentsViewController{
                     
                     let refreshAlert = UIAlertController(title: "Attention", message: "This form has already been completed", preferredStyle: UIAlertControllerStyle.alert)
                     self.present(refreshAlert, animated: true, completion: nil)
-                    refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+                    refreshAlert.addAction(UIAlertAction(title: "Okay", style: .default, handler: { (action: UIAlertAction!) in
                         self.performSegue(withIdentifier: "toResult" , sender: nil)
                     }))
                 })

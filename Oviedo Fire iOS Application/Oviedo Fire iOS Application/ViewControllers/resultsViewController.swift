@@ -11,6 +11,8 @@ import UIKit
 class resultsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
+    
+    var commingFrom:fromWhere = fromWhere.init(type: "Default", section: "Default")
     var resultForm = result(completeBy: "Default", timeStamp: "Default", title: "Default", resultSection: [])
     var userName:[String] = []
      
@@ -19,6 +21,7 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         
         setupView()
+        print(commingFrom)
 
         // Do any additional setup after loading the view.
     }

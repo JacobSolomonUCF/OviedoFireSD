@@ -82,6 +82,8 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
             let nextController = segue.destination as! resultsViewController
             nextController.resultForm = resultForm
             nextController.userName = userName
+            nextController.commingFrom.type = "offtruck"
+            nextController.commingFrom.section = offTruckSection
         }
         
         stopSpinning(activityView: activityView)
