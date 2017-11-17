@@ -62,6 +62,28 @@ export class Statistic {
 			.doGet('/statistics')
 			.subscribe(resp => {
 				if (resp['results'] && resp['results'][0]) {
+					let overall = {title: 'Overall'};
+					for (let i = 0, len = resp['results'].length; i < len; i++) {
+						resp['results'][i].details.forEach(time => {
+							let report = JSON.parse(JSON.stringify(resp['results'][i].title.split(' - ', 1)[0]));
+							if (!overall[time]) {
+								overall[time] = JSON.parse(JSON.stringify(resp['results'][i][time]));
+								overall[time].labels[0] = report;
+								overall['details'] = [time];
+							} else {
+								let index = overall[time].labels.indexOf(report);
+								if (index === -1) {
+									overall[time].labels.push(report);
+									[0, 1, 2].map(dataIndex =>
+										overall[time].data[dataIndex].data.push(resp['results'][i][time].data[dataIndex].data.reduce((x, y) => x + y)));
+								} else {
+									[0, 1, 2].map(dataIndex =>
+										overall[time].data[dataIndex].data[index] += (resp['results'][i][time].data[dataIndex].data.reduce((x, y) => x + y)));
+								}
+							}
+						});
+					}
+					resp['results'].unshift(overall);
 					let result = {...resp['results'][0][resp['results'][0].details[0]]};
 					this.original = resp['results'];
 					this.barChartLabels = [...result.labels];
