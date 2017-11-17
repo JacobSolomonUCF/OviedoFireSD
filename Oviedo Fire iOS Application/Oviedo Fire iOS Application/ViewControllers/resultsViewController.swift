@@ -11,10 +11,14 @@ import UIKit
 class resultsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
+    @IBOutlet weak var tableView: UITableView!
     
     var commingFrom:fromWhere = fromWhere.init(type: "Default", section: "Default")
     var resultForm = result(completeBy: "Default", timeStamp: "Default", title: "Default", resultSection: [])
+    var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
     var userName:[String] = []
+    var formId:String = ""
      
 
     override func viewDidLoad() {
@@ -30,11 +34,78 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    //Prepare for segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toForm"{
+            let nextController = segue.destination as! EqFormViewController
+            
+            nextController.userEnteredResults = createResults(form: form)
+            nextController.form = form
+            nextController.userName = userName
+            nextController.formId = formId
+            nextController.commingFrom.type = "results"
+            nextController.isEdited = true
+            
+            
+        }
+        self.stopSpinning(activityView: self.activityView)
+        tableView.allowsSelection = true
+    }
+    
     
     
     func setupView(){
+        stopSpinning(activityView: activityView)
         navigationController?.navigationBar.prefersLargeTitles = false
+        // Create  button for navigation item with refresh
+        let refreshButton =  UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.edit, target: self, action: #selector(resultsViewController.editForm))
+        
+        // I set refreshButton for the navigation item
+        navigationItem.rightBarButtonItem = refreshButton
     }
+    @objc func editForm() {
+        self.okayCancelAlert(message: "This form is complete, Are you sure you want to change the results?") { (value) in
+            if (value == true){
+                self.startSpinning(activityView: self.activityView)
+                self.tableView.allowsSelection = false
+                self.tableView.isUserInteractionEnabled = false
+                self.form = self.resultToFrom()
+                self.performSegue(withIdentifier: "toForm", sender: nil)
+            }else{
+                
+            }
+        }
+
+    }
+    
+    
+    func resultToFrom()-> completeForm{
+        var form = completeForm(title: "Default", alert: "Default" , subSection: [])
+        var subSectionList:[subSection] = []
+        var formItemList:[formItem] = []
+        var sectionLabel: String = "None"
+        
+        form.title = resultForm.title
+        for section in resultForm.resultSection{
+            for item in section.result{
+                if(item.type == "title"){
+                    formItemList.append(formItem.init(caption: resultForm.title, type: "formTitle", prev: resultForm.completedBy, comment: resultForm.timeStamp))
+                }else if(item.type == "sectionTitle"){
+                    formItemList.append(formItem.init(caption: item.caption, type: "title", prev: "None", comment: "None"))
+                    sectionLabel = item.caption
+                }else{
+                    formItemList.append(formItem.init(caption: item.caption, type: item.type, prev: item.value, comment: "None"))
+                }
+            }
+            subSectionList.append(subSection.init(title: sectionLabel, formItem: formItemList))
+            formItemList.removeAll()
+        }
+        form.subSection = subSectionList
+        
+        return form
+        
+    }
+    
     
     func formCount() -> Int{
         var count = 0

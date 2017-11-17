@@ -43,6 +43,14 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
         stopSpinning(activityView: activityView)
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = vehicle
+        
+        // Create  button for navigation item with refresh
+        let refreshButton =  UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.refresh, target: self, action: #selector(CompartmentsViewController.actionRefresh))
+        
+        // I set refreshButton for the navigation item
+        navigationItem.rightBarButtonItem = refreshButton
+        
+        
         self.tableView?.rowHeight = 70.0
     }
     
@@ -50,17 +58,29 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    @objc func actionRefresh() {
+        startSpinning(activityView: activityView)
+        tableView.isUserInteractionEnabled = false
+        getCompartments(singleSelection: truckNumber) { (result) in
+            self.list = result
+            self.tableView.reloadData()
+            self.stopSpinning(activityView: self.activityView)
+            self.tableView.isUserInteractionEnabled = true
+            
+        }
+    }
+    
     //Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toForm"{
             let nextController = segue.destination as! EqFormViewController
             nextController.userEnteredResults = createResults(form: form)
             nextController.form = form
-            nextController.formName = formName
             nextController.userName = userName
             nextController.formId = formID
             nextController.commingFrom.type = "compartment"
             nextController.commingFrom.section = truckNumber
+            nextController.isEdited = false
             
             
             self.stopSpinning(activityView: self.activityView)
@@ -72,6 +92,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
             nextController.userName = userName
             nextController.commingFrom.type = "compartment"
             nextController.commingFrom.section = truckNumber
+            nextController.formId = formID
             
         }
         tableView.isUserInteractionEnabled = true
@@ -95,6 +116,7 @@ extension CompartmentsViewController{
                 self.formName = self.list[indexPath.row].formName
                 self.getForm(userID: self.userID, formId: self.list[indexPath.row].formId, completion:{(data) -> Void in
                     self.form = data
+                    print(self.form)
                     self.formID = self.list[indexPath.row].formId
                     self.performSegue(withIdentifier: "toForm", sender: nil)
                 })

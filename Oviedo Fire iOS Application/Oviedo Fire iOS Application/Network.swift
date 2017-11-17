@@ -235,6 +235,21 @@ extension UIViewController{
         alertController.addAction(cancelAction)
         self.present(alertController, animated: true, completion: nil)
     }
+    //    Okay/Cancel alert for result form alert
+    func okayCancelAlert(message: String, title: String = "",completion : @escaping (Bool)->()){
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let submitAction = UIAlertAction(title: "Okay", style: UIAlertActionStyle.default) {
+            UIAlertAction in
+            completion(true)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) {
+            UIAlertAction in
+            completion(false)
+        }
+        alertController.addAction(submitAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
 //////END ALERTS
     
 //////MARK: Helper functions

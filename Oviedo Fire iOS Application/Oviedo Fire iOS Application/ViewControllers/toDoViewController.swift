@@ -64,6 +64,13 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         navigationItem.searchController = searchController
         
+        // Create  button for navigation item with refresh
+        let refreshButton =  UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.refresh, target: self, action: #selector(toDoViewController.actionRefresh))
+        
+        // I set refreshButton for the navigation item
+        navigationItem.rightBarButtonItem = refreshButton
+        
+        
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true
@@ -87,16 +94,27 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
             let nextController = segue.destination as! EqFormViewController
             nextController.userEnteredResults = createResults(form: form)
             nextController.form = form
-            nextController.formName = formName
             nextController.userName = userName
             nextController.formId = singleFormId
             nextController.commingFrom.type = "todo"
             nextController.commingFrom.section = ""
+            nextController.isEdited = false
             
         }
         self.stopSpinning(activityView: self.activityView)
         tableView.isUserInteractionEnabled = true
     }
+    @objc func actionRefresh() {
+        startSpinning(activityView: activityView)
+        tableView.isUserInteractionEnabled = false
+        getTODO(userID: userID) { (result) in
+            self.list = result
+            self.tableView.reloadData()
+            self.stopSpinning(activityView: self.activityView)
+            self.tableView.isUserInteractionEnabled = true
+        }
+    }
+    
     
 }
 

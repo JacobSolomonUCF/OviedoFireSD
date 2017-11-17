@@ -20,18 +20,20 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let userID = Auth.auth().currentUser!.uid
     
     var commingFrom:fromWhere = fromWhere.init(type: "Default", section: "Default")
-    var formName = ""
     var formId:String = ""
     var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
     var selectedIndex:Int = 0
     var userName:[String] = []
+    var truckName:String = ""
     var userEnteredResults:[userResults] = []
+    var goBack:[Any] = []
+    var isEdited:Bool = false
     
     func setupView(){
         stopSpinning(activityView: activityView)
         
         //Displaying alert with a give form
-        if form.alert != "No Alert" {
+        if (form.alert != "No Alert" && isEdited == false){
             alert(message: form.alert)
         }
         
@@ -49,6 +51,24 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if segue.identifier == "toHome"{
             let nextController = segue.destination as! HomeViewController
             nextController.firstName = userName
+        }else if segue.identifier == "toTodo"{
+            let nextController = segue.destination as! toDoViewController
+            nextController.list = goBack as! [toDo]
+            nextController.filterdList = goBack as! [toDo]
+            nextController.userName = userName
+        }else if segue.identifier == "toOffTruck"{
+            let nextController = segue.destination as! offTruckListViewController
+            nextController.list = goBack as! [offTruck]
+            nextController.type = commingFrom.type
+            nextController.userName = userName
+            nextController.offTruckSection = commingFrom.type
+            
+        }else if segue.identifier == "toCompartment"{
+            let nextController = segue.destination as! CompartmentsViewController
+            nextController.list = goBack as! [compartments]
+            nextController.vehicle = truckName
+            nextController.userName = userName
+            nextController.truckNumber = commingFrom.section
         }
         tableView.isUserInteractionEnabled = true
     }
@@ -390,12 +410,36 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
                         json = self.toJsonMulti()
                     }else{
                         json = self.toJsonSingle()
+                        print(json)
                     }
                     self.sentForm(json: json, completion: { (result) in
                         if(result == true){
-                            self.sendBackAlert(message: "Form submitted successfully"){ () in
-                            self.performSegue(withIdentifier: "toHome", sender: nil)
-                            }
+                            self.redirectAfterSubmit(path: self.commingFrom, completion: { (result) in
+                                self.goBack = result
+                                switch(self.commingFrom.type){
+                                case "todo":
+                                    self.sendBackAlert(message: "Form submitted successfully"){ () in
+                                        self.performSegue(withIdentifier: "toTodo", sender: nil)
+                                    }
+                                case "offtruck":
+                                    self.sendBackAlert(message: "Form submitted successfully"){ () in
+                                        self.performSegue(withIdentifier: "toOffTruck", sender: nil)
+                                    }
+                                case "compartment":
+                                    self.sendBackAlert(message: "Form submitted successfully"){ () in
+                                        self.performSegue(withIdentifier: "toCompartment", sender: nil)
+                                    }
+                                default:
+                                    self.sendBackAlert(message: "Form submitted successfully"){ () in
+                                        self.sendBackAlert(message: "Error returning to previous page"){ () in
+                                            self.performSegue(withIdentifier: "toHome", sender: nil)
+                                        }
+                                    }
+                                }
+                    
+                            })
+
+                            
                         }else{
                             self.sendBackAlert(message: "Error submitting form"){ () in
                             }
@@ -410,6 +454,29 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
 //    MARK: TABLE FUNCTIONS
 extension EqFormViewController{
+    
+    func pmrCellUpdate(_ item: inout userResults, _ cell: FormTableViewCell) {
+        if(item.value != ""){
+            switch (item.value){
+            case "Present":
+                cell.presentButton.isSelected = true
+            case "Missing":
+                cell.missingButton.isSelected = true
+            case "Repairs Needed":
+                cell.needsRepairButton.isSelected = true
+            default:
+                item.value = ""
+                
+            }
+            if (item.note != ""){
+                cell.commentsTextField.text = item.note
+            }
+            
+            
+        }
+    }
+    
+
     
     
     func tableView(_ tableView:UITableView, numberOfRowsInSection section:Int) -> Int
@@ -447,42 +514,46 @@ extension EqFormViewController{
                 cell.missingButton.tag = indexPath.row
                 cell.presentButton.tag = indexPath.row
                 
-                if(item.value != ""){
-                    switch (item.value){
-                        case "Present":
-                            cell.presentButton.isSelected = true
-                        case "Missing":
-                            cell.missingButton.isSelected = true
-                        case "Repairs Needed":
-                            cell.needsRepairButton.isSelected = true
-                        default:
-                            item.value = ""
+                pmrCellUpdate(&item, cell)
+            //Pre filling from results
+                if(isEdited == true){
+                    switch (item.prev){
+                    case "Missing":
+                        missingbuttonClicked(sender: cell.missingButton)
+                        cell.missingButton.isSelected = true
+                    case "Repairs Needed":
+                        needsRepairbuttonClicked(sender: cell.needsRepairButton)
+                        cell.needsRepairButton.isSelected = true
+                    case "Present":
+                        presentbuttonClicked(sender: cell.presentButton)
+                        cell.presentButton.isSelected = true
+                    default:
+                        print("error pre filling, you are a fucking idiot")
+                    }
+                    if (item.comment != "None"){
+                        cell.commentsTextField.text = item.comment
+                    }
+                }else{
+                    //For previous results displayed also on form
+                    if(item.prev != "None"){
+                        cell.pmrPrevResultLabel.text = "Previous result: \t" + item.prev
+                        cell.setHeightPmrResult(choice: 1)
+                        if(item.prev == "Missing" || item.prev == "Repairs Needed"){
+                            cell.pmrPrevResultLabel.textColor = hexStringToUIColor(hex: "a00606")
+                            if (item.prev == "Repairs Needed"){
+                                cell.pmrPrevCommentLabel.text = "Previous comments: " + item.comment
+                                cell.setHeightPmrComment(choice: 1)
+                                cell.pmrPrevCommentLabel.textColor = hexStringToUIColor(hex: "a00606")
+                            }else{cell.setHeightPmrComment(choice: 0)}
+                        }else{
+                            cell.pmrPrevResultLabel.textColor = hexStringToUIColor(hex: "12b481")
+                            cell.setHeightPmrComment(choice: 0)
+                        }
                         
-                    }
-                    if (item.note != ""){
-                        cell.commentsTextField.text = item.note
-                    }
-                    
-
-                }
-                if(item.prev != "None"){
-                    cell.pmrPrevResultLabel.text = "Previous result: \t" + item.prev
-                    cell.setHeightPmrResult(choice: 1)
-                    if(item.prev == "Missing" || item.prev == "Repairs Needed"){
-                        cell.pmrPrevResultLabel.textColor = hexStringToUIColor(hex: "a00606")
-                        if (item.prev == "Repairs Needed"){
-                            cell.pmrPrevCommentLabel.text = "Previous comments: " + item.comment
-                            cell.setHeightPmrComment(choice: 1)
-                            cell.pmrPrevCommentLabel.textColor = hexStringToUIColor(hex: "a00606")
-                        }else{cell.setHeightPmrComment(choice: 0)}
                     }else{
-                        cell.pmrPrevResultLabel.textColor = hexStringToUIColor(hex: "12b481")
+                        cell.setHeightPmrResult(choice: 0)
                         cell.setHeightPmrComment(choice: 0)
                     }
-                    
-                }else{
-                    cell.setHeightPmrResult(choice: 0)
-                    cell.setHeightPmrComment(choice: 0)
                 }
                 
                 
@@ -495,12 +566,17 @@ extension EqFormViewController{
                 if(item.value != ""){
                     cell.numValue.text = item.value
                 }
-                if(item.prev != "None"){
-                    cell.perNumResultLabel.text = "Previous result: \t" + item.prev
-                    cell.setHeightNum(choice: 1)
-                    cell.perNumResultLabel.textColor = hexStringToUIColor(hex: "12b481")
-
-                }else{cell.setHeightNum(choice: 0)}
+                if(isEdited == true){
+                    cell.numValue.text = item.caption
+                }else{
+                    //For previous results displayed also on form
+                    if(item.prev != "None"){
+                        cell.perNumResultLabel.text = "Previous result: \t" + item.prev
+                        cell.setHeightNum(choice: 1)
+                        cell.perNumResultLabel.textColor = hexStringToUIColor(hex: "12b481")
+                        
+                    }else{cell.setHeightNum(choice: 0)}
+                }
             }else if(item.type == "per"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "per", for: indexPath) as! FormTableViewCell
                 cell.percentSlider.addTarget(self, action: #selector(EqFormViewController.sliderChanged(sender:)), for: .valueChanged)
@@ -511,15 +587,22 @@ extension EqFormViewController{
                     cell.percentValue.text = item.value
                     cell.percentSlider.value = Float(item.value)!
                 }
-                if(item.prev != "None"){
-                    cell.perPrevResultLabel.text = "Previous result: \t" + item.prev
-                    cell.setHeightPer(choice: 1)
-                    if (item.prev != "0%"){
-                        cell.perPrevResultLabel.textColor = hexStringToUIColor(hex: "12b481")
-                    }else{
-                        cell.perPrevResultLabel.textColor = hexStringToUIColor(hex: "a00606")
-                    }
-                }else{cell.setHeightPer(choice: 0)}
+                
+                if(isEdited == true){
+                    cell.percentSlider.value = 50.0
+                    cell.percentName.text = "50.0"
+                }else{
+                    //For previous results displayed also on form
+                    if(item.prev != "None"){
+                        cell.perPrevResultLabel.text = "Previous result: \t" + item.prev
+                        cell.setHeightPer(choice: 1)
+                        if (item.prev != "0%"){
+                            cell.perPrevResultLabel.textColor = hexStringToUIColor(hex: "12b481")
+                        }else{
+                            cell.perPrevResultLabel.textColor = hexStringToUIColor(hex: "a00606")
+                        }
+                    }else{cell.setHeightPer(choice: 0)}
+                }
                 
             }else if(item.type == "pf"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "pf", for: indexPath) as! FormTableViewCell
@@ -528,7 +611,6 @@ extension EqFormViewController{
                 cell.pfName.text = item.caption
                 cell.pfValue.text = "Fail"
                 cell.pfValue.textColor = hexStringToUIColor(hex: "a00606")
-                cell.pfSwitch.isOn = false
                 if(item.value != ""){
                     if(item.value == "Pass"){
                         cell.pfValue.text = "Pass"
@@ -538,15 +620,25 @@ extension EqFormViewController{
                         cell.pfSwitch.isOn = false
                     }
                 }
-                if(item.prev != "None"){
-                    cell.pfPrevResultLabel.text = "Previous result: \t" + item.prev
-                    if item.prev == "Pass"{
-                        cell.pfPrevResultLabel.textColor = hexStringToUIColor(hex: "12b481")
-                    }else{
-                        cell.pfPrevResultLabel.textColor = hexStringToUIColor(hex: "a00606")
+                if(isEdited == true){
+                    if(item.prev == "Pass"){
+                        cell.pfSwitch.setOn(true, animated: true)
+                        cell.pfValue.text = item.prev
+                        cell.switchClicked(cell.pfSwitch)
+                        switchChanged(sender: cell.pfSwitch)
                     }
-                    cell.setHeightPF(choice: 1)
-                }else{cell.setHeightPF(choice: 0)}
+                }else{
+                    //For previous results displayed also on form
+                    if(item.prev != "None"){
+                        cell.pfPrevResultLabel.text = "Previous result: \t" + item.prev
+                        if item.prev == "Pass"{
+                            cell.pfPrevResultLabel.textColor = hexStringToUIColor(hex: "12b481")
+                        }else{
+                            cell.pfPrevResultLabel.textColor = hexStringToUIColor(hex: "a00606")
+                        }
+                        cell.setHeightPF(choice: 1)
+                    }else{cell.setHeightPF(choice: 0)}
+                }
             }else if(item.type == "title"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "title", for: indexPath) as! FormTableViewCell
                 cell.title.text = item.caption
@@ -554,16 +646,21 @@ extension EqFormViewController{
                 cell = tableView.dequeueReusableCell(withIdentifier: "formTitle", for: indexPath) as! FormTableViewCell
                 let titleParts:[String] = splitFormTitle(formTitle: item.caption)
                 cell.truckName.text = titleParts[0]
+                truckName = titleParts[0]
                 cell.formTitle.text = titleParts[1]
                 cell.personCompleting.text = "Being completed by: " + userName[0] + " " + userName[1]
-                if(item.prev != "None"){
-                    cell.prevCompletedByLabel.text = "Previously completed by: " + item.prev
-                    cell.prevCompletedByLabel.textColor = hexStringToUIColor(hex: "12b481")
-                    cell.prevCompletedOnLabel.text = "Previously completed on: " + item.comment
-                    cell.prevCompletedOnLabel.textColor = hexStringToUIColor(hex: "12b481")
-                    cell.setHeight(choice: 1)
-                }else{cell.setHeight(choice: 0)}
                 
+                if(isEdited == true){
+                    //TODO Date Prefill
+                }else{
+                    if(item.prev != "None"){
+                        cell.prevCompletedByLabel.text = "Previously completed by: " + item.prev
+                        cell.prevCompletedByLabel.textColor = hexStringToUIColor(hex: "12b481")
+                        cell.prevCompletedOnLabel.text = "Previously completed on: " + item.comment
+                        cell.prevCompletedOnLabel.textColor = hexStringToUIColor(hex: "12b481")
+                        cell.setHeight(choice: 1)
+                    }else{cell.setHeight(choice: 0)}
+                }
                 
                 
             }else if(item.type == "date"){

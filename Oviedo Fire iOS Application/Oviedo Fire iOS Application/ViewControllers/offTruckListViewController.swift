@@ -37,6 +37,13 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
         stopSpinning(activityView: activityView)
         self.tableView?.rowHeight = 70.0
         navigationItem.title = type
+        
+        // Create  button for navigation item with refresh
+        let refreshButton =  UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.refresh, target: self, action: #selector(offTruckListViewController.actionRefresh))
+        
+        // I set refreshButton for the navigation item
+        navigationItem.rightBarButtonItem = refreshButton
+        
         switch type {
         case "Stretchers":
             backgroundImage.backgroundColor = hexStringToUIColor(hex: "0b6e4f")
@@ -73,10 +80,10 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
             nextController.userEnteredResults = createResults(form: form)
             nextController.formId = singleFormId
             nextController.form = form
-            nextController.formName = formName
             nextController.userName = userName
             nextController.commingFrom.type = "offtruck"
             nextController.commingFrom.section = offTruckSection
+            nextController.isEdited = false
             
         }else if(segue.identifier == "toResult"){
             let nextController = segue.destination as! resultsViewController
@@ -84,12 +91,26 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
             nextController.userName = userName
             nextController.commingFrom.type = "offtruck"
             nextController.commingFrom.section = offTruckSection
+            nextController.formId = singleFormId
         }
         
         stopSpinning(activityView: activityView)
         tableView.isUserInteractionEnabled = true
     }
+    @objc func actionRefresh() {
+        startSpinning(activityView: activityView)
+        tableView.isUserInteractionEnabled = false
+        getOffTruck(userID: userID, type: type){ (result) in
+            self.list = result
+            self.tableView.reloadData()
+            self.stopSpinning(activityView: self.activityView)
+            self.tableView.isUserInteractionEnabled = true
+        }
+    }
+    
 }
+
+
 
 
 //    MARK: TABLE FUNCTIONS

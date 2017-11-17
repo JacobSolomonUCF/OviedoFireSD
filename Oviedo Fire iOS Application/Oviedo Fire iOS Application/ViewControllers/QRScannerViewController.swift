@@ -176,11 +176,12 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             let nextController = segue.destination as! EqFormViewController
             nextController.userEnteredResults = createResults(form: form)
             nextController.form = form
-            nextController.formName = form.title
             nextController.userName = userName
             nextController.formId = message
             nextController.commingFrom.type = "qr"
             nextController.commingFrom.section = ""
+            nextController.isEdited = false
+            
         }else if segue.identifier == "toResult"{
             let nextController = segue.destination as! resultsViewController
             nextController.resultForm = resultForm
