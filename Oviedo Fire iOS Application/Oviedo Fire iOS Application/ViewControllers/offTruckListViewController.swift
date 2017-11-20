@@ -11,11 +11,12 @@ import Alamofire
 import Firebase
 
 
-class offTruckListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class offTruckListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, formCompleted {
     
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
+    
     
     let userID = Auth.auth().currentUser!.uid
     var list:[offTruck] = []
@@ -26,6 +27,11 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     var offTruckSection:String = ""
     var formName:String = ""
     var userName:[String] = []
+    
+    func sendSelectionListBack(data: [Any]) {
+        list = data as! [offTruck]
+        tableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +90,7 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
             nextController.commingFrom.type = "offtruck"
             nextController.commingFrom.section = offTruckSection
             nextController.isEdited = false
+            nextController.delegate = self
             
         }else if(segue.identifier == "toResult"){
             let nextController = segue.destination as! resultsViewController
@@ -100,7 +107,7 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
     @objc func actionRefresh() {
         startSpinning(activityView: activityView)
         tableView.isUserInteractionEnabled = false
-        getOffTruck(userID: userID, type: type){ (result) in
+        getOffTruck(userID: userID, type: offTruckSection){ (result) in
             self.list = result
             self.tableView.reloadData()
             self.stopSpinning(activityView: self.activityView)
@@ -127,7 +134,9 @@ extension offTruckListViewController{
             if(result == "true"){
                 self.getResults(userID: self.userID, formId: self.singleFormId, completion: { (results) in
                     self.resultForm = results
-                    self.performSegue(withIdentifier: "toResult", sender: nil)
+                    self.sendBackAlert(message: "This form has been completed", title: "", completion: {
+                        self.performSegue(withIdentifier: "toResult", sender: nil)
+                    })
                 })
                 
             }else{

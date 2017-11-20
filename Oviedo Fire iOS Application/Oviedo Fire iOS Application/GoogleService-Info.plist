@@ -17,7 +17,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>UCFSeniorDesignGroup9.Oviedo-Fire-iOS-Application</string>
+	<string>com.UCFSeniorDesignGroup9.Oviedo-Fire-iOS-Application</string>
 	<key>PROJECT_ID</key>
 	<string>oviedofiresd-55a71</string>
 	<key>STORAGE_BUCKET</key>

@@ -262,6 +262,7 @@ extension UIViewController{
         var offTruckItem:[offTruck] = []
         var compartmentList:[compartments] = []
         var TODOList: [toDo] = []
+        var resultsForm: [result] = []
         switch path.type {
         case "todo":
             getTODO(userID: userID, completion: { (result) in
@@ -277,6 +278,11 @@ extension UIViewController{
             getCompartments(singleSelection: path.section, completion: { (result) in
                 compartmentList = result
                 completion(compartmentList)
+            })
+        case "results":
+            getResults(userID: userID, formId: path.section, completion: { (result) in
+                resultsForm.append(result)
+                completion(resultsForm)
             })
         default:
             error.append(formItem.init(caption: "error", type: "error", prev: "error", comment: "error"))
@@ -297,6 +303,21 @@ extension UIViewController{
                 }else{
                     list.append(userResults.init(value: "", note: "", type: entry.type, caption: entry.caption, prev: entry.prev, comment: entry.comment))
                 }
+            }
+        }
+        return list
+    }
+    //    createEditFormResults:
+    //    Converts the struct to users results type
+    func createEditFormResults(form:completeForm)->([userResults]){
+        var list:[userResults] = []
+        let subsections = form.subSection
+        for items in subsections{
+            let sections = items.formItem
+            for entry in sections{
+
+                list.append(userResults.init(value: entry.prev, note: entry.comment, type: entry.type, caption: entry.caption, prev: "None", comment: "None" ))
+                
             }
         }
         return list
@@ -478,6 +499,7 @@ extension UIViewController{
             }else{ //Print the error
                 self.alert(message: "Error Making Network Request")
                 print("Error: \(String(describing: response.error))")
+                isCompleted = nil
             }
             completion(isCompleted!)
         

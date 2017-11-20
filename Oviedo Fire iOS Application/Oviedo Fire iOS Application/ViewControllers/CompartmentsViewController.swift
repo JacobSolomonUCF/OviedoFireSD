@@ -10,7 +10,13 @@ import UIKit
 import Firebase
 import Alamofire
 
-class CompartmentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class CompartmentsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, formCompleted {
+    func sendSelectionListBack(data: [Any]) {
+        list = data as! [compartments]
+        tableView.reloadData()
+        navigationController?.title = "TEST"
+    }
+    
     
     //    Linking the buttons:
     @IBOutlet weak var activityView: UIActivityIndicatorView!
@@ -81,6 +87,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
             nextController.commingFrom.type = "compartment"
             nextController.commingFrom.section = truckNumber
             nextController.isEdited = false
+            nextController.delegate = self
             
             
             self.stopSpinning(activityView: self.activityView)
@@ -116,16 +123,13 @@ extension CompartmentsViewController{
                 self.formName = self.list[indexPath.row].formName
                 self.getForm(userID: self.userID, formId: self.list[indexPath.row].formId, completion:{(data) -> Void in
                     self.form = data
-                    print(self.form)
                     self.formID = self.list[indexPath.row].formId
                     self.performSegue(withIdentifier: "toForm", sender: nil)
                 })
                 
             }else{
-
-                
-//                self.alert(message: "This form has already been completed")
                 self.getResults(userID: self.userID, formId: self.list[indexPath.row].formId, completion: { (result) in
+                    self.formID = self.list[indexPath.row].formId
                     self.resultForm = result
                     self.stopSpinning(activityView: self.activityView)
                     

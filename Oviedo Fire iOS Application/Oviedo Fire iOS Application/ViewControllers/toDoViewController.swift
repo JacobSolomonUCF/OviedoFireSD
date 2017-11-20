@@ -17,7 +17,12 @@ extension toDoViewController: UISearchResultsUpdating {
     }
 }
 
-class toDoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class toDoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, formCompleted {
+    func sendSelectionListBack(data: [Any]) {
+        list = data as! [toDo]
+        tableView.reloadData()
+    }
+    
    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
@@ -99,6 +104,7 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
             nextController.commingFrom.type = "todo"
             nextController.commingFrom.section = ""
             nextController.isEdited = false
+            nextController.delegate = self
             
         }
         self.stopSpinning(activityView: self.activityView)

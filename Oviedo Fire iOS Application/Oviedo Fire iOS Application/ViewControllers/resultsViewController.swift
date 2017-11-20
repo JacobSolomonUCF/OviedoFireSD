@@ -8,7 +8,7 @@
 
 import UIKit
 
-class resultsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class resultsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, formCompleted {
     
     
     @IBOutlet weak var activityView: UIActivityIndicatorView!
@@ -19,13 +19,18 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
     var form = completeForm(title: "Default", alert: "Default" , subSection: [] )
     var userName:[String] = []
     var formId:String = ""
-     
+    
+    func sendSelectionListBack(data: [Any]) {
+        resultForm = data[0] as! result
+        tableView.reloadData()
+        tableView.isUserInteractionEnabled = true
+        tableView.allowsSelection = true
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
-        print(commingFrom)
 
         // Do any additional setup after loading the view.
     }
@@ -39,12 +44,14 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         if segue.identifier == "toForm"{
             let nextController = segue.destination as! EqFormViewController
             
-            nextController.userEnteredResults = createResults(form: form)
+            nextController.userEnteredResults = createEditFormResults(form: form)
             nextController.form = form
             nextController.userName = userName
             nextController.formId = formId
             nextController.commingFrom.type = "results"
+            nextController.commingFrom.section = formId
             nextController.isEdited = true
+            nextController.delegate = self
             
             
         }
@@ -93,6 +100,8 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }else if(item.type == "sectionTitle"){
                     formItemList.append(formItem.init(caption: item.caption, type: "title", prev: "None", comment: "None"))
                     sectionLabel = item.caption
+                }else if(item.comment != "No Comment"){
+                    formItemList.append(formItem.init(caption: item.caption, type: item.type, prev: item.value, comment: item.comment))
                 }else{
                     formItemList.append(formItem.init(caption: item.caption, type: item.type, prev: item.value, comment: "None"))
                 }
@@ -177,6 +186,8 @@ extension resultsViewController{
             }else if(item.type == "per" && item.value == "0.0"){
                 cell.values.textColor = hexStringToUIColor(hex: "a00606")
                 cell.values.text = item.value + "%"
+            }else{
+                 cell.values.textColor = hexStringToUIColor(hex: "12b481")
             }
             
             

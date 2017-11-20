@@ -298,7 +298,7 @@
                                         <color key="backgroundColor" red="0.1274357736" green="0.43104070430000002" blue="0.31095793840000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                         <color key="tintColor" red="0.99195677039999997" green="0.9962289929" blue="0.99192315340000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="STRETCHERS">
+                                        <state key="normal" title="EMS">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -310,7 +310,7 @@
                                         <color key="backgroundColor" red="0.8568921089" green="0.486158967" blue="0.14813902970000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                         <color key="tintColor" red="0.99195677039999997" green="0.9962289929" blue="0.99192315340000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="LADDERS">
+                                        <state key="normal" title="PPE">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -322,7 +322,7 @@
                                         <color key="backgroundColor" red="0.1688082218170166" green="0.25371566414833069" blue="0.38310790061950684" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="40"/>
                                         <color key="tintColor" red="0.99195677039999997" green="0.9962289929" blue="0.99192315340000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="SCBA">
+                                        <state key="normal" title="Tools">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
@@ -646,7 +646,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Dnc-Jf-rQD">
-                                <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                                <rect key="frame" x="0.0" y="64" width="768" height="916"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <color key="sectionIndexBackgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -1185,9 +1185,6 @@
                     <connections>
                         <outlet property="activityView" destination="1L7-ix-8Da" id="8ij-JU-eQ9"/>
                         <outlet property="tableView" destination="Dnc-Jf-rQD" id="8ky-fP-BLj"/>
-                        <segue destination="PNN-47-jNF" kind="show" identifier="toHome" id="pse-4N-dt2"/>
-                        <segue destination="HFO-mC-Tip" kind="show" identifier="toCompartment" id="zE2-lC-dSM"/>
-                        <segue destination="nYJ-Fi-odQ" kind="show" identifier="toTodo" id="9WJ-8c-xPT"/>
                         <segue destination="GLa-kZ-1aO" kind="show" identifier="toOffTruck" id="Cpj-6s-jFT"/>
                     </connections>
                 </viewController>
@@ -1367,7 +1364,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gIF-k4-hwV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2981" y="1223"/>
+            <point key="canvasLocation" x="2981" y="1043"/>
         </scene>
         <!--Compartments View Controller-->
         <scene sceneID="yg1-fj-Lim">
@@ -1560,11 +1557,8 @@
         <image name="LogoTransparent.jpg" width="1024" height="1024"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Cpj-6s-jFT"/>
-        <segue reference="zE2-lC-dSM"/>
+        <segue reference="did-JA-IqT"/>
         <segue reference="sJ3-IS-DyU"/>
         <segue reference="m0h-Gf-DPj"/>
-        <segue reference="9WJ-8c-xPT"/>
-        <segue reference="pse-4N-dt2"/>
     </inferredMetricsTieBreakers>
 </document>
