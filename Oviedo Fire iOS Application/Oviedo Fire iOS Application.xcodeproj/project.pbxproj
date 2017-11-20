@@ -95,6 +95,7 @@
 		16A90B081F560C7C00F50919 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16AF74DC1F9E8CC300388111 /* Login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Login.png; sourceTree = "<group>"; };
 		16AF74E01F9E8EA800388111 /* LogoTransparent.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LogoTransparent.jpg; sourceTree = "<group>"; };
+		16B10F191FC28B7300E363E3 /* Oviedo Fire iOS Application.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Oviedo Fire iOS Application.entitlements"; sourceTree = "<group>"; };
 		16B4FA401F68A547000929F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		16B829FC1F97CB110071679C /* resultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resultsViewController.swift; sourceTree = "<group>"; };
 		16B829FE1F97CB2F0071679C /* resultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resultsTableViewCell.swift; sourceTree = "<group>"; };
@@ -180,6 +181,7 @@
 		16A90AE51F560C7C00F50919 /* Oviedo Fire iOS Application */ = {
 			isa = PBXGroup;
 			children = (
+				16B10F191FC28B7300E363E3 /* Oviedo Fire iOS Application.entitlements */,
 				16CF468B1F560CB70063834B /* BG */,
 				16EDEBF71F8C0056001E50C1 /* TableCells */,
 				16EDEBE21F8C004C001E50C1 /* ViewControllers */,
@@ -363,6 +365,11 @@
 						DevelopmentTeam = 68UXX2W585;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					16A90AF61F560C7C00F50919 = {
 						CreatedOnToolsVersion = 8.3.3;
@@ -805,6 +812,7 @@
 			baseConfigurationReference = 31C04D7FB04BD12772392A3B /* Pods-Oviedo Fire iOS Application.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Oviedo Fire iOS Application/Oviedo Fire iOS Application.entitlements";
 				DEVELOPMENT_TEAM = 68UXX2W585;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -829,6 +837,7 @@
 			baseConfigurationReference = 82D06A5EA553A0930C4B39B4 /* Pods-Oviedo Fire iOS Application.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Oviedo Fire iOS Application/Oviedo Fire iOS Application.entitlements";
 				DEVELOPMENT_TEAM = 68UXX2W585;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
