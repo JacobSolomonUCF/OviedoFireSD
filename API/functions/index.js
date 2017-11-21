@@ -654,45 +654,59 @@ exports.checkCompletion = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0 || auth == 1) {
-                            ref.child(`forms/results/${req.query.formId}`).once('value').then(resultSnap => {
-                                var completed = false;
-                                const result = resultSnap.val();
+							ref.child(`forms/templates/${req.query.formId}`).once('value').then(templateSnap => {
+								const template = templateSnap.val();
 
-                                if(result) {
-                                    ref.child(`forms/intervals/${req.query.formId}/frequency`).once('value').then(frequencySnap => {
-                                        const time = getTime();
-                                        const frequency = frequencySnap.val();
+								if(template) {
+		                            ref.child(`forms/results/${req.query.formId}`).once('value').then(resultSnap => {
+		                                var completed = false;
+		                                const result = resultSnap.val();
 
-                                        if(frequency == "Daily" && result[time.datestamp]) {
-                                            completed = true;
-                                        } else if(frequency == "Weekly") {
-                                            const lastTimestamp = Object.keys(result)[Object.keys(result).length-1];
+		                                if(result) {
+		                                    ref.child(`forms/intervals/${req.query.formId}/frequency`).once('value').then(frequencySnap => {
+		                                        const time = getTime();
+		                                        const frequency = frequencySnap.val();
 
-                                            if(time.weekstamps.includes(lastTimestamp)) {
-                                                completed = true;
-                                            }
-                                        } else if(frequency == "Monthly") {
-                                            const lastTimestamp = Object.keys(result)[Object.keys(result).length-1];
+		                                        if(frequency == "Daily" && result[time.datestamp]) {
+		                                            completed = true;
+		                                        } else if(frequency == "Weekly") {
+		                                            const lastTimestamp = Object.keys(result)[Object.keys(result).length-1];
 
-                                            if(lastTimestamp.substring(0,6) == time.yearMonth) {
-                                                completed = true;
-                                            }
-                                        }
+		                                            if(time.weekstamps.includes(lastTimestamp)) {
+		                                                completed = true;
+		                                            }
+		                                        } else if(frequency == "Monthly") {
+		                                            const lastTimestamp = Object.keys(result)[Object.keys(result).length-1];
 
-                                        cors(req, res, () => {
-                                            res.status(200).send(completed);
-                                        });
-                                    }).catch(err => {
-                                        cors(req, res, () => {
-                                            res.status(400).send(err);
-                                        });
-                                    });
-                                } else {
-                                    cors(req, res, () => {
-                                        res.status(200).send(completed);
-                                    });
-                                }
-                            }).catch(err => {
+		                                            if(lastTimestamp.substring(0,6) == time.yearMonth) {
+		                                                completed = true;
+		                                            }
+		                                        }
+
+		                                        cors(req, res, () => {
+		                                            res.status(200).send(completed);
+		                                        });
+		                                    }).catch(err => {
+		                                        cors(req, res, () => {
+		                                            res.status(400).send(err);
+		                                        });
+		                                    });
+		                                } else {
+		                                    cors(req, res, () => {
+		                                        res.status(200).send(completed);
+		                                    });
+		                                }
+		                            }).catch(err => {
+		                                cors(req, res, () => {
+		                                    res.status(400).send(err);
+		                                });
+		                            });
+								} else {
+									cors(req, res, () => {
+	                                    res.status(400).send(`Template for '${req.query.formId}' does not exist.`);
+	                                });
+								}
+							}).catch(err => {
                                 cors(req, res, () => {
                                     res.status(400).send(err);
                                 });
