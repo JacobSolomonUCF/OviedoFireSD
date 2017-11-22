@@ -528,8 +528,6 @@ extension EqFormViewController{
                             self.expandedRows.insert(indexPath.row)
                             cell.isExpanded = !cell.isExpanded
                         }else{cell.needsRepairButton.isUserInteractionEnabled = true}
-                        self.tableView.beginUpdates()
-                        self.tableView.endUpdates()
                     }
                     
                 }
@@ -579,8 +577,16 @@ extension EqFormViewController{
                 cell.percentName.text = item.caption
                 cell.percentValue.text = ""
                 if(item.value != ""){
-                    cell.percentValue.text = item.value
-                    cell.percentSlider.value = Float(item.value)!
+                    if(item.value.contains("%")){
+                        let num = item.value.prefix(item.value.count-1) //Removes the % at the end
+                        cell.percentValue.text = item.value
+                        cell.percentSlider.value = Float(num)!
+                    }else{
+                        cell.percentValue.text = item.value
+                        cell.percentSlider.value = Float(item.value)!
+                        
+                    }
+
                 }
                 
                 //For previous results displayed also on form

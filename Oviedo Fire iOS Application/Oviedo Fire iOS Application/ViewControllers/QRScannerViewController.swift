@@ -85,6 +85,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
         view.addSubview(codeLabel)
         codeLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         codeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        codeLabel.textAlignment = NSTextAlignment.center
         codeLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         codeLabel.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         
@@ -186,6 +187,7 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             let nextController = segue.destination as! resultsViewController
             nextController.resultForm = resultForm
             nextController.userName = userName
+            nextController.formId = message
         }
     }
     
