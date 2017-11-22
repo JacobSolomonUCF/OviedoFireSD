@@ -299,7 +299,7 @@ extension UIViewController{
             let sections = items.formItem
             for entry in sections{
                 if(entry.type == "pf"){
-                    list.append(userResults.init(value: "Fail", note: "", type: entry.type, caption: entry.caption, prev: entry.prev, comment: entry.comment))
+                    list.append(userResults.init(value: "Failed", note: "", type: entry.type, caption: entry.caption, prev: entry.prev, comment: entry.comment))
                 }else{
                     list.append(userResults.init(value: "", note: "", type: entry.type, caption: entry.caption, prev: entry.prev, comment: entry.comment))
                 }

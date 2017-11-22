@@ -147,10 +147,10 @@ class FormTableViewCell: UITableViewCell{
     @IBAction func switchClicked(_ sender: Any) {
         
         if(self.pfSwitch.isOn){
-            self.pfValue.text = "Pass"
+            self.pfValue.text = "Passed"
             self.pfValue.textColor = hexStringToUIColor(hex: "12b481")
         }else{
-            self.pfValue.text = "Fail"
+            self.pfValue.text = "Failed"
             self.pfValue.textColor = hexStringToUIColor(hex: "a00606")
         }
 

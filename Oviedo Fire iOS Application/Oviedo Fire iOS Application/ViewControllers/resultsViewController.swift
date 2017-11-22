@@ -181,7 +181,7 @@ extension resultsViewController{
 //            Setting red text color
             if(item.type == "pmr" && (item.value == "Repairs Needed" || item.value == "Missing")){
                 cell.values.textColor = hexStringToUIColor(hex: "a00606")
-            }else if(item.type == "pf" && item.value == "Fail"){
+            }else if(item.type == "pf" && item.value == "Failed"){
                 cell.values.textColor = hexStringToUIColor(hex: "a00606")
             }else if(item.type == "per" && item.value == "0.0"){
                 cell.values.textColor = hexStringToUIColor(hex: "a00606")

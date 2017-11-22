@@ -371,9 +371,9 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     @objc func switchChanged(sender: UISwitch) {
         if(sender.isOn){
-            userEnteredResults[sender.tag].value = "Pass"
+            userEnteredResults[sender.tag].value = "Passed"
         }else{
-            userEnteredResults[sender.tag].value = "Fail"
+            userEnteredResults[sender.tag].value = "Failed"
         }
 
         
@@ -599,11 +599,11 @@ extension EqFormViewController{
                 cell.pfSwitch.addTarget(self, action: #selector(EqFormViewController.switchChanged(sender:)), for: .valueChanged)
                 cell.pfSwitch.tag = indexPath.row
                 cell.pfName.text = item.caption
-                cell.pfValue.text = "Fail"
+                cell.pfValue.text = "Failed"
                 cell.pfValue.textColor = hexStringToUIColor(hex: "a00606")
                 if(item.value != ""){
-                    if(item.value == "Pass"){
-                        cell.pfValue.text = "Pass"
+                    if(item.value == "Passed"){
+                        cell.pfValue.text = "Passed"
                         cell.pfValue.textColor = hexStringToUIColor(hex: "12b481")
                         cell.pfSwitch.isOn = true
                     }else{
