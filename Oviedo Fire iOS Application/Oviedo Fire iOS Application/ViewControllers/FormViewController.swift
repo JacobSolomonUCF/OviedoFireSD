@@ -154,7 +154,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if(commentflag == 1){
             return -1
         }
-        if(numberNotCompleted == 0){
+        if(numberNotCompleted != 0){
             return 1
         }
     
@@ -394,16 +394,12 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
             if(result == true){
                 self.tableView.isUserInteractionEnabled = false
                 let check = self.checkForm()
-                if(check == 0){
+                if(check == 1){
                     self.alert(message: "Please completed the entire form!")
                     self.tableView.isUserInteractionEnabled = true
                 }else if(check == -1){
                     self.alert(message: "Plese enter a comment for the item that needs repairs")
                     self.tableView.isUserInteractionEnabled = true
-                }else if(check == 0){
-                    self.alert(message: "This form has been completed already")
-                    self.tableView.isUserInteractionEnabled = true
-                    //Perform Segue here
                 }else{
                     self.startSpinning(activityView: self.activityView)
                     var json:[String:Any]
@@ -459,6 +455,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
                             
                         }else{
+                            self.stopSpinning(activityView: self.activityView)
                             self.sendBackAlert(message: "Error submitting form"){ () in
                             }
                         }

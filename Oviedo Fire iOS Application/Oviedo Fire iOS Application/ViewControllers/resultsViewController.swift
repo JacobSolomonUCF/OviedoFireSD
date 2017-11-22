@@ -24,7 +24,6 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         resultForm = data[0] as! result
         tableView.reloadData()
         tableView.isUserInteractionEnabled = true
-        tableView.allowsSelection = true
     }
 
     override func viewDidLoad() {
@@ -56,7 +55,7 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
             
         }
         self.stopSpinning(activityView: self.activityView)
-        tableView.allowsSelection = true
+        tableView.isUserInteractionEnabled = true
     }
     
     
