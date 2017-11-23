@@ -157,6 +157,12 @@ function getAllReports(year, callback) {
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
                                                     };
+												} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+													data.rows[offset+n][weekday[m]] = {
+                                                        result: result,
+                                                        note: results[formId][time.weekstamps[m]].results[n].note,
+                                                        completedBy: results[formId][time.weekstamps[m]].completedBy
+                                                    };
                                                 } else {
                                                     data.rows[offset+n][weekday[m]] = {
                                                         result: result,
@@ -176,6 +182,12 @@ function getAllReports(year, callback) {
                                                 var result = results[formId][time.weekstamps[m]].results[n].result;
                                                 if(result == "Repairs Needed") {
                                                     data.rows[offset+n][weekday[m]] = {
+                                                        result: result,
+                                                        note: results[formId][time.weekstamps[m]].results[n].note,
+                                                        completedBy: results[formId][time.weekstamps[m]].completedBy
+                                                    };
+												} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+													data.rows[offset+n][weekday[m]] = {
                                                         result: result,
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -209,6 +221,12 @@ function getAllReports(year, callback) {
                                                                 note: results[formId][completedTimestamp].results[o].note,
                                                                 completedBy: results[formId][completedTimestamp].completedBy
                                                             };
+														} else if(result == "Missing" && results[formId][completedTimestamp].results[o].note) {
+															data.rows[offset+o][weekday[m]] = {
+                                                                result: result,
+                                                                note: results[formId][completedTimestamp].results[o].note,
+                                                                completedBy: results[formId][completedTimestamp].completedBy
+                                                            };
                                                         } else {
                                                             data.rows[offset+o][weekday[m]] = {
                                                                 result: result,
@@ -228,6 +246,12 @@ function getAllReports(year, callback) {
                                                 var result = results[formId][time.weekstamps[m]].results[n].result;
                                                 if(result == "Repairs Needed") {
                                                     data.rows[offset+n][weekday[m]] = {
+                                                        result: result,
+                                                        note: results[formId][time.weekstamps[m]].results[n].note,
+                                                        completedBy: results[formId][time.weekstamps[m]].completedBy
+                                                    };
+												} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+													data.rows[offset+n][weekday[m]] = {
                                                         result: result,
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -311,6 +335,12 @@ function getAllReports(year, callback) {
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
                                                     };
+												} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+													data.rows[n][weekday[m]] = {
+                                                        result: result,
+                                                        note: results[formId][time.weekstamps[m]].results[n].note,
+                                                        completedBy: results[formId][time.weekstamps[m]].completedBy
+                                                    };
                                                 } else {
                                                     data.rows[n][weekday[m]] = {
                                                         result: result,
@@ -330,6 +360,12 @@ function getAllReports(year, callback) {
                                                 var result = results[formId][time.weekstamps[m]].results[n].result;
                                                 if(result == "Repairs Needed") {
                                                     data.rows[n][weekday[m]] = {
+                                                        result: result,
+                                                        note: results[formId][time.weekstamps[m]].results[n].note,
+                                                        completedBy: results[formId][time.weekstamps[m]].completedBy
+                                                    };
+												} else if(results == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+													data.rows[n][weekday[m]] = {
                                                         result: result,
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -363,6 +399,12 @@ function getAllReports(year, callback) {
                                                                 note: results[formId][completedTimestamp].results[o].note,
                                                                 completedBy: results[formId][completedTimestamp].completedBy
                                                             };
+														} else if(result == "Missing" && results[formId][completedTimestamp].results[o].note) {
+															data.rows[o][weekday[m]] = {
+                                                                result: result,
+                                                                note: results[formId][completedTimestamp].results[o].note,
+                                                                completedBy: results[formId][completedTimestamp].completedBy
+                                                            };
                                                         } else {
                                                             data.rows[o][weekday[m]] = {
                                                                 result: result,
@@ -382,6 +424,12 @@ function getAllReports(year, callback) {
                                                 var result = results[formId][time.weekstamps[m]].results[n].result;
                                                 if(result == "Repairs Needed") {
                                                     data.rows[n][weekday[m]] = {
+                                                        result: result,
+                                                        note: results[formId][time.weekstamps[m]].results[n].note,
+                                                        completedBy: results[formId][time.weekstamps[m]].completedBy
+                                                    };
+												} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+													data.rows[n][weekday[m]] = {
                                                         result: result,
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -427,6 +475,12 @@ function getAllReports(year, callback) {
                                                             note: results[formId][time.weekstamps[n]].results[m].results[o].note,
                                                             completedBy: results[formId][time.weekstamps[n]].completedBy
                                                         };
+													} else if(result == "Missing" && results[formId][time.weekstamps[n]].results[m].results[o].note) {
+														data.rows[offset+o][weekday[n]] = {
+                                                            result: result,
+                                                            note: results[formId][time.weekstamps[n]].results[m].results[o].note,
+                                                            completedBy: results[formId][time.weekstamps[n]].completedBy
+                                                        };
                                                     } else {
                                                         data.rows[offset+o][weekday[n]] = {
                                                             result: result,
@@ -444,8 +498,14 @@ function getAllReports(year, callback) {
                                                 complete = true;
                                                 for(var o = 0; o < results[formId][time.weekstamps[n]].results[m].results.length; o++) {
                                                     var result = results[formId][time.weekstamps[n]].results[m].results[o].result;
-                                                    if(result == "Needs Repair") {
+                                                    if(result == "Repairs Needed") {
                                                         data.rows[offset+o][weekday[n]] = {
+                                                            result: result,
+                                                            note : results[formId][time.weekstamps[n]].results[m].results[o].note,
+                                                            completedBy: results[formId][time.weekstamps[n]].completedBy
+                                                        };
+													} else if(result == "Missing" && results[formId][time.weekstamps[n]].results[m].results[o].note) {
+														data.rows[offset+o][weekday[n]] = {
                                                             result: result,
                                                             note : results[formId][time.weekstamps[n]].results[m].results[o].note,
                                                             completedBy: results[formId][time.weekstamps[n]].completedBy
@@ -473,8 +533,14 @@ function getAllReports(year, callback) {
                                                         completedTimestamp = timestamps[o];
                                                         for(var p = 0; p < results[formId][completedTimestamp].results[m].results.length; p++) {
                                                             var result = results[formId][completedTimestamp].results[m].results[p].result;
-                                                            if(result == "Needs Repair") {
+                                                            if(result == "Repairs Needed") {
                                                                 data.rows[offset+p][weekday[n]] = {
+                                                                    result: result,
+                                                                    note: results[formId][completedTimestamp].results[m].results[p].note,
+                                                                    completedBy: results[formId][completedTimestamp].completedBy
+                                                                };
+															} else if(result == "Missing" && results[formId][completedTimestamp].results[m].results[p].note) {
+																data.rows[offset+p][weekday[n]] = {
                                                                     result: result,
                                                                     note: results[formId][completedTimestamp].results[m].results[p].note,
                                                                     completedBy: results[formId][completedTimestamp].completedBy
@@ -496,8 +562,14 @@ function getAllReports(year, callback) {
                                                 days[weekday[n]] = true;
                                                 for(var o = 0; o < results[formId][time.weekstamps[n]].results[m].results.length; o++) {
                                                     var result = results[formId][time.weekstamps[n]].results[m].results[o].result;
-                                                    if(result == "Needs Repair") {
+                                                    if(result == "Repairs Needed") {
                                                         data.rows[offset+o][weekday[n]] = {
+                                                            result: result,
+                                                            note: results[formId][time.weekstamps[n]].results[m].results[o].note,
+                                                            completedBy: results[formId][time.weekstamps[n]].completedBy
+                                                        };
+													} else if(result == "Missing" && results[formId][time.weekstamps[n]].results[m].results[o].note) {
+														data.rows[offset+o][weekday[n]] = {
                                                             result: result,
                                                             note: results[formId][time.weekstamps[n]].results[m].results[o].note,
                                                             completedBy: results[formId][time.weekstamps[n]].completedBy
@@ -546,10 +618,10 @@ function getAllReports(year, callback) {
 
         callback(retVal, root);
     }).catch(err => {
-		cors(req, res, () => {
+        cors(req, res, () => {
             res.status(400).send(err);
         });
-	});
+    });
 }
 
 function generateCSV(report) {
@@ -579,11 +651,11 @@ function generateCSV(report) {
 }
 
 function sortByRank(a, b) {
-	if(a.rank < b.rank)
-		return -1;
-	if(a.rank > b.rank)
-		return 1;
-	return 0;
+    if(a.rank < b.rank)
+        return -1;
+    if(a.rank > b.rank)
+        return 1;
+    return 0;
 }
 // END: Global Functions--------------------------------------------------------
 
@@ -603,11 +675,11 @@ exports.activeVehicles = functions.https.onRequest((req, res) => {
                                     retVal.list.push({
                                         id: vehicleSnap.key,
                                         name: vehicleSnap.child('name').val(),
-										rank: vehicleSnap.child('rank').val()
+                                        rank: vehicleSnap.child('rank').val()
                                     });
                                 });
 
-								retVal.list.sort(sortByRank);
+                                retVal.list.sort(sortByRank);
 
                                 cors(req, res, () => {
                                     res.status(200).send(retVal);
@@ -654,59 +726,59 @@ exports.checkCompletion = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0 || auth == 1) {
-							ref.child(`forms/templates/${req.query.formId}`).once('value').then(templateSnap => {
-								const template = templateSnap.val();
+                            ref.child(`forms/templates/${req.query.formId}`).once('value').then(templateSnap => {
+                                const template = templateSnap.val();
 
-								if(template) {
-		                            ref.child(`forms/results/${req.query.formId}`).once('value').then(resultSnap => {
-		                                var completed = false;
-		                                const result = resultSnap.val();
+                                if(template) {
+                                    ref.child(`forms/results/${req.query.formId}`).once('value').then(resultSnap => {
+                                        var completed = false;
+                                        const result = resultSnap.val();
 
-		                                if(result) {
-		                                    ref.child(`forms/intervals/${req.query.formId}/frequency`).once('value').then(frequencySnap => {
-		                                        const time = getTime();
-		                                        const frequency = frequencySnap.val();
+                                        if(result) {
+                                            ref.child(`forms/intervals/${req.query.formId}/frequency`).once('value').then(frequencySnap => {
+                                                const time = getTime();
+                                                const frequency = frequencySnap.val();
 
-		                                        if(frequency == "Daily" && result[time.datestamp]) {
-		                                            completed = true;
-		                                        } else if(frequency == "Weekly") {
-		                                            const lastTimestamp = Object.keys(result)[Object.keys(result).length-1];
+                                                if(frequency == "Daily" && result[time.datestamp]) {
+                                                    completed = true;
+                                                } else if(frequency == "Weekly") {
+                                                    const lastTimestamp = Object.keys(result)[Object.keys(result).length-1];
 
-		                                            if(time.weekstamps.includes(lastTimestamp)) {
-		                                                completed = true;
-		                                            }
-		                                        } else if(frequency == "Monthly") {
-		                                            const lastTimestamp = Object.keys(result)[Object.keys(result).length-1];
+                                                    if(time.weekstamps.includes(lastTimestamp)) {
+                                                        completed = true;
+                                                    }
+                                                } else if(frequency == "Monthly") {
+                                                    const lastTimestamp = Object.keys(result)[Object.keys(result).length-1];
 
-		                                            if(lastTimestamp.substring(0,6) == time.yearMonth) {
-		                                                completed = true;
-		                                            }
-		                                        }
+                                                    if(lastTimestamp.substring(0,6) == time.yearMonth) {
+                                                        completed = true;
+                                                    }
+                                                }
 
-		                                        cors(req, res, () => {
-		                                            res.status(200).send(completed);
-		                                        });
-		                                    }).catch(err => {
-		                                        cors(req, res, () => {
-		                                            res.status(400).send(err);
-		                                        });
-		                                    });
-		                                } else {
-		                                    cors(req, res, () => {
-		                                        res.status(200).send(completed);
-		                                    });
-		                                }
-		                            }).catch(err => {
-		                                cors(req, res, () => {
-		                                    res.status(400).send(err);
-		                                });
-		                            });
-								} else {
-									cors(req, res, () => {
-	                                    res.status(400).send(`Template for '${req.query.formId}' does not exist.`);
-	                                });
-								}
-							}).catch(err => {
+                                                cors(req, res, () => {
+                                                    res.status(200).send(completed);
+                                                });
+                                            }).catch(err => {
+                                                cors(req, res, () => {
+                                                    res.status(400).send(err);
+                                                });
+                                            });
+                                        } else {
+                                            cors(req, res, () => {
+                                                res.status(200).send(completed);
+                                            });
+                                        }
+                                    }).catch(err => {
+                                        cors(req, res, () => {
+                                            res.status(400).send(err);
+                                        });
+                                    });
+                                } else {
+                                    cors(req, res, () => {
+                                        res.status(400).send(`Template for '${req.query.formId}' does not exist.`);
+                                    });
+                                }
+                            }).catch(err => {
                                 cors(req, res, () => {
                                     res.status(400).send(err);
                                 });
@@ -759,25 +831,28 @@ exports.form = functions.https.onRequest((req, res) => {
                                     if(prevResult) {
                                         var clearPrev = false;
                                         const prevResultDatestamp = Object.keys(prevResult)[0];
-										form.prevCompletedBy = prevResult[prevResultDatestamp].completedBy;
-										form.prevDate = `${prevResultDatestamp.substring(4,6)}/${prevResultDatestamp.substring(6,8)}/${prevResultDatestamp.substring(0,4)}`;
+                                        form.prevCompletedBy = prevResult[prevResultDatestamp].completedBy;
+                                        form.prevDate = `${prevResultDatestamp.substring(4,6)}/${prevResultDatestamp.substring(6,8)}/${prevResultDatestamp.substring(0,4)}`;
 
                                         if(form.inputElements) {
                                             for(var i = 0; i < form.inputElements.length; i++) {
                                                 if(form.inputElements[i].caption != prevResult[prevResultDatestamp].results[i].caption) {
                                                     clearPrev = true;
                                                     break;
-												} else if(prevResult[prevResultDatestamp].results[i].result == "Repairs Needed") {
+                                                } else if(prevResult[prevResultDatestamp].results[i].result == "Repairs Needed") {
+                                                    form.inputElements[i].prev = prevResult[prevResultDatestamp].results[i].result;
+                                                    form.inputElements[i].prevNote = prevResult[prevResultDatestamp].results[i].note;
+												} else if(prevResult[prevResultDatestamp].results[i].result == "Missing" && prevResult[prevResultDatestamp].results[i].note) {
 													form.inputElements[i].prev = prevResult[prevResultDatestamp].results[i].result;
-													form.inputElements[i].prevNote = prevResult[prevResultDatestamp].results[i].note;
+                                                    form.inputElements[i].prevNote = prevResult[prevResultDatestamp].results[i].note;
                                                 } else {
                                                     form.inputElements[i].prev = prevResult[prevResultDatestamp].results[i].result;
                                                 }
                                             }
 
                                             if(clearPrev) {
-												delete form.prevCompletedBy;
-												delete form.prevDate;
+                                                delete form.prevCompletedBy;
+                                                delete form.prevDate;
                                                 for(var i = 0; i < form.inputElements.length; i++) {
                                                     delete form.inputElements[i].prev;
                                                 }
@@ -790,10 +865,13 @@ exports.form = functions.https.onRequest((req, res) => {
                                                         break;
                                                     } else if(prevResult[prevResultDatestamp].results[i].results[j].result == "Repairs Needed"){
                                                         form.subSections[i].inputElements[j].prev = prevResult[prevResultDatestamp].results[i].results[j].result;
-														form.subSections[i].inputElements[j].prevNote = prevResult[prevResultDatestamp].results[i].results[j].note;
-                                                    } else {
+                                                        form.subSections[i].inputElements[j].prevNote = prevResult[prevResultDatestamp].results[i].results[j].note;
+													} else if(prevResult[prevResultDatestamp].results[i].results[j].result == "Missing" && prevResult[prevResultDatestamp].results[i].results[j].note) {
 														form.subSections[i].inputElements[j].prev = prevResult[prevResultDatestamp].results[i].results[j].result;
-													}
+                                                        form.subSections[i].inputElements[j].prevNote = prevResult[prevResultDatestamp].results[i].results[j].note;
+                                                    } else {
+                                                        form.subSections[i].inputElements[j].prev = prevResult[prevResultDatestamp].results[i].results[j].result;
+                                                    }
                                                 }
 
                                                 if(clearPrev) {
@@ -802,8 +880,8 @@ exports.form = functions.https.onRequest((req, res) => {
                                             }
 
                                             if(clearPrev) {
-												delete form.prevCompletedBy;
-												delete form.prevDate;
+                                                delete form.prevCompletedBy;
+                                                delete form.prevDate;
                                                 for(var i = 0; i < form.subSections.length; i++) {
                                                     for(var j = 0; j < form.subSections[i].inputElements.length; j++) {
                                                         delete form.subSections[i].inputElements[j].prev;
@@ -866,57 +944,61 @@ exports.form = functions.https.onRequest((req, res) => {
                                     results: req.body.results
                                 }).then(() => {
                                     var postError = false;
-									var repairItems = [];
-									var missingItems = [];
-									var failItems = [];
-									var emails = [];
+                                    var repairItems = [];
+                                    var missingItems = [];
+                                    var failItems = [];
+                                    var emails = [];
 
-									Object.keys(users).forEach(user => {
-										if(users[user].alert) {
-											emails.push(users[user].email);
-										}
-									});
+                                    Object.keys(users).forEach(user => {
+                                        if(users[user].alert) {
+                                            emails.push(users[user].email);
+                                        }
+                                    });
 
                                     for(var i = 0; i < req.body.results.length; i++) {
                                         if(req.body.results[i].result) {
                                             var failureCheck = false;
                                             var statType;
-                                            var alertType;
+                                            var alertType;;
 
                                             if(req.body.results[i].result == "Repairs Needed") {
                                                 failureCheck = true;
                                                 statType = "repairsNeeded";
                                                 alertType = "repairItems";
-												repairItems.push(`${req.body.results[i].caption}: ${req.body.results[i].note}`);
+                                                repairItems.push(`${req.body.results[i].caption}: ${req.body.results[i].note}`);
                                             } else if(req.body.results[i].result == "Missing") {
                                                 failureCheck = true;
                                                 statType = "missing";
                                                 alertType = "missingItems";
-												missingItems.push(req.body.results[i].caption);
+												if(req.body.results[i].note) {
+													missingItems.push(`${req.body.results[i].caption}: ${req.body.results[i].note}`);
+												} else {
+                                                	missingItems.push(req.body.results[i].caption);
+												}
                                             } else if(req.body.results[i].result == "Failed") {
                                                 failureCheck = true;
                                                 statType = "failed";
                                                 alertType = "failItems";
-												failItems.push(req.body.results[i].caption);
+                                                failItems.push(req.body.results[i].caption);
                                             }
 
                                             if(failureCheck) {
-												ref.child(`statistics/${req.body.formId}/title`).set(templates[req.body.formId].title).catch(err => {
+                                                ref.child(`statistics/${req.body.formId}/title`).set(templates[req.body.formId].title).catch(err => {
                                                     postError = true;
                                                     cors(req, res, () => {
-                                                        res.status(400).send(err);
+                                                        res.status(400).send("statsTitle");
                                                     });
                                                 });
                                                 ref.child(`statistics/${req.body.formId}/${time.yearMonth}/${req.body.results[i].caption}/${statType}`).push().set(0).catch(err => {
                                                     postError = true;
                                                     cors(req, res, () => {
-                                                        res.status(400).send(err);
+                                                        res.status(400).send("statType");
                                                     });
                                                 });
                                                 ref.child(`alerts/${alertType}`).push().set(`${time.formattedDate}: '${req.body.results[i].caption}' from '${templates[req.body.formId].title}'`).catch(err => {
                                                     postError = true;
                                                     cors(req, res, () => {
-                                                        res.status(400).send(err);
+                                                        res.status(400).send("alerts");
                                                     });
                                                 });
                                             }
@@ -930,32 +1012,36 @@ exports.form = functions.https.onRequest((req, res) => {
                                                     failureCheck = true;
                                                     statType = "repairsNeeded";
                                                     alertType = "repairItems";
-													repairItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}: ${req.body.results[i].results[j].note}`);
+                                                    repairItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}: ${req.body.results[i].results[j].note}`);
                                                 } else if(req.body.results[i].results[j].result == "Missing") {
                                                     failureCheck = true;
                                                     statType = "missing";
                                                     alertType = "missingItems";
-													missingItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}`);
+													if(req.body.results[i].results[j].note) {
+														missingItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}: ${req.body.results[i].results[j].note}`);
+													} else {
+                                                    	missingItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}`);
+													}
                                                 } else if(req.body.results[i].results[j].result == "Failed") {
                                                     failureCheck = true;
                                                     statType = "failed";
                                                     alertType = "failItems";
-													failItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}`);
+                                                    failItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}`);
                                                 }
 
                                                 if(failureCheck) {
-													ref.child(`statistics/${req.body.formId}/title`).set(templates[req.body.formId].title).catch(err => {
-	                                                    postError = true;
-	                                                    cors(req, res, () => {
-	                                                        res.status(400).send(err);
-	                                                    });
-	                                                });
+                                                    ref.child(`statistics/${req.body.formId}/title`).set(templates[req.body.formId].title).catch(err => {
+                                                        postError = true;
+                                                        cors(req, res, () => {
+                                                            res.status(400).send(err);
+                                                        });
+                                                    });
                                                     ref.child(`statistics/${req.body.formId}/${time.yearMonth}/${req.body.results[i].title}: ${req.body.results[i].results[j].caption}/${statType}`).push().set(0).catch(err => {
-	                                                    postError = true;
-	                                                    cors(req, res, () => {
-	                                                        res.status(400).send(err);
-	                                                    });
-	                                                });
+                                                        postError = true;
+                                                        cors(req, res, () => {
+                                                            res.status(400).send(err);
+                                                        });
+                                                    });
                                                     ref.child(`alerts/${alertType}`).push().set(`${time.formattedDate}: '${req.body.results[i].results[j].caption}' from '${templates[req.body.formId].title}'`).catch(err => {
                                                         postError = true;
                                                         cors(req, res, () => {
@@ -964,79 +1050,79 @@ exports.form = functions.https.onRequest((req, res) => {
                                                     });
                                                 }
 
-												if(postError) {
-													break;
-												}
+                                                if(postError) {
+                                                    break;
+                                                }
                                             }
                                         }
 
-										if(postError) {
-											break;
-										}
+                                        if(postError) {
+                                            break;
+                                        }
                                     }
 
                                     if(!postError) {
-										if(emails.length > 0) {
-											var mailOptions = {
-								                from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
-								                bcc: emails.join(),
-								                subject: `${time.formattedDate}: ${templates[req.body.formId].title}`,
-												text: ''
-								            };
+                                        if(emails.length > 0) {
+                                            var mailOptions = {
+                                                from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
+                                                bcc: emails.join(),
+                                                subject: `${time.formattedDate}: ${templates[req.body.formId].title}`,
+                                                text: ''
+                                            };
 
-											if(repairItems.length > 0) {
-												mailOptions.text  += `The following item(s) need(s) repair:\n`;
+                                            if(repairItems.length > 0) {
+                                                mailOptions.text  += `The following item(s) need(s) repair:\n`;
 
-												for(var i = 0; i< repairItems.length; i++) {
-													mailOptions.text += `\n\t${repairItems[i]}`;
-												}
+                                                for(var i = 0; i< repairItems.length; i++) {
+                                                    mailOptions.text += `\n\t${repairItems[i]}`;
+                                                }
 
-												mailOptions.text += '\n\n';
-											}
+                                                mailOptions.text += '\n\n';
+                                            }
 
-											if(missingItems.length > 0) {
-												mailOptions.text  += `The following item(s) is/are missing:\n`;
+                                            if(missingItems.length > 0) {
+                                                mailOptions.text  += `The following item(s) is/are missing:\n`;
 
-												for(var i = 0; i< missingItems.length; i++) {
-													mailOptions.text += `\n\t${missingItems[i]}`;
-												}
+                                                for(var i = 0; i< missingItems.length; i++) {
+                                                    mailOptions.text += `\n\t${missingItems[i]}`;
+                                                }
 
-												mailOptions.text += '\n\n';
-											}
+                                                mailOptions.text += '\n\n';
+                                            }
 
-											if(failItems.length > 0) {
-												mailOptions.text  += `The following item(s) has/have failed:\n`;
+                                            if(failItems.length > 0) {
+                                                mailOptions.text  += `The following item(s) has/have failed:\n`;
 
-												for(var i = 0; i< failItems.length; i++) {
-													mailOptions.text += `\n\t${failItems[i]}`;
-												}
+                                                for(var i = 0; i< failItems.length; i++) {
+                                                    mailOptions.text += `\n\t${failItems[i]}`;
+                                                }
 
-												mailOptions.text += '\n\n';
-											}
+                                                mailOptions.text += '\n\n';
+                                            }
 
-											if(mailOptions.text != '') {
-												mailOptions.text += `Reported By: ${users[req.body.uid].firstName} ${users[req.body.uid].lastName}\n`;
-												mailOptions.text += `Form: ${templates[req.body.formId].title}`;
+                                            if(mailOptions.text != '') {
+                                                mailOptions.text += `Reported By: ${users[req.body.uid].firstName} ${users[req.body.uid].lastName}\n`;
+                                                mailOptions.text += `Form: ${templates[req.body.formId].title}`;
 
-												mailTransport.sendMail(mailOptions).then(() => {
-													cors(req, res, () => {
-			                                            res.sendStatus(200);
-			                                        });
-								                }).catch(err => {
-								                    cors(req, res, () => {
-								                        res.status(400).send(err);
-								                    });
-								                });
-											} else {
-												cors(req, res, () => {
-		                                            res.sendStatus(200);
-		                                        });
-											}
-										} else {
-	                                        cors(req, res, () => {
-	                                            res.sendStatus(200);
-	                                        });
-										}
+                                                mailTransport.sendMail(mailOptions).then(() => {
+                                                    cors(req, res, () => {
+                                                        res.sendStatus(200);
+                                                    });
+                                                }).catch(err => {
+                                                    cors(req, res, () => {
+                                                        res.status(400).send(err);
+                                                    });
+                                                });
+                                            } else {
+                                                cors(req, res, () => {
+                                                    res.sendStatus(200);
+                                                });
+                                            }
+                                        } else {
+                                            cors(req, res, () => {
+                                                res.sendStatus(200);
+                                            });
+                                        }
                                     }
                                 }).catch(err => {
                                     cors(req, res, () => {
@@ -1124,11 +1210,11 @@ exports.ladders = functions.https.onRequest((req, res) => {
                                         name: ppe[ppeKey].name,
                                         formId: formId,
                                         completedBy: completedBy,
-										rank: ppe[ppeKey].rank
+                                        rank: ppe[ppeKey].rank
                                     });
                                 });
 
-								retVal.list.sort(sortByRank);
+                                retVal.list.sort(sortByRank);
 
                                 cors(req, res, () => {
                                     res.status(200).send(retVal);
@@ -1214,11 +1300,11 @@ exports.misc = functions.https.onRequest((req, res) => {
                                         name: misc[miscKey].name,
                                         formId: formId,
                                         completedBy: completedBy,
-										rank: misc[miscKey].rank
+                                        rank: misc[miscKey].rank
                                     });
                                 });
 
-								retVal.list.sort(sortByRank);
+                                retVal.list.sort(sortByRank);
 
                                 cors(req, res, () => {
                                     res.status(200).send(retVal);
@@ -1362,11 +1448,11 @@ exports.scbas = functions.https.onRequest((req, res) => {
                                         name: tools[toolKey].name,
                                         formId: formId,
                                         completedBy: completedBy,
-										rank: tools[toolKey].rank
+                                        rank: tools[toolKey].rank
                                     });
                                 });
 
-								retVal.list.sort(sortByRank);
+                                retVal.list.sort(sortByRank);
 
                                 cors(req, res, () => {
                                     res.status(200).send(retVal);
@@ -1452,11 +1538,11 @@ exports.stretchers = functions.https.onRequest((req, res) => {
                                         name: ems[emsKey].name,
                                         formId: formId,
                                         completedBy: completedBy,
-										rank: ems[emsKey].rank
+                                        rank: ems[emsKey].rank
                                     });
                                 });
 
-								retVal.list.sort(sortByRank);
+                                retVal.list.sort(sortByRank);
 
                                 cors(req, res, () => {
                                     res.status(200).send(retVal);
@@ -1618,15 +1704,15 @@ exports.userInfo = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0 || auth == 1) {
-							ref.child(`users/${req.query.uid}`).once('value').then(userSnap => {
-								cors(req, res, () => {
-			                        res.status(200).send(userSnap.val());
-			                    });
-							}).catch(err => {
-								cors(req, res, () => {
-			                        res.status(400).send(err);
-			                    });
-							});
+                            ref.child(`users/${req.query.uid}`).once('value').then(userSnap => {
+                                cors(req, res, () => {
+                                    res.status(200).send(userSnap.val());
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -1677,7 +1763,7 @@ exports.vehicleCompartments = functions.https.onRequest((req, res) => {
                                         const intervals = response[0].val();
                                         const results = response[1].val();
 
-										retVal.list.length = Object.keys(compartments).length;
+                                        retVal.list.length = Object.keys(compartments).length;
                                         Object.keys(compartments).forEach(compartmentKey => {
                                             var completedBy = 'nobody';
                                             const formId = compartments[compartmentKey].formId;
@@ -1766,31 +1852,31 @@ exports.availableYears = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							ref.child('forms/results').once('value').then(resultsSnap => {
-								var retVal = [];
-								var years = {};
-								const results = resultsSnap.val();
+                            ref.child('forms/results').once('value').then(resultsSnap => {
+                                var retVal = [];
+                                var years = {};
+                                const results = resultsSnap.val();
 
-								if(results) {
-									resultsSnap.forEach(formResultsSnap => {
-										formResultsSnap.forEach(datestampSnap => {
-											years[datestampSnap.key.substring(0,4)] = true;
-										});
-									});
+                                if(results) {
+                                    resultsSnap.forEach(formResultsSnap => {
+                                        formResultsSnap.forEach(datestampSnap => {
+                                            years[datestampSnap.key.substring(0,4)] = true;
+                                        });
+                                    });
 
-									Object.keys(years).forEach(year => {
-										retVal.push(year);
-									});
-								}
+                                    Object.keys(years).forEach(year => {
+                                        retVal.push(year);
+                                    });
+                                }
 
-								cors(req, res, () => {
-			                        res.status(200).send(retVal);
-			                    });
-							}).catch(err => {
-								cors(req, res, () => {
-			                        res.status(400).send(err);
-			                    });
-							});
+                                cors(req, res, () => {
+                                    res.status(200).send(retVal);
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -1822,33 +1908,33 @@ exports.availableYears = functions.https.onRequest((req, res) => {
 
 exports.clearReports = functions.https.onRequest((req, res) => {
     switch(req.method) {
-		case 'DELETE':
-			if(req.body.uid) {
+        case 'DELETE':
+            if(req.body.uid) {
                 ref.child(`users/${req.body.uid}/authentication`).once('value').then(authSnap => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							ref.child('forms/results').set(null).then(() => {
-								ref.child('statistics').set(null).then(() => {
-									ref.child('alerts').set(null).then(() => {
-										cors(req, res, () => {
-					                        res.sendStatus(200);
-					                    });
-									}).catch(err => {
-										cors(req, res, () => {
-					                        res.status(400).send(err);
-					                    });
-									});
-								}).catch(err => {
-									cors(req, res, () => {
-				                        res.status(400).send(err);
-				                    });
-								});
-							}).catch(err => {
-								cors(req, res, () => {
-			                        res.status(400).send(err);
-			                    });
-							});
+                            ref.child('forms/results').set(null).then(() => {
+                                ref.child('statistics').set(null).then(() => {
+                                    ref.child('alerts').set(null).then(() => {
+                                        cors(req, res, () => {
+                                            res.sendStatus(200);
+                                        });
+                                    }).catch(err => {
+                                        cors(req, res, () => {
+                                            res.status(400).send(err);
+                                        });
+                                    });
+                                }).catch(err => {
+                                    cors(req, res, () => {
+                                        res.status(400).send(err);
+                                    });
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -1869,7 +1955,7 @@ exports.clearReports = functions.https.onRequest((req, res) => {
                     res.status(400).send("Missing parameter(s): uid");
                 });
             }
-			break;
+            break;
         default:
             cors(req, res, () => {
                 res.sendStatus(404);
@@ -1880,21 +1966,21 @@ exports.clearReports = functions.https.onRequest((req, res) => {
 
 exports.dismissAlert = functions.https.onRequest((req, res) => {
     switch(req.method) {
-		case 'POST':
-			if(req.query.uid && req.query.type && req.query.key) {
+        case 'POST':
+            if(req.query.uid && req.query.type && req.query.key) {
                 ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							ref.child(`alerts/${req.query.type}/${req.query.key}`).set(null).then(() => {
-								cors(req, res, () => {
-			                        res.sendStatus(200);
-			                    });
-							}).catch(err => {
-								cors(req, res, () => {
-			                        res.status(400).send(err);
-			                    });
-							});
+                            ref.child(`alerts/${req.query.type}/${req.query.key}`).set(null).then(() => {
+                                cors(req, res, () => {
+                                    res.sendStatus(200);
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -1915,7 +2001,7 @@ exports.dismissAlert = functions.https.onRequest((req, res) => {
                     res.status(400).send("Missing parameter(s): uid, type, key");
                 });
             }
-			break;
+            break;
         default:
             cors(req, res, () => {
                 res.sendStatus(404);
@@ -1932,112 +2018,112 @@ exports.home = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							const usersPr = ref.child('users').once('value');
-							const alertsPr = ref.child('alerts').once('value');
-							const inventoryPr = ref.child('inventory').once('value');
-							const resultsPr = ref.child('forms/results').once('value');
-							const intervalsPr = ref.child('forms/intervals').once('value');
+                            const usersPr = ref.child('users').once('value');
+                            const alertsPr = ref.child('alerts').once('value');
+                            const inventoryPr = ref.child('inventory').once('value');
+                            const resultsPr = ref.child('forms/results').once('value');
+                            const intervalsPr = ref.child('forms/intervals').once('value');
 
-							Promise.all([usersPr, alertsPr, inventoryPr, resultsPr, intervalsPr]).then(response => {
-								const time = getTime();
-								var retVal = {
-									totalUsers: response[0].numChildren(),
-									alerts: response[1].val(),
-									totalReports: 0,
-									reportsToDo: 0,
-									toDoList: []
-								};
-								const inventory = response[2].val();
-								const results = response[3].val();
-								const intervals = response[4].val();
+                            Promise.all([usersPr, alertsPr, inventoryPr, resultsPr, intervalsPr]).then(response => {
+                                const time = getTime();
+                                var retVal = {
+                                    totalUsers: response[0].numChildren(),
+                                    alerts: response[1].val(),
+                                    totalReports: 0,
+                                    reportsToDo: 0,
+                                    toDoList: []
+                                };
+                                const inventory = response[2].val();
+                                const results = response[3].val();
+                                const intervals = response[4].val();
 
-								Object.keys(inventory).forEach(itemType => {
+                                Object.keys(inventory).forEach(itemType => {
                                     Object.keys(inventory[itemType]).forEach(item => {
-										if(intervals[item].days[time.weekday]) {
-											retVal.totalReports++;
+                                        if(intervals[item].days[time.weekday]) {
+                                            retVal.totalReports++;
 
-	                                        if(itemType == "vehicles") {
-												var complete = true;
+                                            if(itemType == "vehicles") {
+                                                var complete = true;
 
-	                                            Object.keys(inventory[itemType][item].compartments).forEach(compartment => {
-													if(complete) {
-														const formId = inventory[itemType][item].compartments[compartment].formId;
-														const frequency = intervals[formId].frequency;
+                                                Object.keys(inventory[itemType][item].compartments).forEach(compartment => {
+                                                    if(complete) {
+                                                        const formId = inventory[itemType][item].compartments[compartment].formId;
+                                                        const frequency = intervals[formId].frequency;
 
-														if(results && results[formId]) {
-															if(frequency == "Daily" && !Object.keys(results[formId]).includes(time.datestamp)) {
-					                                            complete = false;
-					                                        } else if(frequency == "Weekly") {
-					                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+                                                        if(results && results[formId]) {
+                                                            if(frequency == "Daily" && !Object.keys(results[formId]).includes(time.datestamp)) {
+                                                                complete = false;
+                                                            } else if(frequency == "Weekly") {
+                                                                const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
 
-					                                            if(!time.weekstamps.includes(lastTimestamp)) {
-					                                                complete = false;
-					                                            }
-					                                        } else if(frequency == "Monthly") {
-					                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+                                                                if(!time.weekstamps.includes(lastTimestamp)) {
+                                                                    complete = false;
+                                                                }
+                                                            } else if(frequency == "Monthly") {
+                                                                const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
 
-					                                            if(lastTimestamp.substring(0,6) != time.yearMonth) {
-					                                                complete = false;
-					                                            }
-					                                        }
-														} else {
-															complete = false;
-														}
-													}
-	                                            });
+                                                                if(lastTimestamp.substring(0,6) != time.yearMonth) {
+                                                                    complete = false;
+                                                                }
+                                                            }
+                                                        } else {
+                                                            complete = false;
+                                                        }
+                                                    }
+                                                });
 
-												if(!complete) {
-													retVal.reportsToDo++;
-												}
+                                                if(!complete) {
+                                                    retVal.reportsToDo++;
+                                                }
 
-												retVal.toDoList.push({
-													title: inventory[itemType][item].name,
-													complete: complete
-												});
-	                                        } else {
-												const formId = inventory[itemType][item].formId;
-												const frequency = intervals[formId].frequency;
-												var complete = false;
+                                                retVal.toDoList.push({
+                                                    title: inventory[itemType][item].name,
+                                                    complete: complete
+                                                });
+                                            } else {
+                                                const formId = inventory[itemType][item].formId;
+                                                const frequency = intervals[formId].frequency;
+                                                var complete = false;
 
-												if(results && results[formId]) {
-													if(frequency == "Daily" && results[formId][time.datestamp]) {
-			                                            complete = true;
-			                                        } else if(frequency == "Weekly") {
-			                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+                                                if(results && results[formId]) {
+                                                    if(frequency == "Daily" && results[formId][time.datestamp]) {
+                                                        complete = true;
+                                                    } else if(frequency == "Weekly") {
+                                                        const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
 
-			                                            if(time.weekstamps.includes(lastTimestamp)) {
-			                                                complete = true;
-			                                            }
-			                                        } else if(frequency == "Monthly") {
-			                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+                                                        if(time.weekstamps.includes(lastTimestamp)) {
+                                                            complete = true;
+                                                        }
+                                                    } else if(frequency == "Monthly") {
+                                                        const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
 
-			                                            if(lastTimestamp.substring(0,6) == time.yearMonth) {
-			                                                complete = true;
-			                                            }
-			                                        }
-												}
+                                                        if(lastTimestamp.substring(0,6) == time.yearMonth) {
+                                                            complete = true;
+                                                        }
+                                                    }
+                                                }
 
-												if(!complete) {
-													retVal.reportsToDo++;
-												}
+                                                if(!complete) {
+                                                    retVal.reportsToDo++;
+                                                }
 
-												retVal.toDoList.push({
-													title: inventory[itemType][item].name,
-													complete: complete
-												});
-	                                        }
-										}
+                                                retVal.toDoList.push({
+                                                    title: inventory[itemType][item].name,
+                                                    complete: complete
+                                                });
+                                            }
+                                        }
                                     });
                                 });
 
-								cors(req, res, () => {
-			                        res.status(200).send(retVal);
-			                    });
-							}).catch(err => {
-								cors(req, res, () => {
-			                        res.status(400).send(err);
-			                    });
-							});
+                                cors(req, res, () => {
+                                    res.status(200).send(retVal);
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -2075,15 +2161,15 @@ exports.resetPassword = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							firebase.auth().sendPasswordResetEmail(req.body.user.email).then(() => {
-								cors(req, res, () => {
-			                        res.sendStatus(200);
-			                    });
-							}).catch(err => {
-								cors(req, res, () => {
-			                        res.status(400).send(err);
-			                    });
-							});
+                            firebase.auth().sendPasswordResetEmail(req.body.user.email).then(() => {
+                                cors(req, res, () => {
+                                    res.sendStatus(200);
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -2121,32 +2207,32 @@ exports.users = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							ref.child('users').once('value').then(usersSnap => {
-								var retVal = { list:[] };
+                            ref.child('users').once('value').then(usersSnap => {
+                                var retVal = { list:[] };
 
-								usersSnap.forEach(userSnap => {
-									var user = userSnap.val();
+                                usersSnap.forEach(userSnap => {
+                                    var user = userSnap.val();
 
-									user.uid = userSnap.key;
-									if(user.authentication == 0) {
-										user.type = "administrator";
-									} else {
-										user.type = "user";
-									}
+                                    user.uid = userSnap.key;
+                                    if(user.authentication == 0) {
+                                        user.type = "administrator";
+                                    } else {
+                                        user.type = "user";
+                                    }
 
-									delete user.authentication;
+                                    delete user.authentication;
 
-									retVal.list.push(user);
-								});
+                                    retVal.list.push(user);
+                                });
 
-								cors(req, res, () => {
-			                        res.status(200).send(retVal);
-			                    });
-							}).catch(err => {
-								cors(req, res, () => {
-			                        res.status(400).send(err);
-			                    });
-							});
+                                cors(req, res, () => {
+                                    res.status(200).send(retVal);
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -2168,102 +2254,102 @@ exports.users = functions.https.onRequest((req, res) => {
                 });
             }
             break;
-		case 'POST':
-			if(req.body.uid && req.body.user) {
+        case 'POST':
+            if(req.body.uid && req.body.user) {
                 ref.child(`users/${req.query.uid}/authentication`).once('value').then(authSnap => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							var user = req.body.user;
-							admin.auth().getUser(user.uid).then(userRecord => {
-								if(user.email != userRecord.email) {
-									admin.auth().updateUser(user.uid, {
-										email: user.email
-									}).then(() => {
-										const uid = user.uid;
+                            var user = req.body.user;
+                            admin.auth().getUser(user.uid).then(userRecord => {
+                                if(user.email != userRecord.email) {
+                                    admin.auth().updateUser(user.uid, {
+                                        email: user.email
+                                    }).then(() => {
+                                        const uid = user.uid;
 
-										if(user.type == "administrator") {
-											user.authentication = 0;
-										} else {
-											user.authentication = 1;
-										}
-										delete user.type;
-										delete user.uid;
+                                        if(user.type == "administrator") {
+                                            user.authentication = 0;
+                                        } else {
+                                            user.authentication = 1;
+                                        }
+                                        delete user.type;
+                                        delete user.uid;
 
-										ref.child(`users/${uid}`).set(user).then(() => {
-											cors(req, res, () => {
-												res.sendStatus(200);
-											});
-										}).catch(err => {
-											cors(req, res, () => {
-						                        res.status(400).send(err);
-						                    });
-										});
-									}).catch(err => {
-										cors(req, res, () => {
-					                        res.status(400).send(err);
-					                    });
-									});
-								} else {
-									const uid = user.uid;
+                                        ref.child(`users/${uid}`).set(user).then(() => {
+                                            cors(req, res, () => {
+                                                res.sendStatus(200);
+                                            });
+                                        }).catch(err => {
+                                            cors(req, res, () => {
+                                                res.status(400).send(err);
+                                            });
+                                        });
+                                    }).catch(err => {
+                                        cors(req, res, () => {
+                                            res.status(400).send(err);
+                                        });
+                                    });
+                                } else {
+                                    const uid = user.uid;
 
-									if(user.type == "administrator") {
-										user.authentication = 0;
-									} else {
-										user.authentication = 1;
-									}
-									delete user.type;
-									delete user.uid;
+                                    if(user.type == "administrator") {
+                                        user.authentication = 0;
+                                    } else {
+                                        user.authentication = 1;
+                                    }
+                                    delete user.type;
+                                    delete user.uid;
 
-									ref.child(`users/${uid}`).set(user).then(() => {
-										cors(req, res, () => {
-											res.sendStatus(200);
-										});
-									}).catch(err => {
-										cors(req, res, () => {
-					                        res.status(400).send(err);
-					                    });
-									});
-								}
-							}).catch(() => {
-								admin.auth().getUserByEmail(user.email).then(() => {
-									cors(req, res, () => {
-				                        res.status(400).send("The email provided already exists.");
-				                    });
-								}).catch(() => {
-									admin.auth().createUser({
-										email: user.email,
-										emailVerified: true
-									}).then(userRecord => {
-										firebase.auth().sendPasswordResetEmail(user.email).then(() => {
-											if(user.type == "administrator") {
-												user.authentication = 0;
-											} else {
-												user.authentication = 1;
-											}
-											delete user.type;
+                                    ref.child(`users/${uid}`).set(user).then(() => {
+                                        cors(req, res, () => {
+                                            res.sendStatus(200);
+                                        });
+                                    }).catch(err => {
+                                        cors(req, res, () => {
+                                            res.status(400).send(err);
+                                        });
+                                    });
+                                }
+                            }).catch(() => {
+                                admin.auth().getUserByEmail(user.email).then(() => {
+                                    cors(req, res, () => {
+                                        res.status(400).send("The email provided already exists.");
+                                    });
+                                }).catch(() => {
+                                    admin.auth().createUser({
+                                        email: user.email,
+                                        emailVerified: true
+                                    }).then(userRecord => {
+                                        firebase.auth().sendPasswordResetEmail(user.email).then(() => {
+                                            if(user.type == "administrator") {
+                                                user.authentication = 0;
+                                            } else {
+                                                user.authentication = 1;
+                                            }
+                                            delete user.type;
 
-											ref.child(`users/${userRecord.uid}`).set(user).then(() => {
-												cors(req, res, () => {
-													res.sendStatus(200);
-												});
-											}).catch(err => {
-												cors(req, res, () => {
-							                        res.status(400).send(err);
-							                    });
-											});
-										}).catch(err => {
-											cors(req, res, () => {
-						                        res.status(400).send(err);
-						                    });
-										});
-									}).catch(err => {
-										cors(req, res, () => {
-					                        res.status(400).send(err);
-					                    });
-									});
-								});
-							});
+                                            ref.child(`users/${userRecord.uid}`).set(user).then(() => {
+                                                cors(req, res, () => {
+                                                    res.sendStatus(200);
+                                                });
+                                            }).catch(err => {
+                                                cors(req, res, () => {
+                                                    res.status(400).send(err);
+                                                });
+                                            });
+                                        }).catch(err => {
+                                            cors(req, res, () => {
+                                                res.status(400).send(err);
+                                            });
+                                        });
+                                    }).catch(err => {
+                                        cors(req, res, () => {
+                                            res.status(400).send(err);
+                                        });
+                                    });
+                                });
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -2284,35 +2370,35 @@ exports.users = functions.https.onRequest((req, res) => {
                     res.status(400).send("Missing parameter(s): uid, user");
                 });
             }
-			break;
-		case 'DELETE':
-			if(req.body.uid && req.body.user) {
+            break;
+        case 'DELETE':
+            if(req.body.uid && req.body.user) {
                 ref.child(`users/${req.body.uid}/authentication`).once('value').then(authSnap => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							var user = req.body.user;
-							admin.auth().getUser(user.uid).then(userRecord => {
-								admin.auth().deleteUser(user.uid).then(() => {
-									ref.child(`users/${user.uid}`).set(null).then(() => {
-										cors(req, res, () => {
-					                        res.sendStatus(200);
-					                    });
-									}).catch(err => {
-										cors(req, res, () => {
-					                        res.status(400).send(err);
-					                    });
-									});
-								}).catch(err => {
-									cors(req, res, () => {
-				                        res.status(400).send(err);
-				                    });
-								});
-							}).catch(err => {
-								cors(req, res, () => {
-			                        res.status(400).send(err);
-			                    });
-							});
+                            var user = req.body.user;
+                            admin.auth().getUser(user.uid).then(userRecord => {
+                                admin.auth().deleteUser(user.uid).then(() => {
+                                    ref.child(`users/${user.uid}`).set(null).then(() => {
+                                        cors(req, res, () => {
+                                            res.sendStatus(200);
+                                        });
+                                    }).catch(err => {
+                                        cors(req, res, () => {
+                                            res.status(400).send(err);
+                                        });
+                                    });
+                                }).catch(err => {
+                                    cors(req, res, () => {
+                                        res.status(400).send(err);
+                                    });
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -2333,7 +2419,7 @@ exports.users = functions.https.onRequest((req, res) => {
                     res.status(400).send("Missing parameter(s): uid, user");
                 });
             }
-			break;
+            break;
         default:
             cors(req, res, () => {
                 res.sendStatus(404);
@@ -2350,48 +2436,48 @@ exports.reports = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							ref.child('/').once('value', function(snap) {
-	                            var root = snap.val();
-	                            var intervals = root.forms.intervals;
-	                            var results = root.forms.results;
-	                            var templates = root.forms.templates;
-	                            var inventory = root.inventory;
-	                            var users = root.users;
-	                            var forms = Object.keys(intervals);
-	                            var time = getTime(req.query.date);
+                            ref.child('/').once('value', function(snap) {
+                                var root = snap.val();
+                                var intervals = root.forms.intervals;
+                                var results = root.forms.results;
+                                var templates = root.forms.templates;
+                                var inventory = root.inventory;
+                                var users = root.users;
+                                var forms = Object.keys(intervals);
+                                var time = getTime(req.query.date);
 
-	                            var retVal = {
-	                                "reports": []
-	                            };
+                                var retVal = {
+                                    "reports": []
+                                };
 
-	                            for(var i = 0; i < Object.keys(inventory).length; i++) {
-	                                var itemType = Object.keys(inventory)[i];
-	                                for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
-	                                    var itemKey = Object.keys(inventory[itemType])[j];
-	                                    if(inventory[itemType][itemKey].compartments) {
-	                                        var compartments = inventory[itemType][itemKey].compartments;
+                                for(var i = 0; i < Object.keys(inventory).length; i++) {
+                                    var itemType = Object.keys(inventory)[i];
+                                    for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
+                                        var itemKey = Object.keys(inventory[itemType])[j];
+                                        if(inventory[itemType][itemKey].compartments) {
+                                            var compartments = inventory[itemType][itemKey].compartments;
 
-	                                        var name = inventory[itemType][itemKey].name;
-	                                        var schedule;
-	                                        var status = "Complete";
-	                                        var completedTimestamp = null;
-	                                        var id = itemKey;
-	                                        var days = {
-	                                            sunday: false,
-	                                            monday: false,
-	                                            tuesday: false,
-	                                            wednesday: false,
-	                                            thursday: false,
-	                                            friday: false,
-	                                            saturday: false
-	                                        };
-	                                        var data = {
-	                                            "rows": []
-	                                        };
-	                                        var offset = 0;
+                                            var name = inventory[itemType][itemKey].name;
+                                            var schedule;
+                                            var status = "Complete";
+                                            var completedTimestamp = null;
+                                            var id = itemKey;
+                                            var days = {
+                                                sunday: false,
+                                                monday: false,
+                                                tuesday: false,
+                                                wednesday: false,
+                                                thursday: false,
+                                                friday: false,
+                                                saturday: false
+                                            };
+                                            var data = {
+                                                "rows": []
+                                            };
+                                            var offset = 0;
 
-	                                        for(var k = 0; k < Object.keys(compartments).length; k++) {
-	                                            var formId = compartments[Object.keys(compartments)[k]].formId;
+                                            for(var k = 0; k < Object.keys(compartments).length; k++) {
+                                                var formId = compartments[Object.keys(compartments)[k]].formId;
                                                 var frequency = intervals[formId].frequency;
                                                 var itemCount = templates[formId].inputElements.length;
                                                 schedule = frequency;
@@ -2420,6 +2506,12 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                             note: results[formId][time.weekstamps[m]].results[n].note,
                                                                             completedBy: results[formId][time.weekstamps[m]].completedBy
                                                                         };
+																	} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+																		data.rows[offset+n][weekday[m]] = {
+                                                                            result: result,
+                                                                            note: results[formId][time.weekstamps[m]].results[n].note,
+                                                                            completedBy: results[formId][time.weekstamps[m]].completedBy
+                                                                        };
                                                                     } else {
                                                                         data.rows[offset+n][weekday[m]] = {
                                                                             result: result,
@@ -2439,6 +2531,12 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                     var result = results[formId][time.weekstamps[m]].results[n].result;
                                                                     if(result == "Repairs Needed") {
                                                                         data.rows[offset+n][weekday[m]] = {
+                                                                            result: result,
+                                                                            note: results[formId][time.weekstamps[m]].results[n].note,
+                                                                            completedBy: results[formId][time.weekstamps[m]].completedBy
+                                                                        };
+																	} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+																		data.rows[offset+n][weekday[m]] = {
                                                                             result: result,
                                                                             note: results[formId][time.weekstamps[m]].results[n].note,
                                                                             completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -2472,6 +2570,12 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                                     note: results[formId][completedTimestamp].results[o].note,
                                                                                     completedBy: results[formId][completedTimestamp].completedBy
                                                                                 };
+																			} else if(result == "Missing" && results[formId][completedTimestamp].results[o].note) {
+																				data.rows[offset+o][weekday[m]] = {
+                                                                                    result: result,
+                                                                                    note: results[formId][completedTimestamp].results[o].note,
+                                                                                    completedBy: results[formId][completedTimestamp].completedBy
+                                                                                };
                                                                             } else {
                                                                                 data.rows[offset+o][weekday[m]] = {
                                                                                     result: result,
@@ -2495,6 +2599,12 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                             note: results[formId][time.weekstamps[m]].results[n].note,
                                                                             completedBy: results[formId][time.weekstamps[m]].completedBy
                                                                         };
+																	} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+																		data.rows[offset+n][weekday[m]] = {
+                                                                            result: result,
+                                                                            note: results[formId][time.weekstamps[m]].results[n].note,
+                                                                            completedBy: results[formId][time.weekstamps[m]].completedBy
+                                                                        };
                                                                     } else {
                                                                         data.rows[offset+n][weekday[m]] = {
                                                                             result: result,
@@ -2510,24 +2620,24 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                 }
 
                                                 offset += itemCount;
-	                                        }
+                                            }
 
-	                                        if(completedTimestamp) {
-	                                            const completeTime = getTime(completedTimestamp);
-	                                            days[completeTime.weekday] = true;
-	                                        }
+                                            if(completedTimestamp) {
+                                                const completeTime = getTime(completedTimestamp);
+                                                days[completeTime.weekday] = true;
+                                            }
 
-	                                        retVal.reports.push({
-	                                            "name": name,
-	                                            "schedule": schedule,
-	                                            "status": status,
-	                                            "id": id,
-	                                            "days": days,
-	                                            "data": data
-	                                        });
+                                            retVal.reports.push({
+                                                "name": name,
+                                                "schedule": schedule,
+                                                "status": status,
+                                                "id": id,
+                                                "days": days,
+                                                "data": data
+                                            });
 
-	                                    } else {
-	                                        var formId = inventory[itemType][itemKey].formId;
+                                        } else {
+                                            var formId = inventory[itemType][itemKey].formId;
                                             var frequency = intervals[formId].frequency;
 
                                             var name = templates[formId].title;
@@ -2573,6 +2683,12 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                             note: results[formId][time.weekstamps[m]].results[n].note,
                                                                             completedBy: results[formId][time.weekstamps[m]].completedBy
                                                                         };
+																	} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+																		data.rows[n][weekday[m]] = {
+                                                                            result: result,
+                                                                            note: results[formId][time.weekstamps[m]].results[n].note,
+                                                                            completedBy: results[formId][time.weekstamps[m]].completedBy
+                                                                        };
                                                                     } else {
                                                                         data.rows[n][weekday[m]] = {
                                                                             result: result,
@@ -2592,6 +2708,12 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                     var result = results[formId][time.weekstamps[m]].results[n].result;
                                                                     if(result == "Repairs Needed") {
                                                                         data.rows[n][weekday[m]] = {
+                                                                            result: result,
+                                                                            note: results[formId][time.weekstamps[m]].results[n].note,
+                                                                            completedBy: results[formId][time.weekstamps[m]].completedBy
+                                                                        };
+																	} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+																		data.rows[n][weekday[m]] = {
                                                                             result: result,
                                                                             note: results[formId][time.weekstamps[m]].results[n].note,
                                                                             completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -2625,6 +2747,12 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                                     note: results[formId][completedTimestamp].results[o].note,
                                                                                     completedBy: results[formId][completedTimestamp].completedBy
                                                                                 };
+																			} else if(result == "Missing" && results[formId][completedTimestamp].results[o].note) {
+																				data.rows[o][weekday[m]] = {
+                                                                                    result: result,
+                                                                                    note: results[formId][completedTimestamp].results[o].note,
+                                                                                    completedBy: results[formId][completedTimestamp].completedBy
+                                                                                };
                                                                             } else {
                                                                                 data.rows[o][weekday[m]] = {
                                                                                     result: result,
@@ -2644,6 +2772,12 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                     var result = results[formId][time.weekstamps[m]].results[n].result;
                                                                     if(result == "Repairs Needed") {
                                                                         data.rows[n][weekday[m]] = {
+                                                                            result: result,
+                                                                            note: results[formId][time.weekstamps[m]].results[n].note,
+                                                                            completedBy: results[formId][time.weekstamps[m]].completedBy
+                                                                        };
+																	} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+																		data.rows[n][weekday[m]] = {
                                                                             result: result,
                                                                             note: results[formId][time.weekstamps[m]].results[n].note,
                                                                             completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -2689,6 +2823,12 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                                 note: results[formId][time.weekstamps[n]].results[m].results[o].note,
                                                                                 completedBy: results[formId][time.weekstamps[n]].completedBy
                                                                             };
+																		} else if(result == "Missing" && results[formId][time.weekstamps[n]].results[m].results[o].note) {
+																			data.rows[offset+o][weekday[n]] = {
+                                                                                result: result,
+                                                                                note: results[formId][time.weekstamps[n]].results[m].results[o].note,
+                                                                                completedBy: results[formId][time.weekstamps[n]].completedBy
+                                                                            };
                                                                         } else {
                                                                             data.rows[offset+o][weekday[n]] = {
                                                                                 result: result,
@@ -2706,8 +2846,14 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                     complete = true;
                                                                     for(var o = 0; o < results[formId][time.weekstamps[n]].results[m].results.length; o++) {
                                                                         var result = results[formId][time.weekstamps[n]].results[m].results[o].result;
-                                                                        if(result == "Needs Repair") {
+                                                                        if(result == "Repairs Needed") {
                                                                             data.rows[offset+o][weekday[n]] = {
+                                                                                result: result,
+                                                                                note : results[formId][time.weekstamps[n]].results[m].results[o].note,
+                                                                                completedBy: results[formId][time.weekstamps[n]].completedBy
+                                                                            };
+																		} else if(result == "Missing" && results[formId][time.weekstamps[n]].results[m].results[o].note) {
+																			data.rows[offset+o][weekday[n]] = {
                                                                                 result: result,
                                                                                 note : results[formId][time.weekstamps[n]].results[m].results[o].note,
                                                                                 completedBy: results[formId][time.weekstamps[n]].completedBy
@@ -2735,8 +2881,14 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                             completedTimestamp = timestamps[o];
                                                                             for(var p = 0; p < results[formId][completedTimestamp].results[m].results.length; p++) {
                                                                                 var result = results[formId][completedTimestamp].results[m].results[p].result;
-                                                                                if(result == "Needs Repair") {
+                                                                                if(result == "Repairs Needed") {
                                                                                     data.rows[offset+p][weekday[n]] = {
+                                                                                        result: result,
+                                                                                        note: results[formId][completedTimestamp].results[m].results[p].note,
+                                                                                        completedBy: results[formId][completedTimestamp].completedBy
+                                                                                    };
+																				} else if(result == "Missing" && results[formId][completedTimestamp].results[m].results[p].note) {
+																					data.rows[offset+p][weekday[n]] = {
                                                                                         result: result,
                                                                                         note: results[formId][completedTimestamp].results[m].results[p].note,
                                                                                         completedBy: results[formId][completedTimestamp].completedBy
@@ -2758,8 +2910,14 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                                     days[weekday[n]] = true;
                                                                     for(var o = 0; o < results[formId][time.weekstamps[n]].results[m].results.length; o++) {
                                                                         var result = results[formId][time.weekstamps[n]].results[m].results[o].result;
-                                                                        if(result == "Needs Repair") {
+                                                                        if(result == "Repairs Needed") {
                                                                             data.rows[offset+o][weekday[n]] = {
+                                                                                result: result,
+                                                                                note: results[formId][time.weekstamps[n]].results[m].results[o].note,
+                                                                                completedBy: results[formId][time.weekstamps[n]].completedBy
+                                                                            };
+																		} else if(result == "Missing" && results[formId][time.weekstamps[n]].results[m].results[o].note) {
+																			data.rows[offset+o][weekday[n]] = {
                                                                                 result: result,
                                                                                 note: results[formId][time.weekstamps[n]].results[m].results[o].note,
                                                                                 completedBy: results[formId][time.weekstamps[n]].completedBy
@@ -2795,18 +2953,18 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                 "days": days,
                                                 "data": data
                                             });
-	                                    }
-	                                }
-	                            }
+                                        }
+                                    }
+                                }
 
-	                            cors(req, res, () => {
-	                                res.status(200).send(retVal);
-	                            });
-	                        }).catch(err => {
-								cors(req, res, () => {
-			                        res.status(400).send(err);
-			                    });
-							});
+                                cors(req, res, () => {
+                                    res.status(200).send(retVal);
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -2844,9 +3002,9 @@ exports.downloadReport = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							cors(req, res, () => {
-		                        res.status(200).send(generateCSV(req.body.report));
-		                    });
+                            cors(req, res, () => {
+                                res.status(200).send(generateCSV(req.body.report));
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -2948,43 +3106,43 @@ exports.listReports = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							ref.child('/').once('value', function(snap) {
-	                            var root = snap.val();
-	                            var templates = root.forms.templates;
-	                            var intervals = root.forms.intervals;
-	                            var inventory = root.inventory;
+                            ref.child('/').once('value', function(snap) {
+                                var root = snap.val();
+                                var templates = root.forms.templates;
+                                var intervals = root.forms.intervals;
+                                var inventory = root.inventory;
 
-	                            var reportsList = {
-	                                "list": []
-	                            }
+                                var reportsList = {
+                                    "list": []
+                                }
 
-	                            for(var i = 0; i < Object.keys(inventory).length; i++) {
-	                                var itemType = Object.keys(inventory)[i];
-	                                for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
-	                                    var itemKey = Object.keys(inventory[itemType])[j];
+                                for(var i = 0; i < Object.keys(inventory).length; i++) {
+                                    var itemType = Object.keys(inventory)[i];
+                                    for(var j = 0; j < Object.keys(inventory[itemType]).length; j++) {
+                                        var itemKey = Object.keys(inventory[itemType])[j];
 
-	                                    if(inventory[itemType][itemKey].compartments) {
-	                                        var listItem = {
-	                                            "id": itemKey,
-	                                            "itemCategory": itemType,
-	                                            "interval": intervals[itemKey],
-	                                            "template": {
-	                                                "title": inventory[itemType][itemKey].name,
-	                                                "subSections": []
-	                                            }
-	                                        };
+                                        if(inventory[itemType][itemKey].compartments) {
+                                            var listItem = {
+                                                "id": itemKey,
+                                                "itemCategory": itemType,
+                                                "interval": intervals[itemKey],
+                                                "template": {
+                                                    "title": inventory[itemType][itemKey].name,
+                                                    "subSections": []
+                                                }
+                                            };
 
-											listItem.rank = inventory[itemType][itemKey].rank;
-											listItem.template.subSections.length = Object.keys(inventory[itemType][itemKey].compartments).length;
-	                                        for(var k = 0; k < Object.keys(inventory[itemType][itemKey].compartments).length; k++) {
-	                                            var compartmentKey = Object.keys(inventory[itemType][itemKey].compartments)[k];
+                                            listItem.rank = inventory[itemType][itemKey].rank;
+                                            listItem.template.subSections.length = Object.keys(inventory[itemType][itemKey].compartments).length;
+                                            for(var k = 0; k < Object.keys(inventory[itemType][itemKey].compartments).length; k++) {
+                                                var compartmentKey = Object.keys(inventory[itemType][itemKey].compartments)[k];
                                                 var formId = inventory[itemType][itemKey].compartments[compartmentKey].formId;
                                                 templates[formId].id = formId;
-												listItem.template.subSections[inventory[itemType][itemKey].compartments[compartmentKey].rank] = templates[formId];
-	                                        }
+                                                listItem.template.subSections[inventory[itemType][itemKey].compartments[compartmentKey].rank] = templates[formId];
+                                            }
 
-	                                        reportsList.list.push(listItem);
-	                                    } else {
+                                            reportsList.list.push(listItem);
+                                        } else {
                                             var formId = inventory[itemType][itemKey].formId;
 
                                             reportsList.list.push({
@@ -2992,18 +3150,18 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                                 "itemCategory": itemType,
                                                 "interval": intervals[formId],
                                                 "template": templates[formId],
-												"rank": inventory[itemType][itemKey].rank
+                                                "rank": inventory[itemType][itemKey].rank
                                             });
-	                                    }
-	                                }
-	                            }
+                                        }
+                                    }
+                                }
 
-								reportsList.list.sort(sortByRank);
+                                reportsList.list.sort(sortByRank);
 
-	                            cors(req, res, () => {
-	                                res.status(200).send(reportsList);
-	                            });
-	                        });
+                                cors(req, res, () => {
+                                    res.status(200).send(reportsList);
+                                });
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -3025,27 +3183,35 @@ exports.listReports = functions.https.onRequest((req, res) => {
                 });
             }
             break;
-		case 'POST':
-			if(req.body.uid && req.body.report) {
+        case 'POST':
+            if(req.body.uid && req.body.report) {
                 ref.child(`users/${req.body.uid}/authentication`).once('value').then(authSnap => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							const report = req.body.report;
+                            const report = req.body.report;
+
+                            if(report.template.alert) {
+                                if(report.template.alert == "") {
+                                    report.template.alert = null;
+                                }
+                            } else {
+                                report.template.alert = null;
+                            }
 
                             if(report.template.inputElements) {
                                 if(report.id) {
                                     ref.child(`forms/intervals/${report.id}`).set(report.interval).then(() => {
                                         ref.child(`forms/templates/${report.id}`).set(report.template).then(() => {
                                             ref.child(`inventory/${report.itemCategory}/${report.id}/name`).set(report.template.title).then(() => {
-	                                            cors(req, res, () => {
-	                                                res.sendStatus(200);
-	                                            });
-	                                        }).catch(err => {
-	                                            cors(req, res, () => {
-	                                                res.status(400).send(err);
-	                                            });
-	                                        });
+                                                cors(req, res, () => {
+                                                    res.sendStatus(200);
+                                                });
+                                            }).catch(err => {
+                                                cors(req, res, () => {
+                                                    res.status(400).send(err);
+                                                });
+                                            });
                                         }).catch(err => {
                                             cors(req, res, () => {
                                                 res.status(400).send(err);
@@ -3061,7 +3227,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                 if(report.id) {
                                     ref.child(`forms/intervals/${report.id}`).set(report.interval).then(() => {
                                         ref.child(`inventory/vehicles/${report.id}/compartments`).once('value').then(compartmentSnap => {
-											ref.child(`inventory/${report.itemCategory}/${report.id}/name`).set(report.template.title);
+                                            ref.child(`inventory/${report.itemCategory}/${report.id}/name`).set(report.template.title);
                                             var compartments = Object.keys(compartmentSnap.val());
                                             var oldCompartments = {};
 
@@ -3075,10 +3241,11 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                                     ref.child(`forms/intervals/${report.template.subSections[i].id}`).set(report.interval);
                                                     ref.child(`forms/templates/${report.template.subSections[i].id}`).set({
                                                         inputElements: report.template.subSections[i].inputElements,
-                                                        title: `${report.template.title} - ${report.template.subSections[i].title}`
+                                                        title: `${report.template.title} - ${report.template.subSections[i].title}`,
+                                                        alert: report.template.alert
                                                     });
-													ref.child(`inventory/${report.itemCategory}/${report.id}/compartments/${report.template.subSections[i].id}/name`).set(report.template.subSections[i].title);
-													ref.child(`inventory/${report.itemCategory}/${report.id}/compartments/${report.template.subSections[i].id}/rank`).set(i);
+                                                    ref.child(`inventory/${report.itemCategory}/${report.id}/compartments/${report.template.subSections[i].id}/name`).set(report.template.subSections[i].title);
+                                                    ref.child(`inventory/${report.itemCategory}/${report.id}/compartments/${report.template.subSections[i].id}/rank`).set(i);
                                                 } else {
                                                     var newKey = ref.child(`forms/intervals`).push().key;
 
@@ -3086,12 +3253,13 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                                         ref.child(`forms/intervals/${newKey}`).set(report.interval);
                                                         ref.child(`forms/templates/${newKey}`).set({
                                                             inputElements: report.template.subSections[i].inputElements,
-                                                            title: `${report.template.title} - ${report.template.subSections[i].title}`
+                                                            title: `${report.template.title} - ${report.template.subSections[i].title}`,
+                                                            alert: report.template.alert
                                                         });
                                                         ref.child(`inventory/vehicles/${report.id}/compartments/${newKey}`).set({
                                                             formId: [newKey],
                                                             name: report.template.subSections[i].title,
-															rank: i
+                                                            rank: i
                                                         });
                                                     }
                                                 }
@@ -3116,7 +3284,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                     });
                                 } else {
                                     var newVehicleKey = ref.child('inventory/vehicles').push().key;
-									report.id = newVehicleKey;
+                                    report.id = newVehicleKey;
 
                                     if(newVehicleKey) {
                                         ref.child(`inventory/vehicles/${newVehicleKey}`).set({
@@ -3125,18 +3293,19 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                             ref.child(`forms/intervals/${newVehicleKey}`).set(report.interval).then(() => {
                                                 for(var i = 0; i < report.template.subSections.length; i++) {
                                                     var newKey = ref.child(`inventory/vehicles/${newVehicleKey}`).push().key;
-													report.template.subSections[i].id = newKey;
+                                                    report.template.subSections[i].id = newKey;
 
                                                     if(newKey) {
                                                         ref.child(`inventory/vehicles/${newVehicleKey}/compartments/${newKey}`).set({
                                                             formId: newKey,
                                                             name: report.template.subSections[i].title,
-															rank: i
+                                                            rank: i
                                                         });
                                                         ref.child(`forms/intervals/${newKey}`).set(report.interval);
                                                         ref.child(`forms/templates/${newKey}`).set({
                                                             inputElements: report.template.subSections[i].inputElements,
-                                                            title: `${report.template.title} - ${report.template.subSections[i].title}`
+                                                            title: `${report.template.title} - ${report.template.subSections[i].title}`,
+                                                            alert: report.template.alert
                                                         });
                                                     }
                                                 }
@@ -3150,18 +3319,17 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                 }
                             } else {
                                 if(report.id) {
-									console.log('test');
                                     ref.child(`forms/intervals/${report.id}`).set(report.interval).then(() => {
                                         ref.child(`forms/templates/${report.id}`).set(report.template).then(() => {
                                             ref.child(`inventory/${report.itemCategory}/${report.id}/name`).set(report.template.title).then(() => {
-	                                            cors(req, res, () => {
-	                                                res.sendStatus(200);
-	                                            });
-	                                        }).catch(err => {
-	                                            cors(req, res, () => {
-	                                                res.status(400).send(err);
-	                                            });
-	                                        });
+                                                cors(req, res, () => {
+                                                    res.sendStatus(200);
+                                                });
+                                            }).catch(err => {
+                                                cors(req, res, () => {
+                                                    res.status(400).send(err);
+                                                });
+                                            });
                                         }).catch(err => {
                                             cors(req, res, () => {
                                                 res.status(400).send(err);
@@ -3174,7 +3342,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                     });
                                 } else {
                                     var newKey = ref.child('forms/intervals').push().key;
-									report.id = newKey;
+                                    report.id = newKey;
 
                                     if(newKey) {
                                         ref.child(`forms/intervals/${newKey}`).set(report.interval).then(() => {
@@ -3224,14 +3392,14 @@ exports.listReports = functions.https.onRequest((req, res) => {
                     res.status(400).send("Missing parameter(s): uid, report");
                 });
             }
-			break;
-		case 'DELETE':
-			if(req.body.uid && req.body.id && req.body.itemCategory) {
+            break;
+        case 'DELETE':
+            if(req.body.uid && req.body.id && req.body.itemCategory) {
                 ref.child(`users/${req.body.uid}/authentication`).once('value').then(authSnap => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							if(req.body.itemCategory == "vehicles") {
+                            if(req.body.itemCategory == "vehicles") {
                                 ref.child(`inventory/vehicles/${req.body.id}/compartments`).once('value').then(compartmentsSnap => {
                                     var compartments = compartmentsSnap.val();
 
@@ -3278,7 +3446,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                     res.status(400).send("Missing parameter(s): uid, id, itemCategory");
                 });
             }
-			break;
+            break;
         default:
             cors(req, res, () => {
                 res.sendStatus(404);
@@ -3295,74 +3463,74 @@ exports.statistics = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							ref.child('statistics').once('value').then(statsSnap => {
-								var retVal = {results: [] };
-								const stats = statsSnap.val();
+                            ref.child('statistics').once('value').then(statsSnap => {
+                                var retVal = {results: [] };
+                                const stats = statsSnap.val();
 
-								if(stats) {
-									Object.keys(stats).forEach(form => {
-										var formStat = {
-											title: stats[form].title,
-											details: []
-										};
+                                if(stats) {
+                                    Object.keys(stats).forEach(form => {
+                                        var formStat = {
+                                            title: stats[form].title,
+                                            details: []
+                                        };
 
-										Object.keys(stats[form]).forEach(month => {
-											if(month != "title") {
-												const stamp = `${month.substring(4,6)}/${month.substring(0,4)}`;
-												formStat.details.push(stamp);
-												formStat[stamp] = {
-													data: [
-														{
-															label: "Needed Repair",
-															data: []
-														},
-														{
-															label: "Missing",
-															data: []
-														},
-														{
-															label: "Failed",
-															data: []
-														}
-													]
-												};
+                                        Object.keys(stats[form]).forEach(month => {
+                                            if(month != "title") {
+                                                const stamp = `${month.substring(4,6)}/${month.substring(0,4)}`;
+                                                formStat.details.push(stamp);
+                                                formStat[stamp] = {
+                                                    data: [
+                                                        {
+                                                            label: "Needed Repair",
+                                                            data: []
+                                                        },
+                                                        {
+                                                            label: "Missing",
+                                                            data: []
+                                                        },
+                                                        {
+                                                            label: "Failed",
+                                                            data: []
+                                                        }
+                                                    ]
+                                                };
 
-												var labels = [];
-												var itemNum = 0;
-												Object.keys(stats[form][month]).forEach(item => {
-													labels.push(item);
+                                                var labels = [];
+                                                var itemNum = 0;
+                                                Object.keys(stats[form][month]).forEach(item => {
+                                                    labels.push(item);
 
-													formStat[stamp].data[0].data.push(0);
-													formStat[stamp].data[1].data.push(0);
-													formStat[stamp].data[2].data.push(0);
+                                                    formStat[stamp].data[0].data.push(0);
+                                                    formStat[stamp].data[1].data.push(0);
+                                                    formStat[stamp].data[2].data.push(0);
 
-													if(stats[form][month][item].repairsNeeded) {
-														formStat[stamp].data[0].data[itemNum] = Object.keys(stats[form][month][item].repairsNeeded).length;
-													} else if(stats[form][month][item].missing) {
-														formStat[stamp].data[1].data[itemNum] = Object.keys(stats[form][month][item].missing).length;
-													} else if(stats[form][month][item].failed) {
-														formStat[stamp].data[2].data[itemNum] = Object.keys(stats[form][month][item].failed).length;
-													}
+                                                    if(stats[form][month][item].repairsNeeded) {
+                                                        formStat[stamp].data[0].data[itemNum] = Object.keys(stats[form][month][item].repairsNeeded).length;
+                                                    } else if(stats[form][month][item].missing) {
+                                                        formStat[stamp].data[1].data[itemNum] = Object.keys(stats[form][month][item].missing).length;
+                                                    } else if(stats[form][month][item].failed) {
+                                                        formStat[stamp].data[2].data[itemNum] = Object.keys(stats[form][month][item].failed).length;
+                                                    }
 
-													itemNum++;
-												});
+                                                    itemNum++;
+                                                });
 
-												formStat[stamp].labels = labels;
-											}
-										});
+                                                formStat[stamp].labels = labels;
+                                            }
+                                        });
 
-										retVal.results.push(formStat);
-									});
-								}
+                                        retVal.results.push(formStat);
+                                    });
+                                }
 
-								cors(req, res, () => {
-			                        res.status(200).send(retVal);
-			                    });
-							}).catch(err => {
-								cors(req, res, () => {
-			                        res.status(400).send(err);
-			                    });
-							});
+                                cors(req, res, () => {
+                                    res.status(200).send(retVal);
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -3400,24 +3568,24 @@ exports.orderReports = functions.https.onRequest((req, res) => {
                     const auth = authSnap.val();
                     if(auth !== null) {
                         if(auth == 0) {
-							const list = req.body.list;
-							var postError = false;
+                            const list = req.body.list;
+                            var postError = false;
 
-							for(var i = 0; i < list.length; i++) {
-								ref.child(`inventory/${list[i].itemCategory}/${list[i].id}/rank`).set(i).catch(err => {
-									postError = true;
-								});
-							}
+                            for(var i = 0; i < list.length; i++) {
+                                ref.child(`inventory/${list[i].itemCategory}/${list[i].id}/rank`).set(i).catch(err => {
+                                    postError = true;
+                                });
+                            }
 
-							if(postError) {
-								cors(req, res, () => {
-					                res.sendStatus(400);
-					            });
-							} else {
-								cors(req, res, () => {
-					                res.sendStatus(200);
-					            });
-							}
+                            if(postError) {
+                                cors(req, res, () => {
+                                    res.sendStatus(400);
+                                });
+                            } else {
+                                cors(req, res, () => {
+                                    res.sendStatus(200);
+                                });
+                            }
                         } else {
                             cors(req, res, () => {
                                 res.status(403).send("The request violates the user's permission level");
@@ -3452,142 +3620,142 @@ exports.orderReports = functions.https.onRequest((req, res) => {
 exports.sendIncompleteFormsEmail = functions.https.onRequest((req, res) => {
     switch(req.method) {
         case 'GET':
-			ref.child('users').once('value').then(usersSnap => {
-				var emails = [];
+            ref.child('users').once('value').then(usersSnap => {
+                var emails = [];
 
-				usersSnap.forEach(userSnap => {
-					const user = userSnap.val();
-					if(user.alert) {
-						emails.push(user.email);
-					}
-				});
+                usersSnap.forEach(userSnap => {
+                    const user = userSnap.val();
+                    if(user.alert) {
+                        emails.push(user.email);
+                    }
+                });
 
-				if(emails.length > 0) {
-					const inventoryPr = ref.child('inventory').once('value');
-					const resultsPr = ref.child('forms/results').once('value');
-					const intervalsPr = ref.child('forms/intervals').once('value');
+                if(emails.length > 0) {
+                    const inventoryPr = ref.child('inventory').once('value');
+                    const resultsPr = ref.child('forms/results').once('value');
+                    const intervalsPr = ref.child('forms/intervals').once('value');
 
-					Promise.all([inventoryPr, resultsPr, intervalsPr]).then(response => {
-						var toDoList = [];
-						const time = getTime();
-						const inventory = response[0].val();
-						const results = response[1].val();
-						const intervals = response[2].val();
+                    Promise.all([inventoryPr, resultsPr, intervalsPr]).then(response => {
+                        var toDoList = [];
+                        const time = getTime();
+                        const inventory = response[0].val();
+                        const results = response[1].val();
+                        const intervals = response[2].val();
 
-						Object.keys(inventory).forEach(itemType => {
-		                    Object.keys(inventory[itemType]).forEach(item => {
-								if(intervals[item].days[time.weekday]) {
-		                            if(itemType == "vehicles") {
-										var complete = true;
+                        Object.keys(inventory).forEach(itemType => {
+                            Object.keys(inventory[itemType]).forEach(item => {
+                                if(intervals[item].days[time.weekday]) {
+                                    if(itemType == "vehicles") {
+                                        var complete = true;
 
-		                                Object.keys(inventory[itemType][item].compartments).forEach(compartment => {
-											if(complete) {
-												const formId = inventory[itemType][item].compartments[compartment].formId;
-												const frequency = intervals[formId].frequency;
+                                        Object.keys(inventory[itemType][item].compartments).forEach(compartment => {
+                                            if(complete) {
+                                                const formId = inventory[itemType][item].compartments[compartment].formId;
+                                                const frequency = intervals[formId].frequency;
 
-												if(results && results[formId]) {
-													if(frequency == "Daily" && !Object.keys(results[formId]).includes(time.datestamp)) {
-			                                            complete = false;
-			                                        } else if(frequency == "Weekly") {
-			                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+                                                if(results && results[formId]) {
+                                                    if(frequency == "Daily" && !Object.keys(results[formId]).includes(time.datestamp)) {
+                                                        complete = false;
+                                                    } else if(frequency == "Weekly") {
+                                                        const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
 
-			                                            if(!time.weekstamps.includes(lastTimestamp)) {
-			                                                complete = false;
-			                                            }
-			                                        } else if(frequency == "Monthly") {
-			                                            const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+                                                        if(!time.weekstamps.includes(lastTimestamp)) {
+                                                            complete = false;
+                                                        }
+                                                    } else if(frequency == "Monthly") {
+                                                        const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
 
-			                                            if(lastTimestamp.substring(0,6) != time.yearMonth) {
-			                                                complete = false;
-			                                            }
-			                                        }
-												} else {
-													complete = false;
-												}
-											}
-		                                });
+                                                        if(lastTimestamp.substring(0,6) != time.yearMonth) {
+                                                            complete = false;
+                                                        }
+                                                    }
+                                                } else {
+                                                    complete = false;
+                                                }
+                                            }
+                                        });
 
-										if(!complete) {
-											toDoList.push(inventory[itemType][item].name);
-										}
-		                            } else {
-										const formId = inventory[itemType][item].formId;
-										const frequency = intervals[formId].frequency;
-										var complete = false;
+                                        if(!complete) {
+                                            toDoList.push(inventory[itemType][item].name);
+                                        }
+                                    } else {
+                                        const formId = inventory[itemType][item].formId;
+                                        const frequency = intervals[formId].frequency;
+                                        var complete = false;
 
-										if(results && results[formId]) {
-											if(frequency == "Daily" && results[formId][time.datestamp]) {
-		                                        complete = true;
-		                                    } else if(frequency == "Weekly") {
-		                                        const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+                                        if(results && results[formId]) {
+                                            if(frequency == "Daily" && results[formId][time.datestamp]) {
+                                                complete = true;
+                                            } else if(frequency == "Weekly") {
+                                                const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
 
-		                                        if(time.weekstamps.includes(lastTimestamp)) {
-		                                            complete = true;
-		                                        }
-		                                    } else if(frequency == "Monthly") {
-		                                        const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
+                                                if(time.weekstamps.includes(lastTimestamp)) {
+                                                    complete = true;
+                                                }
+                                            } else if(frequency == "Monthly") {
+                                                const lastTimestamp = Object.keys(results[formId])[Object.keys(results[formId]).length-1];
 
-		                                        if(lastTimestamp.substring(0,6) == time.yearMonth) {
-		                                            complete = true;
-		                                        }
-		                                    }
-										}
+                                                if(lastTimestamp.substring(0,6) == time.yearMonth) {
+                                                    complete = true;
+                                                }
+                                            }
+                                        }
 
-										if(!complete) {
-											toDoList.push(inventory[itemType][item].name);
-										}
-		                            }
-								}
-		                    });
-		                });
+                                        if(!complete) {
+                                            toDoList.push(inventory[itemType][item].name);
+                                        }
+                                    }
+                                }
+                            });
+                        });
 
-						if(toDoList.length > 0) {
-			                var mailOptions = {
-			                    from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
-			                    bcc: emails.join(),
-			                    subject: `${time.formattedDate}: Incomplete Forms`,
-			                    text: `The following form(s) are incomplete for ${time.formattedDate}:\n`
-			                };
+                        if(toDoList.length > 0) {
+                            var mailOptions = {
+                                from: '"Oviedo Fire" <oviedofiresd@gmail.com>',
+                                bcc: emails.join(),
+                                subject: `${time.formattedDate}: Incomplete Forms`,
+                                text: `The following form(s) are incomplete for ${time.formattedDate}:\n`
+                            };
 
-			                for(var i = 0; i < toDoList.length; i++) {
-								if(i == toDoList.length - 1) {
-									mailOptions.text += `\n\t${toDoList[i]}`;
-								} else {
-			                    	mailOptions.text += `\n\t${toDoList[i]}, `;
-								}
-			                }
+                            for(var i = 0; i < toDoList.length; i++) {
+                                if(i == toDoList.length - 1) {
+                                    mailOptions.text += `\n\t${toDoList[i]}`;
+                                } else {
+                                    mailOptions.text += `\n\t${toDoList[i]}, `;
+                                }
+                            }
 
-			                mailTransport.sendMail(mailOptions).then(() => {
-								ref.child('alerts/incompleteForms').push().set(mailOptions.text).then(() => {
-									cors(req, res, () => {
-				                        res.sendStatus(200);
-				                    });
-								}).catch(err => {
-									cors(req, res, () => {
-				                        res.status(400).send(err);
-				                    });
-								});
-			                }).catch(err => {
-			                    cors(req, res, () => {
-			                        res.status(400).send(err);
-			                    });
-			                });
-			            } else {
-			                cors(req, res, () => {
-			                    res.sendStatus(200);
-			                });
-			            }
-					});
-				} else {
-					cors(req, res, () => {
-	                    res.sendStatus(200);
-	                });
-				}
-			}).catch(err => {
-				cors(req, res, () => {
+                            mailTransport.sendMail(mailOptions).then(() => {
+                                ref.child('alerts/incompleteForms').push().set(mailOptions.text).then(() => {
+                                    cors(req, res, () => {
+                                        res.sendStatus(200);
+                                    });
+                                }).catch(err => {
+                                    cors(req, res, () => {
+                                        res.status(400).send(err);
+                                    });
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
+                        } else {
+                            cors(req, res, () => {
+                                res.sendStatus(200);
+                            });
+                        }
+                    });
+                } else {
+                    cors(req, res, () => {
+                        res.sendStatus(200);
+                    });
+                }
+            }).catch(err => {
+                cors(req, res, () => {
                     res.status(400).send(err);
                 });
-			});
+            });
             break;
         default:
             cors(req, res, () => {
