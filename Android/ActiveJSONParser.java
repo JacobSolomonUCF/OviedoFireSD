@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 
 public class ActiveJSONParser {
-    public static ArrayList<Button> parseparse(String str, LinearLayout linearLayout, Context context){
+    public static ArrayList<Button> parseparse(String str, LinearLayout linearLayout, Context context, boolean isTablet){
         ArrayList<Button> buttons = new ArrayList();
         final Context context2=context;
         try {
@@ -34,6 +34,7 @@ public class ActiveJSONParser {
                 Button button=new Button(context);
                 buttons.add(button);
                 button.setText(name);
+                if(isTablet)button.setTextSize(30);
                 button.setBackgroundColor(Color.BLACK);
                 button.setTextColor(Color.WHITE);
                 button.setHint(id);

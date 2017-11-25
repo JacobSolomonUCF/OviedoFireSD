@@ -3,6 +3,9 @@ package comtelekpsi.github.oviedofireandroid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -30,26 +33,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "EmailPassword";
     private String uid;
     private EditText mEmailField;
+    private TextView mWelcomeText;
     private EditText mPasswordField;
     private boolean flag = false;
     private String username;
     Context context;
     private Button mButton;
+    boolean isTablet;
     public static final String EMAIL_SAVE = "EMAILSAVE";
     public static final String UID_SAVE = "UIDSaveFile";
+    public boolean online;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Resources res = getResources();
+        isTablet=res.getBoolean(R.bool.isTablet);
         context=this;
         SharedPreferences emailSave = getSharedPreferences(EMAIL_SAVE, Context.MODE_PRIVATE);
         SharedPreferences uidSave = getSharedPreferences(UID_SAVE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor2 = uidSave.edit();
         editor2.clear();
+
+        mWelcomeText=(TextView)findViewById(R.id.welcomeText);
+        if(isTablet)mWelcomeText.setTextSize(30);
         mButton=(Button) findViewById(R.id.email_sign_in_button);
+        if(isTablet)mButton.setTextSize(25);
         mEmailField = (EditText) findViewById(R.id.email);
+        if(isTablet)mEmailField.setTextSize(25);
         mPasswordField = (EditText) findViewById(R.id.password);
+        if(isTablet)mPasswordField.setTextSize(25);
         mPasswordField.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -111,6 +125,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void signIn(String email, String password) {
+        /*if (!isNetworkAvailable()){
+            Toast.makeText(MainActivity.this, "No Internet Connection",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }*/
         Log.d(TAG, "signIn:" + email);
         if (!validateForm()) {
             return;
@@ -129,13 +148,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             flag=true;
-                            //System.out.println("I got set true here");
+                            System.out.println("I got set true here");
                             if (user != null) {
                                 // The user's ID, unique to the Firebase project. Do NOT use this value to
                                 // authenticate with your backend server, if you have one. Use
                                 // FirebaseUser.getToken() instead.
                                 uid = user.getUid();
+                                System.out.println("user was not null, uid is "+uid);
+                                //Runnable r = new Runnable() {
+                                  //  @Override
+                                    //public void run(){
+                                        //System.out.println(flag);
+                                if (flag==true&&validateForm()==true) {
+                                    SharedPreferences emailSave = getSharedPreferences(EMAIL_SAVE, 0);
+                                    SharedPreferences.Editor editor = emailSave.edit();
+                                    editor.putString("pEmail", mEmailField.getText().toString());
+                                    editor.commit();
+                                    SharedPreferences uidSave = getSharedPreferences(UID_SAVE, 0);
+                                    SharedPreferences.Editor editor2 = uidSave.edit();
+                                    editor2.putString("pUID", uid);
+                                    editor2.commit();
+                                    //username=mEmailField.getText().toString().substring(0,mEmailField.getText().toString().indexOf('@'));
+                                    mainMenu();
+                                }
+                                    //}
+                                //};
+                                //Handler h = new Handler();
+                                //h.postDelayed(r, 3100);
                             }
+                            else
+                                System.out.println("FireBaseUser from mAuth.getCurrentUser() was null");
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
@@ -185,26 +227,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int i = v.getId();
         if (i == R.id.email_sign_in_button) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-
-            Runnable r = new Runnable() {
-                @Override
-                public void run(){
-                    System.out.println(flag);
-                    if (flag==true&&validateForm()==true) {
-                        SharedPreferences emailSave = getSharedPreferences(EMAIL_SAVE, 0);
-                        SharedPreferences.Editor editor = emailSave.edit();
-                        editor.putString("pEmail", mEmailField.getText().toString());
-                        editor.commit();
-                        //username=mEmailField.getText().toString().substring(0,mEmailField.getText().toString().indexOf('@'));
-                        mainMenu(view);
-                    }
-                }
-            };
-            Handler h = new Handler();
-            h.postDelayed(r, 3100);
         }
     }
-    public void mainMenu(View view){
+    public void mainMenu(){
         Intent intent = new Intent(MainActivity.this, MainMenuActivity.class);
         intent.putExtra("USER_ID", uid);
         //intent.putExtra("USER_NAME", username);
@@ -217,5 +242,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+
+        boolean isAvailable = false;
+        if (networkInfo != null && networkInfo.isConnected()) {
+            isAvailable = true;
+        }
+        return isAvailable;
     }
 }

@@ -2,6 +2,7 @@ package comtelekpsi.github.oviedofireandroid;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -24,6 +25,7 @@ public class FancyRadioGroup{
         RelativeLayout relativeLayout = new RelativeLayout(context);
         tableRow.addView(relativeLayout);
         relativeLayout.setLayoutParams(rowParams);
+        relativeLayout.setGravity(Gravity.RIGHT);
 
         relativeLayout.addView(pButton);
         relativeLayout.addView(mButton);

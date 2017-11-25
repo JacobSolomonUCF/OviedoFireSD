@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/formScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fadeScrollbars="false"
+    android:orientation="vertical"
+    android:scrollbarStyle="outsideInset"
+    android:visibility="visible"
+    tools:context="comtelekpsi.github.oviedofireandroid.FormActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutShell"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/formLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="#7d0909"
+            android:divider="@android:drawable/divider_horizontal_textfield"
+            android:dividerPadding="15dp"
+            android:orientation="vertical"
+            android:showDividers="middle"
+            tools:divider="#7d0909">
+
+            <LinearLayout
+                android:id="@+id/formTopBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#7d0909"
+                android:orientation="horizontal"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="8dp">
+
+                <TextView
+                    android:id="@+id/formUsernameTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text='"username"'
+                    android:textAlignment="center"
+                    android:textColor="@color/whiteText"
+                    android:textSize="20sp"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="0dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/formTitleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#7d0909"
+                android:textColor="@color/whiteText"/>
+
+            <TextView
+                android:id="@+id/formCompletedByTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#7d0909"
+                android:text="Completed by: "
+                android:textColor="@color/whiteText"/>
+
+            <TextView
+                android:id="@+id/formPrevCBTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#7d0909"
+                android:textColor="#0b6e4f"
+                android:textStyle="italic"/>
+
+            <TextView
+                android:id="@+id/formPrevDateTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#0b6e4f"
+                android:textStyle="italic"/>
+
+            <TableLayout
+                android:id="@+id/formTableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/white"
+                android:divider="?android:attr/dividerHorizontal"
+                android:showDividers="middle"
+                android:shrinkColumns="0">
+            </TableLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/formSubmitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:text="Submit"/>
+    </LinearLayout>
+</ScrollView>

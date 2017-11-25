@@ -2,8 +2,11 @@ package comtelekpsi.github.oviedofireandroid;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -24,16 +27,22 @@ public class PF {
 
     public PF(){}
 
-    public PF(final TableLayout tableLayout, final TableRow tableRow, final Context context, String caption){
+    public PF(final TableLayout tableLayout, final TableRow tableRow, final Context context, String caption, boolean isTablet, int width, String result){
+        LinearLayout linearLayout= new LinearLayout(context);
         TextView textViewF = new TextView(context);
-        textViewF.setText("FAIL");
+        textViewF.setText("FAILED");
         textViewF.setTextColor(Color.RED);
         TextView textViewP = new TextView(context);
-        textViewP.setText("PASS");
+        textViewP.setText("PASSED");
         textViewP.setTextColor(Color.GREEN);
-        tableRow.addView(textViewF);
+        //tableRow.addView(textViewF);
+        tableRow.addView(linearLayout);
+        linearLayout.addView(textViewF);
         FancySwitch pfSwitch = new FancySwitch(context);
         pfSwitch.setChecked(false);
+        if (result!=null)
+            if (result.compareTo("Passed")==0)
+                pfSwitch.setChecked(true);
         pfSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -45,8 +54,22 @@ public class PF {
             }
         });
         pfSwitch.setText("");
-        tableRow.addView(pfSwitch);
-        tableRow.addView(textViewP);
+        if(isTablet){
+            textViewF.setTextSize(25);
+            pfSwitch.setTextSize(25);
+            textViewP.setTextSize(25);
+        }
+        //tableRow.addView(pfSwitch);
+        //tableRow.addView(textViewP);
+        linearLayout.addView(pfSwitch);
+        linearLayout.addView(textViewP);
+        TableRow.LayoutParams textParams = new TableRow.LayoutParams(width/2, ViewGroup.LayoutParams.MATCH_PARENT);
+        linearLayout.setLayoutParams(textParams);
+        linearLayout.setGravity(Gravity.RIGHT);
+        textViewF.setGravity(Gravity.RIGHT);
+        pfSwitch.setGravity(Gravity.RIGHT);
+        textViewP.setGravity(Gravity.RIGHT);
+
     }
 }
 

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clMainMenu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/loginred"
+    tools:context="comtelekpsi.github.oviedofireandroid.MainMenuActivity">
+
+    <LinearLayout
+        android:id="@+id/llMainMenu"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <RelativeLayout
+            android:id="@+id/topBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0">
+
+            <TextView
+                android:id="@+id/usernameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:text='"username"'
+                android:textAlignment="center"
+                android:textColor="@color/whiteText"
+                android:textSize="20sp"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="0dp"/>
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/logoutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@color/FireTruckRed"
+                app:srcCompat="@android:drawable/ic_lock_power_off"/>
+
+        </RelativeLayout>
+
+        <!-- <LinearLayout
+            android:id="@+id/topBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
+
+        </LinearLayout>
+        -->
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/activeVehiclesButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/ovalbutton"
+            app:backgroundTint="#0b6e4f"
+            android:text="Vehicles"
+            android:textSize="20sp"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/offTruckButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/ovalbutton"
+            app:backgroundTint="#db7c26"
+            android:text="Off Truck"
+            android:textSize="20sp"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/toDoListButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/ovalbutton"
+            app:backgroundTint="#2b4162"
+            android:text="To-Do List"
+            android:textSize="20sp"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/qrScannerButton"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="false"
+            android:layout_centerHorizontal="false"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/ovalbutton"
+            app:backgroundTint="#624c2b"
+            android:text="QR Scanner"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

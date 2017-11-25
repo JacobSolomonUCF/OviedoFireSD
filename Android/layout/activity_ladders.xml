@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/laddersScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#db7c26"
+            android:isScrollContainer="true"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarSize="15dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/laddersLinearLayout"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:layout_marginBottom="8dp"
+                  android:layout_marginLeft="8dp"
+                  android:layout_marginRight="8dp"
+                  android:divider="@android:drawable/divider_horizontal_textfield"
+                  android:dividerPadding="15dp"
+                  android:orientation="vertical"
+                  android:showDividers="middle">
+
+        <RelativeLayout
+            android:id="@+id/laddersTopBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="8dp">
+
+            <TextView
+                android:id="@+id/laddersUsernameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:text='"username"'
+                android:textAlignment="center"
+                android:textSize="20sp"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="0dp"/>
+
+            <android.support.v7.widget.AppCompatImageButton
+                android:id="@+id/laddersRefreshButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@color/FireTruckRed"
+                app:srcCompat="@android:drawable/stat_notify_sync"/>
+        </RelativeLayout>
+
+        <TableLayout
+            android:id="@+id/laddersTableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:divider="?android:attr/dividerHorizontal"
+            android:showDividers="middle"
+            >
+
+        </TableLayout>
+    </LinearLayout>
+</ScrollView>

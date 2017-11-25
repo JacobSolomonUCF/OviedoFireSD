@@ -6,13 +6,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +31,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -35,31 +41,46 @@ public class MainMenuActivity extends AppCompatActivity {
     private String uid;
     private String username;
     TextView mTextView;
-    ImageButton logoutButton;
+    AppCompatImageButton logoutButton;
+    boolean isTablet;
     Context context;
+    AppCompatButton activeVehiclesButton;
+    AppCompatButton offTruckButton;
+    AppCompatButton qrCodeButton;
+    AppCompatButton toDoButton;
     public static final String UID_SAVE = "UIDSaveFile";
+    private Timer timer;
+    private boolean timerFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         context=this;
+        final Activity activity = this;
+        Resources res = getResources();
+        isTablet=res.getBoolean(R.bool.isTablet);
+        timerFlag=true;
+
         mTextView=(TextView) findViewById(R.id.usernameTextView);
         //ToDo: don't need both ways of getting uid
         //ToDo: don't need both ways of getting uid
-        uid = getIntent().getStringExtra("USER_ID");
+        //uid = getIntent().getStringExtra("USER_ID");
         final SharedPreferences uidSave = getSharedPreferences(UID_SAVE, Context.MODE_PRIVATE);
         if(uid == null || uid.isEmpty()) {
             uid = uidSave.getString("pUID", null);
+            System.out.println("In MMActivity, uid pulled from uidSave is "+uid);
         }
         if(username == null || username.isEmpty()) {
             username = uidSave.getString("pUsername", null);
+            System.out.println("In MMActivity, username pulled from uidSave is "+username);
         }
         if(username == null || username.isEmpty()) {
             new MainMenuActivity.GetUsername().execute();
+            System.out.println("In MMActivity, username was null, so executed getusername");
         }
-        final Activity activity = this;
-        logoutButton = (ImageButton) findViewById(R.id.logoutButton);
+
+        logoutButton = (AppCompatImageButton) findViewById(R.id.logoutButton);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,9 +92,11 @@ public class MainMenuActivity extends AppCompatActivity {
                                 //Yes button clicked
                                 //logout of firebase
                                 //return to login screen
+                                timerFlag=false;
                                 FirebaseAuth.getInstance().signOut();
                                 SharedPreferences.Editor editor = uidSave.edit();
                                 editor.clear();
+                                editor.commit();
                                 Intent intent = new Intent(MainMenuActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 activity.finish();
@@ -87,6 +110,55 @@ public class MainMenuActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setMessage("Are you sure you want to logout?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
+            }
+        });
+        activeVehiclesButton=(AppCompatButton)findViewById(R.id.activeVehiclesButton);
+        if(isTablet)activeVehiclesButton.setTextSize(40);
+        activeVehiclesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timerFlag=false;
+                Intent intent = new Intent(MainMenuActivity.this, ActiveVehicleActivity.class);
+                //intent.putExtra("USER_NAME", username);
+                //intent.putExtra("USER_ID", uid);
+                startActivity(intent);
+            }
+        });
+        offTruckButton=(AppCompatButton)findViewById(R.id.offTruckButton);
+        if(isTablet)offTruckButton.setTextSize(40);
+        offTruckButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timerFlag=false;
+                Intent intent = new Intent(MainMenuActivity.this, OffTruckActivity.class);
+                //intent.putExtra("USER_NAME", username);
+                //intent.putExtra("USER_ID", uid);
+                startActivity(intent);
+            }
+        });
+        toDoButton=(AppCompatButton)findViewById(R.id.toDoListButton);
+        if(isTablet)toDoButton.setTextSize(40);
+        toDoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timerFlag=false;
+                Intent intent = new Intent(MainMenuActivity.this, ToDoListActivity.class);
+                //intent.putExtra("USER_NAME", username);
+                //intent.putExtra("USER_ID", uid);
+                startActivity(intent);
+            }
+        });
+        qrCodeButton=(AppCompatButton)findViewById(R.id.qrScannerButton);
+        if(isTablet)qrCodeButton.setTextSize(40);
+        qrCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timerFlag=false;
+                IntentIntegrator intentIntegrator = new IntentIntegrator(activity);
+                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                intentIntegrator.setPrompt("Scan the QR code");
+                intentIntegrator.setOrientationLocked(false);
+                intentIntegrator.initiateScan();
             }
         });
     }
@@ -122,6 +194,7 @@ public class MainMenuActivity extends AppCompatActivity {
         }
         protected void onPostExecute(String response) {
             System.out.println("post executed here");
+            System.out.println(response);
             int first=response.indexOf("firstName");
             int last=response.indexOf("lastName");
             int end=response.length();
@@ -149,9 +222,14 @@ public class MainMenuActivity extends AppCompatActivity {
             username = uidSave.getString("pUsername", null);
         }
         mTextView.setText("Welcome "+username);
+        if (timer != null) {
+            timer.cancel();
+            Log.i("Main", "cancel timer");
+            timer = null;
+        }
     }
 
-    @Override
+    /*@Override
     protected void onStop(){
         super.onStop();
         SharedPreferences uidSave = getSharedPreferences(UID_SAVE, 0);
@@ -159,8 +237,8 @@ public class MainMenuActivity extends AppCompatActivity {
         editor.putString("pUID", uid);
         editor.putString("pUsername", username);
         editor.commit();
-    }
-    public void activeVehicle(View view)
+    }*/
+    /*public void activeVehicle(View view)
     {
         Intent intent = new Intent(MainMenuActivity.this, ActiveVehicleActivity.class);
         intent.putExtra("USER_NAME", username);
@@ -192,10 +270,11 @@ public class MainMenuActivity extends AppCompatActivity {
         intentIntegrator.initiateScan();
 
     }
-
+    */
     // Get the results:
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        timerFlag=false;
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
@@ -206,7 +285,9 @@ public class MainMenuActivity extends AppCompatActivity {
                 new MainMenuActivity.CompletionCheck().execute();
             }
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            Toast.makeText(this, "Unsuccessful scan", Toast.LENGTH_LONG).show();
+            return;
+            //super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -242,9 +323,13 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         }
         protected void onPostExecute(String response) {
-            System.out.println(response.charAt(1));
-            if(response.charAt(0)=='t'){
+            //System.out.println(response.charAt(1));
+            if(response==null){
+                Toast.makeText(context, "form not found", Toast.LENGTH_LONG).show();
+            }
+            else if(response.charAt(0)=='t'){
                 System.out.println("read as true");
+                timerFlag=false;
                 Toast.makeText(MainMenuActivity.this, "Form Already Completed: Loading completed form",
                         Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, ResultsActivity.class);
@@ -253,18 +338,53 @@ public class MainMenuActivity extends AppCompatActivity {
             }
             else if (response.charAt(0)=='f'){
                 System.out.println("read as false");
+                timerFlag=false;
                 Toast.makeText(MainMenuActivity.this, "Loading form to complete",
                         Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(context, FormActivity.class);
                 intent.putExtra("FORM_ID", formId);
+                intent.putExtra("EDIT", false);
                 startActivity(intent);
             }
             else{
                 System.out.println("hell if I know");
             }
+            if (response==null)
+                response="invalid formId";
             Log.i("INFO", response);
             if (dialog.isShowing())
                 dialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(timerFlag) {
+            timer = new Timer();
+            Log.i("Main", "Invoking logout timer");
+            LogOutTimerTask logoutTimeTask = new LogOutTimerTask();
+            timer.schedule(logoutTimeTask, 10800000); //auto logout in 180 minutes
+        }
+    }
+
+    private class LogOutTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+
+            //logout
+            final SharedPreferences uidSave = getSharedPreferences(UID_SAVE, Context.MODE_PRIVATE);
+            FirebaseAuth.getInstance().signOut();
+            SharedPreferences.Editor editor = uidSave.edit();
+            editor.clear();
+            editor.commit();
+
+            //redirect user to login screen
+            Intent i = new Intent(MainMenuActivity.this, MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
+            finish();
         }
     }
 }
