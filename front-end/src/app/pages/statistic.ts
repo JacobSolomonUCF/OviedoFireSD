@@ -63,11 +63,11 @@ export class Statistic {
 			.subscribe(resp => {
 				if (resp['results'] && resp['results'][0]) {
 					let overall = {title: 'Overall'};
-					for (let i = 0, len = resp['results'].length; i < len; i++) {
-						resp['results'][i].details.forEach(time => {
-							let report = JSON.parse(JSON.stringify(resp['results'][i].title.split(' - ', 1)[0]));
+					for (let i = 0, results = resp['results'], len = results.length; i < len; i++) {
+						results[i].details.forEach(time => {
+							let report = JSON.parse(JSON.stringify(results[i].title.split(' - ', 1)[0]));
 							if (!overall[time]) {
-								overall[time] = JSON.parse(JSON.stringify(resp['results'][i][time]));
+								overall[time] = JSON.parse(JSON.stringify(results[i][time]));
 								overall[time].labels[0] = report;
 								overall['details'] = [time];
 							} else {
@@ -75,10 +75,10 @@ export class Statistic {
 								if (index === -1) {
 									overall[time].labels.push(report);
 									[0, 1, 2].map(dataIndex =>
-										overall[time].data[dataIndex].data.push(resp['results'][i][time].data[dataIndex].data.reduce((x, y) => x + y)));
+										overall[time].data[dataIndex].data.push(results[i][time].data[dataIndex].data.reduce((x, y) => x + y)));
 								} else {
 									[0, 1, 2].map(dataIndex =>
-										overall[time].data[dataIndex].data[index] += (resp['results'][i][time].data[dataIndex].data.reduce((x, y) => x + y)));
+										overall[time].data[dataIndex].data[index] += (results[i][time].data[dataIndex].data.reduce((x, y) => x + y)));
 								}
 							}
 						});

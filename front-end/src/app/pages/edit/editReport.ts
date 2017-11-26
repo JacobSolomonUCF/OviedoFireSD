@@ -337,19 +337,18 @@ export class EditReport {
 		webService.setState('eReport')
 			.doGet('/listReports')
 			.subscribe(resp => {
-					this.original = resp['list'].map(report => {
-						if (report.interval.frequency === 'Daily')
-							for (let i = 0, len = report.template.subSections.length; i < len; i++)
-								if (report.template.subSections[i].title.indexOf(report.template.title) !== -1)
-									report.template.subSections[i].title = report.template.subSections[i].title.substring(report.template.title.length + 3);
-						return report
-					});
-					this.reports = JSON.parse(JSON.stringify(this.original));
-					this.loading = false;
-				}, () => {
-					this.loading = false;
-				}
-			);
+				this.original = resp['list'].map(report => {
+					if (report.interval.frequency === 'Daily')
+						for (let i = 0, len = report.template.subSections.length; i < len; i++)
+							if (report.template.subSections[i].title.indexOf(report.template.title) !== -1)
+								report.template.subSections[i].title = report.template.subSections[i].title.substring(report.template.title.length + 3);
+					return report
+				});
+				this.reports = JSON.parse(JSON.stringify(this.original));
+				this.loading = false;
+			}, () => {
+				this.loading = false;
+			});
 	}
 
 	move(array: any[], from: number, to: number) {
@@ -443,21 +442,20 @@ export class EditReport {
 				return;
 			}
 
-			// this.loading = true;
+			this.loading = true;
 			if (this.temp.interval.frequency === 'Daily')
 				this.temp.interval.days = this.weekDaily;
-			console.log('got here');
-			// this.webService.doPost('/listReports', {report: this.temp})
-			// 	.subscribe(resp => {
-			// 		if (this.temp.fresh)
-			// 			this.reports.push(resp);
-			// 		this.original = JSON.parse(JSON.stringify(this.reports));
-			// 		this.toggle();
-			// 	}, error => {
-			// 		console.log(error);
-			// 	}, () => {
-			// 		this.loading = false;
-			// 	});
+			this.webService.doPost('/listReports', {report: this.temp})
+				.subscribe(resp => {
+					if (this.temp.fresh)
+						this.reports.push(resp);
+					this.original = JSON.parse(JSON.stringify(this.reports));
+					this.toggle();
+				}, error => {
+					console.log(error);
+				}, () => {
+					this.loading = false;
+				});
 		} else
 			console.log('Missing a field');
 	}
@@ -509,6 +507,8 @@ export class EditReport {
 		delete this.temp;
 		delete this.reorder;
 		this.viewType = 'view';
+		this.viewType = 'view';
+		this.reports = [];
 		this.reports = JSON.parse(JSON.stringify(this.original));
 		this.updateFilter(undefined);
 	}
