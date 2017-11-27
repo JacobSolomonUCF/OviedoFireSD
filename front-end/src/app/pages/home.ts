@@ -91,7 +91,8 @@ export class Home {
 		{style: 'danger', title: 'Repairs Needed', type: 'repairItems'},
 		{style: 'info', title: 'Missing Equipment', type: 'missingItems'},
 		{style: 'warning', title: 'Forgotten Reports', type: 'incompleteForms'},
-		{style: 'danger', title: 'Failed Items', type: 'failItems'}
+		{style: 'danger', title: 'Failed Items', type: 'failItems'},
+		{style: 'info', title: 'Reaching Expiration', type: 'dateItems'}
 	];
 
 	constructor(public webService: WebService) {
