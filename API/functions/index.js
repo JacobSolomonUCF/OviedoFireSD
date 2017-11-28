@@ -86,6 +86,21 @@ function getTime(date) {
     return retVal;
 }
 
+function getMonthDays() {
+    var time = moment().tz("America/New_York");
+
+    var monthDays = [];
+
+    monthDays.push(time.format("MMM D, YYYY"));
+
+    for(var i = 0; i < 29; i++) {
+        time.add(1, 'days');
+        monthDays.push(time.format("MMM D, YYYY"));
+    }
+
+    return monthDays;
+}
+
 function getAllReports(year, callback) {
     ref.child('/').once('value', function(snap) {
         var root = snap.val();
@@ -980,25 +995,30 @@ exports.form = functions.https.onRequest((req, res) => {
                                                 statType = "failed";
                                                 alertType = "failItems";
                                                 failItems.push(req.body.results[i].caption);
+                                            } else if(req.body.results[i].type == "date") {
+                                                ref.child(`dates/${templates[req.body.formId].title}${req.body.results[i].caption}`).set({
+                                                    alert: `'${req.body.results[i].caption}' from '${templates[req.body.formId].title}' expires on ${req.body.results[i].result}`,
+                                                    date: req.body.results[i].result
+                                                });
                                             }
 
                                             if(failureCheck) {
                                                 ref.child(`statistics/${req.body.formId}/title`).set(templates[req.body.formId].title).catch(err => {
                                                     postError = true;
                                                     cors(req, res, () => {
-                                                        res.status(400).send("statsTitle");
+                                                        res.status(400).send(err);
                                                     });
                                                 });
                                                 ref.child(`statistics/${req.body.formId}/${time.yearMonth}/${req.body.results[i].caption}/${statType}`).push().set(0).catch(err => {
                                                     postError = true;
                                                     cors(req, res, () => {
-                                                        res.status(400).send("statType");
+                                                        res.status(400).send(err);
                                                     });
                                                 });
                                                 ref.child(`alerts/${alertType}`).push().set(`${time.formattedDate}: '${req.body.results[i].caption}' from '${templates[req.body.formId].title}'`).catch(err => {
                                                     postError = true;
                                                     cors(req, res, () => {
-                                                        res.status(400).send("alerts");
+                                                        res.status(400).send(err);
                                                     });
                                                 });
                                             }
@@ -1027,6 +1047,11 @@ exports.form = functions.https.onRequest((req, res) => {
                                                     statType = "failed";
                                                     alertType = "failItems";
                                                     failItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}`);
+                                                } else if(req.body.results[i].results[j].type == "date") {
+                                                    ref.child(`dates/${templates[req.body.formId].title}${req.body.results[i].title}${req.body.results[i].results[j].caption}`).set({
+                                                        alert: `${req.body.results[i].title} - ${req.body.results[i].results[j].caption} expires on ${req.body.results[i].results[j].result}`,
+                                                        date: req.body.results[i].results[j].result
+                                                    });
                                                 }
 
                                                 if(failureCheck) {
@@ -1917,8 +1942,14 @@ exports.clearReports = functions.https.onRequest((req, res) => {
                             ref.child('forms/results').set(null).then(() => {
                                 ref.child('statistics').set(null).then(() => {
                                     ref.child('alerts').set(null).then(() => {
-                                        cors(req, res, () => {
-                                            res.sendStatus(200);
+                                        ref.child('dates').set(null).then(() => {
+                                            cors(req, res, () => {
+                                                res.sendStatus(200);
+                                            });
+                                        }).catch(err => {
+                                            cors(req, res, () => {
+                                                res.status(400).send(err);
+                                            });
                                         });
                                     }).catch(err => {
                                         cors(req, res, () => {
@@ -3139,6 +3170,9 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                                 var formId = inventory[itemType][itemKey].compartments[compartmentKey].formId;
                                                 templates[formId].id = formId;
                                                 listItem.template.subSections[inventory[itemType][itemKey].compartments[compartmentKey].rank] = templates[formId];
+                                                if(templates[formId].alert) {
+                                                    listItem.template.alert = templates[formId].alert;
+                                                }
                                             }
 
                                             reportsList.list.push(listItem);
@@ -3617,6 +3651,44 @@ exports.orderReports = functions.https.onRequest((req, res) => {
 // END: API Admin Portal Functions----------------------------------------------
 
 // BEGIN: API Automated Functions-----------------------------------------------
+exports.checkDateItems = functions.https.onRequest((req, res) => {
+    switch(req.method) {
+        case 'GET':
+            ref.child('dates').once('value').then(datesSnap => {
+                dates = datesSnap.val();
+                const monthDays = getMonthDays();
+
+                if(dates) {
+                    // cleanup old dates
+
+                    Object.keys(dates).forEach(dateKey => {
+                        if(monthDays.includes(dates[dateKey].date)) {
+                            ref.child(`alerts/dateItems`).push().set(dates[dateKey].alert).then(() => {
+                                cors(req, res, () => {
+                                    res.sendStatus(200);
+                                });
+                            }).catch(err => {
+                                cors(req, res, () => {
+                                    res.status(400).send(err);
+                                });
+                            });
+                        }
+                    });
+                } else {
+                    cors(req, res, () => {
+                        res.sendStatus(200);
+                    });
+                }
+            });
+            break;
+        default:
+            cors(req, res, () => {
+                res.sendStatus(404);
+            });
+            break;
+    }
+});
+
 exports.sendIncompleteFormsEmail = functions.https.onRequest((req, res) => {
     switch(req.method) {
         case 'GET':
