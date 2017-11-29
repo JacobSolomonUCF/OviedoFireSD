@@ -737,6 +737,7 @@ extension UIViewController{
             completion(flag)
         }
     }
+
 //////END NETWORK FUNCTIONS
 }
 

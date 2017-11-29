@@ -148,7 +148,6 @@ class resultsViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         return item
     }
-    
 
 }
 

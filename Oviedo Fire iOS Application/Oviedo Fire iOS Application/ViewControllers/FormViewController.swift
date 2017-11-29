@@ -53,7 +53,11 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.dataSource = self
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(self.back(sender:)))
+        
+        
     }
+
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toHome"{
             let nextController = segue.destination as! HomeViewController
@@ -90,6 +94,56 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         setupView()
 
     }
+    
+    let picker = UIDatePicker()
+    var tag = 0
+    let date = UITextField()
+    func createDatePicker(dateField:UITextField) {
+        tag = dateField.tag
+        // toolbar
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        // done button for toolbar
+        let done = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
+        toolbar.setItems([done], animated: false)
+        
+        dateField.inputAccessoryView = toolbar
+        dateField.inputView = picker
+        
+        // format picker for date
+        picker.datePickerMode = .date
+    }
+    
+    @objc func donePressed() {
+        // format date
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        let dateString = formatter.string(from: picker.date)
+        
+        updateDate(tag: tag,date:dateString)
+        self.view.endEditing(true)
+    }
+    
+    func updateDate(tag:Int,date:String){
+        
+        let indexPath = IndexPath(row: tag , section: 0)
+        userEnteredResults[tag].value = date
+        
+        guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell
+                else { return }
+        cell.dateField.text = date
+
+        
+        
+        
+    }
+
+    
+
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -268,22 +322,6 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         else {
             self.navigationController!.popToRootViewController(animated: true)
         }
-        
-        /*switch commingFrom.type {
-        case "qr":
-            let qrController = QRScannerController()
-            self.present(qrController, animated: true, completion: nil)
-        case "offtruck":
-            let offtruckController = offTruckListViewController()
-            self.present(offtruckController, animated: true, completion: nil)
-        case "todo":
-            let todoController = toDoViewController()
-            self.present(todoController, animated: true, completion: nil)
-            
-        default:
-            print("Error")
-        }*/
-        
     }
 
     
@@ -378,16 +416,9 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         
     }
-    
-    //    TODO: RIGHT DATE FORMAT
-    @objc func dateChanged(sender: UIDatePicker) {
-        print("print \(sender.date)")
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd, YYYY"
-        let somedateString = dateFormatter.string(from: sender.date)
-        userEnteredResults[sender.tag].value = somedateString
 
+    @objc func dateChanged(sender: UITextField) {
+        createDatePicker(dateField: sender)
     }
     @IBAction func submitPressed(_ sender: Any) {
         submitAlert(message: "Are you sure you want to submit?") { (result) in
@@ -464,6 +495,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
+    
 }
 
 
@@ -646,8 +678,14 @@ extension EqFormViewController{
             }else if(item.type == "date"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "date", for: indexPath) as! FormTableViewCell
                 cell.dateLabel.text = item.caption
-                cell.dateSwitch.tag = indexPath.row
-                cell.dateSwitch.addTarget(self, action: #selector(EqFormViewController.dateChanged(sender:)), for: .valueChanged)
+                cell.dateField.tag = indexPath.row
+                cell.dateField.addTarget(self, action: #selector(EqFormViewController.dateChanged(sender:)), for: .editingDidBegin)
+                if(item.value != ""){
+                    cell.dateField.text = item.value
+                }else{
+                    cell.dateField.placeholder = "Please select a date"
+                }
+                
                 if(item.prev != "None"){
                     cell.setHeightDate(choice:1)
                     cell.datePrevLabel.text = "Previous result: \t" + item.prev

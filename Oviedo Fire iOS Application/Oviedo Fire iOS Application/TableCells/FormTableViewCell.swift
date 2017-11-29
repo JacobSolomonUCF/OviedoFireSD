@@ -49,11 +49,12 @@ class FormTableViewCell: UITableViewCell{
     @IBOutlet weak var pmrPrevCommentLabel: UILabel!
     @IBOutlet weak var pmrPrevCommentHeight: NSLayoutConstraint!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var datePrevLabel: UILabel!
+    @IBOutlet weak var dateField: UITextField!
     @IBOutlet weak var datePrevHeight: NSLayoutConstraint!
-    @IBOutlet weak var dateSwitch: UIDatePicker!
+    @IBOutlet weak var datePrevLabel: UILabel!
     
 
+    
     func setHeight(choice:Int){
         if(choice == 1){
             self.prevCompletedBy.constant = 20.0
@@ -137,6 +138,9 @@ class FormTableViewCell: UITableViewCell{
     //Prevents overide of data into cells when scrolling
     override func prepareForReuse() {
         super.prepareForReuse()
+        if(self.dateField != nil){
+            self.dateField.text = ""
+        }
 
         
     }

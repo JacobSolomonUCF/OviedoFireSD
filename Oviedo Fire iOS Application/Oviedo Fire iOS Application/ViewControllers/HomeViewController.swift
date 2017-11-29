@@ -25,9 +25,11 @@ class HomeViewController: UIViewController {
     var activeTrucks: [active] = []
     var TODOList: [toDo] = []
     var firstName:[String] = []
+    var timer = Timer()
     
     //Prepare for segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         let backItem = UIBarButtonItem()
         backItem.title = "Home"
         navigationItem.backBarButtonItem = backItem
@@ -57,21 +59,23 @@ class HomeViewController: UIViewController {
             nextController.userName = firstName
             self.enableButtons()
         }
+        timer.invalidate()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = false
-
+        
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         screenFormat()
         
+        
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -107,36 +111,56 @@ class HomeViewController: UIViewController {
 
     //    MARK: ACTIONS
     @IBAction func scannerClicked(_ sender: Any) {
-        self.performSegue(withIdentifier: "toScanner", sender: nil)
+        if(Auth.auth().currentUser == nil){ //Checks for timeout
+            performSegue(withIdentifier: "toLogin", sender: nil)
+        }else{
+            self.performSegue(withIdentifier: "toScanner", sender: nil)
+        }
     }
     @IBAction func Logout(_ sender: Any) {
-        do {
-            try Auth.auth().signOut()
-            self.performSegue(withIdentifier: "toLogin", sender: nil)
-        }catch let error as NSError{
-            print("Error signing out: \(error)")
+        if(Auth.auth().currentUser == nil){ //Checks for timeout
+            performSegue(withIdentifier: "toLogin", sender: nil)
+        }else{
+            do {
+                try Auth.auth().signOut()
+                self.performSegue(withIdentifier: "toLogin", sender: nil)
+            }catch let error as NSError{
+                print("Error signing out: \(error)")
+            }
         }
     }
     
     @IBAction func activeClicked(_ sender: Any) {
-        disableButtons()
-        startSpinning(activityView: activityView)
-        getActive(userID: ID, completion: { (activeT) -> Void in
-            self.activeTrucks = activeT
-            self.performSegue(withIdentifier: "toActive", sender: nil)
-        })
+        if(Auth.auth().currentUser == nil){ //Checks for timeout
+            performSegue(withIdentifier: "toLogin", sender: nil)
+        }else{
+            disableButtons()
+            startSpinning(activityView: activityView)
+            getActive(userID: ID, completion: { (activeT) -> Void in
+                self.activeTrucks = activeT
+                self.performSegue(withIdentifier: "toActive", sender: nil)
+            })
+        }
        
     }
     @IBAction func offtruckClicked(_ sender: Any) {
-        performSegue(withIdentifier: "toOffTruck", sender: nil)
+        if(Auth.auth().currentUser == nil){ //Checks for timeout
+            performSegue(withIdentifier: "toLogin", sender: nil)
+        }else{
+            performSegue(withIdentifier: "toOffTruck", sender: nil)
+        }
     }
     @IBAction func todoClicked(_ sender: Any) {
-        disableButtons()
-        startSpinning(activityView: activityView)
-        getTODO(userID: ID, completion: {(todo) -> Void in
-            self.TODOList = todo
-            self.performSegue(withIdentifier: "toToDoList", sender: nil)
-        })
+        if(Auth.auth().currentUser == nil){ //Checks for timeout
+            performSegue(withIdentifier: "toLogin", sender: nil)
+        }else{
+            disableButtons()
+            startSpinning(activityView: activityView)
+            getTODO(userID: ID, completion: {(todo) -> Void in
+                self.TODOList = todo
+                self.performSegue(withIdentifier: "toToDoList", sender: nil)
+            })
+        }
     }
         
 }

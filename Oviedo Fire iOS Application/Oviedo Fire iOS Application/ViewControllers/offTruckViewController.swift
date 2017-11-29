@@ -113,5 +113,5 @@ class offTruckViewController: UIViewController {
         offTruckList(Type: "misc")
         type = "Misc."
     }
- 
+
 }

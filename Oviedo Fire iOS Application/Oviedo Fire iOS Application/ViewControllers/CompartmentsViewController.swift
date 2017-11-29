@@ -38,6 +38,7 @@ class CompartmentsViewController: UIViewController, UITableViewDataSource, UITab
         if let selectionIndexPath = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRow(at: selectionIndexPath, animated: animated)
         }
+        
     }
     
     override func viewDidLoad() {
