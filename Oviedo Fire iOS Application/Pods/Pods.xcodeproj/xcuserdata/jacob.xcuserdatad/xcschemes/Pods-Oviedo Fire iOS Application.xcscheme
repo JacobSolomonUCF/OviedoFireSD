@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0910"
+   LastUpgradeVersion = "0700"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CF4F1BB6B6ABA3A0C4FF4E120EE44DA1"
+               BlueprintIdentifier = "731F75ACA654B805D356BB8C342B256C"
                BuildableName = "Pods_Oviedo_Fire_iOS_Application.framework"
                BlueprintName = "Pods-Oviedo Fire iOS Application"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CF4F1BB6B6ABA3A0C4FF4E120EE44DA1"
+            BlueprintIdentifier = "731F75ACA654B805D356BB8C342B256C"
             BuildableName = "Pods_Oviedo_Fire_iOS_Application.framework"
             BlueprintName = "Pods-Oviedo Fire iOS Application"
             ReferencedContainer = "container:Pods.xcodeproj">

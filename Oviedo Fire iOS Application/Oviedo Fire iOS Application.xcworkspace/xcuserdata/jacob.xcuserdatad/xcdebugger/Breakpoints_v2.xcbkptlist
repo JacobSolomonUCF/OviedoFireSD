@@ -105,22 +105,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Oviedo Fire iOS Application/ViewControllers/FormViewController.swift"
-            timestampString = "533607476.492158"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "495"
-            endingLineNumber = "495"
-            landmarkName = "submitPressed(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Oviedo Fire iOS Application/Network.swift"
             timestampString = "533078204.55886"
             startingColumnNumber = "9223372036854775807"
@@ -129,54 +113,6 @@
             endingLineNumber = "584"
             landmarkName = "getResults(userID:formId:completion:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Oviedo Fire iOS Application/ViewControllers/FormViewController.swift"
-            timestampString = "533607476.492227"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "469"
-            endingLineNumber = "469"
-            landmarkName = "submitPressed(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Bool) -&gt; () in Oviedo_Fire_iOS_Application.EqFormViewController.submitPressed(Any) -&gt; ()"
-                  moduleName = "Oviedo Fire iOS Application"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jacob/Desktop/School/SD/Oviedo%20Fire%20iOS%20Application/Oviedo%20Fire%20iOS%20Application/ViewControllers/FormViewController.swift"
-                  timestampString = "532839568.650175"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "416"
-                  endingLineNumber = "416"
-                  offsetFromSymbolStart = "1892">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Bool) -&gt; () in closure #1 (Swift.Bool) -&gt; () in Oviedo_Fire_iOS_Application.EqFormViewController.submitPressed(Any) -&gt; ()"
-                  moduleName = "Oviedo Fire iOS Application"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jacob/Desktop/School/SD/Oviedo%20Fire%20iOS%20Application/Oviedo%20Fire%20iOS%20Application/ViewControllers/FormViewController.swift"
-                  timestampString = "532839568.651307"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "417"
-                  endingLineNumber = "417"
-                  offsetFromSymbolStart = "28">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -224,54 +160,6 @@
             startingLineNumber = "97"
             endingLineNumber = "97"
             landmarkName = "resultToFrom()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Oviedo Fire iOS Application/ViewControllers/FormViewController.swift"
-            timestampString = "533607476.492305"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "donePressed()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Oviedo Fire iOS Application/ViewControllers/FormViewController.swift"
-            timestampString = "533607476.492347"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
-            landmarkName = "createDatePicker(dateField:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Oviedo Fire iOS Application/ViewControllers/FormViewController.swift"
-            timestampString = "533607476.492387"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "updateDate(tag:date:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

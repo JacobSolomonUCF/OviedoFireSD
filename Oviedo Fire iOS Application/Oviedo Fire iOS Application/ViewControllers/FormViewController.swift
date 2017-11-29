@@ -53,7 +53,11 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.dataSource = self
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(self.back(sender:)))
+        
+        
     }
+
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toHome"{
             let nextController = segue.destination as! HomeViewController
@@ -96,7 +100,6 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let date = UITextField()
     func createDatePicker(dateField:UITextField) {
         tag = dateField.tag
-        print(dateField.tag)
         // toolbar
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
@@ -114,20 +117,16 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @objc func donePressed() {
         // format date
-        print("GOT HEREERE")
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
         let dateString = formatter.string(from: picker.date)
         
-//        date.text = "\(dateString)"
-        print(dateString)
         updateDate(tag: tag,date:dateString)
         self.view.endEditing(true)
     }
     
     func updateDate(tag:Int,date:String){
-        print("TAG IS \(tag)")
         
         let indexPath = IndexPath(row: tag , section: 0)
         userEnteredResults[tag].value = date
@@ -323,22 +322,6 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         else {
             self.navigationController!.popToRootViewController(animated: true)
         }
-        
-        /*switch commingFrom.type {
-        case "qr":
-            let qrController = QRScannerController()
-            self.present(qrController, animated: true, completion: nil)
-        case "offtruck":
-            let offtruckController = offTruckListViewController()
-            self.present(offtruckController, animated: true, completion: nil)
-        case "todo":
-            let todoController = toDoViewController()
-            self.present(todoController, animated: true, completion: nil)
-            
-        default:
-            print("Error")
-        }*/
-        
     }
 
     
@@ -434,17 +417,8 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
     }
 
-    
-    //    TODO: RIGHT DATE FORMAT
     @objc func dateChanged(sender: UITextField) {
-        print("print \(sender.tag)")
         createDatePicker(dateField: sender)
-        
-      /*  let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM dd, YYYY"
-        let somedateString = dateFormatter.string(from: sender.date)
-        userEnteredResults[sender.tag].value = somedateString*/
-
     }
     @IBAction func submitPressed(_ sender: Any) {
         submitAlert(message: "Are you sure you want to submit?") { (result) in
