@@ -172,8 +172,8 @@ function getAllReports(year, callback) {
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
                                                     };
-												} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
-													data.rows[offset+n][weekday[m]] = {
+                                                } else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+                                                    data.rows[offset+n][weekday[m]] = {
                                                         result: result,
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -201,8 +201,8 @@ function getAllReports(year, callback) {
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
                                                     };
-												} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
-													data.rows[offset+n][weekday[m]] = {
+                                                } else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+                                                    data.rows[offset+n][weekday[m]] = {
                                                         result: result,
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -236,8 +236,8 @@ function getAllReports(year, callback) {
                                                                 note: results[formId][completedTimestamp].results[o].note,
                                                                 completedBy: results[formId][completedTimestamp].completedBy
                                                             };
-														} else if(result == "Missing" && results[formId][completedTimestamp].results[o].note) {
-															data.rows[offset+o][weekday[m]] = {
+                                                        } else if(result == "Missing" && results[formId][completedTimestamp].results[o].note) {
+                                                            data.rows[offset+o][weekday[m]] = {
                                                                 result: result,
                                                                 note: results[formId][completedTimestamp].results[o].note,
                                                                 completedBy: results[formId][completedTimestamp].completedBy
@@ -265,8 +265,8 @@ function getAllReports(year, callback) {
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
                                                     };
-												} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
-													data.rows[offset+n][weekday[m]] = {
+                                                } else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+                                                    data.rows[offset+n][weekday[m]] = {
                                                         result: result,
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -350,8 +350,8 @@ function getAllReports(year, callback) {
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
                                                     };
-												} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
-													data.rows[n][weekday[m]] = {
+                                                } else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+                                                    data.rows[n][weekday[m]] = {
                                                         result: result,
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -379,8 +379,8 @@ function getAllReports(year, callback) {
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
                                                     };
-												} else if(results == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
-													data.rows[n][weekday[m]] = {
+                                                } else if(results == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+                                                    data.rows[n][weekday[m]] = {
                                                         result: result,
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -414,8 +414,8 @@ function getAllReports(year, callback) {
                                                                 note: results[formId][completedTimestamp].results[o].note,
                                                                 completedBy: results[formId][completedTimestamp].completedBy
                                                             };
-														} else if(result == "Missing" && results[formId][completedTimestamp].results[o].note) {
-															data.rows[o][weekday[m]] = {
+                                                        } else if(result == "Missing" && results[formId][completedTimestamp].results[o].note) {
+                                                            data.rows[o][weekday[m]] = {
                                                                 result: result,
                                                                 note: results[formId][completedTimestamp].results[o].note,
                                                                 completedBy: results[formId][completedTimestamp].completedBy
@@ -443,8 +443,8 @@ function getAllReports(year, callback) {
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
                                                     };
-												} else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
-													data.rows[n][weekday[m]] = {
+                                                } else if(result == "Missing" && results[formId][time.weekstamps[m]].results[n].note) {
+                                                    data.rows[n][weekday[m]] = {
                                                         result: result,
                                                         note: results[formId][time.weekstamps[m]].results[n].note,
                                                         completedBy: results[formId][time.weekstamps[m]].completedBy
@@ -490,8 +490,8 @@ function getAllReports(year, callback) {
                                                             note: results[formId][time.weekstamps[n]].results[m].results[o].note,
                                                             completedBy: results[formId][time.weekstamps[n]].completedBy
                                                         };
-													} else if(result == "Missing" && results[formId][time.weekstamps[n]].results[m].results[o].note) {
-														data.rows[offset+o][weekday[n]] = {
+                                                    } else if(result == "Missing" && results[formId][time.weekstamps[n]].results[m].results[o].note) {
+                                                        data.rows[offset+o][weekday[n]] = {
                                                             result: result,
                                                             note: results[formId][time.weekstamps[n]].results[m].results[o].note,
                                                             completedBy: results[formId][time.weekstamps[n]].completedBy
@@ -519,8 +519,8 @@ function getAllReports(year, callback) {
                                                             note : results[formId][time.weekstamps[n]].results[m].results[o].note,
                                                             completedBy: results[formId][time.weekstamps[n]].completedBy
                                                         };
-													} else if(result == "Missing" && results[formId][time.weekstamps[n]].results[m].results[o].note) {
-														data.rows[offset+o][weekday[n]] = {
+                                                    } else if(result == "Missing" && results[formId][time.weekstamps[n]].results[m].results[o].note) {
+                                                        data.rows[offset+o][weekday[n]] = {
                                                             result: result,
                                                             note : results[formId][time.weekstamps[n]].results[m].results[o].note,
                                                             completedBy: results[formId][time.weekstamps[n]].completedBy
@@ -554,8 +554,8 @@ function getAllReports(year, callback) {
                                                                     note: results[formId][completedTimestamp].results[m].results[p].note,
                                                                     completedBy: results[formId][completedTimestamp].completedBy
                                                                 };
-															} else if(result == "Missing" && results[formId][completedTimestamp].results[m].results[p].note) {
-																data.rows[offset+p][weekday[n]] = {
+                                                            } else if(result == "Missing" && results[formId][completedTimestamp].results[m].results[p].note) {
+                                                                data.rows[offset+p][weekday[n]] = {
                                                                     result: result,
                                                                     note: results[formId][completedTimestamp].results[m].results[p].note,
                                                                     completedBy: results[formId][completedTimestamp].completedBy
@@ -583,8 +583,8 @@ function getAllReports(year, callback) {
                                                             note: results[formId][time.weekstamps[n]].results[m].results[o].note,
                                                             completedBy: results[formId][time.weekstamps[n]].completedBy
                                                         };
-													} else if(result == "Missing" && results[formId][time.weekstamps[n]].results[m].results[o].note) {
-														data.rows[offset+o][weekday[n]] = {
+                                                    } else if(result == "Missing" && results[formId][time.weekstamps[n]].results[m].results[o].note) {
+                                                        data.rows[offset+o][weekday[n]] = {
                                                             result: result,
                                                             note: results[formId][time.weekstamps[n]].results[m].results[o].note,
                                                             completedBy: results[formId][time.weekstamps[n]].completedBy
@@ -857,8 +857,8 @@ exports.form = functions.https.onRequest((req, res) => {
                                                 } else if(prevResult[prevResultDatestamp].results[i].result == "Repairs Needed") {
                                                     form.inputElements[i].prev = prevResult[prevResultDatestamp].results[i].result;
                                                     form.inputElements[i].prevNote = prevResult[prevResultDatestamp].results[i].note;
-												} else if(prevResult[prevResultDatestamp].results[i].result == "Missing" && prevResult[prevResultDatestamp].results[i].note) {
-													form.inputElements[i].prev = prevResult[prevResultDatestamp].results[i].result;
+                                                } else if(prevResult[prevResultDatestamp].results[i].result == "Missing" && prevResult[prevResultDatestamp].results[i].note) {
+                                                    form.inputElements[i].prev = prevResult[prevResultDatestamp].results[i].result;
                                                     form.inputElements[i].prevNote = prevResult[prevResultDatestamp].results[i].note;
                                                 } else {
                                                     form.inputElements[i].prev = prevResult[prevResultDatestamp].results[i].result;
@@ -881,8 +881,8 @@ exports.form = functions.https.onRequest((req, res) => {
                                                     } else if(prevResult[prevResultDatestamp].results[i].results[j].result == "Repairs Needed"){
                                                         form.subSections[i].inputElements[j].prev = prevResult[prevResultDatestamp].results[i].results[j].result;
                                                         form.subSections[i].inputElements[j].prevNote = prevResult[prevResultDatestamp].results[i].results[j].note;
-													} else if(prevResult[prevResultDatestamp].results[i].results[j].result == "Missing" && prevResult[prevResultDatestamp].results[i].results[j].note) {
-														form.subSections[i].inputElements[j].prev = prevResult[prevResultDatestamp].results[i].results[j].result;
+                                                    } else if(prevResult[prevResultDatestamp].results[i].results[j].result == "Missing" && prevResult[prevResultDatestamp].results[i].results[j].note) {
+                                                        form.subSections[i].inputElements[j].prev = prevResult[prevResultDatestamp].results[i].results[j].result;
                                                         form.subSections[i].inputElements[j].prevNote = prevResult[prevResultDatestamp].results[i].results[j].note;
                                                     } else {
                                                         form.subSections[i].inputElements[j].prev = prevResult[prevResultDatestamp].results[i].results[j].result;
@@ -985,11 +985,11 @@ exports.form = functions.https.onRequest((req, res) => {
                                                 failureCheck = true;
                                                 statType = "missing";
                                                 alertType = "missingItems";
-												if(req.body.results[i].note) {
-													missingItems.push(`${req.body.results[i].caption}: ${req.body.results[i].note}`);
-												} else {
-                                                	missingItems.push(req.body.results[i].caption);
-												}
+                                                if(req.body.results[i].note) {
+                                                    missingItems.push(`${req.body.results[i].caption}: ${req.body.results[i].note}`);
+                                                } else {
+                                                    missingItems.push(req.body.results[i].caption);
+                                                }
                                             } else if(req.body.results[i].result == "Failed") {
                                                 failureCheck = true;
                                                 statType = "failed";
@@ -1037,11 +1037,11 @@ exports.form = functions.https.onRequest((req, res) => {
                                                     failureCheck = true;
                                                     statType = "missing";
                                                     alertType = "missingItems";
-													if(req.body.results[i].results[j].note) {
-														missingItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}: ${req.body.results[i].results[j].note}`);
-													} else {
-                                                    	missingItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}`);
-													}
+                                                    if(req.body.results[i].results[j].note) {
+                                                        missingItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}: ${req.body.results[i].results[j].note}`);
+                                                    } else {
+                                                        missingItems.push(`${req.body.results[i].title} - ${req.body.results[i].results[j].caption}`);
+                                                    }
                                                 } else if(req.body.results[i].results[j].result == "Failed") {
                                                     failureCheck = true;
                                                     statType = "failed";
@@ -2471,88 +2471,88 @@ exports.reports = functions.https.onRequest((req, res) => {
                             const inventoryPr = ref.child('inventory').once('value');
                             const resultsPr = ref.child('forms/results').once('value');
                             const intervalsPr = ref.child('forms/intervals').once('value');
-							const templatesPr = ref.child('forms/templates').once('value');
+                            const templatesPr = ref.child('forms/templates').once('value');
 
                             Promise.all([usersPr, inventoryPr, resultsPr, intervalsPr, templatesPr]).then(response => {
                                 const time = getTime(req.query.date);
                                 var retVal = {
                                     reports: []
                                 };
-								var formCount = 0;
-								var lookupTable = {};
+                                var formCount = 0;
+                                var lookupTable = {};
                                 const inventory = response[1].val();
                                 const results = response[2].val();
                                 const intervals = response[3].val();
-								const templates = response[4].val();
+                                const templates = response[4].val();
 
                                 Object.keys(inventory).forEach(itemType => {
                                     Object.keys(inventory[itemType]).forEach(item => {
-										var report = {
+                                        var report = {
                                             name: null,
-											schedule: null,
+                                            schedule: null,
                                             status: null,
-											id: null,
-											days: {
-												sunday: false,
-												monday: false,
-												tuesday: false,
-												wednesday: false,
-												thursday: false,
-												friday: false,
-												saturday: false
-											},
-											data: {
-												rows: []
-											}
+                                            id: null,
+                                            days: {
+                                                sunday: false,
+                                                monday: false,
+                                                tuesday: false,
+                                                wednesday: false,
+                                                thursday: false,
+                                                friday: false,
+                                                saturday: false
+                                            },
+                                            data: {
+                                                rows: []
+                                            }
                                         };
-										var itemCount = 0;
+                                        var itemCount = 0;
 
                                         if(itemType == "vehicles") {
                                             var status = "Complete";
-											const frequency = intervals[item].frequency;
+                                            const frequency = intervals[item].frequency;
 
                                             Object.keys(inventory[itemType][item].compartments).forEach(compartment => {
-												const formId = inventory[itemType][item].compartments[compartment].formId;
-												lookupTable[formId] = {};
+                                                const formId = inventory[itemType][item].compartments[compartment].formId;
+                                                lookupTable[formId] = {};
 
-												for(var i = 0; i < templates[formId].inputElements.length; i++) {
-													report.data.rows.push({
-														compartment: templates[formId].title,
-														item: templates[formId].inputElements[i].caption
-													});
-													lookupTable[formId].id = formCount;
-													lookupTable[formId][templates[formId].inputElements[i].caption] = itemCount;
-													itemCount++;
-												}
+                                                for(var i = 0; i < templates[formId].inputElements.length; i++) {
+                                                    report.data.rows.push({
+                                                        compartment: templates[formId].title,
+                                                        item: templates[formId].inputElements[i].caption
+                                                    });
+                                                    lookupTable[formId].id = formCount;
+                                                    lookupTable[formId][templates[formId].inputElements[i].caption] = itemCount;
+                                                    itemCount++;
+                                                }
 
                                                 if(status == "Complete") {
                                                     if(results && results[formId]) {
-														const timestamps = Object.keys(results[formId]);
+                                                        const timestamps = Object.keys(results[formId]);
 
                                                         if(frequency == "Daily") {
-															for(var i = 0; i < time.weekstamps.length; i++) {
-																if(!timestamps.includes(time.weekstamps[i])) {
-	                                                            	status = "Incomplete";
-																}
-															}
+                                                            for(var i = 0; i < time.weekstamps.length; i++) {
+                                                                if(!timestamps.includes(time.weekstamps[i])) {
+                                                                    status = "Incomplete";
+                                                                }
+                                                            }
                                                         } else if(frequency == "Weekly") {
-															status = "Incomplete";
+                                                            status = "Incomplete";
 
                                                             for(var i = 0; i < time.weekstamps.length; i++) {
-																if(timestamps.includes(time.weekstamps[i])) {
-																	status = "Complete";
-																	break;
-																}
-															}
+                                                                if(timestamps.includes(time.weekstamps[i])) {
+                                                                    status = "Complete";
+                                                                    break;
+                                                                }
+                                                            }
                                                         } else if(frequency == "Monthly") {
-															status = "Incomplete";
+                                                            status = "Incomplete";
 
                                                             for(var i = 0; i < timestamps.length; i++) {
-																if(timestamps[i].substring(0,6) == time.yearMonth) {
-																	status = "Complete";
-																	break;
-																}
-															}
+                                                                if(timestamps[i].substring(0,6) == time.yearMonth) {
+                                                                    status = "Complete";
+                                                                    break;
+                                                                }
+                                                            }
                                                         }
                                                     } else {
                                                         status = "Incomplete";
@@ -2560,234 +2560,236 @@ exports.reports = functions.https.onRequest((req, res) => {
                                                 }
                                             });
 
-											report.name = inventory[itemType][item].name;
-											report.schedule = frequency;
-											report.status = status;
-											report.id = item
+                                            report.name = inventory[itemType][item].name;
+                                            report.schedule = frequency;
+                                            report.status = status;
+                                            report.id = item
 
                                             retVal.reports.push(report);
-											formCount++;
+                                            formCount++;
                                         } else {
                                             const formId = inventory[itemType][item].formId;
-											lookupTable[formId] = {};
-											lookupTable[formId].id = formCount;
+                                            lookupTable[formId] = {};
+                                            lookupTable[formId].id = formCount;
                                             const frequency = intervals[formId].frequency;
 
-											for(var i = 0; i < templates[formId].subSections.length; i++) {
-												for(var j = 0; j < templates[formId].subSections[i].inputElements.length; j++) {
-													report.data.rows.push({
-														compartment: templates[formId].subSections[i].title,
-														item: templates[formId].subSections[i].inputElements[j].caption
-													});
-													lookupTable[formId][templates[formId].subSections[i].title + templates[formId].subSections[i].inputElements[j].caption] = itemCount;
-													itemCount++;
-												}
-											}
+                                            for(var i = 0; i < templates[formId].subSections.length; i++) {
+                                                for(var j = 0; j < templates[formId].subSections[i].inputElements.length; j++) {
+                                                    report.data.rows.push({
+                                                        compartment: templates[formId].subSections[i].title,
+                                                        item: templates[formId].subSections[i].inputElements[j].caption
+                                                    });
+                                                    lookupTable[formId][templates[formId].subSections[i].title + templates[formId].subSections[i].inputElements[j].caption] = itemCount;
+                                                    itemCount++;
+                                                }
+                                            }
 
                                             var status = "Complete";
 
                                             if(results && results[formId]) {
-												const timestamps = Object.keys(results[formId]);
+                                                const timestamps = Object.keys(results[formId]);
 
                                                 if(frequency == "Daily") {
                                                     for(var i = 0; i < time.weekstamps.length; i++) {
-														if(!timestamps.includes(time.weekstamps[i])) {
-                                                        	status = "Incomplete";
-														}
-													}
+                                                        if(!timestamps.includes(time.weekstamps[i])) {
+                                                            status = "Incomplete";
+                                                        }
+                                                    }
                                                 } else if(frequency == "Weekly") {
                                                     status = "Incomplete";
 
                                                     for(var i = 0; i < time.weekstamps.length; i++) {
-														if(timestamps.includes(time.weekstamps[i])) {
-															status = "Complete";
-															break;
-														}
-													}
+                                                        if(timestamps.includes(time.weekstamps[i])) {
+                                                            status = "Complete";
+                                                            break;
+                                                        }
+                                                    }
                                                 } else if(frequency == "Monthly") {
                                                     status = "Incomplete";
 
                                                     for(var i = 0; i < timestamps.length; i++) {
-														if(timestamps[i].substring(0,6) == time.yearMonth) {
-															status = "Complete";
-															break;
-														}
-													}
+                                                        if(timestamps[i].substring(0,6) == time.yearMonth) {
+                                                            status = "Complete";
+                                                            break;
+                                                        }
+                                                    }
                                                 }
                                             } else {
-												status = "Incomplete";
-											}
+                                                status = "Incomplete";
+                                            }
 
-											report.name = inventory[itemType][item].name;
-											report.schedule = frequency;
-											report.status = status;
-											report.id = formId;
+                                            report.name = inventory[itemType][item].name;
+                                            report.schedule = frequency;
+                                            report.status = status;
+                                            report.id = formId;
 
                                             retVal.reports.push(report);
-											formCount++;
+                                            formCount++;
                                         }
                                     });
                                 });
 
-								Object.keys(results).forEach(formId => {
-									Object.keys(results[formId]).forEach(datestamp => {
-										if(time.weekstamps.includes(datestamp)) {
-											const day = weekday[time.weekstamps.indexOf(datestamp)];
-											if(lookupTable[formId]) {
-												retVal.reports[lookupTable[formId].id].days[day] = true;
+                                if(results) {
+                                    Object.keys(results).forEach(formId => {
+                                        Object.keys(results[formId]).forEach(datestamp => {
+                                            if(time.weekstamps.includes(datestamp)) {
+                                                const day = weekday[time.weekstamps.indexOf(datestamp)];
+                                                if(lookupTable[formId]) {
+                                                    retVal.reports[lookupTable[formId].id].days[day] = true;
 
-												for(var i = 0; i < results[formId][datestamp].results.length; i++) {
-													if(results[formId][datestamp].results[i].results) {
-														for(var j = 0; j < results[formId][datestamp].results[i].results.length; j++) {
-															if(lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption] != null) {
-																if(results[formId][datestamp].results[i].results[j].note) {
-																	retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption]][day] = {
-																		result: results[formId][datestamp].results[i].results[j].result,
-																		note: results[formId][datestamp].results[i].results[j].note,
-																		completedBy: results[formId][datestamp].completedBy
-																	};
-																} else {
-																	retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption]][day] = {
-																		result: results[formId][datestamp].results[i].results[j].result,
-																		completedBy: results[formId][datestamp].completedBy
-																	};
-																}
-															} else {
-																retVal.reports[lookupTable[formId].id].data.rows.push({
-																	compartment: results[formId][datestamp].results[i].title,
-																	item: results[formId][datestamp].results[i].results[j].caption
-																});
-																lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption] = retVal.reports[lookupTable[formId].id].data.rows.length - 1;
-																if(results[formId][datestamp].results[i].results[j].note) {
-																	retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption]][day] = {
-																		result: results[formId][datestamp].results[i].results[j].result,
-																		note: results[formId][datestamp].results[i].results[j].note,
-																		completedBy: results[formId][datestamp].completedBy
-																	};
-																} else {
-																	retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption]][day] = {
-																		result: results[formId][datestamp].results[i].results[j].result,
-																		completedBy: results[formId][datestamp].completedBy
-																	};
-																}
-															}
-														}
-													} else {
-														if(lookupTable[formId][results[formId][datestamp].results[i].caption] != null) {
-															if(results[formId][datestamp].results[i].note) {
-																retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
-																	result: results[formId][datestamp].results[i].result,
-																	note: results[formId][datestamp].results[i].note,
-																	completedBy: results[formId][datestamp].completedBy
-																};
-															} else {
-																retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
-																	result: results[formId][datestamp].results[i].result,
-																	completedBy: results[formId][datestamp].completedBy
-																};
-															}
-														} else {
-															retVal.reports[lookupTable[formId].id].data.rows.push({
-																compartment: `${retVal.reports[lookupTable[formId].id].name} - Deprecated`,
-																item: results[formId][datestamp].results[i].caption
-															});
-															lookupTable[formId][results[formId][datestamp].results[i].caption] = retVal.reports[lookupTable[formId].id].data.rows.length - 1;
-															if(results[formId][datestamp].results[i].note) {
-																retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
-																	result: results[formId][datestamp].results[i].result,
-																	note: results[formId][datestamp].results[i].note,
-																	completedBy: results[formId][datestamp].completedBy
-																};
-															} else {
-																retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
-																	result: results[formId][datestamp].results[i].result,
-																	completedBy: results[formId][datestamp].completedBy
-																};
-															}
-														}
-													}
-												}
-											} else {
-												lookupTable[formId] = {};
-												lookupTable[formId].id = retVal.reports.length;
+                                                    for(var i = 0; i < results[formId][datestamp].results.length; i++) {
+                                                        if(results[formId][datestamp].results[i].results) {
+                                                            for(var j = 0; j < results[formId][datestamp].results[i].results.length; j++) {
+                                                                if(lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption] != null) {
+                                                                    if(results[formId][datestamp].results[i].results[j].note) {
+                                                                        retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption]][day] = {
+                                                                            result: results[formId][datestamp].results[i].results[j].result,
+                                                                            note: results[formId][datestamp].results[i].results[j].note,
+                                                                            completedBy: results[formId][datestamp].completedBy
+                                                                        };
+                                                                    } else {
+                                                                        retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption]][day] = {
+                                                                            result: results[formId][datestamp].results[i].results[j].result,
+                                                                            completedBy: results[formId][datestamp].completedBy
+                                                                        };
+                                                                    }
+                                                                } else {
+                                                                    retVal.reports[lookupTable[formId].id].data.rows.push({
+                                                                        compartment: results[formId][datestamp].results[i].title,
+                                                                        item: results[formId][datestamp].results[i].results[j].caption
+                                                                    });
+                                                                    lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption] = retVal.reports[lookupTable[formId].id].data.rows.length - 1;
+                                                                    if(results[formId][datestamp].results[i].results[j].note) {
+                                                                        retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption]][day] = {
+                                                                            result: results[formId][datestamp].results[i].results[j].result,
+                                                                            note: results[formId][datestamp].results[i].results[j].note,
+                                                                            completedBy: results[formId][datestamp].completedBy
+                                                                        };
+                                                                    } else {
+                                                                        retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption]][day] = {
+                                                                            result: results[formId][datestamp].results[i].results[j].result,
+                                                                            completedBy: results[formId][datestamp].completedBy
+                                                                        };
+                                                                    }
+                                                                }
+                                                            }
+                                                        } else {
+                                                            if(lookupTable[formId][results[formId][datestamp].results[i].caption] != null) {
+                                                                if(results[formId][datestamp].results[i].note) {
+                                                                    retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
+                                                                        result: results[formId][datestamp].results[i].result,
+                                                                        note: results[formId][datestamp].results[i].note,
+                                                                        completedBy: results[formId][datestamp].completedBy
+                                                                    };
+                                                                } else {
+                                                                    retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
+                                                                        result: results[formId][datestamp].results[i].result,
+                                                                        completedBy: results[formId][datestamp].completedBy
+                                                                    };
+                                                                }
+                                                            } else {
+                                                                retVal.reports[lookupTable[formId].id].data.rows.push({
+                                                                    compartment: `${retVal.reports[lookupTable[formId].id].name} - Deprecated`,
+                                                                    item: results[formId][datestamp].results[i].caption
+                                                                });
+                                                                lookupTable[formId][results[formId][datestamp].results[i].caption] = retVal.reports[lookupTable[formId].id].data.rows.length - 1;
+                                                                if(results[formId][datestamp].results[i].note) {
+                                                                    retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
+                                                                        result: results[formId][datestamp].results[i].result,
+                                                                        note: results[formId][datestamp].results[i].note,
+                                                                        completedBy: results[formId][datestamp].completedBy
+                                                                    };
+                                                                } else {
+                                                                    retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
+                                                                        result: results[formId][datestamp].results[i].result,
+                                                                        completedBy: results[formId][datestamp].completedBy
+                                                                    };
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                } else {
+                                                    lookupTable[formId] = {};
+                                                    lookupTable[formId].id = retVal.reports.length;
 
-												var report = {
-		                                            name: null,
-													schedule: null,
-		                                            status: null,
-													id: null,
-													days: {
-														sunday: false,
-														monday: false,
-														tuesday: false,
-														wednesday: false,
-														thursday: false,
-														friday: false,
-														saturday: false
-													},
-													data: {
-														rows: []
-													}
-		                                        };
+                                                    var report = {
+                                                        name: null,
+                                                        schedule: null,
+                                                        status: null,
+                                                        id: null,
+                                                        days: {
+                                                            sunday: false,
+                                                            monday: false,
+                                                            tuesday: false,
+                                                            wednesday: false,
+                                                            thursday: false,
+                                                            friday: false,
+                                                            saturday: false
+                                                        },
+                                                        data: {
+                                                            rows: []
+                                                        }
+                                                    };
 
-												report.name = formId;
-												report.schedule = "N/A";
-												report.status = "Complete";
-												report.id = formId;
-												report.days[day] = true;
+                                                    report.name = formId;
+                                                    report.schedule = "N/A";
+                                                    report.status = "Complete";
+                                                    report.id = formId;
+                                                    report.days[day] = true;
 
-												var itemCount = 0;
-												for(var i = 0; i < results[formId][datestamp].results.length; i++) {
-													if(results[formId][datestamp].results[i].results) {
-														for(var j = 0; j < results[formId][datestamp].results[i].results.length; j++) {
-															report.data.rows.push({
-																compartment: results[formId][datestamp].results[i].title,
-																item: results[formId][datestamp].results[i].results[j].caption
-															});
-															lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption] = itemCount;
-															itemCount++;
+                                                    var itemCount = 0;
+                                                    for(var i = 0; i < results[formId][datestamp].results.length; i++) {
+                                                        if(results[formId][datestamp].results[i].results) {
+                                                            for(var j = 0; j < results[formId][datestamp].results[i].results.length; j++) {
+                                                                report.data.rows.push({
+                                                                    compartment: results[formId][datestamp].results[i].title,
+                                                                    item: results[formId][datestamp].results[i].results[j].caption
+                                                                });
+                                                                lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption] = itemCount;
+                                                                itemCount++;
 
-															if(results[formId][datestamp].results[i].results[j].note) {
-																report.data.rows[lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption]][day] = {
-																	result: results[formId][datestamp].results[i].results[j].result,
-																	note: results[formId][datestamp].results[i].results[j].note,
-																	completedBy: results[formId][datestamp].completedBy
-																};
-															} else {
-																report.data.rows[lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption]][day] = {
-																	result: results[formId][datestamp].results[i].results[j].result,
-																	completedBy: results[formId][datestamp].completedBy
-																};
-															}
-														}
-													} else {
-														report.data.rows.push({
-															compartment: `${report.name} - Deprecated`,
-															item: results[formId][datestamp].results[i].caption
-														});
-														lookupTable[formId][results[formId][datestamp].results[i].caption] = itemCount;
-														itemCount++;
+                                                                if(results[formId][datestamp].results[i].results[j].note) {
+                                                                    report.data.rows[lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption]][day] = {
+                                                                        result: results[formId][datestamp].results[i].results[j].result,
+                                                                        note: results[formId][datestamp].results[i].results[j].note,
+                                                                        completedBy: results[formId][datestamp].completedBy
+                                                                    };
+                                                                } else {
+                                                                    report.data.rows[lookupTable[formId][results[formId][datestamp].results[i].title + results[formId][datestamp].results[i].results[j].caption]][day] = {
+                                                                        result: results[formId][datestamp].results[i].results[j].result,
+                                                                        completedBy: results[formId][datestamp].completedBy
+                                                                    };
+                                                                }
+                                                            }
+                                                        } else {
+                                                            report.data.rows.push({
+                                                                compartment: `${report.name} - Deprecated`,
+                                                                item: results[formId][datestamp].results[i].caption
+                                                            });
+                                                            lookupTable[formId][results[formId][datestamp].results[i].caption] = itemCount;
+                                                            itemCount++;
 
-														if(results[formId][datestamp].results[i].note) {
-															report.data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
-																result: results[formId][datestamp].results[i].result,
-																note: results[formId][datestamp].results[i].note,
-																completedBy: results[formId][datestamp].completedBy
-															};
-														} else {
-															report.data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
-																result: results[formId][datestamp].results[i].result,
-																completedBy: results[formId][datestamp].completedBy
-															};
-														}
-													}
-												}
+                                                            if(results[formId][datestamp].results[i].note) {
+                                                                report.data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
+                                                                    result: results[formId][datestamp].results[i].result,
+                                                                    note: results[formId][datestamp].results[i].note,
+                                                                    completedBy: results[formId][datestamp].completedBy
+                                                                };
+                                                            } else {
+                                                                report.data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
+                                                                    result: results[formId][datestamp].results[i].result,
+                                                                    completedBy: results[formId][datestamp].completedBy
+                                                                };
+                                                            }
+                                                        }
+                                                    }
 
-												retVal.reports.push(report);
-											}
-										}
-									});
-								});
+                                                    retVal.reports.push(report);
+                                                }
+                                            }
+                                        });
+                                    });
+                                }
 
                                 cors(req, res, () => {
                                     res.status(200).send(retVal);
