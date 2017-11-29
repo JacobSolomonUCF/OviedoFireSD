@@ -35,6 +35,7 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
     var singleFormId:String = ""
     let searchController = UISearchController(searchResultsController: nil)
     var userName:[String] = []
+    var timer = Timer()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -43,6 +44,7 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
         if let selectionIndexPath = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRow(at: selectionIndexPath, animated: animated)
         }
+
     }
     
     func isFiltering() -> Bool {
@@ -120,8 +122,6 @@ class toDoViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.tableView.isUserInteractionEnabled = true
         }
     }
-    
-    
 }
 
 

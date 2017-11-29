@@ -495,6 +495,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
+    
 }
 
 

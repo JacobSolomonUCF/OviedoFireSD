@@ -113,8 +113,7 @@ class offTruckListViewController: UIViewController, UITableViewDelegate, UITable
             self.stopSpinning(activityView: self.activityView)
             self.tableView.isUserInteractionEnabled = true
         }
-    }
-    
+    }    
 }
 
 

@@ -10,71 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Oviedo Fire iOS Application/Network.swift"
-            timestampString = "533078204.55841"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
-            landmarkName = "redirectAfterSubmit(path:completion:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(extension in Oviedo_Fire_iOS_Application):__ObjC.UIViewController.redirectAfterSubmit(path: Oviedo_Fire_iOS_Application.fromWhere, completion: (Swift.Array&lt;Any&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "Oviedo Fire iOS Application"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jacob/Desktop/School/SD/Oviedo%20Fire%20iOS%20Application/Oviedo%20Fire%20iOS%20Application/Network.swift"
-                  timestampString = "532837694.488841"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "259"
-                  endingLineNumber = "259"
-                  offsetFromSymbolStart = "76">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(extension in Oviedo_Fire_iOS_Application):__ObjC.UIViewController.redirectAfterSubmit(path: Oviedo_Fire_iOS_Application.fromWhere, completion: (Swift.Array&lt;Any&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "Oviedo Fire iOS Application"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jacob/Desktop/School/SD/Oviedo%20Fire%20iOS%20Application/Oviedo%20Fire%20iOS%20Application/Network.swift"
-                  timestampString = "532837694.490041"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "259"
-                  endingLineNumber = "259"
-                  offsetFromSymbolStart = "7744">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Oviedo Fire iOS Application/Network.swift"
-            timestampString = "533078204.558503"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "272"
-            endingLineNumber = "272"
-            landmarkName = "redirectAfterSubmit(path:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Oviedo Fire iOS Application/Network.swift"
-            timestampString = "533078204.558573"
+            timestampString = "533620177.287987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "282"
@@ -90,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Oviedo Fire iOS Application/ViewControllers/resultsViewController.swift"
-            timestampString = "533080692.782534"
+            timestampString = "533620177.288065"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "72"
@@ -106,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Oviedo Fire iOS Application/Network.swift"
-            timestampString = "533078204.55886"
+            timestampString = "533620177.288105"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "584"
@@ -122,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Oviedo Fire iOS Application/ViewControllers/resultsViewController.swift"
-            timestampString = "533080692.783104"
+            timestampString = "533620177.288142"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "102"
@@ -138,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Oviedo Fire iOS Application/ViewControllers/resultsViewController.swift"
-            timestampString = "533080692.783164"
+            timestampString = "533620177.288175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "96"
@@ -154,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Oviedo Fire iOS Application/ViewControllers/resultsViewController.swift"
-            timestampString = "533080692.783233"
+            timestampString = "533620177.288208"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "97"

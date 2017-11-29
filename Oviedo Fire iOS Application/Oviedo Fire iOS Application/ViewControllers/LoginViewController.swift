@@ -23,8 +23,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkForUser()
-        
     }
     
     override func viewDidLoad() {
@@ -34,6 +32,8 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
         self.navigationController?.isNavigationBarHidden = true
         
         // Do any additional setup after loading the view.
+        
+        checkForUser()
         stopSpinning(activityView: activityView)
         UILayout()
     }
@@ -53,7 +53,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
     
     }
     
-    func UILayout   (){
+    func UILayout(){
         
         loginButton.layer.cornerRadius = loginButton.layer.frame.height/4
         loginButton.clipsToBounds = true
@@ -124,4 +124,5 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
             self.stopSpinning(activityView: self.activityView)
         }
     }
+
 }

@@ -190,5 +190,6 @@ class QRScannerController: UIViewController, AVCaptureMetadataOutputObjectsDeleg
             nextController.formId = message
         }
     }
+
     
 }
