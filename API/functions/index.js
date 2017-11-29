@@ -3092,7 +3092,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                                             alert: report.template.alert
                                                         });
                                                         ref.child(`inventory/vehicles/${report.id}/compartments/${newKey}`).set({
-                                                            formId: [newKey],
+                                                            formId: newKey,
                                                             name: report.template.subSections[i].title,
                                                             rank: i
                                                         });
@@ -3239,7 +3239,7 @@ exports.listReports = functions.https.onRequest((req, res) => {
                                     var compartments = compartmentsSnap.val();
 
                                     for(var i = 0; i < Object.keys(compartments).length; i++) {
-                                        var formId = compartments[Object.keys(compartments)[i]].formId[0];
+                                        var formId = compartments[Object.keys(compartments)[i]].formId;
 
                                         ref.child(`forms/intervals/${formId}`).set(null);
                                         ref.child(`forms/templates/${formId}`).set(null);
