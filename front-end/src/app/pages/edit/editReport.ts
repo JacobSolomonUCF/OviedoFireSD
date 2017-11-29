@@ -120,7 +120,7 @@ import {WebService} from "../../services/webService";
 									<i class="fa fa-chevron-left"></i> Back
 								</button>
 							</div>
-							<div class="center" *ngIf="!temp.fresh">
+							<div class="center" *ngIf="temp.id">
 								<button class="alert alert-danger close short" (click)="deleteReport()">
 									<i class="fa fa-trash"></i> Delete
 								</button>
@@ -403,7 +403,6 @@ export class EditReport {
 	}
 
 	emptySubsection() {
-		console.log(this.temp);
 		if (this.temp.template.subSections) {
 			for (let i = 0, len = this.temp.template.subSections.length; i < len; i++) {
 				if (this.temp.template.title == '') return true;
@@ -448,7 +447,7 @@ export class EditReport {
 			this.webService.doPost('/listReports', {report: this.temp})
 				.subscribe(resp => {
 					if (this.temp.fresh)
-						this.reports.push(resp);
+						this.reports.push(JSON.parse(resp));
 					this.original = JSON.parse(JSON.stringify(this.reports));
 					this.toggle();
 				}, error => {
@@ -461,7 +460,7 @@ export class EditReport {
 	}
 
 	deleteReport() {
-		if (this.temp.fresh || !this.temp.id || !this.temp.itemCategory)
+		if (!this.temp.id || !this.temp.itemCategory)
 			return;
 		this.loading = true;
 		this.webService.doDelete('/listReports', {id: this.temp.id, itemCategory: this.temp.itemCategory})
