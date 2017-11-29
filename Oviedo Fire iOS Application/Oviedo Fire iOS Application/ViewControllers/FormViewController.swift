@@ -91,6 +91,61 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
     }
     
+    let picker = UIDatePicker()
+    var tag = 0
+    let date = UITextField()
+    func createDatePicker(dateField:UITextField) {
+        tag = dateField.tag
+        print(dateField.tag)
+        // toolbar
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        // done button for toolbar
+        let done = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(donePressed))
+        toolbar.setItems([done], animated: false)
+        
+        dateField.inputAccessoryView = toolbar
+        dateField.inputView = picker
+        
+        // format picker for date
+        picker.datePickerMode = .date
+    }
+    
+    @objc func donePressed() {
+        // format date
+        print("GOT HEREERE")
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        let dateString = formatter.string(from: picker.date)
+        
+//        date.text = "\(dateString)"
+        print(dateString)
+        updateDate(tag: tag,date:dateString)
+        self.view.endEditing(true)
+    }
+    
+    func updateDate(tag:Int,date:String){
+        print("TAG IS \(tag)")
+        
+        let indexPath = IndexPath(row: tag , section: 0)
+        userEnteredResults[tag].value = date
+        
+        guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell
+                else { return }
+        cell.dateField.text = date
+
+        
+        
+        
+    }
+
+    
+
+    
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -378,15 +433,17 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         
     }
+
     
     //    TODO: RIGHT DATE FORMAT
-    @objc func dateChanged(sender: UIDatePicker) {
-        print("print \(sender.date)")
+    @objc func dateChanged(sender: UITextField) {
+        print("print \(sender.tag)")
+        createDatePicker(dateField: sender)
         
-        let dateFormatter = DateFormatter()
+      /*  let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, YYYY"
         let somedateString = dateFormatter.string(from: sender.date)
-        userEnteredResults[sender.tag].value = somedateString
+        userEnteredResults[sender.tag].value = somedateString*/
 
     }
     @IBAction func submitPressed(_ sender: Any) {
@@ -646,8 +703,14 @@ extension EqFormViewController{
             }else if(item.type == "date"){
                 cell = tableView.dequeueReusableCell(withIdentifier: "date", for: indexPath) as! FormTableViewCell
                 cell.dateLabel.text = item.caption
-                cell.dateSwitch.tag = indexPath.row
-                cell.dateSwitch.addTarget(self, action: #selector(EqFormViewController.dateChanged(sender:)), for: .valueChanged)
+                cell.dateField.tag = indexPath.row
+                cell.dateField.addTarget(self, action: #selector(EqFormViewController.dateChanged(sender:)), for: .editingDidBegin)
+                if(item.value != ""){
+                    cell.dateField.text = item.value
+                }else{
+                    cell.dateField.placeholder = "Please select a date"
+                }
+                
                 if(item.prev != "None"){
                     cell.setHeightDate(choice:1)
                     cell.datePrevLabel.text = "Previous result: \t" + item.prev

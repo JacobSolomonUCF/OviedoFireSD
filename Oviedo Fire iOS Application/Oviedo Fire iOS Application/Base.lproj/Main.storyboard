@@ -1073,61 +1073,64 @@
                                             <outlet property="pfValue" destination="5pc-ZR-PpO" id="rHt-iy-4yV"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="date" rowHeight="232" id="ufJ-Eo-Voo" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="584" width="768" height="232"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ufJ-Eo-Voo" id="HUU-OQ-4J0">
-                                            <rect key="frame" x="0.0" y="0.0" width="768" height="232"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="date" rowHeight="67" id="sMY-ZO-yqV" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="584" width="768" height="67"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sMY-ZO-yqV" id="2bc-aj-jnm">
+                                            <rect key="frame" x="0.0" y="0.0" width="768" height="67"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="DateName" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snM-4M-JRe">
-                                                    <rect key="frame" x="8" y="103" width="104" height="26.5"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Previous result:" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ovb-Xr-OGu">
-                                                    <rect key="frame" x="8" y="162" width="150.5" height="20"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DateName" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SBq-D9-6zh">
+                                                    <rect key="frame" x="8" y="8" width="160" height="25"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="Vac-z1-SMx"/>
+                                                        <constraint firstAttribute="width" constant="160" id="A1L-JW-Dba"/>
+                                                        <constraint firstAttribute="height" constant="25" id="ANC-MG-zZ9"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="nNd-kZ-w1J">
-                                                    <rect key="frame" x="440" y="8" width="320" height="216"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Previous result:" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fd1-Df-LfZ">
+                                                    <rect key="frame" x="8" y="39" width="752" height="20"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="216" id="OfF-e9-ZD8"/>
+                                                        <constraint firstAttribute="height" constant="20" id="NCt-fv-upE"/>
                                                     </constraints>
-                                                    <date key="date" timeIntervalSinceReferenceDate="532404802.92676598">
-                                                        <!--2017-11-15 02:13:22 +0000-->
-                                                    </date>
-                                                    <locale key="locale" localeIdentifier="en_US_POSIX"/>
-                                                </datePicker>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d7F-tb-hiv">
+                                                    <rect key="frame" x="268" y="5.5" width="485" height="30"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="next"/>
+                                                </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="snM-4M-JRe" firstAttribute="centerY" secondItem="nNd-kZ-w1J" secondAttribute="centerY" id="5Mx-Ed-5Hq"/>
-                                                <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Ovb-Xr-OGu" secondAttribute="trailing" constant="609.5" id="9vL-SK-daH"/>
-                                                <constraint firstAttribute="trailing" secondItem="nNd-kZ-w1J" secondAttribute="trailing" constant="8" id="HpV-RH-uye"/>
-                                                <constraint firstAttribute="bottom" secondItem="Ovb-Xr-OGu" secondAttribute="bottom" constant="50" id="IgD-a7-Zfa"/>
-                                                <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="snM-4M-JRe" secondAttribute="trailing" constant="656" id="Jv7-L5-97F"/>
-                                                <constraint firstAttribute="bottom" secondItem="nNd-kZ-w1J" secondAttribute="bottom" constant="8" id="QWg-O6-k81"/>
-                                                <constraint firstItem="Ovb-Xr-OGu" firstAttribute="leading" secondItem="HUU-OQ-4J0" secondAttribute="leading" constant="8" id="VkB-PH-WO5"/>
-                                                <constraint firstItem="snM-4M-JRe" firstAttribute="leading" secondItem="HUU-OQ-4J0" secondAttribute="leading" constant="8" id="lBn-3K-LjL"/>
-                                                <constraint firstItem="nNd-kZ-w1J" firstAttribute="top" secondItem="HUU-OQ-4J0" secondAttribute="top" constant="8" id="yrt-qR-bOZ"/>
+                                                <constraint firstItem="fd1-Df-LfZ" firstAttribute="leading" secondItem="2bc-aj-jnm" secondAttribute="leading" constant="8" id="0XA-Va-M1R"/>
+                                                <constraint firstItem="fd1-Df-LfZ" firstAttribute="top" secondItem="SBq-D9-6zh" secondAttribute="bottom" constant="6" id="Jub-iY-UJA"/>
+                                                <constraint firstItem="d7F-tb-hiv" firstAttribute="leading" relation="lessThanOrEqual" secondItem="SBq-D9-6zh" secondAttribute="trailing" constant="100" id="Ona-3P-fb0"/>
+                                                <constraint firstAttribute="trailing" secondItem="fd1-Df-LfZ" secondAttribute="trailing" constant="8" id="XFR-01-exj"/>
+                                                <constraint firstItem="SBq-D9-6zh" firstAttribute="top" secondItem="2bc-aj-jnm" secondAttribute="top" constant="8" id="ZDi-gB-XTD"/>
+                                                <constraint firstAttribute="bottom" secondItem="fd1-Df-LfZ" secondAttribute="bottom" constant="8" id="ZEz-Fo-Uai"/>
+                                                <constraint firstItem="SBq-D9-6zh" firstAttribute="leading" secondItem="2bc-aj-jnm" secondAttribute="leading" constant="8" id="ijU-S0-2Pi"/>
+                                                <constraint firstItem="d7F-tb-hiv" firstAttribute="centerY" secondItem="SBq-D9-6zh" secondAttribute="centerY" id="xaK-lo-EiR"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="d7F-tb-hiv" secondAttribute="trailing" constant="15" id="iQi-Tn-QRT"/>
+                                        </constraints>
                                         <connections>
-                                            <outlet property="dateLabel" destination="snM-4M-JRe" id="fVs-hB-VPn"/>
-                                            <outlet property="datePrevHeight" destination="Vac-z1-SMx" id="rEN-oe-A0f"/>
-                                            <outlet property="datePrevLabel" destination="Ovb-Xr-OGu" id="dj1-BN-qbJ"/>
-                                            <outlet property="dateSwitch" destination="nNd-kZ-w1J" id="nhl-Qt-8Ko"/>
+                                            <outlet property="dateField" destination="d7F-tb-hiv" id="iAb-8n-lKr"/>
+                                            <outlet property="dateLabel" destination="SBq-D9-6zh" id="E1s-sU-SNi"/>
+                                            <outlet property="datePrevHeight" destination="NCt-fv-upE" id="jgV-Uw-0n9"/>
+                                            <outlet property="datePrevLabel" destination="fd1-Df-LfZ" id="5f3-O7-zLV"/>
+                                            <outlet property="prevNumResultHeight" destination="NCt-fv-upE" id="tR2-RI-tuQ"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="submit" rowHeight="80" id="b1s-gV-AYD" customClass="FormTableViewCell" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="816" width="768" height="80"/>
+                                        <rect key="frame" x="0.0" y="651" width="768" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="b1s-gV-AYD" id="KX9-ny-IBH">
                                             <rect key="frame" x="0.0" y="0.0" width="768" height="80"/>
@@ -1193,7 +1196,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cvu-TV-ABH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2982" y="251"/>
+            <point key="canvasLocation" x="2981.25" y="250.78124999999997"/>
         </scene>
         <!--Results View Controller-->
         <scene sceneID="49A-G0-1LJ">
