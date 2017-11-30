@@ -98,6 +98,7 @@ class EqFormViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let picker = UIDatePicker()
     var tag = 0
     let date = UITextField()
+    
     func createDatePicker(dateField:UITextField) {
         tag = dateField.tag
         // toolbar
@@ -553,7 +554,7 @@ extension EqFormViewController{
                     }
                     if (item.note != "None"){
                         cell.commentsTextField.text = item.note
-                        if (!cell.isExpanded){
+                        if (!cell.isExpanded && item.type != "pmr"){
                             self.expandedRows.insert(indexPath.row)
                             cell.isExpanded = !cell.isExpanded
                         }else{cell.needsRepairButton.isUserInteractionEnabled = true}

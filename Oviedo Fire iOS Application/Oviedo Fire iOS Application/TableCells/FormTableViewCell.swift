@@ -53,7 +53,6 @@ class FormTableViewCell: UITableViewCell{
     @IBOutlet weak var datePrevHeight: NSLayoutConstraint!
     @IBOutlet weak var datePrevLabel: UILabel!
     
-
     
     func setHeight(choice:Int){
         if(choice == 1){
@@ -140,6 +139,17 @@ class FormTableViewCell: UITableViewCell{
         super.prepareForReuse()
         if(self.dateField != nil){
             self.dateField.text = ""
+        }
+        if(self.presentButton != nil){
+            self.presentButton.isSelected = false
+            self.needsRepairButton.isSelected = false
+            self.needsRepairButton.isSelected = false
+        }
+        if(self.pfSwitch != nil){
+            self.pfSwitch.isOn = false
+        }
+        if(self.percentSlider != nil){
+            self.percentSlider.value = 0.0
         }
 
         

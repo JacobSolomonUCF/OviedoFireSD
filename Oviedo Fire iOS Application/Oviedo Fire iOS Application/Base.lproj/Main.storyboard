@@ -37,7 +37,7 @@
         <!--Login-->
         <scene sceneID="Xlp-4F-Z5e">
             <objects>
-                <viewController title="Login" id="4hx-VL-0Te" customClass="LoginViewController" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Login" title="Login" id="4hx-VL-0Te" customClass="LoginViewController" customModule="Oviedo_Fire_iOS_Application" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nBT-ie-meV"/>
                         <viewControllerLayoutGuide type="bottom" id="GFm-KF-oOH"/>
@@ -66,7 +66,7 @@
                                         </constraints>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="continue"/>
+                                        <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="continue" textContentType="username"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="izp-YT-Pud">
                                         <rect key="frame" x="0.0" y="38" width="648" height="30"/>
@@ -75,7 +75,7 @@
                                         </constraints>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3sg-ur-OpD">
                                         <rect key="frame" x="0.0" y="76" width="648" height="31"/>
@@ -119,6 +119,7 @@
                             <constraint firstItem="x7Y-0J-GkL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ydo-Mt-9BR" secondAttribute="leading" constant="107" id="9dL-ba-FKd"/>
                             <constraint firstItem="xHv-0f-pUC" firstAttribute="centerX" secondItem="Ydo-Mt-9BR" secondAttribute="centerX" id="Avx-x5-g7q"/>
                             <constraint firstItem="Fxb-2g-AlP" firstAttribute="top" secondItem="xHv-0f-pUC" secondAttribute="bottom" id="Fqg-Re-pT6"/>
+                            <constraint firstItem="AQ9-Ad-3DE" firstAttribute="centerX" secondItem="Ydo-Mt-9BR" secondAttribute="centerX" id="KPc-CI-f8R"/>
                             <constraint firstItem="2m8-TI-frt" firstAttribute="centerX" secondItem="x7Y-0J-GkL" secondAttribute="centerX" id="Kik-0X-fKb"/>
                             <constraint firstItem="x7Y-0J-GkL" firstAttribute="top" secondItem="nBT-ie-meV" secondAttribute="bottom" constant="20" id="Lns-p3-ZqL"/>
                             <constraint firstItem="GFm-KF-oOH" firstAttribute="top" secondItem="AQ9-Ad-3DE" secondAttribute="bottom" id="McE-hg-Svf"/>
@@ -127,6 +128,7 @@
                             <constraint firstItem="x7Y-0J-GkL" firstAttribute="centerX" secondItem="Ydo-Mt-9BR" secondAttribute="centerX" priority="250" id="f4V-Me-nYE"/>
                             <constraint firstItem="AQ9-Ad-3DE" firstAttribute="leading" secondItem="Ydo-Mt-9BR" secondAttribute="leading" id="ffX-GZ-i9j"/>
                             <constraint firstItem="Fxb-2g-AlP" firstAttribute="centerX" secondItem="Ydo-Mt-9BR" secondAttribute="centerX" id="kKr-Zs-y2l"/>
+                            <constraint firstItem="AQ9-Ad-3DE" firstAttribute="centerY" secondItem="Ydo-Mt-9BR" secondAttribute="centerY" id="lCB-4I-BqE"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="x7Y-0J-GkL" secondAttribute="trailing" constant="107" id="rur-CA-bqf"/>
                             <constraint firstItem="Fxb-2g-AlP" firstAttribute="top" secondItem="2m8-TI-frt" secondAttribute="bottom" constant="30" id="tB6-33-DPr"/>
                             <constraint firstItem="Fxb-2g-AlP" firstAttribute="leading" secondItem="Ydo-Mt-9BR" secondAttribute="leading" constant="60" id="w9k-La-gPQ"/>
@@ -822,7 +824,7 @@
                                                     </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPN-Ti-ePL">
                                                     <rect key="frame" x="8" y="8" width="752" height="25"/>

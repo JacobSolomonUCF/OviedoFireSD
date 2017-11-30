@@ -34,7 +34,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
         // Do any additional setup after loading the view.
         
         checkForUser()
-        stopSpinning(activityView: activityView)
         UILayout()
     }
     override func didReceiveMemoryWarning() {
@@ -51,6 +50,19 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
         }
         
     
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
+        // Try to find next responder
+        if let nextField = textField.superview?.viewWithTag(textField.tag + 1) as? UITextField {
+            nextField.becomeFirstResponder()
+        } else {
+            // Not found, so remove keyboard.
+            textField.resignFirstResponder()
+            Login(self)
+        }
+        // Do not add a line break
+        return false
     }
     
     func UILayout(){
@@ -93,9 +105,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate  {
                     let userId = Auth.auth().currentUser!.uid
                     self.getUsername(userID: userId, completion: { (name) -> Void in
                         self.firstName = name
-//                        print("FIRST NAME" + self.firstName)
                 
-                        self.emailField.text = nil
                         self.passwordField.text = nil
                         self.emailField.resignFirstResponder()
                         self.passwordField.resignFirstResponder()

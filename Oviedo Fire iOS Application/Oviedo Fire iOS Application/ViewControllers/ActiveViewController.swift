@@ -38,12 +38,6 @@ class ActiveViewController: UIViewController, UITableViewDataSource, UITableView
         if let selectionIndexPath = self.table.indexPathForSelectedRow {
             self.table.deselectRow(at: selectionIndexPath, animated: animated)
         }
-        if(Auth.auth().currentUser == nil){
-            sendBackAlert(message: "You have been timed out, please login again", completion: {
-                self.navigationController?.popToRootViewController(animated: true)
-            })
-        }
-
         
     }
     

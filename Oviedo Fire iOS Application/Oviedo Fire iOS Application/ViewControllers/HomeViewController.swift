@@ -27,6 +27,14 @@ class HomeViewController: UIViewController {
     var firstName:[String] = []
     var timer = Timer()
     
+    //Runs when phone enters landscape/Portrait
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    @objc func rotated() {
+        buttonFormat()
+    }
+    
     //Prepare for segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -70,11 +78,14 @@ class HomeViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        screenFormat()
         
-        
+        let delay = 0.1 // Paused until the view is fully loaded then rounds the buttons
+        Timer.scheduledTimer(timeInterval: delay, target: self, selector: #selector(screenFormat), userInfo: nil, repeats: false)
+
+       
         
     }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -82,10 +93,7 @@ class HomeViewController: UIViewController {
     }
 
     //    MARK: UI FUNCTIONS
-    func screenFormat(){
-        stopSpinning(activityView: activityView)
-        navigationItem.title = "Welcome " + firstName[0]
-//        welcomeUser.text = "Welcome " + firstName
+    func buttonFormat() {
         activeButton.layer.cornerRadius = activeButton.layer.frame.height/4
         activeButton.clipsToBounds = true
         offTruck.layer.cornerRadius = offTruck.layer.frame.height/4
@@ -94,6 +102,13 @@ class HomeViewController: UIViewController {
         todoList.clipsToBounds = true
         qrCode.layer.cornerRadius = qrCode.layer.frame.height/4
         qrCode.clipsToBounds = true
+    }
+    @objc func screenFormat(){
+        stopSpinning(activityView: activityView)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        
+        navigationItem.title = "Welcome " + firstName[0]
+        buttonFormat()
     }
     
     func disableButtons(){
@@ -111,11 +126,7 @@ class HomeViewController: UIViewController {
 
     //    MARK: ACTIONS
     @IBAction func scannerClicked(_ sender: Any) {
-        if(Auth.auth().currentUser == nil){ //Checks for timeout
-            performSegue(withIdentifier: "toLogin", sender: nil)
-        }else{
-            self.performSegue(withIdentifier: "toScanner", sender: nil)
-        }
+        self.performSegue(withIdentifier: "toScanner", sender: nil)
     }
     @IBAction func Logout(_ sender: Any) {
         if(Auth.auth().currentUser == nil){ //Checks for timeout
@@ -131,36 +142,23 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func activeClicked(_ sender: Any) {
-        if(Auth.auth().currentUser == nil){ //Checks for timeout
-            performSegue(withIdentifier: "toLogin", sender: nil)
-        }else{
-            disableButtons()
-            startSpinning(activityView: activityView)
-            getActive(userID: ID, completion: { (activeT) -> Void in
-                self.activeTrucks = activeT
-                self.performSegue(withIdentifier: "toActive", sender: nil)
-            })
-        }
-       
+        disableButtons()
+        startSpinning(activityView: activityView)
+        getActive(userID: ID, completion: { (activeT) -> Void in
+            self.activeTrucks = activeT
+            self.performSegue(withIdentifier: "toActive", sender: nil)
+        })
     }
     @IBAction func offtruckClicked(_ sender: Any) {
-        if(Auth.auth().currentUser == nil){ //Checks for timeout
-            performSegue(withIdentifier: "toLogin", sender: nil)
-        }else{
             performSegue(withIdentifier: "toOffTruck", sender: nil)
-        }
     }
     @IBAction func todoClicked(_ sender: Any) {
-        if(Auth.auth().currentUser == nil){ //Checks for timeout
-            performSegue(withIdentifier: "toLogin", sender: nil)
-        }else{
-            disableButtons()
-            startSpinning(activityView: activityView)
-            getTODO(userID: ID, completion: {(todo) -> Void in
-                self.TODOList = todo
-                self.performSegue(withIdentifier: "toToDoList", sender: nil)
-            })
-        }
+        disableButtons()
+        startSpinning(activityView: activityView)
+        getTODO(userID: ID, completion: {(todo) -> Void in
+            self.TODOList = todo
+            self.performSegue(withIdentifier: "toToDoList", sender: nil)
+        })
     }
         
 }

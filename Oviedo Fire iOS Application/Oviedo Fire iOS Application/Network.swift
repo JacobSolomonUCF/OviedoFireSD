@@ -363,8 +363,14 @@ extension UIViewController{
             names.append(formTitle)
         }else{
             var split = formTitle.components(separatedBy: " - ")
-            names.append(split[0])
-            names.append(split[1])
+            if(split[0].contains("/")){
+                var split2 = split[0].components(separatedBy: "/")
+                names.append(split2[0])
+                names.append(split[1])
+            }else{
+                names.append(split[0])
+                names.append(split[1])
+            }
         }
         return names
     }
