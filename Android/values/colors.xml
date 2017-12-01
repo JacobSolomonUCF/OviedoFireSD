@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303f9f</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="FireTruckRed">#dc0909</color>
+    <color name="whiteText">#ebebeb</color>
+
+    <color name="disable_forground_red">#de0707</color>
+    <color name="disable_thumb_red">#de0707</color>
+    <color name="enable_thumb_green">#56b134</color>
+    <color name="enable_forground_green">#56b134</color>
+</resources>
+

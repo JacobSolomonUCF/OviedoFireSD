@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>514772607400-fjheeidl20hr6el7bjatnupp8mq9mvt0.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.514772607400-fjheeidl20hr6el7bjatnupp8mq9mvt0</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBhinqdRIgxqzdiNE0tRnIXChyGEUOT1VA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>514772607400</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.UCFSeniorDesignGroup9.Oviedo-Fire-iOS-Application</string>
+	<key>PROJECT_ID</key>
+	<string>oviedofiresd-55a71</string>
+	<key>STORAGE_BUCKET</key>
+	<string>oviedofiresd-55a71.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:514772607400:ios:83c798428e63ecaa</string>
+	<key>DATABASE_URL</key>
+	<string>https://oviedofiresd-55a71.firebaseio.com</string>
+</dict>
+</plist>

@@ -1,0 +1,154 @@
+{
+  "Forms" : {
+    "5304" : {
+      "Spare SCBA bottles (2)" : {
+        "name" : "Spare SCBA bottles (2)",
+        "type" : "pmrInventory"
+      },
+      "Wheel Chocks (2)" : {
+        "name" : "Wheel Chocks (2)",
+        "type" : "pmrInventory"
+      },
+      "completedBy" : "nobody",
+      "formID" : 5304,
+      "name" : "Driver Side Misc",
+      "type" : "VehicleForm",
+      "vehicle" : "Engine53"
+    }
+  },
+  "OffTruckMenu" : {
+    "Ladders" : {
+      "name" : "Ladders",
+      "type" : "menu"
+    },
+    "Misc" : {
+      "name" : "Misc.",
+      "type" : "menu"
+    },
+    "SCBA" : {
+      "name" : "SCBA",
+      "type" : "menu"
+    },
+    "Stretchers" : {
+      "name" : "Stretchers",
+      "type" : "menu"
+    },
+    "name" : "Off-Truck Forms",
+    "type" : "menu"
+  },
+  "VehiclesMenu" : {
+    "4wheeler" : {
+      "form" : "4wheelerForm",
+      "idNum" : 400,
+      "name" : "4wheeler",
+      "type" : "submenu"
+    },
+    "Engine53" : {
+      "forms" : {
+        "DS1" : {
+          "completedBy" : "nobody",
+          "formID" : 5301,
+          "name" : "Driver Side Compartment #1",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "DS2" : {
+          "completedBy" : "David Evander",
+          "formID" : 5302,
+          "name" : "Driver Side Compartment #2",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "DS3" : {
+          "completedBy" : "nobody",
+          "formID" : 5303,
+          "name" : "Driver Side Compartment #3",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "DSM" : {
+          "completedBy" : "nobody",
+          "formID" : 5304,
+          "name" : "Driver Side Misc",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "Ext" : {
+          "completedBy" : "nobody",
+          "formID" : 5300,
+          "name" : "Vehicle Exterior",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "OS1" : {
+          "completedBy" : "nobody",
+          "formID" : 5305,
+          "name" : "Officer Side Compartment #1",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "OS2" : {
+          "completedBy" : "nobody",
+          "formID" : 5306,
+          "name" : "Officer Side Compartment #2",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "OS3" : {
+          "completedBy" : "nobody",
+          "formID" : 5307,
+          "name" : "Officer Side Compartment #3",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "OSM" : {
+          "completedBy" : "nobody",
+          "formID" : 5308,
+          "name" : "Officer Side Misc",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "R1" : {
+          "completedBy" : "nobody",
+          "formId" : 5309,
+          "name" : "Rear Compartment",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "R2" : {
+          "completedBy" : "nobody",
+          "formID" : 5310,
+          "name" : "Tailboard Area",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "R3" : {
+          "completedBy" : "nobody",
+          "formID" : 5311,
+          "name" : "Top of Engine",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "R4" : {
+          "completedBy" : "nobody",
+          "formID" : 5312,
+          "name" : "Ladder Rack",
+          "type" : "VehicleForm",
+          "vehicle" : "Engine53"
+        },
+        "type" : "submenu"
+      },
+      "idNum" : 530,
+      "name" : "Engine53",
+      "type" : "submenu"
+    },
+    "Truck7" : {
+      "form" : "Truck7Form",
+      "idnum" : 70,
+      "name" : "Truck7",
+      "type" : "submenu"
+    },
+    "name" : "Active Vehicles",
+    "type" : "menu"
+  }
+}

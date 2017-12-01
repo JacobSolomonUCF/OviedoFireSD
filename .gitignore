@@ -7,11 +7,14 @@
 ## front-end/
 .firebaserc
 dist/
+front-end/src/app/assets/mockData
 firebase.json
+
+# dependencies
+front-end/node_modules
 
 # e2e
 front-end/e2e/
 
-## all/
-node_modules
-*.log
+# DS store
+.DS_Store

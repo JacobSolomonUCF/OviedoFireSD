@@ -1,0 +1,973 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		161EE5151F68A83900FFEC0B /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 161EE5141F68A83900FFEC0B /* Podfile */; };
+		165023A71F56130300FF3DD4 /* Deep Space.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 165023A61F56130300FF3DD4 /* Deep Space.jpg */; };
+		16A90AE71F560C7C00F50919 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AE61F560C7C00F50919 /* AppDelegate.swift */; };
+		16A90AE91F560C7C00F50919 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AE81F560C7C00F50919 /* ViewController.swift */; };
+		16A90AEC1F560C7C00F50919 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A90AEA1F560C7C00F50919 /* Main.storyboard */; };
+		16A90AEE1F560C7C00F50919 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16A90AED1F560C7C00F50919 /* Assets.xcassets */; };
+		16A90AF11F560C7C00F50919 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16A90AEF1F560C7C00F50919 /* LaunchScreen.storyboard */; };
+		16A90AFC1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90AFB1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift */; };
+		16A90B071F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */; };
+		16AF74DD1F9E8CC400388111 /* Login.png in Resources */ = {isa = PBXBuildFile; fileRef = 16AF74DC1F9E8CC300388111 /* Login.png */; };
+		16AF74E11F9E8EA800388111 /* LogoTransparent.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16AF74E01F9E8EA800388111 /* LogoTransparent.jpg */; };
+		16B4FA411F68A547000929F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16B4FA401F68A547000929F9 /* GoogleService-Info.plist */; };
+		16B829FD1F97CB110071679C /* resultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B829FC1F97CB110071679C /* resultsViewController.swift */; };
+		16B829FF1F97CB2F0071679C /* resultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B829FE1F97CB2F0071679C /* resultsTableViewCell.swift */; };
+		16B947591F72D96A0037FC39 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B947581F72D96A0037FC39 /* Network.swift */; };
+		16CF46911F560CB70063834B /* 50 Shades of Grey.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16CF468C1F560CB70063834B /* 50 Shades of Grey.jpg */; };
+		16CF46921F560CB70063834B /* Hydrogen.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16CF468D1F560CB70063834B /* Hydrogen.jpg */; };
+		16CF46931F560CB70063834B /* Learning and Leading.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16CF468E1F560CB70063834B /* Learning and Leading.jpg */; };
+		16CF46941F560CB70063834B /* Lush.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16CF468F1F560CB70063834B /* Lush.jpg */; };
+		16CF46951F560CB70063834B /* YouTube.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16CF46901F560CB70063834B /* YouTube.jpg */; };
+		16EDEBEE1F8C004C001E50C1 /* CompartmentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBE41F8C004C001E50C1 /* CompartmentsViewController.swift */; };
+		16EDEBEF1F8C004C001E50C1 /* toDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBE51F8C004C001E50C1 /* toDoViewController.swift */; };
+		16EDEBF01F8C004C001E50C1 /* offTruckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBE61F8C004C001E50C1 /* offTruckViewController.swift */; };
+		16EDEBF11F8C004C001E50C1 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBE71F8C004C001E50C1 /* FormViewController.swift */; };
+		16EDEBF21F8C004C001E50C1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBE81F8C004C001E50C1 /* HomeViewController.swift */; };
+		16EDEBF31F8C004C001E50C1 /* QRScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBE91F8C004C001E50C1 /* QRScannerViewController.swift */; };
+		16EDEBF41F8C004C001E50C1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBEA1F8C004C001E50C1 /* LoginViewController.swift */; };
+		16EDEBF51F8C004C001E50C1 /* offTruckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBEB1F8C004C001E50C1 /* offTruckListViewController.swift */; };
+		16EDEBF61F8C004C001E50C1 /* ActiveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBEC1F8C004C001E50C1 /* ActiveViewController.swift */; };
+		16EDEBFB1F8C0057001E50C1 /* toDoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBF81F8C0056001E50C1 /* toDoListTableViewCell.swift */; };
+		16EDEBFC1F8C0057001E50C1 /* ActiveTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBF91F8C0056001E50C1 /* ActiveTableViewCell.swift */; };
+		16EDEBFD1F8C0057001E50C1 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EDEBFA1F8C0056001E50C1 /* FormTableViewCell.swift */; };
+		16F3829C1F8EDDF500635B22 /* Amethyst.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 16F3829B1F8EDD7300635B22 /* Amethyst.jpg */; };
+		16F3829E1F8EE79E00635B22 /* TwoItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F3829D1F8EE79E00635B22 /* TwoItemTableViewCell.swift */; };
+		3352CDD3C31FD1A7157745B7 /* Pods_Oviedo_Fire_iOS_ApplicationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04126A9BD7AE62BE969848A8 /* Pods_Oviedo_Fire_iOS_ApplicationTests.framework */; };
+		9366EBB89D1627F0E906D572 /* Pods_Oviedo_Fire_iOS_Application.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B68605C679A418CE64149321 /* Pods_Oviedo_Fire_iOS_Application.framework */; };
+		9735E3774DA2B19E5254F3AD /* Pods_Oviedo_Fire_iOS_ApplicationUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E65D33F27EAAFD376C2F67A5 /* Pods_Oviedo_Fire_iOS_ApplicationUITests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		16A90AF81F560C7C00F50919 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16A90ADB1F560C7C00F50919 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 16A90AE21F560C7C00F50919;
+			remoteInfo = "Oviedo Fire iOS Application";
+		};
+		16A90B031F560C7C00F50919 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 16A90ADB1F560C7C00F50919 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 16A90AE21F560C7C00F50919;
+			remoteInfo = "Oviedo Fire iOS Application";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		166C5B8D1F6A0A580015FAF6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		04126A9BD7AE62BE969848A8 /* Pods_Oviedo_Fire_iOS_ApplicationTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Oviedo_Fire_iOS_ApplicationTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FF0788381DD34BAD829472F /* Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationUITests/Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		161EE5141F68A83900FFEC0B /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		165023A61F56130300FF3DD4 /* Deep Space.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Deep Space.jpg"; sourceTree = "<group>"; };
+		16A90AE31F560C7C00F50919 /* Oviedo Fire iOS Application.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Oviedo Fire iOS Application.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		16A90AE61F560C7C00F50919 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		16A90AE81F560C7C00F50919 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		16A90AEB1F560C7C00F50919 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		16A90AED1F560C7C00F50919 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		16A90AF01F560C7C00F50919 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		16A90AF21F560C7C00F50919 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16A90AF71F560C7C00F50919 /* Oviedo Fire iOS ApplicationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Oviedo Fire iOS ApplicationTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		16A90AFB1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oviedo_Fire_iOS_ApplicationTests.swift; sourceTree = "<group>"; };
+		16A90AFD1F560C7C00F50919 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16A90B021F560C7C00F50919 /* Oviedo Fire iOS ApplicationUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Oviedo Fire iOS ApplicationUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Oviedo_Fire_iOS_ApplicationUITests.swift; sourceTree = "<group>"; };
+		16A90B081F560C7C00F50919 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16AF74DC1F9E8CC300388111 /* Login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Login.png; sourceTree = "<group>"; };
+		16AF74E01F9E8EA800388111 /* LogoTransparent.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = LogoTransparent.jpg; sourceTree = "<group>"; };
+		16B10F191FC28B7300E363E3 /* Oviedo Fire iOS Application.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Oviedo Fire iOS Application.entitlements"; sourceTree = "<group>"; };
+		16B4FA401F68A547000929F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		16B829FC1F97CB110071679C /* resultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resultsViewController.swift; sourceTree = "<group>"; };
+		16B829FE1F97CB2F0071679C /* resultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resultsTableViewCell.swift; sourceTree = "<group>"; };
+		16B947581F72D96A0037FC39 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		16CF468C1F560CB70063834B /* 50 Shades of Grey.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "50 Shades of Grey.jpg"; sourceTree = "<group>"; };
+		16CF468D1F560CB70063834B /* Hydrogen.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Hydrogen.jpg; sourceTree = "<group>"; };
+		16CF468E1F560CB70063834B /* Learning and Leading.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Learning and Leading.jpg"; sourceTree = "<group>"; };
+		16CF468F1F560CB70063834B /* Lush.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Lush.jpg; sourceTree = "<group>"; };
+		16CF46901F560CB70063834B /* YouTube.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = YouTube.jpg; sourceTree = "<group>"; };
+		16EDEBE41F8C004C001E50C1 /* CompartmentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompartmentsViewController.swift; sourceTree = "<group>"; };
+		16EDEBE51F8C004C001E50C1 /* toDoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = toDoViewController.swift; sourceTree = "<group>"; };
+		16EDEBE61F8C004C001E50C1 /* offTruckViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = offTruckViewController.swift; sourceTree = "<group>"; };
+		16EDEBE71F8C004C001E50C1 /* FormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
+		16EDEBE81F8C004C001E50C1 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		16EDEBE91F8C004C001E50C1 /* QRScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerViewController.swift; sourceTree = "<group>"; };
+		16EDEBEA1F8C004C001E50C1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		16EDEBEB1F8C004C001E50C1 /* offTruckListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = offTruckListViewController.swift; sourceTree = "<group>"; };
+		16EDEBEC1F8C004C001E50C1 /* ActiveViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveViewController.swift; sourceTree = "<group>"; };
+		16EDEBF81F8C0056001E50C1 /* toDoListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = toDoListTableViewCell.swift; sourceTree = "<group>"; };
+		16EDEBF91F8C0056001E50C1 /* ActiveTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveTableViewCell.swift; sourceTree = "<group>"; };
+		16EDEBFA1F8C0056001E50C1 /* FormTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
+		16F3829B1F8EDD7300635B22 /* Amethyst.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Amethyst.jpg; sourceTree = "<group>"; };
+		16F3829D1F8EE79E00635B22 /* TwoItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoItemTableViewCell.swift; sourceTree = "<group>"; };
+		31C04D7FB04BD12772392A3B /* Pods-Oviedo Fire iOS Application.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oviedo Fire iOS Application.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Oviedo Fire iOS Application/Pods-Oviedo Fire iOS Application.debug.xcconfig"; sourceTree = "<group>"; };
+		404402D138E72E60CF220B86 /* Pods-Oviedo Fire iOS ApplicationUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oviedo Fire iOS ApplicationUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationUITests/Pods-Oviedo Fire iOS ApplicationUITests.release.xcconfig"; sourceTree = "<group>"; };
+		634DFBEAC59DF9F684F7667A /* Pods-Oviedo Fire iOS ApplicationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oviedo Fire iOS ApplicationTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationTests/Pods-Oviedo Fire iOS ApplicationTests.release.xcconfig"; sourceTree = "<group>"; };
+		69D281B7CB9C8AB79F7C97A1 /* Pods-Oviedo Fire iOS ApplicationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oviedo Fire iOS ApplicationTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationTests/Pods-Oviedo Fire iOS ApplicationTests.debug.xcconfig"; sourceTree = "<group>"; };
+		82D06A5EA553A0930C4B39B4 /* Pods-Oviedo Fire iOS Application.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Oviedo Fire iOS Application.release.xcconfig"; path = "Pods/Target Support Files/Pods-Oviedo Fire iOS Application/Pods-Oviedo Fire iOS Application.release.xcconfig"; sourceTree = "<group>"; };
+		B68605C679A418CE64149321 /* Pods_Oviedo_Fire_iOS_Application.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Oviedo_Fire_iOS_Application.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E65D33F27EAAFD376C2F67A5 /* Pods_Oviedo_Fire_iOS_ApplicationUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Oviedo_Fire_iOS_ApplicationUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		16A90AE01F560C7C00F50919 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9366EBB89D1627F0E906D572 /* Pods_Oviedo_Fire_iOS_Application.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16A90AF41F560C7C00F50919 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3352CDD3C31FD1A7157745B7 /* Pods_Oviedo_Fire_iOS_ApplicationTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16A90AFF1F560C7C00F50919 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9735E3774DA2B19E5254F3AD /* Pods_Oviedo_Fire_iOS_ApplicationUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		16A90ADA1F560C7C00F50919 = {
+			isa = PBXGroup;
+			children = (
+				16A90AE51F560C7C00F50919 /* Oviedo Fire iOS Application */,
+				16A90AFA1F560C7C00F50919 /* Oviedo Fire iOS ApplicationTests */,
+				16A90B051F560C7C00F50919 /* Oviedo Fire iOS ApplicationUITests */,
+				16A90AE41F560C7C00F50919 /* Products */,
+				4C1FBAEBDE159DAA08B67B6A /* Pods */,
+				500F0294FFD3739A738BE4FA /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		16A90AE41F560C7C00F50919 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				16A90AE31F560C7C00F50919 /* Oviedo Fire iOS Application.app */,
+				16A90AF71F560C7C00F50919 /* Oviedo Fire iOS ApplicationTests.xctest */,
+				16A90B021F560C7C00F50919 /* Oviedo Fire iOS ApplicationUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		16A90AE51F560C7C00F50919 /* Oviedo Fire iOS Application */ = {
+			isa = PBXGroup;
+			children = (
+				16B10F191FC28B7300E363E3 /* Oviedo Fire iOS Application.entitlements */,
+				16CF468B1F560CB70063834B /* BG */,
+				16EDEBF71F8C0056001E50C1 /* TableCells */,
+				16EDEBE21F8C004C001E50C1 /* ViewControllers */,
+				16B947581F72D96A0037FC39 /* Network.swift */,
+				16A90AE61F560C7C00F50919 /* AppDelegate.swift */,
+				16A90AE81F560C7C00F50919 /* ViewController.swift */,
+				16A90AEA1F560C7C00F50919 /* Main.storyboard */,
+				16A90AED1F560C7C00F50919 /* Assets.xcassets */,
+				16A90AEF1F560C7C00F50919 /* LaunchScreen.storyboard */,
+				16B4FA401F68A547000929F9 /* GoogleService-Info.plist */,
+				16A90AF21F560C7C00F50919 /* Info.plist */,
+				161EE5141F68A83900FFEC0B /* Podfile */,
+			);
+			path = "Oviedo Fire iOS Application";
+			sourceTree = "<group>";
+		};
+		16A90AFA1F560C7C00F50919 /* Oviedo Fire iOS ApplicationTests */ = {
+			isa = PBXGroup;
+			children = (
+				16A90AFB1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift */,
+				16A90AFD1F560C7C00F50919 /* Info.plist */,
+			);
+			path = "Oviedo Fire iOS ApplicationTests";
+			sourceTree = "<group>";
+		};
+		16A90B051F560C7C00F50919 /* Oviedo Fire iOS ApplicationUITests */ = {
+			isa = PBXGroup;
+			children = (
+				16A90B061F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift */,
+				16A90B081F560C7C00F50919 /* Info.plist */,
+			);
+			path = "Oviedo Fire iOS ApplicationUITests";
+			sourceTree = "<group>";
+		};
+		16CF468B1F560CB70063834B /* BG */ = {
+			isa = PBXGroup;
+			children = (
+				16AF74E01F9E8EA800388111 /* LogoTransparent.jpg */,
+				16CF468C1F560CB70063834B /* 50 Shades of Grey.jpg */,
+				165023A61F56130300FF3DD4 /* Deep Space.jpg */,
+				16CF468D1F560CB70063834B /* Hydrogen.jpg */,
+				16CF468E1F560CB70063834B /* Learning and Leading.jpg */,
+				16F3829B1F8EDD7300635B22 /* Amethyst.jpg */,
+				16CF468F1F560CB70063834B /* Lush.jpg */,
+				16CF46901F560CB70063834B /* YouTube.jpg */,
+				16AF74DC1F9E8CC300388111 /* Login.png */,
+			);
+			path = BG;
+			sourceTree = "<group>";
+		};
+		16EDEBE21F8C004C001E50C1 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				16EDEBE41F8C004C001E50C1 /* CompartmentsViewController.swift */,
+				16EDEBE51F8C004C001E50C1 /* toDoViewController.swift */,
+				16EDEBE61F8C004C001E50C1 /* offTruckViewController.swift */,
+				16EDEBEB1F8C004C001E50C1 /* offTruckListViewController.swift */,
+				16EDEBE71F8C004C001E50C1 /* FormViewController.swift */,
+				16B829FC1F97CB110071679C /* resultsViewController.swift */,
+				16EDEBE81F8C004C001E50C1 /* HomeViewController.swift */,
+				16EDEBE91F8C004C001E50C1 /* QRScannerViewController.swift */,
+				16EDEBEA1F8C004C001E50C1 /* LoginViewController.swift */,
+				16EDEBEC1F8C004C001E50C1 /* ActiveViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		16EDEBF71F8C0056001E50C1 /* TableCells */ = {
+			isa = PBXGroup;
+			children = (
+				16EDEBF81F8C0056001E50C1 /* toDoListTableViewCell.swift */,
+				16EDEBF91F8C0056001E50C1 /* ActiveTableViewCell.swift */,
+				16EDEBFA1F8C0056001E50C1 /* FormTableViewCell.swift */,
+				16F3829D1F8EE79E00635B22 /* TwoItemTableViewCell.swift */,
+				16B829FE1F97CB2F0071679C /* resultsTableViewCell.swift */,
+			);
+			path = TableCells;
+			sourceTree = "<group>";
+		};
+		4C1FBAEBDE159DAA08B67B6A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				31C04D7FB04BD12772392A3B /* Pods-Oviedo Fire iOS Application.debug.xcconfig */,
+				82D06A5EA553A0930C4B39B4 /* Pods-Oviedo Fire iOS Application.release.xcconfig */,
+				69D281B7CB9C8AB79F7C97A1 /* Pods-Oviedo Fire iOS ApplicationTests.debug.xcconfig */,
+				634DFBEAC59DF9F684F7667A /* Pods-Oviedo Fire iOS ApplicationTests.release.xcconfig */,
+				0FF0788381DD34BAD829472F /* Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig */,
+				404402D138E72E60CF220B86 /* Pods-Oviedo Fire iOS ApplicationUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		500F0294FFD3739A738BE4FA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B68605C679A418CE64149321 /* Pods_Oviedo_Fire_iOS_Application.framework */,
+				04126A9BD7AE62BE969848A8 /* Pods_Oviedo_Fire_iOS_ApplicationTests.framework */,
+				E65D33F27EAAFD376C2F67A5 /* Pods_Oviedo_Fire_iOS_ApplicationUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		16A90AE21F560C7C00F50919 /* Oviedo Fire iOS Application */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16A90B0B1F560C7C00F50919 /* Build configuration list for PBXNativeTarget "Oviedo Fire iOS Application" */;
+			buildPhases = (
+				606016941F7A543E249B018A /* [CP] Check Pods Manifest.lock */,
+				16A90ADF1F560C7C00F50919 /* Sources */,
+				16A90AE01F560C7C00F50919 /* Frameworks */,
+				16A90AE11F560C7C00F50919 /* Resources */,
+				1658D63B224FF9D46F7F4769 /* [CP] Embed Pods Frameworks */,
+				F5E8D7AFCAFF0D3BF4DF5E58 /* [CP] Copy Pods Resources */,
+				166C5B8D1F6A0A580015FAF6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Oviedo Fire iOS Application";
+			productName = "Oviedo Fire iOS Application";
+			productReference = 16A90AE31F560C7C00F50919 /* Oviedo Fire iOS Application.app */;
+			productType = "com.apple.product-type.application";
+		};
+		16A90AF61F560C7C00F50919 /* Oviedo Fire iOS ApplicationTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16A90B0E1F560C7C00F50919 /* Build configuration list for PBXNativeTarget "Oviedo Fire iOS ApplicationTests" */;
+			buildPhases = (
+				0C15804CC553A538BD94A620 /* [CP] Check Pods Manifest.lock */,
+				16A90AF31F560C7C00F50919 /* Sources */,
+				16A90AF41F560C7C00F50919 /* Frameworks */,
+				16A90AF51F560C7C00F50919 /* Resources */,
+				7CDBF9B9DF7179CCFB11D1E4 /* [CP] Embed Pods Frameworks */,
+				3148311B0BFBA9D8A486D638 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				16A90AF91F560C7C00F50919 /* PBXTargetDependency */,
+			);
+			name = "Oviedo Fire iOS ApplicationTests";
+			productName = "Oviedo Fire iOS ApplicationTests";
+			productReference = 16A90AF71F560C7C00F50919 /* Oviedo Fire iOS ApplicationTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		16A90B011F560C7C00F50919 /* Oviedo Fire iOS ApplicationUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 16A90B111F560C7C00F50919 /* Build configuration list for PBXNativeTarget "Oviedo Fire iOS ApplicationUITests" */;
+			buildPhases = (
+				75A0346BB766B2E5FA4B6DE5 /* [CP] Check Pods Manifest.lock */,
+				16A90AFE1F560C7C00F50919 /* Sources */,
+				16A90AFF1F560C7C00F50919 /* Frameworks */,
+				16A90B001F560C7C00F50919 /* Resources */,
+				9676EAFF089C8CD398691955 /* [CP] Embed Pods Frameworks */,
+				19C995097E53262F2A8AD899 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				16A90B041F560C7C00F50919 /* PBXTargetDependency */,
+			);
+			name = "Oviedo Fire iOS ApplicationUITests";
+			productName = "Oviedo Fire iOS ApplicationUITests";
+			productReference = 16A90B021F560C7C00F50919 /* Oviedo Fire iOS ApplicationUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		16A90ADB1F560C7C00F50919 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = "Jacob Solomon";
+				TargetAttributes = {
+					16A90AE21F560C7C00F50919 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 68UXX2W585;
+						LastSwiftMigration = 0900;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.SafariKeychain = {
+								enabled = 0;
+							};
+						};
+					};
+					16A90AF61F560C7C00F50919 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 68UXX2W585;
+						LastSwiftMigration = 0900;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 16A90AE21F560C7C00F50919;
+					};
+					16A90B011F560C7C00F50919 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 68UXX2W585;
+						LastSwiftMigration = 0900;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 16A90AE21F560C7C00F50919;
+					};
+				};
+			};
+			buildConfigurationList = 16A90ADE1F560C7C00F50919 /* Build configuration list for PBXProject "Oviedo Fire iOS Application" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 16A90ADA1F560C7C00F50919;
+			productRefGroup = 16A90AE41F560C7C00F50919 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				16A90AE21F560C7C00F50919 /* Oviedo Fire iOS Application */,
+				16A90AF61F560C7C00F50919 /* Oviedo Fire iOS ApplicationTests */,
+				16A90B011F560C7C00F50919 /* Oviedo Fire iOS ApplicationUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		16A90AE11F560C7C00F50919 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16CF46931F560CB70063834B /* Learning and Leading.jpg in Resources */,
+				16AF74DD1F9E8CC400388111 /* Login.png in Resources */,
+				16CF46941F560CB70063834B /* Lush.jpg in Resources */,
+				16CF46921F560CB70063834B /* Hydrogen.jpg in Resources */,
+				165023A71F56130300FF3DD4 /* Deep Space.jpg in Resources */,
+				16F3829C1F8EDDF500635B22 /* Amethyst.jpg in Resources */,
+				16A90AF11F560C7C00F50919 /* LaunchScreen.storyboard in Resources */,
+				16B4FA411F68A547000929F9 /* GoogleService-Info.plist in Resources */,
+				161EE5151F68A83900FFEC0B /* Podfile in Resources */,
+				16CF46911F560CB70063834B /* 50 Shades of Grey.jpg in Resources */,
+				16A90AEE1F560C7C00F50919 /* Assets.xcassets in Resources */,
+				16AF74E11F9E8EA800388111 /* LogoTransparent.jpg in Resources */,
+				16A90AEC1F560C7C00F50919 /* Main.storyboard in Resources */,
+				16CF46951F560CB70063834B /* YouTube.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16A90AF51F560C7C00F50919 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16A90B001F560C7C00F50919 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0C15804CC553A538BD94A620 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Oviedo Fire iOS ApplicationTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1658D63B224FF9D46F7F4769 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Oviedo Fire iOS Application/Pods-Oviedo Fire iOS Application-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/DLRadioButton/DLRadioButton.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DLRadioButton.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oviedo Fire iOS Application/Pods-Oviedo Fire iOS Application-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		19C995097E53262F2A8AD899 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationUITests/Pods-Oviedo Fire iOS ApplicationUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3148311B0BFBA9D8A486D638 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationTests/Pods-Oviedo Fire iOS ApplicationTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		606016941F7A543E249B018A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Oviedo Fire iOS Application-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		75A0346BB766B2E5FA4B6DE5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Oviedo Fire iOS ApplicationUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7CDBF9B9DF7179CCFB11D1E4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationTests/Pods-Oviedo Fire iOS ApplicationTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationTests/Pods-Oviedo Fire iOS ApplicationTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9676EAFF089C8CD398691955 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationUITests/Pods-Oviedo Fire iOS ApplicationUITests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oviedo Fire iOS ApplicationUITests/Pods-Oviedo Fire iOS ApplicationUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F5E8D7AFCAFF0D3BF4DF5E58 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Oviedo Fire iOS Application/Pods-Oviedo Fire iOS Application-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		16A90ADF1F560C7C00F50919 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16B829FD1F97CB110071679C /* resultsViewController.swift in Sources */,
+				16EDEBFC1F8C0057001E50C1 /* ActiveTableViewCell.swift in Sources */,
+				16F3829E1F8EE79E00635B22 /* TwoItemTableViewCell.swift in Sources */,
+				16EDEBF31F8C004C001E50C1 /* QRScannerViewController.swift in Sources */,
+				16EDEBEF1F8C004C001E50C1 /* toDoViewController.swift in Sources */,
+				16EDEBF61F8C004C001E50C1 /* ActiveViewController.swift in Sources */,
+				16B829FF1F97CB2F0071679C /* resultsTableViewCell.swift in Sources */,
+				16EDEBEE1F8C004C001E50C1 /* CompartmentsViewController.swift in Sources */,
+				16EDEBF01F8C004C001E50C1 /* offTruckViewController.swift in Sources */,
+				16EDEBFB1F8C0057001E50C1 /* toDoListTableViewCell.swift in Sources */,
+				16EDEBF51F8C004C001E50C1 /* offTruckListViewController.swift in Sources */,
+				16A90AE91F560C7C00F50919 /* ViewController.swift in Sources */,
+				16B947591F72D96A0037FC39 /* Network.swift in Sources */,
+				16EDEBF21F8C004C001E50C1 /* HomeViewController.swift in Sources */,
+				16EDEBFD1F8C0057001E50C1 /* FormTableViewCell.swift in Sources */,
+				16EDEBF11F8C004C001E50C1 /* FormViewController.swift in Sources */,
+				16A90AE71F560C7C00F50919 /* AppDelegate.swift in Sources */,
+				16EDEBF41F8C004C001E50C1 /* LoginViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16A90AF31F560C7C00F50919 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16A90AFC1F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		16A90AFE1F560C7C00F50919 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16A90B071F560C7C00F50919 /* Oviedo_Fire_iOS_ApplicationUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		16A90AF91F560C7C00F50919 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 16A90AE21F560C7C00F50919 /* Oviedo Fire iOS Application */;
+			targetProxy = 16A90AF81F560C7C00F50919 /* PBXContainerItemProxy */;
+		};
+		16A90B041F560C7C00F50919 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 16A90AE21F560C7C00F50919 /* Oviedo Fire iOS Application */;
+			targetProxy = 16A90B031F560C7C00F50919 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		16A90AEA1F560C7C00F50919 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				16A90AEB1F560C7C00F50919 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		16A90AEF1F560C7C00F50919 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				16A90AF01F560C7C00F50919 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		16A90B091F560C7C00F50919 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		16A90B0A1F560C7C00F50919 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		16A90B0C1F560C7C00F50919 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31C04D7FB04BD12772392A3B /* Pods-Oviedo Fire iOS Application.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Oviedo Fire iOS Application/Oviedo Fire iOS Application.entitlements";
+				DEVELOPMENT_TEAM = 68UXX2W585;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"DISABLE_PUSH_NOTIFICATIONS=1",
+				);
+				INFOPLIST_FILE = "Oviedo Fire iOS Application/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.UCFSeniorDesignGroup9.Oviedo-Fire-iOS-Application";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		16A90B0D1F560C7C00F50919 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 82D06A5EA553A0930C4B39B4 /* Pods-Oviedo Fire iOS Application.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Oviedo Fire iOS Application/Oviedo Fire iOS Application.entitlements";
+				DEVELOPMENT_TEAM = 68UXX2W585;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"$(inherited)",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
+					"DISABLE_PUSH_NOTIFICATIONS=1",
+				);
+				INFOPLIST_FILE = "Oviedo Fire iOS Application/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.UCFSeniorDesignGroup9.Oviedo-Fire-iOS-Application";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		16A90B0F1F560C7C00F50919 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69D281B7CB9C8AB79F7C97A1 /* Pods-Oviedo Fire iOS ApplicationTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 68UXX2W585;
+				INFOPLIST_FILE = "Oviedo Fire iOS ApplicationTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "UCFSeniorDesignGroup9.Oviedo-Fire-iOS-ApplicationTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Oviedo Fire iOS Application.app/Oviedo Fire iOS Application";
+			};
+			name = Debug;
+		};
+		16A90B101F560C7C00F50919 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 634DFBEAC59DF9F684F7667A /* Pods-Oviedo Fire iOS ApplicationTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 68UXX2W585;
+				INFOPLIST_FILE = "Oviedo Fire iOS ApplicationTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "UCFSeniorDesignGroup9.Oviedo-Fire-iOS-ApplicationTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Oviedo Fire iOS Application.app/Oviedo Fire iOS Application";
+			};
+			name = Release;
+		};
+		16A90B121F560C7C00F50919 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0FF0788381DD34BAD829472F /* Pods-Oviedo Fire iOS ApplicationUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 68UXX2W585;
+				INFOPLIST_FILE = "Oviedo Fire iOS ApplicationUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "UCFSeniorDesignGroup9.Oviedo-Fire-iOS-ApplicationUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
+				TEST_TARGET_NAME = "Oviedo Fire iOS Application";
+			};
+			name = Debug;
+		};
+		16A90B131F560C7C00F50919 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 404402D138E72E60CF220B86 /* Pods-Oviedo Fire iOS ApplicationUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 68UXX2W585;
+				INFOPLIST_FILE = "Oviedo Fire iOS ApplicationUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "UCFSeniorDesignGroup9.Oviedo-Fire-iOS-ApplicationUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 4.0;
+				TEST_TARGET_NAME = "Oviedo Fire iOS Application";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		16A90ADE1F560C7C00F50919 /* Build configuration list for PBXProject "Oviedo Fire iOS Application" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16A90B091F560C7C00F50919 /* Debug */,
+				16A90B0A1F560C7C00F50919 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		16A90B0B1F560C7C00F50919 /* Build configuration list for PBXNativeTarget "Oviedo Fire iOS Application" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16A90B0C1F560C7C00F50919 /* Debug */,
+				16A90B0D1F560C7C00F50919 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		16A90B0E1F560C7C00F50919 /* Build configuration list for PBXNativeTarget "Oviedo Fire iOS ApplicationTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16A90B0F1F560C7C00F50919 /* Debug */,
+				16A90B101F560C7C00F50919 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		16A90B111F560C7C00F50919 /* Build configuration list for PBXNativeTarget "Oviedo Fire iOS ApplicationUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				16A90B121F560C7C00F50919 /* Debug */,
+				16A90B131F560C7C00F50919 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 16A90ADB1F560C7C00F50919 /* Project object */;
+}
