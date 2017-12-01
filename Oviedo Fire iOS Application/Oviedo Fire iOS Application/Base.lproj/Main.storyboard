@@ -764,7 +764,7 @@
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Za-4f-oef" customClass="DLRadioButton">
                                                             <rect key="frame" x="0.0" y="0.0" width="230.5" height="36"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                                             <state key="normal" title="Present">
                                                                 <color key="titleColor" red="0.027597062289714813" green="0.023808613419532776" blue="0.0071489778347313404" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
@@ -783,7 +783,7 @@
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SEp-Wv-VDo" customClass="DLRadioButton">
                                                             <rect key="frame" x="230.5" y="0.0" width="231" height="36"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                             <state key="normal" title="Missing">
                                                                 <color key="titleColor" red="0.027597062289714813" green="0.023808613419532776" blue="0.0071489778347313404" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>
@@ -798,7 +798,7 @@
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TGw-7f-X4N" customClass="DLRadioButton">
                                                             <rect key="frame" x="461.5" y="0.0" width="290.5" height="36"/>
-                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                             <state key="normal" title="Repairs Needed">
                                                                 <color key="titleColor" red="0.027597062289714813" green="0.023808613419532776" blue="0.0071489778347313404" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </state>

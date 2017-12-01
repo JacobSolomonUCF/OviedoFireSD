@@ -32,6 +32,14 @@ class offTruckViewController: UIViewController {
         
     }
     
+    //Runs when phone enters landscape/Portrait
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    @objc func rotated() {
+        UIFormat()
+    }
+    
     //Prepare for Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     
@@ -49,8 +57,14 @@ class offTruckViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        NotificationCenter.default.addObserver(self, selector: #selector(offTruckViewController.rotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        
+        let delay = 0.1 // Paused until the view is fully loaded then rounds the buttons
+        Timer.scheduledTimer(timeInterval: delay, target: self, selector: #selector(UIFormat), userInfo: nil, repeats: false)
+        
         stopSpinning(activityView: activityView)
-        UIFormat()
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,8 +72,8 @@ class offTruckViewController: UIViewController {
     }
     
     //    MARK: UI FUNCTIONS
-    func UIFormat() {
-        navigationController?.navigationBar.prefersLargeTitles = true
+    @objc func UIFormat() {
+        
         
         stretchers.layer.cornerRadius = stretchers.layer.frame.height/4
         stretchers.clipsToBounds = true
