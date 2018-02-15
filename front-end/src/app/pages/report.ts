@@ -23,13 +23,13 @@ import {saveAs} from 'file-saver';
 							</button>
 						</div>
 						<div class="right">
-							<!--<input-->
-								<!--#tableFilterView-->
-								<!--class='filter'-->
-								<!--type='text'-->
-								<!--[ngModel]="filter"-->
-								<!--placeholder='Type to filter...'-->
-								<!--(keyup)='filter = tableFilterView.value; updateFilter($event)'/>-->
+							<input
+								#tableFilterView
+								class='filter'
+								type='text'
+								[ngModel]="filter"
+								placeholder='Type to filter...'
+								(keyup)='filter = tableFilterView.value; updateFilter($event)'/>
 						</div>
 					</div>
 					<div class="table-options" *ngSwitchCase="'edit'">
