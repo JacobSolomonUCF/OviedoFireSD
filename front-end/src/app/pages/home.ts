@@ -35,8 +35,9 @@ import {WebService} from "../services/webService";
 					<div *ngIf="alerts && alerts[alert.type] && alerts[alert.type].count"
 							 class="alert alert-{{alert.style}} tile flex-grow">
 						<div class="tile-head">
-							<h3 class="pure-u-1">
-								{{alert.title}}
+							<h3 class="pure-u-1" style="display: flex; justify-content: space-between">
+									{{alert.title}}
+								<i class="fa fa-lg fa-close" (click)="foo(alert.type, alerts[alert.type].properties)"></i>
 							</h3>
 						</div>
 						<div class="centered" *ngIf="loading"><i class="fa fa-5x fa-spinner fa-pulse"></i></div>
@@ -95,6 +96,10 @@ export class Home {
 		{style: 'info', title: 'Reaching Expiration', type: 'dateItems'}
 	];
 
+	foo(a,d) {
+		d.forEach(e => this.dismiss(a,e));
+	}
+
 	constructor(public webService: WebService) {
 		webService.setState('home')
 			.getHome()
@@ -124,12 +129,13 @@ export class Home {
 	}
 
 	dismiss(type, index, label = {value: false}) {
+		console.log(type, index, label)
 		label.value = true;
 		let body = {type: type, key: index};
-		this.webService.doPost('/dismissAlert', body, '&type=' + type + '&key=' + index).subscribe(() => {
-			this.alerts[type].count--;
-			if (!this.alerts[type].count) delete this.alerts[type];
-			else delete this.alerts[type][index];
-		});
+		// this.webService.doPost('/dismissAlert', body, '&type=' + type + '&key=' + index).subscribe(() => {
+		this.alerts[type].count--;
+		if (!this.alerts[type].count) delete this.alerts[type];
+		else delete this.alerts[type][index];
+		// });
 	}
 }
