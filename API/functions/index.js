@@ -265,6 +265,7 @@ function getAllReports(year, callback) {
             if(results) {
                 Object.keys(results).forEach(formId => {
                     Object.keys(results[formId]).forEach(datestamp => {
+                        //console.log(`Week: ${h}, Form: ${formId}, Date: ${datestamp}`)
                         if(time.weekstamps.includes(datestamp)) {
                             const day = weekday[time.weekstamps.indexOf(datestamp)];
                             if(lookupTable[formId]) {
@@ -315,10 +316,23 @@ function getAllReports(year, callback) {
                                                     completedBy: results[formId][datestamp].completedBy
                                                 };
                                             } else {
+                                                if(formId == '-KyrMo-fTHNKO8UbH26Z' && datestamp == '20180205') {
+                                                  console.log('begin');
+                                                  console.log(retVal.reports[lookupTable[formId].id].data.rows);
+                                                  console.log('1');
+                                                  console.log(lookupTable[formId][results[formId][datestamp].results[i].caption])
+                                                  console.log('2');
+                                                  console.log(lookupTable);
+                                                  console.log('3');
+                                                }
                                                 retVal.reports[lookupTable[formId].id].data.rows[lookupTable[formId][results[formId][datestamp].results[i].caption]][day] = {
                                                     result: results[formId][datestamp].results[i].result,
                                                     completedBy: results[formId][datestamp].completedBy
                                                 };
+                                            }
+
+                                            if(formId == '-KyrMo-fTHNKO8UbH26Z' && datestamp == '20180205') {
+                                              console.log('end');
                                             }
                                         } else {
                                             retVal.reports[lookupTable[formId].id].data.rows.push({
@@ -651,7 +665,7 @@ exports.form = functions.https.onRequest((req, res) => {
 
                                         if(form.inputElements) {
                                             for(var i = 0; i < form.inputElements.length; i++) {
-                                                if(form.inputElements[i].caption != prevResult[prevResultDatestamp].results[i].caption) {
+                                                if(!prevResult[prevResultDatestamp].results[i] || (form.inputElements[i].caption != prevResult[prevResultDatestamp].results[i].caption)) {
                                                     clearPrev = true;
                                                     break;
                                                 } else if(prevResult[prevResultDatestamp].results[i].result == "Repairs Needed") {
@@ -675,7 +689,8 @@ exports.form = functions.https.onRequest((req, res) => {
                                         } else {
                                             for(var i = 0; i < form.subSections.length; i++) {
                                                 for(var j = 0; j < form.subSections[i].inputElements.length; j++) {
-                                                    if(form.subSections[i].inputElements[j].caption != prevResult[prevResultDatestamp].results[i].results[j].caption) {
+
+                                                    if(!prevResult[prevResultDatestamp].results[i] || !prevResult[prevResultDatestamp].results[i].results[j] || (form.subSections[i].inputElements[j].caption != prevResult[prevResultDatestamp].results[i].results[j].caption)) {
                                                         clearPrev = true;
                                                         break;
                                                     } else if(prevResult[prevResultDatestamp].results[i].results[j].result == "Repairs Needed"){
